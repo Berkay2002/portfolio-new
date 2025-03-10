@@ -25,46 +25,51 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://your-portfolio-domain.com'),
+  metadataBase: new URL('https://berkay.live'),
   title: {
-    default: "Berkay Orhan | Machine Learning & Control Systems Engineer",
+    default: "Berkay Orhan | Machine Learning Engineer",
     template: "%s | Berkay Orhan",
   },
-  description: "Machine Learning & Control Systems Engineer showcasing projects and technical skills in AI, data science, and engineering",
+  description: "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
   keywords: [
     "Machine Learning", 
     "Control Systems", 
+    "Cybersecurity",
+    "Web Development",
     "Portfolio", 
     "Engineer", 
     "Developer", 
     "TypeScript",
     "Python",
-    "BERT",
     "Next.js",
     "Berkay Orhan"
   ],
   authors: [{ name: "Berkay Orhan" }],
   creator: "Berkay Orhan",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://your-portfolio-domain.com",
-    title: "Berkay Orhan | Machine Learning & Control Systems Engineer",
-    description: "Machine Learning & Control Systems Engineer showcasing projects and technical skills in AI, data science, and engineering",
+    url: "https://berkay.live",
+    title: "Berkay Orhan | Machine Learning Engineer",
+    description: "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
     siteName: "Berkay Orhan Portfolio",
     images: [
       {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Berkay Orhan - Machine Learning & Control Systems Engineer",
+        alt: "Berkay Orhan - Machine Learning Engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Berkay Orhan | Machine Learning & Control Systems Engineer",
-    description: "Machine Learning & Control Systems Engineer showcasing projects and technical skills in AI, data science, and engineering",
+    title: "Berkay Orhan | Machine Learning Engineer",
+    description: "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
     images: ["/images/og-image.jpg"],
   },
   robots: {
@@ -82,13 +87,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <head>
         {/* Preload critical resources */}
-        <link
-          rel="preload"
-          href="/fonts/inter-var.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
         <link rel="preload" href="/images/profile.png" as="image" />
         
         {/* Preconnect to external domains */}
