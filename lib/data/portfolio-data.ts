@@ -2,7 +2,7 @@ import { PersonalInfo, Project, Skill, SocialLinks, TimelineEvent } from "@/type
 
 export const personalInfo: PersonalInfo = {
   name: "Berkay Orhan",
-  title: "Machine Learning & Control Systems Engineer",
+  title: "Machine Learning Engineer",
   bio: "Engineering student passionate about machine learning and web development. Currently pursuing my master's in ML, web technologies, and cybersecurity. In my free time, I enjoy photography, gaming, and spending time with friends.",
   bioEn: "Engineering student passionate about machine learning and web development. Currently pursuing my master's in ML, web technologies, and cybersecurity. In my free time, I enjoy photography, gaming, and spending time with friends.",
   bioSv: "Ingenjörsstudent med intresse för maskininlärning och webbutveckling. Läser för närvarande en master inom ML, webbteknologier och cybersäkerhet. På fritiden ägnar jag mig åt fotografi, gaming och att umgås med vänner."
