@@ -60,7 +60,6 @@ export function AboutSection() {
       
       <SectionHeading
         title={t("sections.about.title")}
-        description={t("sections.about.description")}
       />
 
       <div className="grid grid-cols-1 gap-10 mt-16 md:grid-cols-3">
@@ -85,7 +84,6 @@ export function AboutSection() {
                 imageClassName="object-cover w-full h-full"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 priority
-                unoptimized
               />
             </motion.div>
             <div className="space-y-4 max-w-xs mx-auto md:mx-0">
@@ -96,7 +94,7 @@ export function AboutSection() {
               
               {/* Resume Download Button */}
               <Button asChild variant="outline" className="w-full mt-4 group">
-                <Link href="/resume.pdf" target="_blank" download>
+                <Link href="/Resume.pdf" target="_blank" download>
                   <FileDown className="mr-2 h-4 w-4 group-hover:animate-bounce" />
                   {t("common.download")}
                 </Link>

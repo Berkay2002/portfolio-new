@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Briefcase, GraduationCap, Award } from "lucide-react";
 import { TimelineEvent } from "@/types";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/components/layout/language-provider";
 
 interface TimelineProps {
   events: TimelineEvent[];
@@ -11,6 +12,8 @@ interface TimelineProps {
 }
 
 export function Timeline({ events, className }: TimelineProps) {
+  const { locale } = useLanguage();
+  
   const getIcon = (type: TimelineEvent["type"]) => {
     switch (type) {
       case "education":
@@ -35,6 +38,21 @@ export function Timeline({ events, className }: TimelineProps) {
       default:
         return "bg-neutral-500";
     }
+  };
+  
+  // Get localized content based on the selected language
+  const getLocalizedContent = (event: TimelineEvent, field: "title" | "location" | "description") => {
+    if (locale === "sv") {
+      switch (field) {
+        case "title":
+          return event.titleSv || event.title;
+        case "location":
+          return event.locationSv || event.location;
+        case "description":
+          return event.descriptionSv || event.description;
+      }
+    }
+    return event[field];
   };
 
   return (
@@ -63,13 +81,13 @@ export function Timeline({ events, className }: TimelineProps) {
 
           <div className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-xl font-semibold">{event.title}</h3>
+              <h3 className="text-xl font-semibold">{getLocalizedContent(event, "title")}</h3>
               <time className="rounded-md bg-muted px-2 py-1 text-xs font-medium">
                 {event.date}
               </time>
             </div>
-            <p className="text-sm text-muted-foreground">{event.location}</p>
-            <p className="text-muted-foreground">{event.description}</p>
+            <p className="text-sm text-muted-foreground">{getLocalizedContent(event, "location")}</p>
+            <p className="text-muted-foreground">{getLocalizedContent(event, "description")}</p>
           </div>
         </motion.div>
       ))}

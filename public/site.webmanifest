@@ -1,0 +1,38 @@
+{
+  "name": "Berkay Orhan | Portfolio",
+  "short_name": "Berkay Orhan",
+  "description": "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "prefer_related_applications": false,
+  "categories": ["portfolio", "engineering", "technology"],
+  "shortcuts": [
+    {
+      "name": "Projects",
+      "url": "/?section=projects",
+      "description": "View my projects"
+    },
+    {
+      "name": "About",
+      "url": "/?section=about",
+      "description": "Learn more about me"
+    }
+  ]
+} 

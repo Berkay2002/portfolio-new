@@ -25,6 +25,22 @@ export default function ProjectPageContent({ project }: ProjectPageContentProps)
     setMounted(true);
   }, []);
   
+  // Get localized content based on selected language
+  const getLocalizedContent = (enContent?: string, svContent?: string) => {
+    if (locale === "sv" && svContent) {
+      return svContent;
+    }
+    return enContent || "";
+  };
+  
+  // Get localized array content based on selected language
+  const getLocalizedArray = (enArray?: string[], svArray?: string[]) => {
+    if (locale === "sv" && svArray && svArray.length > 0) {
+      return svArray;
+    }
+    return enArray || [];
+  };
+  
   return (
     <Container className="pt-2 pb-6">
       {/* Back button */}
@@ -62,16 +78,18 @@ export default function ProjectPageContent({ project }: ProjectPageContentProps)
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">{t("projectPage.overview")}</h2>
             <div className="prose prose-neutral dark:prose-invert max-w-none">
-              <p>{project.detailedDescription || project.description}</p>
+              <p>{getLocalizedContent(project.detailedDescription, project.detailedDescriptionSv) || 
+                  getLocalizedContent(project.description, project.descriptionSv)}</p>
             </div>
           </div>
           
           {/* Features section */}
-          {project.features && project.features.length > 0 && (
+          {((project.features && project.features.length > 0) || 
+             (project.featuresSv && locale === "sv" && project.featuresSv.length > 0)) && (
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">{t("projectPage.keyFeatures")}</h2>
               <ul className="list-disc pl-5 space-y-2">
-                {project.features.map((feature, index) => (
+                {getLocalizedArray(project.features, project.featuresSv).map((feature, index) => (
                   <li key={index}>{feature}</li>
                 ))}
               </ul>
@@ -79,24 +97,26 @@ export default function ProjectPageContent({ project }: ProjectPageContentProps)
           )}
           
           {/* Challenges and solutions */}
-          {(project.challenges || project.solution) && (
+          {((project.challenges || project.solution) || 
+             (locale === "sv" && (project.challengesSv || project.solutionSv))) && (
             <div className="space-y-4">
-              {project.challenges && project.challenges.length > 0 && (
+              {((project.challenges && project.challenges.length > 0) || 
+                 (locale === "sv" && project.challengesSv && project.challengesSv.length > 0)) && (
                 <>
                   <h2 className="text-xl font-semibold">{t("projectPage.challenges")}</h2>
                   <ul className="list-disc pl-5 space-y-2">
-                    {project.challenges.map((challenge, index) => (
+                    {getLocalizedArray(project.challenges, project.challengesSv).map((challenge, index) => (
                       <li key={index}>{challenge}</li>
                     ))}
                   </ul>
                 </>
               )}
               
-              {project.solution && (
+              {(project.solution || (locale === "sv" && project.solutionSv)) && (
                 <>
                   <h2 className="text-xl font-semibold">{t("projectPage.solution")}</h2>
                   <div className="prose prose-neutral dark:prose-invert max-w-none">
-                    <p>{project.solution}</p>
+                    <p>{getLocalizedContent(project.solution, project.solutionSv)}</p>
                   </div>
                 </>
               )}
@@ -104,11 +124,11 @@ export default function ProjectPageContent({ project }: ProjectPageContentProps)
           )}
           
           {/* Outcome/results */}
-          {project.outcome && (
+          {(project.outcome || (locale === "sv" && project.outcomeSv)) && (
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">{t("projectPage.outcome")}</h2>
               <div className="prose prose-neutral dark:prose-invert max-w-none">
-                <p>{project.outcome}</p>
+                <p>{getLocalizedContent(project.outcome, project.outcomeSv)}</p>
               </div>
             </div>
           )}
@@ -127,9 +147,9 @@ export default function ProjectPageContent({ project }: ProjectPageContentProps)
                       fill
                       unoptimized
                     />
-                    {item.caption && (
+                    {(item.caption || (locale === "sv" && item.captionSv)) && (
                       <div className="absolute inset-x-0 bottom-0 bg-background/80 backdrop-blur-sm p-2 text-sm">
-                        {item.caption}
+                        {getLocalizedContent(item.caption, item.captionSv)}
                       </div>
                     )}
                   </div>

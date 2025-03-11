@@ -6,8 +6,11 @@ import { motion } from "framer-motion";
 
 import { socialLinks } from "@/lib/data/portfolio-data";
 import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { useLanguage } from "@/components/layout/language-provider";
 
 export function Footer() {
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
@@ -19,7 +22,7 @@ export function Footer() {
   
   const shareWebsite = (platform: string) => {
     const url = "https://berkay.live";
-    const text = "Check out Berkay Orhan's portfolio!";
+    const text = t("footer.shareText");
     
     let shareUrl = "";
     
@@ -47,7 +50,7 @@ export function Footer() {
         }
         // Fallback to copying to clipboard
         navigator.clipboard.writeText(url).then(() => {
-          alert("Link copied to clipboard!");
+          alert(t("footer.copiedToClipboard"));
         }).catch(err => {
           console.error('Failed to copy:', err);
         });
@@ -58,9 +61,9 @@ export function Footer() {
   };
   
   return (
-    <footer className="relative border-t border-neutral-200 dark:border-neutral-800 bg-gradient-to-b from-background to-background/80 py-12 md:py-16">
+    <footer className="relative border-t border-neutral-200 dark:border-neutral-800 bg-gradient-to-b from-background to-background/80 py-8 sm:py-10 md:py-12">
       {/* Top wave shape */}
-      <div className="absolute top-0 inset-x-0 -translate-y-full h-16 md:h-24 overflow-hidden pointer-events-none">
+      <div className="absolute top-0 inset-x-0 -translate-y-full h-12 sm:h-16 md:h-24 overflow-hidden pointer-events-none">
         <svg 
           className="absolute bottom-0 w-full h-full text-background fill-current" 
           xmlns="http://www.w3.org/2000/svg" 
@@ -70,114 +73,107 @@ export function Footer() {
         </svg>
       </div>
 
-      <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+      <div className="container px-4 mx-auto max-w-7xl">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 py-4 sm:py-6">
+          {/* Left column - Info and social links */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="flex flex-col gap-1 text-center md:text-left"
+            className="flex flex-col items-center md:items-start space-y-3"
           >
-            <p className="font-semibold text-lg mb-1">Berkay Orhan</p>
-            <p className="text-sm text-muted-foreground">
-              © {currentYear} All rights reserved.
-            </p>
+            <div className="text-center md:text-left">
+              <p className="font-semibold text-lg mb-1">Berkay Orhan</p>
+              <p className="text-sm text-muted-foreground">
+                © {currentYear} {t("footer.allRightsReserved")}
+              </p>
+            </div>
           </motion.div>
-          
+
+          {/* Right column - Share section */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
             viewport={{ once: true }}
-            className="flex items-center gap-1 md:gap-2"
+            className="flex flex-col items-center md:items-end"
           >
-            <Button 
-              onClick={scrollToTop}
-              size="icon" 
-              variant="outline" 
-              className="h-9 w-9 rounded-full hover:text-blue-500 hover:scale-105 transition-all"
-              aria-label="Scroll to top"
-            >
-              <ChevronUp className="h-5 w-5" />
-            </Button>
-            <div className="h-8 border-r mx-2 opacity-20"></div>
-            <Button asChild size="icon" variant="ghost" className="h-9 w-9 rounded-full hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all">
-              <Link href={socialLinks.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
-                <Github className="h-5 w-5" />
-              </Link>
-            </Button>
-            <Button asChild size="icon" variant="ghost" className="h-9 w-9 rounded-full hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all">
-              <Link href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
-                <Linkedin className="h-5 w-5" />
-              </Link>
-            </Button>
-            <Button asChild size="icon" variant="ghost" className="h-9 w-9 rounded-full hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all">
-              <Link href={socialLinks.cv} target="_blank" rel="noopener noreferrer" aria-label="Download CV">
-                <FileText className="h-5 w-5" />
-              </Link>
-            </Button>
+            <div className="flex flex-wrap justify-center md:justify-end gap-2 sm:gap-3">
+              <SocialButton 
+                href={socialLinks.github}
+                icon={<Github className="h-4 w-4" />}
+                label={t("footer.githubProfile")}
+              />
+              <SocialButton 
+                href={socialLinks.linkedin}
+                icon={<Linkedin className="h-4 w-4" />}
+                label={t("footer.linkedinProfile")}
+              />
+              <SocialButton 
+                href={socialLinks.cv}
+                icon={<FileText className="h-4 w-4" />}
+                label={t("common.download")}
+              />
+              <Button 
+                onClick={scrollToTop}
+                size="sm"
+                variant="outline" 
+                className="ml-0 sm:ml-1 mt-4 sm:mt-0 w-full sm:w-auto"
+                aria-label={t("footer.scrollToTop")}
+              >
+                <span className="flex items-center">
+                  {t("footer.backToTop")} <ChevronUp className="ml-1 h-4 w-4" />
+                </span>
+              </Button>
+            </div>
           </motion.div>
         </div>
-
-        {/* Social share section */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="mt-8 flex flex-col items-center"
-        >
-          <p className="text-sm text-muted-foreground mb-3">Share this website</p>
-          <div className="flex items-center gap-2">
-            <Button 
-              onClick={() => shareWebsite("twitter")}
-              size="icon" 
-              variant="outline" 
-              className="h-8 w-8 rounded-full hover:text-blue-500 hover:scale-105 transition-all"
-              aria-label="Share on Twitter"
-            >
-              <Twitter className="h-4 w-4" />
-            </Button>
-            <Button 
-              onClick={() => shareWebsite("facebook")}
-              size="icon" 
-              variant="outline" 
-              className="h-8 w-8 rounded-full hover:text-blue-600 hover:scale-105 transition-all"
-              aria-label="Share on Facebook"
-            >
-              <Facebook className="h-4 w-4" />
-            </Button>
-            <Button 
-              onClick={() => shareWebsite("linkedin")}
-              size="icon" 
-              variant="outline" 
-              className="h-8 w-8 rounded-full hover:text-blue-700 hover:scale-105 transition-all"
-              aria-label="Share on LinkedIn"
-            >
-              <Linkedin className="h-4 w-4" />
-            </Button>
-            <Button 
-              onClick={() => shareWebsite("email")}
-              size="icon" 
-              variant="outline" 
-              className="h-8 w-8 rounded-full hover:text-green-600 hover:scale-105 transition-all"
-              aria-label="Share via Email"
-            >
-              <Mail className="h-4 w-4" />
-            </Button>
-            <Button 
-              onClick={() => shareWebsite("")}
-              size="icon" 
-              variant="outline" 
-              className="h-8 w-8 rounded-full hover:text-purple-600 hover:scale-105 transition-all"
-              aria-label="Share via Other Platforms"
-            >
-              <Share2 className="h-4 w-4" />
-            </Button>
-          </div>
-        </motion.div>
       </div>
     </footer>
+  );
+}
+
+// Helper components for cleaner code
+
+interface SocialButtonProps {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+}
+
+function SocialButton({ href, icon, label }: SocialButtonProps) {
+  return (
+    <Button asChild size="sm" variant="outline" 
+      className="h-8 rounded-full hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all">
+      <Link href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+        {icon}
+      </Link>
+    </Button>
+  );
+}
+
+interface ShareButtonProps {
+  platform: string;
+  icon: React.ReactNode;
+  label: string;
+  hoverColor: string;
+  onClick: () => void;
+}
+
+function ShareButton({ platform, icon, label, hoverColor, onClick }: ShareButtonProps) {
+  return (
+    <Button 
+      onClick={onClick}
+      size="sm" 
+      variant="outline" 
+      className={cn(
+        "h-8 rounded-full transition-all hover:scale-105",
+        hoverColor
+      )}
+      aria-label={label}
+    >
+      {icon}
+    </Button>
   );
 } 

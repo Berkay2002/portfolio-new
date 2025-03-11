@@ -15,6 +15,9 @@ const translations: Translations = {
       about: "About",
       experience: "Experience",
       projects: "Projects",
+      testimonials: "Testimonials",
+      blog: "Blog",
+      contact: "Contact",
     },
     sections: {
       hero: {
@@ -35,7 +38,7 @@ const translations: Translations = {
       projects: {
         title: "Projects",
         description: "Some of my work",
-        viewProject: "View Project",
+        viewProject: "Demo",
         viewDetails: "View Details",
         noImage: "No image available",
       },
@@ -57,6 +60,30 @@ const translations: Translations = {
       open: "Open",
       close: "Close",
     },
+    contact: {
+      sendMessage: "Send a Message",
+      nameLabel: "Enter your name",
+      emailLabel: "Enter your email",
+      messageLabel: "Write your message here...",
+      sending: "Sending...",
+      send: "Send Message",
+      successTitle: "Message Sent!",
+      successMessage: "I'll get back to you soon. Thank you for reaching out.",
+      errorTitle: "Something went wrong",
+      errorMessage: "Please try again later or contact me directly via email.",
+      connectWithMe: "Connect With Me",
+      email: "Email",
+      connect: "Connect on LinkedIn"
+    },
+    footer: {
+      allRightsReserved: "All rights reserved.",
+      backToTop: "Back to Top",
+      scrollToTop: "Scroll to top",
+      githubProfile: "GitHub Profile",
+      linkedinProfile: "LinkedIn Profile",
+      shareText: "Check out Berkay Orhan's portfolio!",
+      copiedToClipboard: "Link copied to clipboard!"
+    }
   },
   sv: {
     common: {
@@ -72,6 +99,9 @@ const translations: Translations = {
       about: "Om",
       experience: "Erfarenhet",
       projects: "Projekt",
+      testimonials: "Omdömen",
+      blog: "Blogg",
+      contact: "Kontakt",
     },
     sections: {
       hero: {
@@ -92,7 +122,7 @@ const translations: Translations = {
       projects: {
         title: "Projekt",
         description: "Lite av mitt arbete",
-        viewProject: "Visa projekt",
+        viewProject: "Demo",
         viewDetails: "Visa detaljer",
         noImage: "Ingen bild tillgänglig",
       },
@@ -114,6 +144,30 @@ const translations: Translations = {
       open: "Öppna",
       close: "Stäng",
     },
+    contact: {
+      sendMessage: "Skicka ett meddelande",
+      nameLabel: "Ange ditt namn",
+      emailLabel: "Ange din e-postadress",
+      messageLabel: "Skriv ditt meddelande här...",
+      sending: "Skickar...",
+      send: "Skicka meddelande",
+      successTitle: "Meddelande skickat!",
+      successMessage: "Jag återkommer till dig snart. Tack för att du hörde av dig.",
+      errorTitle: "Något gick fel",
+      errorMessage: "Försök igen senare eller kontakta mig direkt via e-post.",
+      connectWithMe: "Kontakta mig",
+      email: "E-post",
+      connect: "Anslut på LinkedIn"
+    },
+    footer: {
+      allRightsReserved: "Alla rättigheter förbehållna.",
+      backToTop: "Tillbaka till toppen",
+      scrollToTop: "Scrolla till toppen",
+      githubProfile: "GitHub-profil",
+      linkedinProfile: "LinkedIn-profil",
+      shareText: "Kolla in Berkay Orhans portfolio!",
+      copiedToClipboard: "Länk kopierad till urklipp!"
+    }
   },
 };
 

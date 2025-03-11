@@ -35,7 +35,6 @@ export function TimelineSection() {
       <div className="relative z-10">
         <SectionHeading
           title={t("sections.timeline.title")}
-          description={t("sections.timeline.description")}
         />
 
         <motion.div

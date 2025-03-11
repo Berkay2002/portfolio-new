@@ -8,6 +8,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ScrollToTop } from "@/components/layout/scroll-to-top";
 import { JsonLd } from "@/components/layout/json-ld";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { HtmlLangSetter } from "@/components/layout/html-lang-setter";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -22,6 +24,10 @@ export const viewport: Viewport = {
   ],
   width: "device-width",
   initialScale: 1,
+  maximumScale: 5,
+  minimumScale: 1,
+  userScalable: true,
+  viewportFit: "cover"
 };
 
 export const metadata: Metadata = {
@@ -46,15 +52,25 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Berkay Orhan" }],
   creator: "Berkay Orhan",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
+    other: {
+      rel: "mask-icon",
+      url: "/safari-pinned-tab.svg",
+    },
   },
   alternates: {
+    canonical: "https://berkay.live",
     languages: {
-      'en': '/',
-      'sv': '/',
+      'en-US': 'https://berkay.live?lang=en',
+      'sv-SE': 'https://berkay.live?lang=sv',
     },
   },
   openGraph: {
@@ -78,11 +94,23 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Berkay Orhan | Machine Learning Engineer",
     description: "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
+    site: "@berkayorhan",
+    creator: "@berkayorhan",
     images: ["/images/og-image.jpg"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: "verification_token",
+    yandex: "verification_token",
   },
 };
 
@@ -96,6 +124,7 @@ export default function RootLayout({
       <head>
         {/* Preload critical resources */}
         <link rel="preload" href="/images/profile.png" as="image" />
+        <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         
         {/* KaTeX CSS for LaTeX rendering */}
         <link
@@ -108,12 +137,17 @@ export default function RootLayout({
         {/* Preconnect to external domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Web app manifest */}
+        <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={`${inter.className} antialiased light`}>
         <ThemeProvider>
           <LanguageProvider>
+            <HtmlLangSetter />
             <div className="flex min-h-screen flex-col">
               <Header />
+              <ScrollProgress />
               <main className="flex-1">{children}</main>
               <Footer />
               <ScrollToTop />

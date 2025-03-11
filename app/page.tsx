@@ -6,8 +6,12 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { AboutSection } from "@/components/sections/about-section";
 import { ProjectsSection } from "@/components/sections/projects-section";
 import { TimelineSection } from "@/components/sections/timeline-section";
+import { ContactSection } from "@/components/sections/contact-section";
+// Keeping the import but not using it for now
+// import { BlogPreviewSection } from "@/components/sections/blog-preview-section";
 
-export default function Home() {
+// Client component wrapper for scroll behavior
+function ScrollManager() {
   const searchParams = useSearchParams();
   
   useEffect(() => {
@@ -24,13 +28,21 @@ export default function Home() {
       }
     }
   }, [searchParams]);
+  
+  return null;
+}
 
+export default function Home() {
   return (
     <>
+      <ScrollManager />
       <HeroSection />
       <AboutSection />
       <TimelineSection />
       <ProjectsSection />
+      {/* Commenting out BlogPreviewSection for now
+      <BlogPreviewSection /> */}
+      <ContactSection />
     </>
   );
 }

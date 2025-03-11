@@ -1,12 +1,14 @@
 import { cn } from "@/lib/utils";
 import { Separator } from "./separator";
 import { motion } from "framer-motion";
+import { ReactNode } from "react";
 
 interface SectionHeadingProps {
   title: string;
   description?: string;
   className?: string;
   align?: "left" | "center" | "right";
+  icon?: ReactNode;
 }
 
 export function SectionHeading({
@@ -14,6 +16,7 @@ export function SectionHeading({
   description,
   className,
   align = "left",
+  icon,
 }: SectionHeadingProps) {
   return (
     <motion.div
@@ -31,9 +34,12 @@ export function SectionHeading({
       )}
     >
       <div className="space-y-2">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-          {title}
-        </h2>
+        <div className="flex items-center gap-2">
+          {icon && <div className="text-primary">{icon}</div>}
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            {title}
+          </h2>
+        </div>
         {description && (
           <p className="text-muted-foreground max-w-[42rem] mx-auto">
             {description}

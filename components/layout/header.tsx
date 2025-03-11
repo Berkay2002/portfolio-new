@@ -24,6 +24,7 @@ export function Header() {
     { name: t("nav.about"), href: "/?section=about" },
     { name: t("nav.experience"), href: "/?section=timeline" },
     { name: t("nav.projects"), href: "/?section=projects" },
+    { name: t("nav.contact"), href: "/?section=contact" },
   ];
 
   // Monitor scroll position and active section
@@ -32,7 +33,7 @@ export function Header() {
       setScrolled(window.scrollY > 50);
       
       // Determine active section based on scroll position
-      const sections = ['about', 'timeline', 'projects'];
+      const sections = ['about', 'timeline', 'projects', 'contact'];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -146,7 +147,7 @@ export function Header() {
             exit={{ opacity: 0, height: 0 }}
             className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto md:hidden overflow-hidden border-t border-neutral-200/10 dark:border-neutral-800/10 bg-background/80 backdrop-blur-md"
           >
-            <nav className="flex flex-col gap-2 py-4">
+            <nav className="flex flex-col gap-3 py-6">
               {navItems.map((item, index) => (
                 <motion.div
                   key={item.name}
@@ -156,13 +157,13 @@ export function Header() {
                 >
                   <Link
                     href={item.href}
-                    className={cn(
-                      "text-base font-medium transition-colors hover:text-primary block py-3 px-2 rounded-lg",
-                      activeSection === item.href 
-                        ? "text-blue-500 bg-blue-50/30 dark:bg-blue-950/30" 
-                        : "text-foreground hover:bg-neutral-100/30 dark:hover:bg-neutral-800/30"
-                    )}
                     onClick={() => setIsMenuOpen(false)}
+                    className={cn(
+                      "flex items-center py-3 px-2 rounded-md transition-colors",
+                      activeSection === item.href 
+                        ? "bg-primary/10 text-primary font-medium" 
+                        : "text-foreground hover:bg-muted"
+                    )}
                   >
                     {item.name}
                   </Link>
