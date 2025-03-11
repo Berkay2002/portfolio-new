@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Linkedin, FileText, ChevronUp } from "lucide-react";
+import { Github, Linkedin, FileText, ChevronUp, Twitter, Facebook, Mail, Share2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { socialLinks } from "@/lib/data/portfolio-data";
@@ -15,6 +15,46 @@ export function Footer() {
       top: 0,
       behavior: "smooth",
     });
+  };
+  
+  const shareWebsite = (platform: string) => {
+    const url = "https://berkay.live";
+    const text = "Check out Berkay Orhan's portfolio!";
+    
+    let shareUrl = "";
+    
+    switch (platform) {
+      case "twitter":
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+        break;
+      case "facebook":
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+        break;
+      case "email":
+        shareUrl = `mailto:?subject=${encodeURIComponent(text)}&body=${encodeURIComponent(url)}`;
+        break;
+      case "linkedin":
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        break;
+      default:
+        if (navigator.share) {
+          navigator.share({
+            title: "Berkay Orhan's Portfolio",
+            text: text,
+            url: url,
+          }).catch(err => console.error('Error sharing:', err));
+          return;
+        }
+        // Fallback to copying to clipboard
+        navigator.clipboard.writeText(url).then(() => {
+          alert("Link copied to clipboard!");
+        }).catch(err => {
+          console.error('Failed to copy:', err);
+        });
+        return;
+    }
+    
+    window.open(shareUrl, "_blank");
   };
   
   return (
@@ -80,7 +120,63 @@ export function Footer() {
           </motion.div>
         </div>
 
-
+        {/* Social share section */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="mt-8 flex flex-col items-center"
+        >
+          <p className="text-sm text-muted-foreground mb-3">Share this website</p>
+          <div className="flex items-center gap-2">
+            <Button 
+              onClick={() => shareWebsite("twitter")}
+              size="icon" 
+              variant="outline" 
+              className="h-8 w-8 rounded-full hover:text-blue-500 hover:scale-105 transition-all"
+              aria-label="Share on Twitter"
+            >
+              <Twitter className="h-4 w-4" />
+            </Button>
+            <Button 
+              onClick={() => shareWebsite("facebook")}
+              size="icon" 
+              variant="outline" 
+              className="h-8 w-8 rounded-full hover:text-blue-600 hover:scale-105 transition-all"
+              aria-label="Share on Facebook"
+            >
+              <Facebook className="h-4 w-4" />
+            </Button>
+            <Button 
+              onClick={() => shareWebsite("linkedin")}
+              size="icon" 
+              variant="outline" 
+              className="h-8 w-8 rounded-full hover:text-blue-700 hover:scale-105 transition-all"
+              aria-label="Share on LinkedIn"
+            >
+              <Linkedin className="h-4 w-4" />
+            </Button>
+            <Button 
+              onClick={() => shareWebsite("email")}
+              size="icon" 
+              variant="outline" 
+              className="h-8 w-8 rounded-full hover:text-green-600 hover:scale-105 transition-all"
+              aria-label="Share via Email"
+            >
+              <Mail className="h-4 w-4" />
+            </Button>
+            <Button 
+              onClick={() => shareWebsite("")}
+              size="icon" 
+              variant="outline" 
+              className="h-8 w-8 rounded-full hover:text-purple-600 hover:scale-105 transition-all"
+              aria-label="Share via Other Platforms"
+            >
+              <Share2 className="h-4 w-4" />
+            </Button>
+          </div>
+        </motion.div>
       </div>
     </footer>
   );

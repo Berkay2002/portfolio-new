@@ -46,11 +46,8 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
     if (savedLocale && (savedLocale === "en" || savedLocale === "sv")) {
       setLocaleState(savedLocale);
     } else {
-      // Or try to detect browser language
-      const browserLocale = navigator.language.split("-")[0];
-      if (browserLocale === "sv") {
-        setLocaleState("sv");
-      }
+      // Default to English instead of detecting browser language
+      setLocaleState("en");
     }
   }, []);
   

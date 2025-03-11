@@ -12,7 +12,7 @@ export function JsonLd() {
       "name": personalInfo.name,
       "jobTitle": personalInfo.title,
       "description": personalInfo.bio,
-      "url": "https://your-portfolio-domain.com",
+      "url": "https://berkay.live",
       "sameAs": [
         socialLinks.github,
         socialLinks.linkedin
@@ -28,7 +28,12 @@ export function JsonLd() {
       ],
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://your-portfolio-domain.com"
+        "@id": "https://berkay.live",
+        "inLanguage": ["en", "sv"],
+        "potentialAction": {
+          "@type": "ReadAction",
+          "target": ["https://berkay.live", "https://berkay.live#projects", "https://berkay.live#about"]
+        }
       },
       "workExample": projects.map(project => ({
         "@type": "CreativeWork",
@@ -38,15 +43,39 @@ export function JsonLd() {
       }))
     };
 
-    // Create the script element
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(schema);
-    document.head.appendChild(script);
+    // Add website schema
+    const websiteSchema = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://berkay.live",
+      "name": personalInfo.name,
+      "description": personalInfo.bio,
+      "inLanguage": ["en", "sv"],
+      "author": {
+        "@type": "Person",
+        "name": personalInfo.name
+      },
+      "potentialAction": {
+        "@type": "ViewAction",
+        "target": "https://berkay.live"
+      }
+    };
+
+    // Create the script elements
+    const personScript = document.createElement('script');
+    personScript.type = 'application/ld+json';
+    personScript.text = JSON.stringify(schema);
+    document.head.appendChild(personScript);
+
+    const websiteScript = document.createElement('script');
+    websiteScript.type = 'application/ld+json';
+    websiteScript.text = JSON.stringify(websiteSchema);
+    document.head.appendChild(websiteScript);
 
     return () => {
       // Clean up
-      document.head.removeChild(script);
+      document.head.removeChild(personScript);
+      document.head.removeChild(websiteScript);
     };
   }, []);
 

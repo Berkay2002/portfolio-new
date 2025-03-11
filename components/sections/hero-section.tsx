@@ -107,7 +107,7 @@ export function HeroSection() {
   const { t, locale } = useLanguage();
   
   return (
-    <section className="relative min-h-screen py-16 md:py-0 overflow-hidden flex flex-col justify-center">
+    <section id="hero" aria-label="Hero Section" className="relative min-h-screen py-16 md:py-0 overflow-hidden flex flex-col justify-center">
       {/* Background */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-background/80 via-background/60 to-transparent pointer-events-none" />
       
@@ -139,14 +139,14 @@ export function HeroSection() {
             </span>
           </motion.h1>
           
-          <motion.h2 
+          <motion.div 
             className="text-xl text-muted-foreground md:text-2xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            {personalInfo.title}
-          </motion.h2>
+            <h2>{personalInfo.title}</h2>
+          </motion.div>
           
           <motion.p 
             className="mx-auto max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8"

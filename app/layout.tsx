@@ -49,10 +49,18 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  alternates: {
+    languages: {
+      'en': '/',
+      'sv': '/',
+    },
   },
   openGraph: {
     type: "website",
     locale: "en_US",
+    alternateLocale: "sv_SE",
     url: "https://berkay.live",
     title: "Berkay Orhan | Machine Learning Engineer",
     description: "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
@@ -101,7 +109,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased light`}>
         <ThemeProvider>
           <LanguageProvider>
             <div className="flex min-h-screen flex-col">
