@@ -89,6 +89,14 @@ export default function RootLayout({
         {/* Preload critical resources */}
         <link rel="preload" href="/images/profile.png" as="image" />
         
+        {/* KaTeX CSS for LaTeX rendering */}
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+          integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn"
+          crossOrigin="anonymous"
+        />
+        
         {/* Preconnect to external domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

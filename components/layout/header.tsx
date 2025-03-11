@@ -21,9 +21,9 @@ export function Header() {
   // Navigation items with translations
   const navItems = [
     { name: t("nav.home"), href: "/" },
-    { name: t("nav.about"), href: "#about" },
-    { name: t("nav.experience"), href: "#timeline" },
-    { name: t("nav.projects"), href: "#projects" },
+    { name: t("nav.about"), href: "/?section=about" },
+    { name: t("nav.experience"), href: "/?section=timeline" },
+    { name: t("nav.projects"), href: "/?section=projects" },
   ];
 
   // Monitor scroll position and active section
@@ -38,7 +38,7 @@ export function Header() {
         if (element) {
           const rect = element.getBoundingClientRect();
           if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(`#${section}`);
+            setActiveSection(`/?section=${section}`);
             return;
           }
         }

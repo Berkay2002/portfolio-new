@@ -7,6 +7,18 @@ export interface Project {
   institution?: string;
   image?: string;  // Path to screenshot/image
   imageAlt?: string; // Alternative text for the image
+  detailedDescription?: string; // Longer description for project detail page
+  features?: string[]; // List of key features
+  challenges?: string[]; // Challenges faced during development
+  solution?: string; // How challenges were solved
+  outcome?: string; // Results or impact of the project
+  githubLink?: string; // Link to GitHub repository
+  paperLink?: string; // Link to research paper PDF
+  gallery?: {
+    image: string;
+    alt: string;
+    caption?: string;
+  }[]; // Additional images for the project
 }
 
 export interface Skill {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
 import { useRef } from "react";
+import Image from "next/image";
 
 import { projects } from "@/lib/data/portfolio-data";
 import { Container } from "../ui/container";
@@ -63,13 +64,12 @@ export function ProjectsSection() {
               {/* Project Image */}
               <div className="relative h-48 w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
                 {project.image ? (
-                  <BlurImage
+                  <Image
                     src={project.image}
                     alt={project.imageAlt || project.title}
                     width={400}
                     height={192}
-                    imageClassName="object-cover object-top w-full h-full transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover object-top w-full h-full transition-transform duration-500 group-hover:scale-105"
                     unoptimized
                   />
                 ) : (
@@ -104,7 +104,9 @@ export function ProjectsSection() {
                   transition={{ delay: 0.2 }}
                 >
                   <CardTitle className="text-xl flex items-center justify-between gap-2">
-                    <span>{project.title}</span>
+                    <Link href={`/projects/${project.id}`} className="hover:text-blue-500 transition-colors">
+                      <span>{project.title}</span>
+                    </Link>
                     {project.link && (
                       <Link 
                         href={project.link} 
@@ -131,21 +133,34 @@ export function ProjectsSection() {
               
               <CardFooter className="pt-0 mt-auto flex justify-between">
                 <div className="hidden md:flex flex-wrap gap-1.5">
-                  {project.technologies.map((tech) => (
+                  {project.technologies.slice(0, 3).map((tech) => (
                     <Badge key={tech} variant="tech" className="text-[0.65rem]">
                       {tech}
                     </Badge>
                   ))}
+                  {project.technologies.length > 3 && (
+                    <Badge variant="tech" className="text-[0.65rem]">
+                      +{project.technologies.length - 3}
+                    </Badge>
+                  )}
                 </div>
                 
-                {project.link && (
-                  <Button asChild variant="outline" size="sm" className="gap-1 group ml-auto">
-                    <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                      <span>{t("sections.projects.viewProject")}</span>
-                      <ExternalLink className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <div className="flex gap-2 ml-auto">
+                  <Button asChild variant="default" size="sm" className="gap-1 group">
+                    <Link href={`/projects/${project.id}`}>
+                      <span>{t("sections.projects.viewDetails")}</span>
                     </Link>
                   </Button>
-                )}
+                  
+                  {project.link && (
+                    <Button asChild variant="outline" size="sm" className="gap-1 group">
+                      <Link href={project.link} target="_blank" rel="noopener noreferrer">
+                        <span>{t("sections.projects.viewProject")}</span>
+                        <ExternalLink className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </Link>
+                    </Button>
+                  )}
+                </div>
               </CardFooter>
             </Card>
           </motion.div>
