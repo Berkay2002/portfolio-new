@@ -20,22 +20,6 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Contact Form Setup
-
-The contact form uses [EmailJS](https://www.emailjs.com/) to send emails directly from the client-side:
-
-1. You'll need to create an account on [EmailJS](https://www.emailjs.com/)
-2. Create an email service (Gmail, Outlook, etc.) in the EmailJS dashboard
-3. Create an email template (the form field names are: name, email, message)
-4. Update the following constants in `components/sections/contact-section.tsx`:
-   ```typescript
-   const EMAILJS_SERVICE_ID = "your_service_id";
-   const EMAILJS_TEMPLATE_ID = "your_template_id";
-   const EMAILJS_PUBLIC_KEY = "your_public_key";
-   ```
-
-This approach avoids server-side email setup and works around Microsoft's restrictions on basic authentication.
-
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
