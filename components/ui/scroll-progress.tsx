@@ -3,6 +3,8 @@
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
 
+const SCROLL_PROGRESS_VISIBILITY_THRESHOLD = 100;
+
 export function ScrollProgress() {
   const [isVisible, setIsVisible] = useState(false);
   const { scrollYProgress } = useScroll();
@@ -15,14 +17,16 @@ export function ScrollProgress() {
   useEffect(() => {
     const handleScroll = () => {
       // Show the progress bar after scrolling down a bit
-      setIsVisible(window.scrollY > 100);
+      setIsVisible(window.scrollY > SCROLL_PROGRESS_VISIBILITY_THRESHOLD);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (!isVisible) return null;
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <motion.div

@@ -1,12 +1,12 @@
 import { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
-interface ContainerProps {
+type ContainerProps = {
   children: React.ReactNode;
   className?: string;
   id?: string;
   size?: "default" | "small" | "large" | "full";
-}
+};
 
 export const Container = forwardRef<HTMLElement, ContainerProps>(
   ({ children, className, id, size = "default" }, ref) => (

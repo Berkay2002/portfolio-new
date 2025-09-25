@@ -122,3 +122,4 @@ Components auto-install to `components/ui/` following existing patterns.
 - `lib/translations.ts` - Internationalization
 - `next.config.mjs` - Build configuration
 - `tailwind.config.ts` - Styling tokens
+- Always read CLAUDE.md

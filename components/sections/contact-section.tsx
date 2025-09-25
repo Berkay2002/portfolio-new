@@ -14,23 +14,26 @@ import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/components/layout/language-provider";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/ui/section-heading";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { socialLinks } from "@/lib/data/portfolio-data";
 import { cn } from "@/lib/utils";
-/// <reference path="../ui/input.tsx" />
-/// <reference path="../ui/textarea.tsx" />
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 
-// Define a simple validation schema since we're not using zod
-interface ValidationError {
-  message: string;
-}
+// Email validation regex at top level for performance
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_REGEX_STRICT = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
-interface ContactFormData {
+type ContactFormData = {
   name: string;
   email: string;
   message: string;
-}
+};
 
 const EMAILJS_SERVICE_ID = "service_6clfcwo"; // Replace with your service ID
 const EMAILJS_TEMPLATE_ID = "template_lgv4lmj"; // Replace with your template ID
@@ -56,45 +59,46 @@ export function ContactSection() {
     emailjs.init(EMAILJS_PUBLIC_KEY);
   }, []);
 
+  // Simplified validation helpers
+  const validateName = (value: string) => {
+    if (value.length < 2) {
+      return locale === "sv"
+        ? "Namnet måste vara minst 2 tecken"
+        : "Name must be at least 2 characters";
+    }
+    return "";
+  };
+
+  const validateEmail = (value: string) => {
+    if (!EMAIL_REGEX.test(value)) {
+      return locale === "sv"
+        ? "Vänligen ange en giltig e-postadress"
+        : "Please enter a valid email address";
+    }
+    return "";
+  };
+
+  const validateMessage = (value: string) => {
+    if (value.length < 10) {
+      return locale === "sv"
+        ? "Meddelandet måste vara minst 10 tecken"
+        : "Message must be at least 10 characters";
+    }
+    return "";
+  };
+
   // Update error messages based on locale
   const getErrorMessage = (field: keyof ContactFormData, value: string) => {
-    let error = "";
-
-    if (locale === "sv") {
-      switch (field) {
-        case "name":
-          if (value.length < 2) error = "Namnet måste vara minst 2 tecken";
-          break;
-        case "email": {
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(value))
-            error = "Vänligen ange en giltig e-postadress";
-          break;
-        }
-        case "message":
-          if (value.length < 10)
-            error = "Meddelandet måste vara minst 10 tecken";
-          break;
-      }
-    } else {
-      switch (field) {
-        case "name":
-          if (value.length < 2) error = "Name must be at least 2 characters";
-          break;
-        case "email": {
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(value))
-            error = "Please enter a valid email address";
-          break;
-        }
-        case "message":
-          if (value.length < 10)
-            error = "Message must be at least 10 characters";
-          break;
-      }
+    switch (field) {
+      case "name":
+        return validateName(value);
+      case "email":
+        return validateEmail(value);
+      case "message":
+        return validateMessage(value);
+      default:
+        return "";
     }
-
-    return error;
   };
 
   const validateField = (field: keyof ContactFormData, value: string) => {
@@ -111,23 +115,32 @@ export function ContactSection() {
     validateField(name as keyof ContactFormData, value);
   };
 
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!EMAIL_REGEX_STRICT.test(formData.email)) {
+      newErrors.email = "Invalid email address";
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    }
+
+    return newErrors;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitStatus(null);
     setErrorMessage("");
 
-    // Validate form
-    const newErrors: Record<string, string> = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)
-    ) {
-      newErrors.email = "Invalid email address";
-    }
-    if (!formData.message.trim()) newErrors.message = "Message is required";
-
+    const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -159,19 +172,17 @@ export function ContactSection() {
       };
 
       // Send email via EmailJS
-      const result = await emailjs.send(
+      await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         templateParams,
         EMAILJS_PUBLIC_KEY
       );
 
-      console.log("EmailJS Result:", result);
-
       setSubmitStatus("success");
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
-      console.error("Failed to send email:", error);
+      // Error handled through UI feedback
       setSubmitStatus("error");
       if (error instanceof Error) {
         setErrorMessage(error.message);
@@ -207,16 +218,16 @@ export function ContactSection() {
       <div className="container mx-auto px-4">
         <SectionHeading className="mb-8 sm:mb-10" title={t("nav.contact")} />
 
-        <div className="mt-6 grid grid-cols-1 gap-8 sm:mt-8 md:grid-cols-2 md:gap-10">
+        <div className="mt-6 grid h-full grid-cols-1 gap-8 sm:mt-8 md:min-h-[420px] md:grid-cols-2 md:gap-10">
           {/* Contact Form */}
           <motion.div
-            className="order-2 space-y-5 sm:space-y-6 md:order-1"
+            className="order-2 flex h-full flex-col space-y-5 sm:space-y-6 md:order-1"
             initial={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
             whileInView={{ opacity: 1, x: 0 }}
           >
-            <div className="rounded-xl border border-border/50 bg-card p-6 shadow-sm backdrop-blur-sm dark:border-border/30 dark:bg-card/40">
+            <div className="flex h-full flex-col justify-between rounded-xl border border-border/50 bg-card p-6 shadow-sm backdrop-blur-sm dark:border-border/30 dark:bg-card/40">
               <h3 className="mb-4 font-semibold text-foreground text-lg">
                 {t("contact.sendMessage")}
               </h3>
@@ -335,6 +346,7 @@ export function ContactSection() {
                           viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
                         >
+                          <title>Loading</title>
                           <circle
                             className="opacity-25"
                             cx="12"
@@ -389,64 +401,92 @@ export function ContactSection() {
 
           {/* Contact Info */}
           <motion.div
-            className="order-1 space-y-6 md:order-2"
+            className="order-1 flex h-full flex-col space-y-6 md:order-2"
             initial={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
             whileInView={{ opacity: 1, x: 0 }}
           >
-            <div className="rounded-xl border border-border/50 bg-card p-6 shadow-sm backdrop-blur-sm dark:border-border/30 dark:bg-card/40">
-              <h3 className="mb-4 font-semibold text-foreground text-lg">
+            <div className="flex h-full flex-col rounded-xl border border-border/50 bg-card p-6 shadow-sm backdrop-blur-sm dark:border-border/30 dark:bg-card/40">
+              <h3 className="mb-2 font-semibold text-foreground text-lg">
                 {t("contact.connectWithMe")}
               </h3>
-
               <div className="space-y-4">
-                <a
-                  className="flex items-center rounded-lg border border-border/50 p-3 transition-colors hover:bg-accent/50 dark:border-border/30"
-                  href={"mailto:Berkayorhan@hotmail.se"}
-                >
-                  <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
-                    <Mail className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium">{t("contact.email")}</p>
-                    <p className="text-muted-foreground text-sm">
-                      Berkayorhan@hotmail.se
-                    </p>
-                  </div>
-                </a>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <a
+                        className="flex items-center rounded-lg border border-border/50 p-3 transition-colors hover:bg-accent/50 dark:border-border/30"
+                        href={"mailto:Berkayorhan@hotmail.se"}
+                      >
+                        <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                          <Mail className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="font-medium">{t("contact.email")}</p>
+                          <p className="text-muted-foreground text-sm">
+                            Berkayorhan@hotmail.se
+                          </p>
+                        </div>
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Send me an email</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
 
-                <a
-                  className="flex items-center rounded-lg border border-border/50 p-3 transition-colors hover:bg-accent/50 dark:border-border/30"
-                  href={socialLinks.github}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
-                    <Github className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium">GitHub</p>
-                    <p className="text-muted-foreground text-sm">@Berkay2002</p>
-                  </div>
-                </a>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <a
+                        className="flex items-center rounded-lg border border-border/50 p-3 transition-colors hover:bg-accent/50 dark:border-border/30"
+                        href={socialLinks.github}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+                          <Github className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="font-medium">GitHub</p>
+                          <p className="text-muted-foreground text-sm">
+                            @Berkay2002
+                          </p>
+                        </div>
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>View my code repositories</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
 
-                <a
-                  className="flex items-center rounded-lg border border-border/50 p-3 transition-colors hover:bg-accent/50 dark:border-border/30"
-                  href={socialLinks.linkedin}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
-                    <Linkedin className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium">LinkedIn</p>
-                    <p className="text-muted-foreground text-sm">
-                      {t("contact.connect")}
-                    </p>
-                  </div>
-                </a>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <a
+                        className="flex items-center rounded-lg border border-border/50 p-3 transition-colors hover:bg-accent/50 dark:border-border/30"
+                        href={socialLinks.linkedin}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+                          <Linkedin className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="font-medium">LinkedIn</p>
+                          <p className="text-muted-foreground text-sm">
+                            {t("contact.connect")}
+                          </p>
+                        </div>
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Connect with me professionally</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
           </motion.div>

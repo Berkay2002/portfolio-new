@@ -1,11 +1,15 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
+import Image from "next/image"; // added import
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
-export interface BlogPost {
+const ANIMATION_DURATION_SECONDS = 0.5;
+const ANIMATION_DELAY_STEP_SECONDS = 0.1;
+
+export type BlogPost = {
   id: string;
   title: string;
   excerpt: string;
@@ -14,13 +18,13 @@ export interface BlogPost {
   category: string;
   thumbnail?: string;
   slug: string;
-}
+};
 
-interface BlogCardProps {
+type BlogCardProps = {
   post: BlogPost;
   index?: number;
   className?: string;
-}
+};
 
 export function BlogCard({ post, index = 0, className }: BlogCardProps) {
   return (
@@ -30,16 +34,23 @@ export function BlogCard({ post, index = 0, className }: BlogCardProps) {
         className
       )}
       initial={{ opacity: 0, y: 20 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={{
+        duration: ANIMATION_DURATION_SECONDS,
+        delay: index * ANIMATION_DELAY_STEP_SECONDS,
+      }}
       viewport={{ once: true }}
       whileInView={{ opacity: 1, y: 0 }}
     >
       {post.thumbnail && (
         <div className="relative aspect-[16/9] overflow-hidden">
-          <img
+          <Image
             alt={post.title}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            height={360}
+            priority={index === 0}
             src={post.thumbnail}
+            width={640}
+            // Optionally add sizes for responsive images
           />
           <div className="absolute top-3 left-3">
             <span className="rounded-full bg-primary/80 px-3 py-1 font-medium text-primary-foreground text-xs">

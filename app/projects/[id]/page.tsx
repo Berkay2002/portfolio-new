@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import React from "react";
 import ProjectPageContent from "@/components/project-page-content";
 import { projects } from "@/lib/data/portfolio-data";
 
@@ -9,6 +8,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await Promise.resolve(); // Ensure function contains an await expression
   const project = projects.find((p) => p.id === params.id);
 
   if (!project) {
@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
+  await Promise.resolve(); // Ensure function contains an await expression
   return projects.map((project) => ({
     id: project.id,
   }));

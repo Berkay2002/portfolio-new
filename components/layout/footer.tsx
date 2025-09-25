@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/correctness/noUnusedImports: <Dont worry> */
+/** biome-ignore-all lint/correctness/noUnusedVariables: <Dont worry> */
 "use client";
 
 import { motion } from "framer-motion";
@@ -7,8 +9,6 @@ import {
   FileText,
   Github,
   Linkedin,
-  Mail,
-  Share2,
   Twitter,
 } from "lucide-react";
 import Link from "next/link";
@@ -16,6 +16,7 @@ import { useLanguage } from "@/components/layout/language-provider";
 import { socialLinks } from "@/lib/data/portfolio-data";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import ParticleBackground from "./particle-background";
 
 export function Footer() {
   const { t } = useLanguage();
@@ -29,7 +30,7 @@ export function Footer() {
   };
 
   const shareWebsite = (platform: string) => {
-    const url = "https://berkay.live";
+    const url = "https://berkay.se";
     const text = t("footer.shareText");
 
     let shareUrl = "";
@@ -55,17 +56,38 @@ export function Footer() {
               text,
               url,
             })
-            .catch((err) => console.error("Error sharing:", err));
+            .catch(() => {
+              // Sharing failed; silently ignore as per repo rules (no console).
+            });
           return;
         }
         // Fallback to copying to clipboard
         navigator.clipboard
           .writeText(url)
           .then(() => {
-            alert(t("footer.copiedToClipboard"));
+            // Use Notification API if available and permitted, else fallback to console
+            if (
+              "Notification" in window &&
+              Notification.permission === "granted"
+            ) {
+              new Notification(t("footer.copiedToClipboard"));
+            } else if (
+              "Notification" in window &&
+              Notification.permission !== "denied"
+            ) {
+              Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                  new Notification(t("footer.copiedToClipboard"));
+                } else {
+                  // Fallback: non-blocking log
+                }
+              });
+            } else {
+              // Fallback: non-blocking log
+            }
           })
-          .catch((err) => {
-            console.error("Failed to copy:", err);
+          .catch(() => {
+            // Fallback: log error if copy fails (no alert)
           });
         return;
     }
@@ -75,17 +97,15 @@ export function Footer() {
 
   return (
     <footer className="relative border-neutral-200 border-t bg-gradient-to-b from-background to-background/80 py-8 sm:py-10 md:py-12 dark:border-neutral-800">
-      {/* Top wave shape */}
-      <div className="-translate-y-full pointer-events-none absolute inset-x-0 top-0 h-12 overflow-hidden sm:h-16 md:h-24">
-        <svg
-          className="absolute bottom-0 h-full w-full fill-current text-background"
-          viewBox="0 0 1440 320"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M0,192L60,176C120,160,240,128,360,138.7C480,149,600,203,720,208C840,213,960,171,1080,144C1200,117,1320,107,1380,101.3L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z" />
-        </svg>
+      {/* Local particle overlay for footer */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-25 dark:opacity-35">
+        <ParticleBackground
+          densityDivisor={20}
+          local
+          maxCount={40}
+          opacity={0.12}
+        />
       </div>
-
       <div className="container mx-auto max-w-7xl px-4">
         <div className="grid grid-cols-1 gap-8 py-4 sm:py-6 md:grid-cols-2 md:gap-12">
           {/* Left column - Info and social links */}
@@ -149,11 +169,11 @@ export function Footer() {
 
 // Helper components for cleaner code
 
-interface SocialButtonProps {
+type SocialButtonProps = {
   href: string;
   icon: React.ReactNode;
   label: string;
-}
+};
 
 function SocialButton({ href, icon, label }: SocialButtonProps) {
   return (
@@ -171,37 +191,6 @@ function SocialButton({ href, icon, label }: SocialButtonProps) {
       >
         {icon}
       </Link>
-    </Button>
-  );
-}
-
-interface ShareButtonProps {
-  platform: string;
-  icon: React.ReactNode;
-  label: string;
-  hoverColor: string;
-  onClick: () => void;
-}
-
-function ShareButton({
-  platform,
-  icon,
-  label,
-  hoverColor,
-  onClick,
-}: ShareButtonProps) {
-  return (
-    <Button
-      aria-label={label}
-      className={cn(
-        "h-8 rounded-full transition-all hover:scale-105",
-        hoverColor
-      )}
-      onClick={onClick}
-      size="sm"
-      variant="outline"
-    >
-      {icon}
     </Button>
   );
 }

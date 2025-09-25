@@ -3,20 +3,20 @@
 import { ChevronLeft, ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/layout/language-provider";
 import { Badge } from "@/components/ui/badge";
-import { BlurImage } from "@/components/ui/blur-image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { PDFViewerPopup } from "@/components/ui/pdf-viewer-popup";
 import type { Project } from "@/types";
 
-interface ProjectPageContentProps {
+type ProjectPageContentProps = {
   project: Project;
-}
+};
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <Ignore>
 export default function ProjectPageContent({
   project,
 }: ProjectPageContentProps) {
@@ -113,8 +113,8 @@ export default function ProjectPageContent({
               </h2>
               <ul className="list-disc space-y-2 pl-5">
                 {getLocalizedArray(project.features, project.featuresSv).map(
-                  (feature, index) => (
-                    <li key={index}>{feature}</li>
+                  (feature) => (
+                    <li key={feature}>{feature}</li>
                   )
                 )}
               </ul>
@@ -139,8 +139,8 @@ export default function ProjectPageContent({
                     {getLocalizedArray(
                       project.challenges,
                       project.challengesSv
-                    ).map((challenge, index) => (
-                      <li key={index}>{challenge}</li>
+                    ).map((challenge) => (
+                      <li key={challenge}>{challenge}</li>
                     ))}
                   </ul>
                 </>
@@ -184,10 +184,10 @@ export default function ProjectPageContent({
                 {t("projectPage.gallery")}
               </h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {project.gallery.map((item, index) => (
+                {project.gallery.map((item) => (
                   <div
                     className="group relative aspect-video overflow-hidden rounded-lg border bg-muted"
-                    key={index}
+                    key={item.image}
                   >
                     <Image
                       alt={item.alt}

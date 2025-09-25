@@ -1,4 +1,4 @@
-export interface Project {
+export type Project = {
   id: string;
   title: string;
   description: string;
@@ -26,28 +26,28 @@ export interface Project {
     caption?: string;
     captionSv?: string;
   }[]; // Additional images for the project
-}
+};
 
-export interface Skill {
+export type Skill = {
   category: string;
   items: string[];
-}
+};
 
-export interface PersonalInfo {
+export type PersonalInfo = {
   name: string;
   title: string;
   bio: string;
   bioEn?: string;
   bioSv?: string;
-}
+};
 
-export interface SocialLinks {
+export type SocialLinks = {
   github: string;
   linkedin: string;
   cv: string;
-}
+};
 
-export interface TimelineEvent {
+export type TimelineEvent = {
   id: string;
   title: string;
   titleSv?: string; // Swedish title
@@ -55,18 +55,20 @@ export interface TimelineEvent {
   locationSv?: string; // Swedish location
   description: string;
   descriptionSv?: string; // Swedish description
+  detailedDescription?: string; // Detailed description for collapsible section
+  detailedDescriptionSv?: string; // Swedish detailed description
   date: string;
   icon?: string;
   type: "education" | "work" | "achievement";
-}
+};
 
 // Language Definitions
 export type Locale = "en" | "sv";
 
-export interface Translation {
+export type Translation = {
   [key: string]: string | Translation;
-}
+};
 
-export interface Translations {
+export type Translations = {
   [locale: string]: Translation;
-}
+};

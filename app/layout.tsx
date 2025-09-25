@@ -31,7 +31,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://berkay.live"),
+  metadataBase: new URL("https://berkay.se"),
   title: {
     default: "Berkay Orhan | Machine Learning Engineer",
     template: "%s | Berkay Orhan",
@@ -68,17 +68,17 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://berkay.live",
+    canonical: "https://berkay.se",
     languages: {
-      "en-US": "https://berkay.live?lang=en",
-      "sv-SE": "https://berkay.live?lang=sv",
+      "en-US": "https://berkay.se?lang=en",
+      "sv-SE": "https://berkay.se?lang=sv",
     },
   },
   openGraph: {
     type: "website",
     locale: "en_US",
     alternateLocale: "sv_SE",
-    url: "https://berkay.live",
+    url: "https://berkay.se",
     title: "Berkay Orhan | Machine Learning Engineer",
     description:
       "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
@@ -127,13 +127,6 @@ export default function RootLayout({
       <head>
         {/* Preload critical resources */}
         <link as="image" href="/images/profile.png" rel="preload" />
-        <link
-          as="font"
-          crossOrigin="anonymous"
-          href="/fonts/inter-var.woff2"
-          rel="preload"
-          type="font/woff2"
-        />
 
         {/* KaTeX CSS for LaTeX rendering */}
         <link

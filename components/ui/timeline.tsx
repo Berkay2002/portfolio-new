@@ -1,15 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Award, Briefcase, GraduationCap } from "lucide-react";
+import { Award, Briefcase, ChevronDown, GraduationCap } from "lucide-react";
 import { useLanguage } from "@/components/layout/language-provider";
+import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
 import type { TimelineEvent } from "@/types";
 
-interface TimelineProps {
+const TIMELINE_ANIMATION_DURATION = 0.5;
+const TIMELINE_ANIMATION_DELAY_STEP = 0.1;
+
+type TimelineProps = {
   events: TimelineEvent[];
   className?: string;
-}
+};
 
 export function Timeline({ events, className }: TimelineProps) {
   const { locale } = useLanguage();
@@ -43,7 +52,7 @@ export function Timeline({ events, className }: TimelineProps) {
   // Get localized content based on the selected language
   const getLocalizedContent = (
     event: TimelineEvent,
-    field: "title" | "location" | "description"
+    field: "title" | "location" | "description" | "detailedDescription"
   ) => {
     if (locale === "sv") {
       switch (field) {
@@ -53,6 +62,10 @@ export function Timeline({ events, className }: TimelineProps) {
           return event.locationSv || event.location;
         case "description":
           return event.descriptionSv || event.description;
+        case "detailedDescription":
+          return event.detailedDescriptionSv || event.detailedDescription;
+        default:
+          return event[field];
       }
     }
     return event[field];
@@ -68,7 +81,10 @@ export function Timeline({ events, className }: TimelineProps) {
           className="relative pl-10"
           initial={{ opacity: 0, x: -20 }}
           key={event.id}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
+          transition={{
+            duration: TIMELINE_ANIMATION_DURATION,
+            delay: index * TIMELINE_ANIMATION_DELAY_STEP,
+          }}
           viewport={{ once: true }}
           whileInView={{ opacity: 1, x: 0 }}
         >
@@ -97,6 +113,30 @@ export function Timeline({ events, className }: TimelineProps) {
             <p className="text-muted-foreground">
               {getLocalizedContent(event, "description")}
             </p>
+
+            {/* Collapsible detailed description */}
+            {event.detailedDescription && (
+              <Collapsible>
+                <CollapsibleTrigger asChild>
+                  <Button
+                    className="mt-2 h-auto p-0 text-left font-normal"
+                    variant="link"
+                  >
+                    <span className="flex items-center gap-1 text-blue-600 dark:text-blue-400">
+                      <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                      Show more details
+                    </span>
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="mt-3">
+                  <div className="rounded-lg border bg-muted/30 p-4">
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {getLocalizedContent(event, "detailedDescription")}
+                    </p>
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
           </div>
         </motion.div>
       ))}

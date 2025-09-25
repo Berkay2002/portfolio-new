@@ -1,7 +1,6 @@
 "use client";
 
 import { ChevronLeft } from "lucide-react";
-import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -43,11 +42,13 @@ export default function PaperPage({ params }: { params: { id: string } }) {
     return () => {
       // Clean up
       const links = document.head.querySelectorAll('link[href*="katex"]');
-      links.forEach((link) => {
-        if (document.head.contains(link)) {
-          document.head.removeChild(link);
+      // biome-ignore lint/style/useForOf: <Stop>
+      for (let i = 0; i < links.length; i += 1) {
+        const katexLink = links[i];
+        if (document.head.contains(katexLink)) {
+          document.head.removeChild(katexLink);
         }
-      });
+      }
     };
   }, []);
 

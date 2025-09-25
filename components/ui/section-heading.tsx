@@ -1,15 +1,16 @@
+"use client";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Separator } from "./separator";
 
-interface SectionHeadingProps {
+type SectionHeadingProps = {
   title: string;
   description?: string;
   className?: string;
   align?: "left" | "center" | "right";
   icon?: ReactNode;
-}
+};
 
 export function SectionHeading({
   title,

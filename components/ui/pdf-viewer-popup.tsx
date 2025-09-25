@@ -7,7 +7,7 @@ import { useLanguage } from "@/components/layout/language-provider";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
-interface PdfViewerPopupProps {
+type PdfViewerPopupProps = {
   pdfUrl: string;
   fileName: string;
   triggerClassName?: string;
@@ -18,7 +18,7 @@ interface PdfViewerPopupProps {
     | "secondary"
     | "ghost"
     | "link";
-}
+};
 
 export function PDFViewerPopup({
   pdfUrl,

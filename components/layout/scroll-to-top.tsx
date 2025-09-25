@@ -6,22 +6,23 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
+const SCROLL_TO_TOP_VISIBILITY_THRESHOLD = 300;
+
 export function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
-
-  // Show button when page is scrolled down
-  const toggleVisibility = () => {
-    if (window.scrollY > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
+  const [footerVisible, setFooterVisible] = useState(false);
 
   // Set up scroll event listener
   useEffect(() => {
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
+    const handleScroll = () => {
+      if (window.scrollY > SCROLL_TO_TOP_VISIBILITY_THRESHOLD) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Scroll to top function
@@ -32,9 +33,30 @@ export function ScrollToTop() {
     });
   };
 
+  // Hide the floating button when the footer is visible on screen
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer || typeof IntersectionObserver === "undefined") {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          setFooterVisible(entry.isIntersecting && entry.intersectionRatio > 0);
+        }
+      },
+      { root: null, threshold: 0 }
+    );
+
+    observer.observe(footer);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isVisible && !footerVisible && (
         <motion.div
           animate={{ opacity: 1, scale: 1 }}
           className="fixed right-6 bottom-6 z-50"

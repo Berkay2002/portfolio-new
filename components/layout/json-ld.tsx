@@ -12,7 +12,7 @@ export function JsonLd() {
       name: personalInfo.name,
       jobTitle: personalInfo.title,
       description: personalInfo.bio,
-      url: "https://berkay.live",
+      url: "https://berkay.se",
       sameAs: [socialLinks.github, socialLinks.linkedin],
       knowsAbout: [
         "Machine Learning",
@@ -25,14 +25,14 @@ export function JsonLd() {
       ],
       mainEntityOfPage: {
         "@type": "WebPage",
-        "@id": "https://berkay.live",
+        "@id": "https://berkay.se",
         inLanguage: ["en", "sv"],
         potentialAction: {
           "@type": "ReadAction",
           target: [
-            "https://berkay.live",
-            "https://berkay.live#projects",
-            "https://berkay.live#about",
+            "https://berkay.se",
+            "https://berkay.se#projects",
+            "https://berkay.se#about",
           ],
         },
       },
@@ -48,7 +48,7 @@ export function JsonLd() {
     const websiteSchema = {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      url: "https://berkay.live",
+      url: "https://berkay.se",
       name: personalInfo.name,
       description: personalInfo.bio,
       inLanguage: ["en", "sv"],
@@ -58,7 +58,7 @@ export function JsonLd() {
       },
       potentialAction: {
         "@type": "ViewAction",
-        target: "https://berkay.live",
+        target: "https://berkay.se",
       },
     };
 

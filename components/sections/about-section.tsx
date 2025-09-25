@@ -29,14 +29,24 @@ import {
   SiTypescript,
   SiVercel,
 } from "react-icons/si";
-import { skills } from "@/lib/data/portfolio-data";
+import { skillDetails, skills } from "@/lib/data/portfolio-data";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "../layout/language-provider";
 import { BlurImage } from "../ui/blur-image";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { Container } from "../ui/container";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../ui/hover-card";
+import { Progress } from "../ui/progress";
 import { SectionHeading } from "../ui/section-heading";
+
+// Animation timing constants
+const SKILL_CARD_ANIMATION_DURATION = 0.3;
+const SKILL_CARD_ANIMATION_DELAY_STEP = 0.1;
 
 // Map of skill names to their icons
 const skillIcons: Record<string, JSX.Element> = {
@@ -72,7 +82,7 @@ export function AboutSection() {
   const { t } = useLanguage();
 
   return (
-    <Container className="relative" id="about" size="small">
+    <Container className="relative" id="about">
       {/* Top gradient for smooth transition from hero section - adjusted for better blending with particles */}
       <div className="-translate-y-full pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-transparent via-background/70 to-background" />
 
@@ -137,7 +147,10 @@ export function AboutSection() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   key={skillCategory.category}
-                  transition={{ duration: 0.3, delay: 0.1 * index }}
+                  transition={{
+                    duration: SKILL_CARD_ANIMATION_DURATION,
+                    delay: SKILL_CARD_ANIMATION_DELAY_STEP * index,
+                  }}
                   viewport={{ once: true }}
                   whileHover={{ y: -5 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -148,26 +161,84 @@ export function AboutSection() {
                         {skillCategory.category}
                       </h4>
                       <ul className="grid grid-cols-1 gap-3">
-                        {skillCategory.items.map((skill) => (
-                          <li
-                            className="flex items-center text-muted-foreground transition-colors group-hover:text-foreground/80"
-                            key={skill}
-                          >
-                            <span className="mr-2 flex h-6 w-6 items-center justify-center text-lg">
-                              {skillIcons[skill] || (
-                                <span className="h-1.5 w-1.5 rounded-full bg-blue-500 transition-colors group-hover:bg-blue-400" />
-                              )}
-                            </span>
-                            <span
+                        {skillCategory.items.map((skill) => {
+                          const skillDetail = skillDetails[skill];
+                          const hasDetail = Boolean(skillDetail);
+
+                          const skillItem = (
+                            <li
                               className={cn(
-                                "transition-colors",
-                                skillIcons[skill] ? "font-medium" : ""
+                                "flex items-center text-muted-foreground transition-colors group-hover:text-foreground/80",
+                                hasDetail && "cursor-pointer"
                               )}
+                              key={skill}
                             >
-                              {skill}
-                            </span>
-                          </li>
-                        ))}
+                              <span className="mr-2 flex h-6 w-6 items-center justify-center text-lg">
+                                {skillIcons[skill] || (
+                                  <span className="h-1.5 w-1.5 rounded-full bg-blue-500 transition-colors group-hover:bg-blue-400" />
+                                )}
+                              </span>
+                              <span
+                                className={cn(
+                                  "transition-colors",
+                                  skillIcons[skill] ? "font-medium" : ""
+                                )}
+                              >
+                                {skill}
+                              </span>
+                            </li>
+                          );
+
+                          if (!hasDetail) {
+                            return skillItem;
+                          }
+
+                          return (
+                            <HoverCard key={skill}>
+                              <HoverCardTrigger asChild>
+                                {skillItem}
+                              </HoverCardTrigger>
+                              <HoverCardContent className="w-80">
+                                <div className="space-y-3">
+                                  <div className="flex items-center gap-2">
+                                    <span className="flex h-8 w-8 items-center justify-center text-xl">
+                                      {skillIcons[skill] || (
+                                        <span className="h-2 w-2 rounded-full bg-blue-500" />
+                                      )}
+                                    </span>
+                                    <h4 className="font-semibold text-sm">
+                                      {skill}
+                                    </h4>
+                                  </div>
+                                  <p className="text-muted-foreground text-sm">
+                                    {skillDetail.description}
+                                  </p>
+                                  <div className="space-y-2">
+                                    <div className="flex items-center justify-between text-xs">
+                                      <span className="text-muted-foreground">
+                                        Proficiency
+                                      </span>
+                                      <span className="font-medium">
+                                        {skillDetail.level}%
+                                      </span>
+                                    </div>
+                                    <Progress
+                                      className="h-2"
+                                      value={skillDetail.level}
+                                    />
+                                    <div className="text-muted-foreground text-xs">
+                                      {skillDetail.yearsExperience} year
+                                      {skillDetail.yearsExperience !== 1
+                                        ? "s"
+                                        : ""}{" "}
+                                      experience
+                                    </div>
+                                  </div>
+                                </div>
+                              </HoverCardContent>
+                            </HoverCard>
+                          );
+                        })}
                       </ul>
                     </CardContent>
                   </Card>

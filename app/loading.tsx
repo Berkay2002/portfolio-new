@@ -2,6 +2,9 @@
 
 import { motion } from "framer-motion";
 
+const LOADING_DOT_SCALE_START = 1;
+const LOADING_DOT_SCALE_PEAK = 1.2;
+
 export default function Loading() {
   return (
     <div className="flex min-h-[80vh] flex-col items-center justify-center">
@@ -12,7 +15,13 @@ export default function Loading() {
         transition={{ duration: 0.3 }}
       >
         <motion.div
-          animate={{ scale: [1, 1.2, 1] }}
+          animate={{
+            scale: [
+              LOADING_DOT_SCALE_START,
+              LOADING_DOT_SCALE_PEAK,
+              LOADING_DOT_SCALE_START,
+            ],
+          }}
           className="h-4 w-4 rounded-full bg-blue-500"
           transition={{
             repeat: Number.POSITIVE_INFINITY,
@@ -21,7 +30,13 @@ export default function Loading() {
           }}
         />
         <motion.div
-          animate={{ scale: [1, 1.2, 1] }}
+          animate={{
+            scale: [
+              LOADING_DOT_SCALE_START,
+              LOADING_DOT_SCALE_PEAK,
+              LOADING_DOT_SCALE_START,
+            ],
+          }}
           className="h-4 w-4 rounded-full bg-blue-600"
           transition={{
             repeat: Number.POSITIVE_INFINITY,
@@ -31,7 +46,13 @@ export default function Loading() {
           }}
         />
         <motion.div
-          animate={{ scale: [1, 1.2, 1] }}
+          animate={{
+            scale: [
+              LOADING_DOT_SCALE_START,
+              LOADING_DOT_SCALE_PEAK,
+              LOADING_DOT_SCALE_START,
+            ],
+          }}
           className="h-4 w-4 rounded-full bg-blue-700"
           transition={{
             repeat: Number.POSITIVE_INFINITY,

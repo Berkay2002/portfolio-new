@@ -1,13 +1,13 @@
 "use client";
 
-import { Code, ExternalLink, FileText } from "lucide-react";
+import { Code, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 import { useLanguage } from "@/components/layout/language-provider";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface ProjectCardButtonProps {
+type ProjectCardButtonProps = {
   href: string;
   variant?:
     | "default"
@@ -20,7 +20,7 @@ interface ProjectCardButtonProps {
   icon?: React.ReactNode;
   text: string;
   isExternal?: boolean;
-}
+};
 
 export function ProjectCardButton({
   href,

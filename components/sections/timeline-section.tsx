@@ -8,6 +8,14 @@ import { Container } from "../ui/container";
 import { SectionHeading } from "../ui/section-heading";
 import { Timeline } from "../ui/timeline";
 
+// Meaningful constant for the primary decorative parallax Y offsets
+const PRIMARY_DECOR_PARALLAX_START = 50;
+const PRIMARY_DECOR_PARALLAX_END = -50;
+
+// Meaningful constant for the secondary decorative parallax Y offset
+const SECONDARY_DECOR_PARALLAX_END = -30;
+// Extracted constants above cover decorative parallax and spacing; timeline draw is handled by the Timeline component
+
 export function TimelineSection() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
@@ -17,15 +25,25 @@ export function TimelineSection() {
   });
 
   // Parallax movement values
-  const y1 = useTransform(scrollYProgress, [0, 1], [50, -50]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const y1 = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [PRIMARY_DECOR_PARALLAX_START, PRIMARY_DECOR_PARALLAX_END]
+  );
+  const y2 = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, SECONDARY_DECOR_PARALLAX_END]
+  );
+
+  // Timeline draw is handled inside the Timeline component; no global scale transform required here
 
   return (
     <Container
       className="relative overflow-hidden"
       id="timeline"
       ref={sectionRef}
-      size="small"
+      // removed size="small" to match Project section
     >
       {/* Decorative elements with parallax */}
       <motion.div
@@ -47,20 +65,6 @@ export function TimelineSection() {
           viewport={{ once: true }}
           whileInView={{ opacity: 1 }}
         >
-          {/* Drawing animation for the timeline's vertical line */}
-          <motion.div
-            className="absolute top-[156px] left-[19px] z-0 w-[2px] bg-border dark:bg-neutral-800"
-            style={{
-              height: timelineEvents.length * 160 + "px", // Approximate height based on number of events
-              scaleY: useTransform(
-                scrollYProgress,
-                [0.1, 0.6], // start drawing when scrolled 10% into view, complete by 60%
-                [0, 1]
-              ),
-              transformOrigin: "top",
-            }}
-          />
-
           <Timeline events={timelineEvents} />
         </motion.div>
       </div>

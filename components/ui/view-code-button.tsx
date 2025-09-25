@@ -2,14 +2,13 @@
 
 import { Code, ExternalLink } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface ViewCodeButtonProps {
+type ViewCodeButtonProps = {
   href: string;
   className?: string;
-}
+};
 
 export function ViewCodeButton({ href, className }: ViewCodeButtonProps) {
   return (
@@ -29,10 +28,10 @@ export function ViewCodeButton({ href, className }: ViewCodeButtonProps) {
   );
 }
 
-interface ViewDetailsButtonProps {
+type ViewDetailsButtonProps = {
   href: string;
   className?: string;
-}
+};
 
 export function ProjectViewDetailsButton({
   href,
@@ -53,10 +52,10 @@ export function ProjectViewDetailsButton({
   );
 }
 
-interface ViewProjectButtonProps {
+type ViewProjectButtonProps = {
   href: string;
   className?: string;
-}
+};
 
 export function ProjectViewLiveButton({
   href,

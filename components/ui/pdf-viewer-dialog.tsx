@@ -5,10 +5,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-interface PdfViewerDialogProps {
+type PdfViewerDialogProps = {
   pdfUrl: string;
   fileName: string;
-}
+};
 
 export function PDFViewerDialog({ pdfUrl, fileName }: PdfViewerDialogProps) {
   const [isOpen, setIsOpen] = useState(false);

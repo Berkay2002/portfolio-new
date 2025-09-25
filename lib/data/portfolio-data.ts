@@ -49,6 +49,30 @@ export const skills: Skill[] = [
   },
 ];
 
+// Skill detail descriptions for hover cards
+export const skillDetails: Record<string, { description: string; level: number; yearsExperience: number }> = {
+  "Python": { description: "Primary language for ML/AI projects, data analysis, and automation", level: 85, yearsExperience: 4 },
+  "JavaScript": { description: "Full-stack web development with modern ES6+ features", level: 80, yearsExperience: 3 },
+  "TypeScript": { description: "Type-safe JavaScript for scalable applications and better developer experience", level: 75, yearsExperience: 2 },
+  "C++": { description: "Systems programming and performance-critical applications", level: 70, yearsExperience: 3 },
+  "React": { description: "Building modern, interactive user interfaces with hooks and component patterns", level: 80, yearsExperience: 3 },
+  "Next.js": { description: "Full-stack React framework with SSR, API routes, and performance optimization", level: 75, yearsExperience: 2 },
+  "Node.js": { description: "Server-side JavaScript for APIs, real-time applications, and microservices", level: 70, yearsExperience: 2 },
+  "Tailwind CSS": { description: "Utility-first CSS framework for rapid UI development", level: 85, yearsExperience: 2 },
+  "TensorFlow": { description: "Deep learning framework for neural networks and ML model development", level: 75, yearsExperience: 2 },
+  "Keras": { description: "High-level neural networks API for rapid prototyping", level: 70, yearsExperience: 2 },
+  "Deep Learning": { description: "Neural networks, CNNs, RNNs for computer vision and NLP tasks", level: 75, yearsExperience: 2 },
+  "Data Mining": { description: "Extracting patterns and insights from large datasets", level: 70, yearsExperience: 1 },
+  "MongoDBAtlas": { description: "NoSQL database for scalable, document-based applications", level: 65, yearsExperience: 2 },
+  "Firebase": { description: "Real-time database and authentication for web applications", level: 70, yearsExperience: 2 },
+  "Supabase": { description: "Open-source Firebase alternative with PostgreSQL", level: 60, yearsExperience: 1 },
+  "Vercel": { description: "Deployment platform optimized for frontend frameworks", level: 75, yearsExperience: 2 },
+  "REST APIs": { description: "Designing and consuming RESTful web services", level: 75, yearsExperience: 3 },
+  "Scikit-learn": { description: "Machine learning library for classification, regression, and clustering", level: 70, yearsExperience: 2 },
+  "Automatic control": { description: "Control systems theory and implementation", level: 65, yearsExperience: 2 },
+  "Simulations (e.g. MATLAB/Simulink)": { description: "Mathematical modeling and system simulation", level: 60, yearsExperience: 2 },
+};
+
 export const projects: Project[] = [
   {
     id: "livenotes",
@@ -333,6 +357,10 @@ export const timelineEvents: TimelineEvent[] = [
       "Completed my bachelor's with a focus on programming and applied mathematics.",
     descriptionSv:
       "Avslutade min kandidatexamen med fokus på programmering och tillämpad matematik.",
+    detailedDescription:
+      "Graduated with a Bachelor of Science in Engineering, specializing in Media Technology. The program combined technical skills with creative applications, covering programming, mathematics, signal processing, and human-computer interaction. Key coursework included algorithms and data structures, linear algebra, digital signal processing, computer graphics, and web development. Completed several significant projects including interactive visualizations, web applications, and multimedia systems.",
+    detailedDescriptionSv:
+      "Examen som Civilingenjör inom Medieteknik. Programmet kombinerade tekniska färdigheter med kreativa tillämpningar, täckande programmering, matematik, signalbehandling och människa-datorinteraktion. Viktiga kurser inkluderade algoritmer och datastrukturer, linjär algebra, digital signalbehandling, datorgrafik och webbutveckling. Genomförde flera betydande projekt inklusive interaktiva visualiseringar, webbapplikationer och multimediasystem.",
     date: "2021 - 2024",
     type: "education",
   },
@@ -346,6 +374,10 @@ export const timelineEvents: TimelineEvent[] = [
       "Studying machine learning, image processing and cybersecurity in my master's program.",
     descriptionSv:
       "Studerar maskininlärning, bildbehandling och cybersäkerhet i mitt masterprogram.",
+    detailedDescription:
+      "Currently pursuing a Master of Science in Engineering with a focus on advanced machine learning techniques, computer vision, and cybersecurity. The program includes deep learning architectures, neural networks, image processing algorithms, security protocols, and ethical AI considerations. Working on cutting-edge research projects in natural language processing and computer vision, while developing expertise in Python, TensorFlow, PyTorch, and various ML frameworks.",
+    detailedDescriptionSv:
+      "Läser för närvarande en Master of Science in Engineering med fokus på avancerade maskininlärningstekniker, datorseende och cybersäkerhet. Programmet inkluderar djuplärningsarkitekturer, neurala nätverk, bildbehandlingsalgoritmer, säkerhetsprotokoll och etiska AI-överväganden. Arbetar med banbrytande forskningsprojekt inom naturlig språkbehandling och datorseende, samtidigt som jag utvecklar expertis inom Python, TensorFlow, PyTorch och olika ML-ramverk.",
     date: "2024 - Present",
     type: "education",
   },

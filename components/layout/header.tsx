@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useLanguage } from "./language-provider";
 import { LanguageSwitcher } from "./language-switcher";
+import ParticleBackground from "./particle-background";
 import { ThemeToggle } from "./theme-toggle";
 
 export function Header() {
@@ -17,6 +18,17 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("/");
+
+  // Offset in pixels from the top of the viewport to consider a section active
+  const SECTION_ACTIVATION_OFFSET = 100;
+
+  // Threshold in pixels to trigger header scrolled state
+  const HEADER_SCROLLED_OFFSET = 50;
+
+  // Animation delay for nav items (in seconds)
+  const NAV_ITEM_ANIMATION_DELAY = 0.1;
+  // Animation delay for mobile nav items (in seconds)
+  const MOBILE_NAV_ITEM_ANIMATION_DELAY = 0.05;
 
   // Navigation items with translations
   const navItems = [
@@ -30,7 +42,7 @@ export function Header() {
   // Monitor scroll position and active section
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > HEADER_SCROLLED_OFFSET);
 
       // Determine active section based on scroll position
       const sections = ["about", "timeline", "projects", "contact"];
@@ -38,7 +50,10 @@ export function Header() {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
+          if (
+            rect.top <= SECTION_ACTIVATION_OFFSET &&
+            rect.bottom >= SECTION_ACTIVATION_OFFSET
+          ) {
             setActiveSection(`/?section=${section}`);
             return;
           }
@@ -61,6 +76,15 @@ export function Header() {
           : "bg-transparent py-4 backdrop-blur-[2px]" // Very subtle blur when not scrolled
       )}
     >
+      {/* Local particle overlay for header */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-30 dark:opacity-40">
+        <ParticleBackground
+          densityDivisor={14}
+          local
+          maxCount={40}
+          opacity={0.18}
+        />
+      </div>
       <div className="container mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <motion.div
           animate={{ opacity: 1, x: 0 }}
@@ -89,7 +113,7 @@ export function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: -10 }}
                 key={item.name}
-                transition={{ delay: 0.1 * (index + 1) }}
+                transition={{ delay: NAV_ITEM_ANIMATION_DELAY * (index + 1) }}
               >
                 <Link
                   className={cn(
@@ -158,7 +182,9 @@ export function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   initial={{ opacity: 0, x: -10 }}
                   key={item.name}
-                  transition={{ delay: 0.05 * index }}
+                  transition={{
+                    delay: MOBILE_NAV_ITEM_ANIMATION_DELAY * index,
+                  }}
                 >
                   <Link
                     className={cn(

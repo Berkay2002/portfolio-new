@@ -25,7 +25,7 @@ export function preprocessLatex(latexContent: string): string {
       items
         .split("\\item")
         .filter(Boolean)
-        .map((item: string) => "* " + item.trim())
+        .map((item: string) => `* ${item.trim()}`)
         .join("\n") +
       "\n"
   );
@@ -40,7 +40,7 @@ export function preprocessLatex(latexContent: string): string {
         items
           .split("\\item")
           .filter(Boolean)
-          .map((item: string) => `${i++}. ` + item.trim())
+          .map((item: string) => `${i++}. ${item.trim()}`)
           .join("\n") +
         "\n"
       );
@@ -85,14 +85,14 @@ export function preprocessLatex(latexContent: string): string {
     (_, text) =>
       text
         .split("\n")
-        .map((line: string) => "> " + line)
+        .map((line: string) => `> ${line}`)
         .join("\n")
   );
 
   // Convert LaTeX tabular environment to HTML tables
   content = content.replace(
     /\\begin\{tabular\}\{([^}]+)\}([\s\S]*?)\\end\{tabular\}/g,
-    (_, format, tableContent) => {
+    (_, __, tableContent) => {
       const rows = tableContent
         .split("\\\\")
         .filter((row: string) => row.trim());
@@ -100,10 +100,10 @@ export function preprocessLatex(latexContent: string): string {
       rows.forEach((row: string, index: number) => {
         const cells = row.split("&").map((cell: string) => cell.trim());
         tableHtml += "  <tr>\n";
-        cells.forEach((cell: string) => {
+        for (const cell of cells) {
           const tag = index === 0 ? "th" : "td";
           tableHtml += `    <${tag}>${cell}</${tag}>\n`;
-        });
+        }
         tableHtml += "  </tr>\n";
       });
       tableHtml += "</table>";

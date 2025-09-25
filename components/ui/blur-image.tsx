@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-interface BlurImageProps {
+type BlurImageProps = {
   src: string;
   alt: string;
   width: number;
@@ -18,7 +18,7 @@ interface BlurImageProps {
   objectPosition?: string;
   placeholder?: "blur" | "empty" | "data:image/...";
   placeholderSrc?: string;
-}
+};
 
 export function BlurImage({
   src,
@@ -64,7 +64,9 @@ export function BlurImage({
         height={height}
         onError={() => {
           setIsLoading(false);
-          if (placeholderSrc) setImgSrc(placeholderSrc);
+          if (placeholderSrc) {
+            setImgSrc(placeholderSrc);
+          }
         }}
         onLoad={() => setIsLoading(false)}
         placeholder={placeholder}

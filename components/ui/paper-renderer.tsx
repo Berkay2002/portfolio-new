@@ -6,7 +6,7 @@ import { Button } from "./button";
 import { Card } from "./card";
 import { MarkdownLatexRenderer } from "./markdown-latex-renderer";
 
-interface PaperRendererProps {
+type PaperRendererProps = {
   title: string;
   authors: string[];
   abstractContent: string;
@@ -15,7 +15,7 @@ interface PaperRendererProps {
     content: string;
   }[];
   pdfUrl: string;
-}
+};
 
 export function PaperRenderer({
   title,
@@ -47,16 +47,16 @@ export function PaperRenderer({
         <div className="mb-6">
           <h2 className="mb-2 font-semibold text-xl">Authors</h2>
           <ul className="list-disc pl-5">
-            {authors.map((author, index) => (
-              <li key={index}>{author}</li>
+            {authors.map((author) => (
+              <li key={author}>{author}</li>
             ))}
           </ul>
         </div>
 
         {showFullPaper ? (
           <div className="space-y-6">
-            {sections.map((section, index) => (
-              <div key={index}>
+            {sections.map((section) => (
+              <div key={section.title}>
                 <h2 className="mb-2 font-semibold text-xl">{section.title}</h2>
                 <MarkdownLatexRenderer content={section.content} />
               </div>

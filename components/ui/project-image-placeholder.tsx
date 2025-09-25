@@ -3,11 +3,11 @@
 import { useId } from "react";
 import { cn } from "@/lib/utils";
 
-interface ProjectImagePlaceholderProps {
+type ProjectImagePlaceholderProps = {
   title: string;
   className?: string;
   variant?: "blue" | "green" | "purple" | "orange" | "pink";
-}
+};
 
 export function ProjectImagePlaceholder({
   title,
@@ -62,6 +62,7 @@ export function ProjectImagePlaceholder({
         width="100%"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <title>{title}</title>
         <defs>
           <linearGradient id={gradientId} x1="0%" x2="100%" y1="0%" y2="100%">
             <stop offset="0%" stopColor={from} stopOpacity="0.3" />

@@ -3,14 +3,20 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-interface SkillProgressProps {
+const SKILL_PROGRESS_MIN = 0;
+const SKILL_PROGRESS_MAX = 100;
+
+type SkillProgressProps = {
   name: string;
   value: number;
   className?: string;
-}
+};
 
 export function SkillProgress({ name, value, className }: SkillProgressProps) {
-  const cappedValue = Math.min(100, Math.max(0, value)); // Ensure value is between 0 and 100
+  const cappedValue = Math.min(
+    SKILL_PROGRESS_MAX,
+    Math.max(SKILL_PROGRESS_MIN, value)
+  ); // Ensure value is between 0 and 100
 
   return (
     <div className={cn("space-y-2", className)}>
