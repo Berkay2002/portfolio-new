@@ -1,73 +1,101 @@
 "use client";
 
-import { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
-import { FileText, X, Download, ExternalLink } from "lucide-react";
-import { Button } from "./button";
-import { cn } from "@/lib/utils";
+import { Download, ExternalLink, FileText, X } from "lucide-react";
+import { useState } from "react";
 import { useLanguage } from "@/components/layout/language-provider";
+import { cn } from "@/lib/utils";
+import { Button } from "./button";
 
-interface PDFViewerPopupProps {
+interface PdfViewerPopupProps {
   pdfUrl: string;
   fileName: string;
   triggerClassName?: string;
-  buttonVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  buttonVariant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
 }
 
 export function PDFViewerPopup({
   pdfUrl,
   fileName,
   triggerClassName,
-  buttonVariant = "outline"
-}: PDFViewerPopupProps) {
+  buttonVariant = "outline",
+}: PdfViewerPopupProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useLanguage();
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>
-        <Button variant={buttonVariant} className={cn("gap-2", triggerClassName)}>
+        <Button
+          className={cn("gap-2", triggerClassName)}
+          variant={buttonVariant}
+        >
           <span>{t("projectPage.viewResearchPaper")}</span>
           <FileText className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      
-      <DialogContent className="max-w-[95vw] max-h-[95vh] w-[1000px] p-0 gap-0 rounded-lg border bg-card shadow-lg overflow-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <div className="flex items-center justify-between p-4 border-b bg-card">
+
+      <DialogContent className="-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2 max-h-[95vh] w-[1000px] max-w-[95vw] transform gap-0 overflow-hidden rounded-lg border bg-card p-0 shadow-lg">
+        <div className="flex items-center justify-between border-b bg-card p-4">
           <h3 className="font-medium text-card-foreground">{fileName}</h3>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="gap-1 h-8 bg-background hover:bg-muted" asChild>
-              <a href={pdfUrl} download target="_blank" rel="noopener noreferrer">
+            <Button
+              asChild
+              className="h-8 gap-1 bg-background hover:bg-muted"
+              size="sm"
+              variant="outline"
+            >
+              <a
+                download
+                href={pdfUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 <Download className="h-4 w-4" />
-                <span className="sr-only sm:not-sr-only">{t("projectPage.download")}</span>
+                <span className="sr-only sm:not-sr-only">
+                  {t("projectPage.download")}
+                </span>
               </a>
             </Button>
-            <Button variant="outline" size="sm" className="gap-1 h-8 bg-background hover:bg-muted" asChild>
-              <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
+            <Button
+              asChild
+              className="h-8 gap-1 bg-background hover:bg-muted"
+              size="sm"
+              variant="outline"
+            >
+              <a href={pdfUrl} rel="noopener noreferrer" target="_blank">
                 <ExternalLink className="h-4 w-4" />
-                <span className="sr-only sm:not-sr-only">{t("projectPage.open")}</span>
+                <span className="sr-only sm:not-sr-only">
+                  {t("projectPage.open")}
+                </span>
               </a>
             </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-8 w-8 p-0 hover:bg-muted" 
+            <Button
+              className="h-8 w-8 p-0 hover:bg-muted"
               onClick={() => setIsOpen(false)}
+              size="sm"
+              variant="ghost"
             >
               <X className="h-4 w-4" />
               <span className="sr-only">{t("projectPage.close")}</span>
             </Button>
           </div>
         </div>
-        
-        <div className="relative w-full h-[80vh] bg-white dark:bg-zinc-900">
+
+        <div className="relative h-[80vh] w-full bg-white dark:bg-zinc-900">
           <iframe
+            className="h-full w-full border-0"
             src={`${pdfUrl}#view=FitH&toolbar=1&navpanes=1`}
-            className="w-full h-full border-0"
             title={fileName}
           />
         </div>
       </DialogContent>
     </Dialog>
   );
-} 
+}

@@ -1,50 +1,41 @@
 "use client";
 
+import { Download, FileText, X } from "lucide-react";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, X } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-interface PDFViewerDialogProps {
+interface PdfViewerDialogProps {
   pdfUrl: string;
   fileName: string;
 }
 
-export function PDFViewerDialog({ pdfUrl, fileName }: PDFViewerDialogProps) {
+export function PDFViewerDialog({ pdfUrl, fileName }: PdfViewerDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-full justify-between gap-2">
+        <Button className="w-full justify-between gap-2" variant="outline">
           <span>View Research Paper</span>
           <FileText className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[900px] h-[80vh] p-0">
-        <div className="p-4 border-b flex items-center justify-between">
-          <h2 className="text-lg font-semibold">{fileName}</h2>
+      <DialogContent className="h-[80vh] p-0 sm:max-w-[900px]">
+        <div className="flex items-center justify-between border-b p-4">
+          <h2 className="font-semibold text-lg">{fileName}</h2>
           <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              variant="outline"
-              className="gap-1"
-              asChild
-            >
-              <a 
-                href={pdfUrl}
-                download
-                onClick={(e) => e.stopPropagation()}
-              >
+            <Button asChild className="gap-1" size="sm" variant="outline">
+              <a download href={pdfUrl} onClick={(e) => e.stopPropagation()}>
                 <Download className="h-4 w-4" />
                 <span>Download</span>
               </a>
             </Button>
             <Button
-              size="sm"
-              variant="ghost"
               className="h-8 w-8 p-0"
               onClick={() => setIsOpen(false)}
+              size="sm"
+              variant="ghost"
             >
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
@@ -53,12 +44,12 @@ export function PDFViewerDialog({ pdfUrl, fileName }: PDFViewerDialogProps) {
         </div>
         <div className="h-full w-full overflow-hidden">
           <iframe
+            className="h-full w-full"
             src={`${pdfUrl}#toolbar=0&navpanes=0`}
-            className="w-full h-full"
             title={fileName}
           />
         </div>
       </DialogContent>
     </Dialog>
   );
-} 
+}

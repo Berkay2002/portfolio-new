@@ -2,16 +2,16 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-import { ThemeProvider } from "@/components/layout/theme-provider";
-import { LanguageProvider } from "@/components/layout/language-provider";
-import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { ScrollToTop } from "@/components/layout/scroll-to-top";
-import { JsonLd } from "@/components/layout/json-ld";
-import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { Header } from "@/components/layout/header";
 import { HtmlLangSetter } from "@/components/layout/html-lang-setter";
+import { JsonLd } from "@/components/layout/json-ld";
+import { LanguageProvider } from "@/components/layout/language-provider";
+import { ScrollToTop } from "@/components/layout/scroll-to-top";
+import { ThemeProvider } from "@/components/layout/theme-provider";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
@@ -20,35 +20,36 @@ const inter = Inter({
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "#111" }
+    { media: "(prefers-color-scheme: dark)", color: "#111" },
   ],
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
   minimumScale: 1,
   userScalable: true,
-  viewportFit: "cover"
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://berkay.live'),
+  metadataBase: new URL("https://berkay.live"),
   title: {
     default: "Berkay Orhan | Machine Learning Engineer",
     template: "%s | Berkay Orhan",
   },
-  description: "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
+  description:
+    "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
   keywords: [
-    "Machine Learning", 
-    "Control Systems", 
+    "Machine Learning",
+    "Control Systems",
     "Cybersecurity",
     "Web Development",
-    "Portfolio", 
-    "Engineer", 
-    "Developer", 
+    "Portfolio",
+    "Engineer",
+    "Developer",
     "TypeScript",
     "Python",
     "Next.js",
-    "Berkay Orhan"
+    "Berkay Orhan",
   ],
   authors: [{ name: "Berkay Orhan" }],
   creator: "Berkay Orhan",
@@ -69,8 +70,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://berkay.live",
     languages: {
-      'en-US': 'https://berkay.live?lang=en',
-      'sv-SE': 'https://berkay.live?lang=sv',
+      "en-US": "https://berkay.live?lang=en",
+      "sv-SE": "https://berkay.live?lang=sv",
     },
   },
   openGraph: {
@@ -79,7 +80,8 @@ export const metadata: Metadata = {
     alternateLocale: "sv_SE",
     url: "https://berkay.live",
     title: "Berkay Orhan | Machine Learning Engineer",
-    description: "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
+    description:
+      "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
     siteName: "Berkay Orhan Portfolio",
     images: [
       {
@@ -93,7 +95,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Berkay Orhan | Machine Learning Engineer",
-    description: "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
+    description:
+      "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
     site: "@berkayorhan",
     creator: "@berkayorhan",
     images: ["/images/og-image.jpg"],
@@ -104,8 +107,8 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   verification: {
@@ -120,28 +123,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="scroll-smooth">
+    <html className="scroll-smooth" lang="en" suppressHydrationWarning>
       <head>
         {/* Preload critical resources */}
-        <link rel="preload" href="/images/profile.png" as="image" />
-        <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        
+        <link as="image" href="/images/profile.png" rel="preload" />
+        <link
+          as="font"
+          crossOrigin="anonymous"
+          href="/fonts/inter-var.woff2"
+          rel="preload"
+          type="font/woff2"
+        />
+
         {/* KaTeX CSS for LaTeX rendering */}
         <link
-          rel="stylesheet"
+          crossOrigin="anonymous"
           href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
           integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn"
-          crossOrigin="anonymous"
+          rel="stylesheet"
         />
-        
+
         {/* Preconnect to external domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link
+          crossOrigin="anonymous"
+          href="https://fonts.gstatic.com"
+          rel="preconnect"
+        />
+
         {/* Web app manifest */}
-        <link rel="manifest" href="/site.webmanifest" />
+        <link href="/site.webmanifest" rel="manifest" />
       </head>
-      <body className={`${inter.className} antialiased light`}>
+      <body className={`${inter.className} light antialiased`}>
         <ThemeProvider>
           <LanguageProvider>
             <HtmlLangSetter />

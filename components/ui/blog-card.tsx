@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { ArrowRight, Calendar, Clock } from "lucide-react";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
@@ -25,60 +25,64 @@ interface BlogCardProps {
 export function BlogCard({ post, index = 0, className }: BlogCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
       className={cn(
-        "group flex flex-col h-full bg-background border border-neutral-200 dark:border-neutral-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow",
+        "group flex h-full flex-col overflow-hidden rounded-lg border border-neutral-200 bg-background shadow-sm transition-shadow hover:shadow-md dark:border-neutral-800",
         className
       )}
+      initial={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      whileInView={{ opacity: 1, y: 0 }}
     >
       {post.thumbnail && (
         <div className="relative aspect-[16/9] overflow-hidden">
           <img
-            src={post.thumbnail}
             alt={post.title}
-            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            src={post.thumbnail}
           />
           <div className="absolute top-3 left-3">
-            <span className="px-3 py-1 text-xs font-medium bg-primary/80 text-primary-foreground rounded-full">
+            <span className="rounded-full bg-primary/80 px-3 py-1 font-medium text-primary-foreground text-xs">
               {post.category}
             </span>
           </div>
         </div>
       )}
-      
-      <div className="flex flex-col flex-grow p-5">
-        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+
+      <div className="flex flex-grow flex-col p-5">
+        <div className="mb-3 flex items-center gap-4 text-muted-foreground text-sm">
           <div className="flex items-center">
-            <Calendar className="h-3.5 w-3.5 mr-1" />
+            <Calendar className="mr-1 h-3.5 w-3.5" />
             <span>{post.date}</span>
           </div>
           {post.readTime && (
             <div className="flex items-center">
-              <Clock className="h-3.5 w-3.5 mr-1" />
+              <Clock className="mr-1 h-3.5 w-3.5" />
               <span>{post.readTime}</span>
             </div>
           )}
         </div>
-        
-        <h3 className="text-xl font-semibold mb-2 line-clamp-2">
+
+        <h3 className="mb-2 line-clamp-2 font-semibold text-xl">
           {post.title}
         </h3>
-        
-        <p className="text-muted-foreground mb-4 line-clamp-3">
+
+        <p className="mb-4 line-clamp-3 text-muted-foreground">
           {post.excerpt}
         </p>
-        
+
         <div className="mt-auto">
           <Link href={`/papers/${post.slug}`} passHref>
-            <Button variant="ghost" className="px-0 group-hover:text-primary transition-colors">
-              Read More <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <Button
+              className="px-0 transition-colors group-hover:text-primary"
+              variant="ghost"
+            >
+              Read More{" "}
+              <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </Link>
         </div>
       </div>
     </motion.div>
   );
-} 
+}

@@ -1,4 +1,4 @@
-import { Translations } from "@/types";
+import type { Translations } from "@/types";
 
 const translations: Translations = {
   en: {
@@ -25,9 +25,11 @@ const translations: Translations = {
       },
       about: {
         title: "About Me",
-        description: "Student of machine learning, control systems, and cybersecurity.",
+        description:
+          "Student of machine learning, control systems, and cybersecurity.",
         technical: "Background",
-        technicalText: "Working with machine learning and building web applications. Creating simple visualizations to explain complex ideas.",
+        technicalText:
+          "Working with machine learning and building web applications. Creating simple visualizations to explain complex ideas.",
         professionalSkills: "Skills",
         expertise: "Areas of Interest",
       },
@@ -73,7 +75,7 @@ const translations: Translations = {
       errorMessage: "Please try again later or contact me directly via email.",
       connectWithMe: "Connect With Me",
       email: "Email",
-      connect: "Connect on LinkedIn"
+      connect: "Connect on LinkedIn",
     },
     footer: {
       allRightsReserved: "All rights reserved.",
@@ -82,8 +84,8 @@ const translations: Translations = {
       githubProfile: "GitHub Profile",
       linkedinProfile: "LinkedIn Profile",
       shareText: "Check out Berkay Orhan's portfolio!",
-      copiedToClipboard: "Link copied to clipboard!"
-    }
+      copiedToClipboard: "Link copied to clipboard!",
+    },
   },
   sv: {
     common: {
@@ -109,9 +111,11 @@ const translations: Translations = {
       },
       about: {
         title: "Om mig",
-        description: "Student inom maskininlärning, reglerteknik och cybersäkerhet.",
+        description:
+          "Student inom maskininlärning, reglerteknik och cybersäkerhet.",
         technical: "Bakgrund",
-        technicalText: "Arbetar med maskininlärning och utvecklar webbapplikationer. Skapar enkla visualiseringar för att förklara komplexa idéer.",
+        technicalText:
+          "Arbetar med maskininlärning och utvecklar webbapplikationer. Skapar enkla visualiseringar för att förklara komplexa idéer.",
         professionalSkills: "Färdigheter",
         expertise: "Intresseområden",
       },
@@ -152,12 +156,13 @@ const translations: Translations = {
       sending: "Skickar...",
       send: "Skicka meddelande",
       successTitle: "Meddelande skickat!",
-      successMessage: "Jag återkommer till dig snart. Tack för att du hörde av dig.",
+      successMessage:
+        "Jag återkommer till dig snart. Tack för att du hörde av dig.",
       errorTitle: "Något gick fel",
       errorMessage: "Försök igen senare eller kontakta mig direkt via e-post.",
       connectWithMe: "Kontakta mig",
       email: "E-post",
-      connect: "Anslut på LinkedIn"
+      connect: "Anslut på LinkedIn",
     },
     footer: {
       allRightsReserved: "Alla rättigheter förbehållna.",
@@ -166,9 +171,9 @@ const translations: Translations = {
       githubProfile: "GitHub-profil",
       linkedinProfile: "LinkedIn-profil",
       shareText: "Kolla in Berkay Orhans portfolio!",
-      copiedToClipboard: "Länk kopierad till urklipp!"
-    }
+      copiedToClipboard: "Länk kopierad till urklipp!",
+    },
   },
 };
 
-export default translations; 
+export default translations;

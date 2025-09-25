@@ -1,10 +1,10 @@
 "use client";
 
+import { Download, FileText } from "lucide-react";
 import { useState } from "react";
-import { MarkdownLatexRenderer } from "./markdown-latex-renderer";
 import { Button } from "./button";
 import { Card } from "./card";
-import { Download, FileText } from "lucide-react";
+import { MarkdownLatexRenderer } from "./markdown-latex-renderer";
 
 interface PaperRendererProps {
   title: string;
@@ -27,11 +27,11 @@ export function PaperRenderer({
   const [showFullPaper, setShowFullPaper] = useState(false);
 
   return (
-    <div className="paper-container max-w-4xl mx-auto space-y-8">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <h1 className="text-2xl font-bold">{title}</h1>
-        <Button asChild variant="outline" className="gap-2">
-          <a href={pdfUrl} download target="_blank" rel="noopener noreferrer">
+    <div className="paper-container mx-auto max-w-4xl space-y-8">
+      <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+        <h1 className="font-bold text-2xl">{title}</h1>
+        <Button asChild className="gap-2" variant="outline">
+          <a download href={pdfUrl} rel="noopener noreferrer" target="_blank">
             <Download className="h-4 w-4" />
             <span>Download PDF</span>
           </a>
@@ -40,12 +40,12 @@ export function PaperRenderer({
 
       <Card className="p-6">
         <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">Abstract</h2>
+          <h2 className="mb-2 font-semibold text-xl">Abstract</h2>
           <MarkdownLatexRenderer content={abstractContent} />
         </div>
 
         <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">Authors</h2>
+          <h2 className="mb-2 font-semibold text-xl">Authors</h2>
           <ul className="list-disc pl-5">
             {authors.map((author, index) => (
               <li key={index}>{author}</li>
@@ -53,33 +53,33 @@ export function PaperRenderer({
           </ul>
         </div>
 
-        {!showFullPaper ? (
-          <Button
-            variant="outline"
-            className="w-full justify-center gap-2"
-            onClick={() => setShowFullPaper(true)}
-          >
-            <FileText className="h-4 w-4" />
-            <span>View Full Paper</span>
-          </Button>
-        ) : (
+        {showFullPaper ? (
           <div className="space-y-6">
             {sections.map((section, index) => (
               <div key={index}>
-                <h2 className="text-xl font-semibold mb-2">{section.title}</h2>
+                <h2 className="mb-2 font-semibold text-xl">{section.title}</h2>
                 <MarkdownLatexRenderer content={section.content} />
               </div>
             ))}
             <Button
-              variant="outline"
               className="w-full justify-center"
               onClick={() => setShowFullPaper(false)}
+              variant="outline"
             >
               Hide Full Paper
             </Button>
           </div>
+        ) : (
+          <Button
+            className="w-full justify-center gap-2"
+            onClick={() => setShowFullPaper(true)}
+            variant="outline"
+          >
+            <FileText className="h-4 w-4" />
+            <span>View Full Paper</span>
+          </Button>
         )}
       </Card>
     </div>
   );
-} 
+}

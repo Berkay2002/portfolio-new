@@ -1,19 +1,20 @@
 "use client";
 
-import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { HeroSection } from "@/components/sections/hero-section";
+import { useEffect } from "react";
 import { AboutSection } from "@/components/sections/about-section";
+import { ContactSection } from "@/components/sections/contact-section";
+import { HeroSection } from "@/components/sections/hero-section";
 import { ProjectsSection } from "@/components/sections/projects-section";
 import { TimelineSection } from "@/components/sections/timeline-section";
-import { ContactSection } from "@/components/sections/contact-section";
+
 // Keeping the import but not using it for now
 // import { BlogPreviewSection } from "@/components/sections/blog-preview-section";
 
 // Client component wrapper for scroll behavior
 function ScrollManager() {
   const searchParams = useSearchParams();
-  
+
   useEffect(() => {
     // Get the section from URL query parameter
     const section = searchParams.get("section");
@@ -28,7 +29,7 @@ function ScrollManager() {
       }
     }
   }, [searchParams]);
-  
+
   return null;
 }
 

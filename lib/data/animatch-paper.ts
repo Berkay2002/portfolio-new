@@ -1,20 +1,23 @@
 export const animatchPaper = {
   title: "AniMatch: A Content-Based Anime Recommendation System",
   authors: ["Berkay Orhan", "Jonatan Ebenholm"],
-  abstractContent: `AniMatch is a content-based recommendation system designed to suggest anime titles based on their inherent features. The system employs BERT embeddings to extract meaningful representations of anime metadata and cosine similarity to compute relationships between titles. Unlike traditional recommendation systems, AniMatch focuses on metadata analysis, ensuring accurate and contextually relevant recommendations.`,
+  abstractContent:
+    "AniMatch is a content-based recommendation system designed to suggest anime titles based on their inherent features. The system employs BERT embeddings to extract meaningful representations of anime metadata and cosine similarity to compute relationships between titles. Unlike traditional recommendation systems, AniMatch focuses on metadata analysis, ensuring accurate and contextually relevant recommendations.",
   sections: [
     {
       title: "Introduction",
-      content: `Recommendation systems have become indispensable in digital platforms for personalizing user experiences. Traditional systems often rely on user data, raising concerns about privacy and usability in cold-start scenarios. AniMatch addresses these challenges by adopting a content-based approach, focusing on the intrinsic features of anime metadata to deliver recommendations.`
+      content:
+        "Recommendation systems have become indispensable in digital platforms for personalizing user experiences. Traditional systems often rely on user data, raising concerns about privacy and usability in cold-start scenarios. AniMatch addresses these challenges by adopting a content-based approach, focusing on the intrinsic features of anime metadata to deliver recommendations.",
     },
     {
       title: "Background",
-      content: `Content-based recommendation systems utilize the attributes of items to identify similarities and generate recommendations. In the context of anime, metadata such as descriptions, genres, themes, and demographics serve as the foundation for such systems. This type of system, in contrast to a collaborative-filtering system, works perfectly for systems which have no user data, Since the website which we made does not have a login system or cookies attached. We opted out of doing collaborative-filtering since the website is meant to be accessed, used and left in a span of a few minutes, in which an account setup would take longer than the use of the site itself, leading to what the we believe to be a worse user experience. With our need and the advancements in natural language processing, models like BERT have enabled the extraction of deeper semantic meanings, making them ideal for metadata-based recommendations, and this is what was used in the project.`
+      content:
+        "Content-based recommendation systems utilize the attributes of items to identify similarities and generate recommendations. In the context of anime, metadata such as descriptions, genres, themes, and demographics serve as the foundation for such systems. This type of system, in contrast to a collaborative-filtering system, works perfectly for systems which have no user data, Since the website which we made does not have a login system or cookies attached. We opted out of doing collaborative-filtering since the website is meant to be accessed, used and left in a span of a few minutes, in which an account setup would take longer than the use of the site itself, leading to what the we believe to be a worse user experience. With our need and the advancements in natural language processing, models like BERT have enabled the extraction of deeper semantic meanings, making them ideal for metadata-based recommendations, and this is what was used in the project.",
     },
     {
       title: "Purpose and Research Question",
       content: `The purpose of this study is to explore the effectiveness of content-based filtering using BERT embeddings in anime recommendation systems. The research question is: 
-      \\textit{How effective is a content-based approach utilizing BERT embeddings and cosine similarity in generating relevant anime recommendations?}`
+      \\textit{How effective is a content-based approach utilizing BERT embeddings and cosine similarity in generating relevant anime recommendations?}`,
     },
     {
       title: "Data Collection and Preparation",
@@ -43,7 +46,7 @@ export const animatchPaper = {
       \\end{itemize}
       
       \\subsection{Normalization}
-      All numerical features were normalized using min-max scaling. Text data was preprocessed for BERT embeddings.`
+      All numerical features were normalized using min-max scaling. Text data was preprocessed for BERT embeddings.`,
     },
     {
       title: "Modeling",
@@ -63,7 +66,7 @@ export const animatchPaper = {
           \\item \\textbf{Transformers}: For generating BERT embeddings.
           \\item \\textbf{scikit-learn}: For computing cosine similarity.
           \\item \\textbf{pandas} and \\textbf{numpy}: For data preprocessing and handling.
-      \\end{itemize}`
+      \\end{itemize}`,
     },
     {
       title: "Evaluation",
@@ -86,7 +89,7 @@ export const animatchPaper = {
           Genre & 0.25 \\\\
       \\end{tabular}
       
-      With these weights, the system recommended titles like Demon Slayer, Jujutsu Kaisen, Hell's Paradise, Dr. Stone: Stone Wars, and Chainsaw Man - all sharing thematic similarities with Attack on Titan such as survival, moral complexity, and high-stakes battles.`
+      With these weights, the system recommended titles like Demon Slayer, Jujutsu Kaisen, Hell's Paradise, Dr. Stone: Stone Wars, and Chainsaw Man - all sharing thematic similarities with Attack on Titan such as survival, moral complexity, and high-stakes battles.`,
     },
     {
       title: "Discussion",
@@ -110,7 +113,7 @@ export const animatchPaper = {
           \\item Integrate user preferences to create a hybrid recommendation system
           \\item Explore lightweight embedding models to reduce computational costs
           \\item Fine-tune BERT embeddings for anime-specific contexts
-      \\end{itemize}`
+      \\end{itemize}`,
     },
     {
       title: "Conclusion",
@@ -118,7 +121,7 @@ export const animatchPaper = {
       AniMatch demonstrates the potential of content-based filtering using BERT embeddings and cosine similarity in anime recommendation systems. The model provides accurate and relevant recommendations while ensuring privacy.
       
       \\subsection{Reconnection to Research Question}
-      This study demonstrates that a content-based approach utilizing BERT embeddings and cosine similarity is highly effective in generating relevant anime recommendations. The use of embeddings captures nuanced context from metadata, and computational costs are minimal since embedding generation is a one-time preprocessing task. The results validate the approach's efficacy in meeting the study's goals of relevance and efficiency.`
+      This study demonstrates that a content-based approach utilizing BERT embeddings and cosine similarity is highly effective in generating relevant anime recommendations. The use of embeddings captures nuanced context from metadata, and computational costs are minimal since embedding generation is a one-time preprocessing task. The results validate the approach's efficacy in meeting the study's goals of relevance and efficiency.`,
     },
     {
       title: "References",
@@ -127,8 +130,8 @@ export const animatchPaper = {
           \\item Kaggle. (2024). Top Anime Dataset 2024. Retrieved from \\url{https://www.kaggle.com/datasets/bhavyadhingra00020/top-anime-dataset-2024}.
           \\item Jikan. (2024). 
           \\item Manning, C. D., Raghavan, P., \\& Schütze, H. (2008). Introduction to Information Retrieval. Cambridge University Press.
-      \\end{enumerate}`
-    }
+      \\end{enumerate}`,
+    },
   ],
-  pdfUrl: "/papers/animatch-paper.pdf"
-}; 
+  pdfUrl: "/papers/animatch-paper.pdf",
+};

@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Briefcase, GraduationCap, Award } from "lucide-react";
-import { TimelineEvent } from "@/types";
-import { cn } from "@/lib/utils";
+import { Award, Briefcase, GraduationCap } from "lucide-react";
 import { useLanguage } from "@/components/layout/language-provider";
+import { cn } from "@/lib/utils";
+import type { TimelineEvent } from "@/types";
 
 interface TimelineProps {
   events: TimelineEvent[];
@@ -13,7 +13,7 @@ interface TimelineProps {
 
 export function Timeline({ events, className }: TimelineProps) {
   const { locale } = useLanguage();
-  
+
   const getIcon = (type: TimelineEvent["type"]) => {
     switch (type) {
       case "education":
@@ -39,9 +39,12 @@ export function Timeline({ events, className }: TimelineProps) {
         return "bg-neutral-500";
     }
   };
-  
+
   // Get localized content based on the selected language
-  const getLocalizedContent = (event: TimelineEvent, field: "title" | "location" | "description") => {
+  const getLocalizedContent = (
+    event: TimelineEvent,
+    field: "title" | "location" | "description"
+  ) => {
     if (locale === "sv") {
       switch (field) {
         case "title":
@@ -58,16 +61,16 @@ export function Timeline({ events, className }: TimelineProps) {
   return (
     <div className={cn("relative space-y-8", className)}>
       {/* Line running down the middle */}
-      <div className="absolute left-[19px] top-0 h-full w-[2px] bg-border dark:bg-neutral-800" />
+      <div className="absolute top-0 left-[19px] h-full w-[2px] bg-border dark:bg-neutral-800" />
 
       {events.map((event, index) => (
         <motion.div
-          key={event.id}
+          className="relative pl-10"
           initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          key={event.id}
           transition={{ duration: 0.5, delay: index * 0.1 }}
           viewport={{ once: true }}
-          className="relative pl-10"
+          whileInView={{ opacity: 1, x: 0 }}
         >
           {/* Icon Circle */}
           <div
@@ -81,16 +84,22 @@ export function Timeline({ events, className }: TimelineProps) {
 
           <div className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-xl font-semibold">{getLocalizedContent(event, "title")}</h3>
-              <time className="rounded-md bg-muted px-2 py-1 text-xs font-medium">
+              <h3 className="font-semibold text-xl">
+                {getLocalizedContent(event, "title")}
+              </h3>
+              <time className="rounded-md bg-muted px-2 py-1 font-medium text-xs">
                 {event.date}
               </time>
             </div>
-            <p className="text-sm text-muted-foreground">{getLocalizedContent(event, "location")}</p>
-            <p className="text-muted-foreground">{getLocalizedContent(event, "description")}</p>
+            <p className="text-muted-foreground text-sm">
+              {getLocalizedContent(event, "location")}
+            </p>
+            <p className="text-muted-foreground">
+              {getLocalizedContent(event, "description")}
+            </p>
           </div>
         </motion.div>
       ))}
     </div>
   );
-} 
+}

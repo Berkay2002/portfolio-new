@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface BlurImageProps {
@@ -45,24 +45,12 @@ export function BlurImage({
   }, [src]);
 
   return (
-    <div className={cn("overflow-hidden relative", className)}>
+    <div className={cn("relative overflow-hidden", className)}>
       {isLoading && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse dark:bg-gray-800" />
+        <div className="absolute inset-0 animate-pulse bg-gray-200 dark:bg-gray-800" />
       )}
       <Image
-        src={imgSrc}
         alt={alt}
-        width={width}
-        height={height}
-        quality={quality}
-        priority={priority}
-        sizes={sizes}
-        onLoad={() => setIsLoading(false)}
-        onError={() => {
-          setIsLoading(false);
-          if (placeholderSrc) setImgSrc(placeholderSrc);
-        }}
-        placeholder={placeholder}
         className={cn(
           "transition-opacity duration-500 ease-in-out",
           isLoading ? "opacity-0" : "opacity-100",
@@ -73,9 +61,21 @@ export function BlurImage({
           objectFit === "scale-down" && "object-scale-down",
           imageClassName
         )}
+        height={height}
+        onError={() => {
+          setIsLoading(false);
+          if (placeholderSrc) setImgSrc(placeholderSrc);
+        }}
+        onLoad={() => setIsLoading(false)}
+        placeholder={placeholder}
+        priority={priority}
+        quality={quality}
+        sizes={sizes}
+        src={imgSrc}
         style={{ objectPosition }}
+        width={width}
         {...props}
       />
     </div>
   );
-} 
+}

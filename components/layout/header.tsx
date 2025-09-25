@@ -1,16 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import { personalInfo } from "@/lib/data/portfolio-data";
-import { ThemeToggle } from "./theme-toggle";
-import { LanguageSwitcher } from "./language-switcher";
-import { useLanguage } from "./language-provider";
-import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { useLanguage } from "./language-provider";
+import { LanguageSwitcher } from "./language-switcher";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Header() {
   const { t } = useLanguage();
@@ -31,9 +31,9 @@ export function Header() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      
+
       // Determine active section based on scroll position
-      const sections = ['about', 'timeline', 'projects', 'contact'];
+      const sections = ["about", "timeline", "projects", "contact"];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -53,58 +53,62 @@ export function Header() {
   }, []);
 
   return (
-    <header 
+    <header
       className={cn(
         "sticky top-0 z-40 w-full transition-all duration-500", // Lower z-index to allow particles to show through
-        scrolled ? 
-          "bg-background/60 backdrop-blur-md shadow-sm border-b border-neutral-200/10 dark:border-neutral-800/10 py-2" :
-          "bg-transparent backdrop-blur-[2px] py-4" // Very subtle blur when not scrolled
+        scrolled
+          ? "border-neutral-200/10 border-b bg-background/60 py-2 shadow-sm backdrop-blur-md dark:border-neutral-800/10"
+          : "bg-transparent py-4 backdrop-blur-[2px]" // Very subtle blur when not scrolled
       )}
     >
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
+      <div className="container mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <motion.div
           animate={{ opacity: 1, x: 0 }}
           className="flex items-center gap-2"
+          initial={{ opacity: 0, x: -20 }}
         >
           <Link
+            className="group relative z-50 font-bold text-xl transition-colors hover:text-primary"
             href="/"
-            className="text-xl font-bold transition-colors hover:text-primary relative group z-50"
           >
             <span className="relative z-10">{personalInfo.name}</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 group-hover:w-full transition-all duration-300"></span>
+            <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-300 group-hover:w-full" />
           </Link>
         </motion.div>
 
         {/* Desktop navigation */}
-        <nav className="hidden md:flex items-center gap-4">
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
+        <nav className="hidden items-center gap-4 md:flex">
+          <motion.div
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
             className="flex gap-6"
+            initial={{ opacity: 0, y: -10 }}
+            transition={{ delay: 0.1 }}
           >
             {navItems.map((item, index) => (
-              <motion.div 
-                key={item.name}
-                initial={{ opacity: 0, y: -10 }}
+              <motion.div
                 animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: -10 }}
+                key={item.name}
                 transition={{ delay: 0.1 * (index + 1) }}
               >
                 <Link
-                  href={item.href}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:text-primary relative group py-2 px-1 z-50",
-                    activeSection === item.href ? "text-blue-500" : "text-foreground"
+                    "group relative z-50 px-1 py-2 font-medium text-sm transition-colors hover:text-primary",
+                    activeSection === item.href
+                      ? "text-blue-500"
+                      : "text-foreground"
                   )}
+                  href={item.href}
                 >
                   <span className="relative z-10">{item.name}</span>
-                  <span 
+                  <span
                     className={cn(
                       "absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-300",
-                      activeSection === item.href ? "w-full" : "w-0 group-hover:w-full"
+                      activeSection === item.href
+                        ? "w-full"
+                        : "w-0 group-hover:w-full"
                     )}
-                  ></span>
+                  />
                 </Link>
               </motion.div>
             ))}
@@ -116,24 +120,25 @@ export function Header() {
         </nav>
 
         {/* Mobile menu button */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
+        <motion.div
           animate={{ opacity: 1, scale: 1 }}
           className="flex items-center gap-3 md:hidden"
+          initial={{ opacity: 0, scale: 0.9 }}
         >
           <LanguageSwitcher />
           <ThemeToggle />
           <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden rounded-full"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            className="rounded-full md:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            size="icon"
+            variant="ghost"
           >
-            {isMenuOpen ? 
-              <X className="h-5 w-5" /> : 
+            {isMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
               <Menu className="h-5 w-5" />
-            }
+            )}
           </Button>
         </motion.div>
       </div>
@@ -141,29 +146,29 @@ export function Header() {
       {/* Mobile navigation */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }}
+          <motion.div
             animate={{ opacity: 1, height: "auto" }}
+            className="mx-auto max-w-7xl overflow-hidden border-neutral-200/10 border-t bg-background/80 px-4 backdrop-blur-md sm:px-6 md:hidden lg:px-8 dark:border-neutral-800/10"
             exit={{ opacity: 0, height: 0 }}
-            className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto md:hidden overflow-hidden border-t border-neutral-200/10 dark:border-neutral-800/10 bg-background/80 backdrop-blur-md"
+            initial={{ opacity: 0, height: 0 }}
           >
             <nav className="flex flex-col gap-3 py-6">
               {navItems.map((item, index) => (
                 <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, x: -10 }}
+                  key={item.name}
                   transition={{ delay: 0.05 * index }}
                 >
                   <Link
-                    href={item.href}
-                    onClick={() => setIsMenuOpen(false)}
                     className={cn(
-                      "flex items-center py-3 px-2 rounded-md transition-colors",
-                      activeSection === item.href 
-                        ? "bg-primary/10 text-primary font-medium" 
+                      "flex items-center rounded-md px-2 py-3 transition-colors",
+                      activeSection === item.href
+                        ? "bg-primary/10 font-medium text-primary"
                         : "text-foreground hover:bg-muted"
                     )}
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     {item.name}
                   </Link>
@@ -175,4 +180,4 @@ export function Header() {
       </AnimatePresence>
     </header>
   );
-} 
+}

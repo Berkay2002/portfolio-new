@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */const nextConfig = {
+/** @type {import('next').NextConfig} */ const nextConfig = {
   images: {
     domains: [],
     unoptimized: true, // Completely disable image optimization to troubleshoot

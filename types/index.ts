@@ -6,7 +6,7 @@ export interface Project {
   technologies: string[];
   link?: string;
   institution?: string;
-  image?: string;  // Path to screenshot/image
+  image?: string; // Path to screenshot/image
   imageAlt?: string; // Alternative text for the image
   detailedDescription?: string; // Longer description for project detail page
   detailedDescriptionSv?: string; // Swedish longer description for project detail page
@@ -69,4 +69,4 @@ export interface Translation {
 
 export interface Translations {
   [locale: string]: Translation;
-} 
+}
