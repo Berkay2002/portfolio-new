@@ -52,7 +52,7 @@ const ProjectCarouselCard = ({
   index: number;
 }) => {
   const gradientVariant = gradientVariants[index % gradientVariants.length];
-  const { t, locale } = useLanguage();
+  const { locale } = useLanguage();
 
   // Get localized description based on selected language
   const getLocalizedDescription = () => {
@@ -123,25 +123,19 @@ const ProjectCarouselCard = ({
           </Link>
         </CardTitle>
         {project.institution && (
-          <p className="text-muted-foreground text-sm">
-            {project.institution}
-          </p>
+          <p className="text-muted-foreground text-sm">{project.institution}</p>
         )}
       </CardHeader>
 
       <CardContent className="flex-grow pb-4">
-        <p className="line-clamp-3 mb-4 text-muted-foreground transition-colors group-hover:text-foreground/80">
+        <p className="mb-4 line-clamp-3 text-muted-foreground transition-colors group-hover:text-foreground/80">
           {getLocalizedDescription()}
         </p>
 
         {/* Technology badges */}
         <div className="flex flex-wrap gap-1.5">
           {project.technologies.slice(0, MAX_TECH_BADGES).map((tech) => (
-            <Badge
-              className="py-0.5 text-[0.65rem]"
-              key={tech}
-              variant="tech"
-            >
+            <Badge className="py-0.5 text-[0.65rem]" key={tech} variant="tech">
               {tech}
             </Badge>
           ))}
@@ -155,9 +149,7 @@ const ProjectCarouselCard = ({
 
       <CardFooter className="flex justify-between pt-0">
         <div className="flex gap-2">
-          {project.githubLink && (
-            <SourceCodeButton href={project.githubLink} />
-          )}
+          {project.githubLink && <SourceCodeButton href={project.githubLink} />}
         </div>
 
         <div className="flex gap-2">
@@ -194,7 +186,7 @@ export function ProjectsCarouselSection() {
             <CarouselContent className="-ml-2 md:-ml-4">
               {projects.map((project, index) => (
                 <CarouselItem
-                  className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
+                  className="pl-2 md:basis-1/2 md:pl-4 lg:basis-1/3"
                   key={project.id}
                 >
                   <div className="h-full p-1">
@@ -203,7 +195,7 @@ export function ProjectsCarouselSection() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <div className="flex justify-center mt-8 gap-4">
+            <div className="mt-8 flex justify-center gap-4">
               <CarouselPrevious className="static translate-y-0" />
               <CarouselNext className="static translate-y-0" />
             </div>
@@ -219,9 +211,7 @@ export function ProjectsCarouselSection() {
           whileInView={{ opacity: 1, y: 0 }}
         >
           <Button asChild size="lg" variant="outline">
-            <Link href="/projects">
-              View All Projects ({projects.length})
-            </Link>
+            <Link href="/projects">View All Projects ({projects.length})</Link>
           </Button>
         </motion.div>
       </Container>
