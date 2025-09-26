@@ -1,8 +1,8 @@
 import type { Project } from "@/types";
 
-export const aiImageEditor: Project = {
-  id: "ai-image-editor",
-  title: "AI Image Editor (Retrofy)",
+export const retrofy: Project = {
+  id: "retrofy",
+  title: "Retrofy",
   description:
     "A modern, mobile-first AI-powered image editing application built with Next.js 15 and Google's Generative AI. Transform images with natural language prompts and maintain complete editing history with a custom retro/brutalist design system.",
   descriptionSv:
@@ -18,13 +18,13 @@ export const aiImageEditor: Project = {
     "Radix UI",
   ],
   link: "https://github.com/Berkay2002/image-editor",
-  image: "/images/projects/ai-image-editor.png",
+  image: "/images/projects/retrofy.png",
   imageAlt:
-    "AI Image Editor interface showing retro design with image editing capabilities",
+    "Retrofy interface showing retro design with image editing capabilities",
   detailedDescription:
-    "Retrofy (AI Image Editor) is a sophisticated, mobile-first web application that leverages Google's Gemini 2.5 Flash Image Preview API to transform images through natural language prompts. Built with Next.js 15 and featuring a distinctive retro/brutalist design system, the application provides both text-to-image generation and image-to-image editing capabilities. The project demonstrates advanced client-server architecture patterns, real-time image processing, and comprehensive state management for professional-grade editing workflows.",
+    "Retrofy is a sophisticated, mobile-first web application that leverages Google's Gemini 2.5 Flash Image Preview API to transform images through natural language prompts. Built with Next.js 15 and featuring a distinctive retro/brutalist design system, the application provides both text-to-image generation and image-to-image editing capabilities. The project demonstrates advanced client-server architecture patterns, real-time image processing, and comprehensive state management for professional-grade editing workflows.",
   detailedDescriptionSv:
-    "Retrofy (AI Image Editor) är en sofistikerad, mobilanpassad webbapplikation som utnyttjar Google's Gemini 2.5 Flash Image Preview API för att transformera bilder genom naturliga språkprompts. Byggd med Next.js 15 och med ett distinkt retro/brutalistiskt designsystem, tillhandahåller applikationen både text-till-bild-generering och bild-till-bild-redigeringsmöjligheter. Projektet demonstrerar avancerade klient-server-arkitekturmönster, realtidsbildbehandling och omfattande tillståndshantering för professionella redigeringsarbetsflöden.",
+    "Retrofy är en sofistikerad, mobilanpassad webbapplikation som utnyttjar Google's Gemini 2.5 Flash Image Preview API för att transformera bilder genom naturliga språkprompts. Byggd med Next.js 15 och med ett distinkt retro/brutalistiskt designsystem, tillhandahåller applikationen både text-till-bild-generering och bild-till-bild-redigeringsmöjligheter. Projektet demonstrerar avancerade klient-server-arkitekturmönster, realtidsbildbehandling och omfattande tillståndshantering för professionella redigeringsarbetsflöden.",
   features: [
     "AI-Powered Image Editing - Transform images using natural language prompts powered by Google's Gemini 2.5 Flash Image Preview API",
     "Mobile-First Design - Zero-scroll interface optimized for mobile devices with sticky action bars and touch-friendly 44px+ targets",
@@ -38,7 +38,7 @@ export const aiImageEditor: Project = {
     "Production-Ready Features - Error boundaries, comprehensive error handling, TypeScript strict mode, and zero ESLint warnings",
   ],
   featuresSv: [
-    "AI-driven bildredigering - Transformera bilder med naturliga språkprompts drivna av Google's Gemini 2.5 Flash Image Preview API",
+    "AI-driven bildredigering - Transformera bilder med naturliga språkprompts drivna av Google's Gemini 2.5 Flash Image Preview API (Retrofy)",
     "Mobilanpassad design - Noll-scroll-gränssnitt optimerat för mobila enheter med klibbiga åtgärdsstaplar och touchvänliga 44px+ mål",
     "Smart historikhantering - Visuell miniatyrhistorik med ett-klicks återställningsfunktionalitet och linjärt redigeringsarbetsflöde med grenhantering",
     "Avancerad bildbehandling - Klientsida bildoptimering, automatisk komprimering, formatkonvertering och Canvas API-integration för storleksändring",

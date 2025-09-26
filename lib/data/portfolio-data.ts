@@ -8,7 +8,7 @@ import type {
   TimelineEvent,
 } from "@/types";
 import { agentMesh } from "./projects/agent-mesh";
-import { aiImageEditor } from "./projects/ai-image-editor";
+import { retrofy } from "./projects/ai-image-editor";
 import { albyradet } from "./projects/albyradet";
 import { animatch } from "./projects/animatch";
 import { clairvoyant } from "./projects/clairvoyant";
@@ -89,7 +89,7 @@ export const skillDetails: Record<
   },
   "Full-Stack Development": {
     description:
-      "Expertise in building, deploying, and maintaining full-stack applications using Next.js, React, TypeScript, Node.js, REST APIs, authentication, real-time collaboration, and cloud-native patterns. Demonstrated in complex, production-ready projects (Clairvoyant, Agent Mesh, Kliv, Albyrådet, LiTHePlan, LiveNotes, AI Image Editor, Animatch, Medieteknik, etc.).",
+      "Expertise in building, deploying, and maintaining full-stack applications using Next.js, React, TypeScript, Node.js, REST APIs, authentication, real-time collaboration, and cloud-native patterns. Demonstrated in complex, production-ready projects (Clairvoyant, Agent Mesh, Kliv, Albyrådet, LiTHePlan, LiveNotes, Retrofy, Animatch, Medieteknik, etc.).",
     level: 94,
     yearsExperience: 3,
   },
@@ -107,7 +107,7 @@ export const skillDetails: Record<
   },
   "Next.js": {
     description:
-      "Expert-level experience with Next.js (v14/v15) for full-stack, production-grade web apps: app router, SSR, API routes, server/client components, authentication, real-time features, and advanced deployment. Used as the foundation for all major projects (Clairvoyant, Agent Mesh, Kliv, Albyrådet, LiTHePlan, LiveNotes, AI Image Editor, Animatch, Medieteknik, etc.).",
+      "Expert-level experience with Next.js (v14/v15) for full-stack, production-grade web apps: app router, SSR, API routes, server/client components, authentication, real-time features, and advanced deployment. Used as the foundation for all major projects (Clairvoyant, Agent Mesh, Kliv, Albyrådet, LiTHePlan, LiveNotes, Retrofy, Animatch, Medieteknik, etc.).",
     level: 97,
     yearsExperience: 3,
   },
@@ -210,7 +210,7 @@ export const skillDetails: Record<
 
   // ---
   // Why Next.js proficiency is set to 97/100:
-  // You have used Next.js (v14/v15) as the foundation for nearly all major projects, including complex, production-ready apps (Clairvoyant, Agent Mesh, Kliv, Albyrådet, LiTHePlan, LiveNotes, AI Image Editor, Animatch, Medieteknik, etc.).
+  // You have used Next.js (v14/v15) as the foundation for nearly all major projects, including complex, production-ready apps (Clairvoyant, Agent Mesh, Kliv, Albyrådet, LiTHePlan, LiveNotes, Retrofy, Animatch, Medieteknik, etc.).
   // Your portfolio demonstrates mastery of the app router, SSR, API routes, server/client component boundaries, authentication, real-time features, and advanced deployment. The breadth and depth of your Next.js usage, including custom design systems, real-time collaboration, and AI integrations, justify an expert-level rating.
   "Google Gemini": {
     description:
@@ -300,7 +300,7 @@ export const skillDetails: Record<
   },
   Vercel: {
     description:
-      "Expert-level experience deploying, scaling, and optimizing fullstack Next.js/React apps (Clairvoyant, Kliv, LiTHePlan, LiveNotes, AI Image Editor, Animatch, etc.) on Vercel. Proficient with custom domains, serverless functions, edge middleware, and analytics.",
+      "Expert-level experience deploying, scaling, and optimizing fullstack Next.js/React apps (Clairvoyant, Kliv, LiTHePlan, LiveNotes, Retrofy, Animatch, etc.) on Vercel. Proficient with custom domains, serverless functions, edge middleware, and analytics.",
     level: 95,
     yearsExperience: 3,
   },
@@ -314,7 +314,7 @@ export const skillDetails: Record<
 
 export const projects: Project[] = [
   agentMesh,
-  aiImageEditor,
+  retrofy,
   albyradet,
   animatch,
   clairvoyant,

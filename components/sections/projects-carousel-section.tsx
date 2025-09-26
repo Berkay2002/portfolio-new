@@ -63,7 +63,7 @@ const ProjectCarouselCard = ({
   };
 
   return (
-    <Card className="group h-full overflow-hidden border transition-all duration-300 hover:border-blue-500 hover:shadow-xl">
+  <Card className="group flex h-full flex-col overflow-hidden border transition-all duration-300 hover:border-blue-500 hover:shadow-xl">
       {/* Project Image */}
       <div className="relative h-64 w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
         {project.image ? (
@@ -127,7 +127,7 @@ const ProjectCarouselCard = ({
         )}
       </CardHeader>
 
-      <CardContent className="flex-grow pb-4">
+  <CardContent className="flex-grow pb-4">
         <p className="mb-4 line-clamp-3 text-muted-foreground transition-colors group-hover:text-foreground/80">
           {getLocalizedDescription()}
         </p>
@@ -147,7 +147,7 @@ const ProjectCarouselCard = ({
         </div>
       </CardContent>
 
-      <CardFooter className="flex justify-between pt-0">
+  <CardFooter className="mt-auto flex justify-between pt-0">
         <div className="flex gap-2">
           {project.githubLink && <SourceCodeButton href={project.githubLink} />}
         </div>

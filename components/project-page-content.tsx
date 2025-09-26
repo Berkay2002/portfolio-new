@@ -1,7 +1,6 @@
 "use client";
 
 import { ChevronLeft, ExternalLink, Github } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/layout/language-provider";
@@ -9,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
+// ...existing code...
+import { ExpandableImage } from "@/components/ui/expandable-image";
 import { PDFViewerPopup } from "@/components/ui/pdf-viewer-popup";
 import type { Project } from "@/types";
 
@@ -71,12 +72,10 @@ export default function ProjectPageContent({
           {/* Hero image */}
           {project.image && (
             <div className="relative aspect-video overflow-hidden rounded-lg border bg-muted">
-              {/* Standard Image component */}
-              <Image
+              <ExpandableImage
                 alt={project.imageAlt || project.title}
                 className="object-cover object-top"
                 fill
-                priority
                 src={project.image}
                 unoptimized
               />
@@ -189,7 +188,7 @@ export default function ProjectPageContent({
                     className="group relative aspect-video overflow-hidden rounded-lg border bg-muted"
                     key={item.image}
                   >
-                    <Image
+                    <ExpandableImage
                       alt={item.alt}
                       className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
                       fill
