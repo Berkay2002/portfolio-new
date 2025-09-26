@@ -4,6 +4,7 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
+import { use } from "react";
 
 import { Container } from "@/components/ui/container";
 import { PaperRenderer } from "@/components/ui/paper-renderer";
@@ -14,11 +15,14 @@ const papers = {
   animatch: animatchPaper,
 };
 
-export default function PaperPage({ params }: { params: { id: string } }) {
+export default function PaperPage({ params }: { params: Promise<{ id: string }> }) {
   const [mounted, setMounted] = useState(false);
+  
+  // Handle async params in Next.js 15
+  const resolvedParams = use(params);
 
   // Get the paper data
-  const paperData = papers[params.id as keyof typeof papers];
+  const paperData = papers[resolvedParams.id as keyof typeof papers];
 
   // Use document title for SEO
   useEffect(() => {
@@ -65,7 +69,7 @@ export default function PaperPage({ params }: { params: { id: string } }) {
       {/* Back button */}
       <Link
         className="mb-6 inline-flex items-center text-muted-foreground text-sm transition-colors hover:text-foreground"
-        href={`/projects/${params.id}`}
+        href={`/projects/${resolvedParams.id}`}
       >
         <ChevronLeft className="mr-1 h-4 w-4" />
         Back to project
