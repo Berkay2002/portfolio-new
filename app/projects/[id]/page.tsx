@@ -4,12 +4,12 @@ import ProjectPageContent from "@/components/project-page-content";
 import { projects } from "@/lib/data/portfolio-data";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  await Promise.resolve(); // Ensure function contains an await expression
-  const project = projects.find((p) => p.id === params.id);
+  const resolvedParams = await params;
+  const project = projects.find((p) => p.id === resolvedParams.id);
 
   if (!project) {
     return {
@@ -29,14 +29,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  await Promise.resolve(); // Ensure function contains an await expression
   return projects.map((project) => ({
     id: project.id,
   }));
 }
 
-export default function ProjectPage({ params }: Props) {
-  const project = projects.find((p) => p.id === params.id);
+export async function ProjectPage({ params }: Props) {
+  const resolvedParams = await params;
+  const project = projects.find((p) => p.id === resolvedParams.id);
 
   if (!project) {
     notFound();
@@ -44,3 +44,5 @@ export default function ProjectPage({ params }: Props) {
 
   return <ProjectPageContent project={project} />;
 }
+
+export default ProjectPage;
