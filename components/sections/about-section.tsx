@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { FileDown } from "lucide-react";
 import Link from "next/link";
-import { BsCodeSquare, BsGraphUp } from "react-icons/bs";
+import { BsCodeSquare, BsGraphUp, BsNvidia } from "react-icons/bs";
 import {
   FaBrain,
   FaChartLine,
@@ -11,24 +11,42 @@ import {
   FaMicrochip,
   FaServer,
 } from "react-icons/fa";
+import { IoLogoVercel } from "react-icons/io5";
+import { RiGeminiFill } from "react-icons/ri";
 // Import common technology icons
 import {
   SiCplusplus,
   SiD3Dotjs,
+  SiDocker,
+  SiFastapi,
   SiFirebase,
   SiJavascript,
   SiKeras,
+  SiLangchain,
   SiMongodb,
+  SiNeo4J,
   SiNextdotjs,
   SiNodedotjs,
+  SiPostgresql,
   SiPython,
+  SiPytorch,
   SiReact,
+  SiRedis,
+  SiShadcnui,
   SiSupabase,
   SiTailwindcss,
   SiTensorflow,
   SiTypescript,
+  SiUpstash,
   SiVercel,
 } from "react-icons/si";
+import {
+  TbApi,
+  TbBrandFramer,
+  TbBrandRadixUi,
+  TbCloud,
+  TbVector,
+} from "react-icons/tb";
 import { skillDetails, skills } from "@/lib/data/portfolio-data";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "../layout/language-provider";
@@ -56,6 +74,8 @@ const skillIcons: Record<string, JSX.Element> = {
   React: <SiReact className="text-[#61DAFB]" />,
   "Node.js": <SiNodedotjs className="text-[#339933]" />,
   "Next.js": <SiNextdotjs className="text-[#000000]" />,
+  "Next.js 15": <SiNextdotjs className="text-[#000000]" />,
+  "React 19": <SiReact className="text-[#61DAFB]" />,
   "Tailwind CSS": <SiTailwindcss className="text-[#06B6D4]" />,
   "C++": <SiCplusplus className="text-[#00599C]" />,
   TensorFlow: <SiTensorflow className="text-[#FF6F00]" />,
@@ -76,6 +96,29 @@ const skillIcons: Record<string, JSX.Element> = {
   "D3.js": <SiD3Dotjs className="text-[#F9A03C]" />,
   "Data Visualization": <FaChartLine className="text-teal-500" />,
   "Automatic control": <FaMicrochip className="text-orange-500" />,
+  // AI & Machine Learning
+  "Vercel AI SDK": <IoLogoVercel className="text-black" />,
+  "Google Gemini": <RiGeminiFill className="text-blue-500" />,
+  LangChain: <SiLangchain className="text-green-600" />,
+  PyTorch: <SiPytorch className="text-red-600" />,
+  FastAPI: <SiFastapi className="text-teal-500" />,
+  CUDA: <BsNvidia className="text-green-600" />,
+  // Full-Stack Development
+  "REST APIs": <TbApi className="text-blue-500" />,
+  // Databases & Storage
+  PostgreSQL: <SiPostgresql className="text-[#336791]" />,
+  Qdrant: <TbVector className="text-pink-500" />,
+  Neo4j: <SiNeo4J className="text-[#008CC1]" />,
+  Redis: <SiRedis className="text-red-600" />,
+  MongoDB: <SiMongodb className="text-[#47A248]" />,
+  // UI/UX & Styling
+  "shadcn/ui": <SiShadcnui className="text-gray-700" />,
+  "Framer Motion": <TbBrandFramer className="text-pink-500" />,
+  "Radix UI": <TbBrandRadixUi className="text-gray-600" />,
+  // Cloud & Deployment
+  "Google Cloud": <TbCloud className="text-blue-600" />,
+  Docker: <SiDocker className="text-[#2496ED]" />,
+  Upstash: <SiUpstash className="text-orange-500" />,
 };
 
 export function AboutSection() {
