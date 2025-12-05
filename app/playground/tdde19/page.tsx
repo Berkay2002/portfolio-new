@@ -28,8 +28,8 @@ export default function TDDE19Page() {
             </Button>
           </Link>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold">TDDE19</h1>
-            <p className="text-sm text-muted-foreground">Advanced Programming in C++</p>
+            <h1 className="text-2xl font-bold">TDDE19 - FastTalk</h1>
+            <p className="text-sm text-muted-foreground">Advanced Project Course - AI and Machine Learning</p>
           </div>
         </div>
       </div>

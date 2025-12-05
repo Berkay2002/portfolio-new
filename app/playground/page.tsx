@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 const playgroundItems = [
   {
     id: "tdde19",
-    title: "TDDE19",
-    description: "Advanced Programming in C++",
+    title: "TDDE19 - FastTalk",
+    description: "Advanced Project Course - AI and Machine Learning. Real-time voice conversation system with AI.",
     path: "/playground/tdde19",
   },
 ];
