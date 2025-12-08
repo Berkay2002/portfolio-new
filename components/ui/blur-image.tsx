@@ -16,7 +16,7 @@ type BlurImageProps = {
   quality?: number;
   objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
   objectPosition?: string;
-  placeholder?: "blur" | "empty" | "data:image/...";
+  placeholder?: "blur-sm" | "empty" | "data:image/...";
   placeholderSrc?: string;
 };
 

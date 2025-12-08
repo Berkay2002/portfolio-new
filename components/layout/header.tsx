@@ -72,7 +72,7 @@ export function Header() {
       className={cn(
         "sticky top-0 z-40 w-full transition-all duration-500", // Lower z-index to allow particles to show through
         scrolled
-          ? "border-neutral-200/10 border-b bg-background/60 py-2 shadow-sm backdrop-blur-md dark:border-neutral-800/10"
+          ? "border-neutral-200/10 border-b bg-background/60 py-2 shadow-xs backdrop-blur-md dark:border-neutral-800/10"
           : "bg-transparent py-4 backdrop-blur-[2px]" // Very subtle blur when not scrolled
       )}
     >
@@ -96,7 +96,7 @@ export function Header() {
             href="/"
           >
             <span className="relative z-10">{personalInfo.name}</span>
-            <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-300 group-hover:w-full" />
+            <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-linear-to-r from-blue-500 to-cyan-500 transition-all duration-300 group-hover:w-full" />
           </Link>
         </motion.div>
 
@@ -127,7 +127,7 @@ export function Header() {
                   <span className="relative z-10">{item.name}</span>
                   <span
                     className={cn(
-                      "absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-300",
+                      "absolute bottom-0 left-0 h-0.5 bg-linear-to-r from-blue-500 to-cyan-500 transition-all duration-300",
                       activeSection === item.href
                         ? "w-full"
                         : "w-0 group-hover:w-full"

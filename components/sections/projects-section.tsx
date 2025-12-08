@@ -124,7 +124,7 @@ const ProjectCard = ({
           )}
 
           {/* Technology badges overlay */}
-          <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-background/90 to-transparent p-3">
+          <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-background/90 to-transparent p-3">
             <div className="flex flex-wrap gap-1.5">
               {project.technologies.slice(0, MAX_TECH_BADGES).map((tech) => (
                 <Badge
@@ -187,7 +187,7 @@ const ProjectCard = ({
           </motion.div>
         </CardHeader>
 
-        <CardContent className="flex-grow pt-0 pb-4">
+        <CardContent className="grow pt-0 pb-4">
           <p className="line-clamp-3 text-muted-foreground transition-colors group-hover:text-foreground/80">
             {getLocalizedDescription()}
           </p>

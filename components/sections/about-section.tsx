@@ -128,7 +128,7 @@ export function AboutSection() {
   return (
     <Container className="relative" id="about">
       {/* Top gradient for smooth transition from hero section - adjusted for better blending with particles */}
-      <div className="-translate-y-full pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-transparent via-background/70 to-background" />
+      <div className="-translate-y-full pointer-events-none absolute inset-x-0 top-0 h-48 bg-linear-to-b from-transparent via-background/70 to-background" />
 
       <SectionHeading title={t("sections.about.title")} />
 

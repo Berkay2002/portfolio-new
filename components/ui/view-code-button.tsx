@@ -15,7 +15,7 @@ export function ViewCodeButton({ href, className }: ViewCodeButtonProps) {
     <Button
       asChild
       className={cn(
-        "flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 font-medium text-neutral-800 text-sm shadow-sm hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800/50",
+        "flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 font-medium text-neutral-800 text-sm shadow-xs hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800/50",
         className
       )}
       variant="outline"
@@ -41,7 +41,7 @@ export function ProjectViewDetailsButton({
     <Button
       asChild
       className={cn(
-        "flex items-center gap-1.5 rounded-md bg-neutral-900 px-3 py-1.5 font-medium text-sm text-white shadow-sm hover:bg-black dark:bg-blue-600 dark:hover:bg-blue-700",
+        "flex items-center gap-1.5 rounded-md bg-neutral-900 px-3 py-1.5 font-medium text-sm text-white shadow-xs hover:bg-black dark:bg-blue-600 dark:hover:bg-blue-700",
         className
       )}
     >
@@ -65,7 +65,7 @@ export function ProjectViewLiveButton({
     <Button
       asChild
       className={cn(
-        "flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 font-medium text-neutral-800 text-sm shadow-sm hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800/50",
+        "flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 font-medium text-neutral-800 text-sm shadow-xs hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800/50",
         className
       )}
       variant="outline"

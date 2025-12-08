@@ -96,7 +96,7 @@ export function TestimonialsSection() {
                     x: xPosition,
                     display: index === activeIndex ? "block" : "none",
                   }}
-                  className="absolute inset-0 rounded-lg border border-neutral-200 bg-background p-6 shadow-sm md:p-8 dark:border-neutral-800"
+                  className="absolute inset-0 rounded-lg border border-neutral-200 bg-background p-6 shadow-xs md:p-8 dark:border-neutral-800"
                   initial={{ opacity: 0, x: OFFSCREEN_DISTANCE }}
                   key={testimonial.id}
                   transition={{ duration: 0.5 }}

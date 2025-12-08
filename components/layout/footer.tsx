@@ -96,7 +96,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative border-neutral-200 border-t bg-gradient-to-b from-background to-background/80 py-8 sm:py-10 md:py-12 dark:border-neutral-800">
+    <footer className="relative border-neutral-200 border-t bg-linear-to-b from-background to-background/80 py-8 sm:py-10 md:py-12 dark:border-neutral-800">
       {/* Local particle overlay for footer */}
       <div className="pointer-events-none absolute inset-0 z-0 opacity-25 dark:opacity-35">
         <ParticleBackground

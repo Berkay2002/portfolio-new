@@ -212,7 +212,7 @@ export function ContactSection() {
 
   return (
     <section
-      className="bg-gradient-to-b from-background to-neutral-50/10 py-16 sm:py-20 dark:to-neutral-900/30"
+      className="bg-linear-to-b from-background to-neutral-50/10 py-16 sm:py-20 dark:to-neutral-900/30"
       id="contact"
     >
       <div className="container mx-auto px-4">
@@ -227,7 +227,7 @@ export function ContactSection() {
             viewport={{ once: true }}
             whileInView={{ opacity: 1, x: 0 }}
           >
-            <div className="flex h-full flex-col justify-between rounded-xl border border-border/50 bg-card p-6 shadow-sm backdrop-blur-sm dark:border-border/30 dark:bg-card/40">
+            <div className="flex h-full flex-col justify-between rounded-xl border border-border/50 bg-card p-6 shadow-xs backdrop-blur-xs dark:border-border/30 dark:bg-card/40">
               <h3 className="mb-4 font-semibold text-foreground text-lg">
                 {t("contact.sendMessage")}
               </h3>
@@ -249,7 +249,7 @@ export function ContactSection() {
                   />
                   <label
                     className={cn(
-                      "absolute top-3 left-4 z-10 origin-[0] transform text-muted-foreground text-sm transition-all duration-200",
+                      "absolute top-3 left-4 z-10 origin-left transform text-muted-foreground text-sm transition-all duration-200",
                       "peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-base",
                       "peer-focus:-translate-y-3 peer-focus:scale-75 peer-focus:text-primary",
                       nameHasContent && "-translate-y-3 scale-75",
@@ -281,7 +281,7 @@ export function ContactSection() {
                   />
                   <label
                     className={cn(
-                      "absolute top-3 left-4 z-10 origin-[0] transform text-muted-foreground text-sm transition-all duration-200",
+                      "absolute top-3 left-4 z-10 origin-left transform text-muted-foreground text-sm transition-all duration-200",
                       "peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-base",
                       "peer-focus:-translate-y-3 peer-focus:scale-75 peer-focus:text-primary",
                       emailHasContent && "-translate-y-3 scale-75",
@@ -315,7 +315,7 @@ export function ContactSection() {
                   />
                   <label
                     className={cn(
-                      "absolute top-3 left-4 z-10 origin-[0] transform text-muted-foreground text-sm transition-all duration-200",
+                      "absolute top-3 left-4 z-10 origin-left transform text-muted-foreground text-sm transition-all duration-200",
                       "peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-base",
                       "peer-focus:-translate-y-3 peer-focus:scale-75 peer-focus:text-primary",
                       messageHasContent && "-translate-y-3 scale-75",
@@ -374,7 +374,7 @@ export function ContactSection() {
                 {/* Success/Error messaging */}
                 {submitStatus === "success" && (
                   <div className="mt-4 flex items-start rounded-md border border-green-200 bg-green-50 p-3 text-green-700 dark:border-green-900/30 dark:bg-green-900/20 dark:text-green-400">
-                    <CheckCircle className="mt-0.5 mr-2 h-5 w-5 flex-shrink-0" />
+                    <CheckCircle className="mt-0.5 mr-2 h-5 w-5 shrink-0" />
                     <div>
                       <p className="font-medium">{t("contact.successTitle")}</p>
                       <p className="mt-1 text-sm">
@@ -386,7 +386,7 @@ export function ContactSection() {
 
                 {submitStatus === "error" && (
                   <div className="mt-4 flex items-start rounded-md border border-red-200 bg-red-50 p-3 text-red-700 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
-                    <AlertCircle className="mt-0.5 mr-2 h-5 w-5 flex-shrink-0" />
+                    <AlertCircle className="mt-0.5 mr-2 h-5 w-5 shrink-0" />
                     <div>
                       <p className="font-medium">{t("contact.errorTitle")}</p>
                       <p className="mt-1 text-sm">
@@ -407,7 +407,7 @@ export function ContactSection() {
             viewport={{ once: true }}
             whileInView={{ opacity: 1, x: 0 }}
           >
-            <div className="flex h-full flex-col rounded-xl border border-border/50 bg-card p-6 shadow-sm backdrop-blur-sm dark:border-border/30 dark:bg-card/40">
+            <div className="flex h-full flex-col rounded-xl border border-border/50 bg-card p-6 shadow-xs backdrop-blur-xs dark:border-border/30 dark:bg-card/40">
               <h3 className="mb-2 font-semibold text-foreground text-lg">
                 {t("contact.connectWithMe")}
               </h3>

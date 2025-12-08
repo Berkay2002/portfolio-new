@@ -26,7 +26,7 @@ export function SkillProgress({ name, value, className }: SkillProgressProps) {
       </div>
       <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
         <motion.div
-          className="h-full bg-gradient-to-r from-blue-500 to-cyan-500"
+          className="h-full bg-linear-to-r from-blue-500 to-cyan-500"
           initial={{ width: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true }}

@@ -65,7 +65,7 @@ export function ScrollToTop() {
         >
           <Button
             aria-label="Scroll to top"
-            className="h-10 w-10 rounded-full border border-neutral-200 bg-background/80 shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-background/90 hover:text-blue-500 dark:border-neutral-800"
+            className="h-10 w-10 rounded-full border border-neutral-200 bg-background/80 shadow-md backdrop-blur-xs transition-all duration-300 hover:scale-110 hover:bg-background/90 hover:text-blue-500 dark:border-neutral-800"
             onClick={scrollToTop}
             variant="outline"
           >

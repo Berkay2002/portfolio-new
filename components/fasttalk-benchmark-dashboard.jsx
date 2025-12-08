@@ -368,22 +368,22 @@ export default function FastTalkComparison() {
           <>
             {/* Hero Metrics */}
             <div className="grid grid-cols-4 gap-4 mb-8">
-              <div className="bg-gradient-to-br from-green-900/30 to-green-800/10 rounded-lg p-5 border border-green-500/30">
+              <div className="bg-linear-to-br from-green-900/30 to-green-800/10 rounded-lg p-5 border border-green-500/30">
                 <h4 className="text-green-400 text-sm font-medium mb-1">🏆 Fastest Median UPL</h4>
                 <div className="text-3xl font-bold text-white">280ms</div>
                 <div className="text-purple-400 text-sm mt-1">Qwen3 8B</div>
               </div>
-              <div className="bg-gradient-to-br from-blue-900/30 to-blue-800/10 rounded-lg p-5 border border-blue-500/30">
+              <div className="bg-linear-to-br from-blue-900/30 to-blue-800/10 rounded-lg p-5 border border-blue-500/30">
                 <h4 className="text-blue-400 text-sm font-medium mb-1">🎯 Most Consistent</h4>
                 <div className="text-3xl font-bold text-white">σ = 27ms</div>
                 <div className="text-cyan-400 text-sm mt-1">Llama 3.1 8B</div>
               </div>
-              <div className="bg-gradient-to-br from-amber-900/30 to-amber-800/10 rounded-lg p-5 border border-amber-500/30">
+              <div className="bg-linear-to-br from-amber-900/30 to-amber-800/10 rounded-lg p-5 border border-amber-500/30">
                 <h4 className="text-amber-400 text-sm font-medium mb-1">✅ Most Reliable</h4>
                 <div className="text-3xl font-bold text-white">100%</div>
                 <div className="text-amber-400 text-sm mt-1">Ministral 3 8B</div>
               </div>
-              <div className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 rounded-lg p-5 border border-gray-600/30">
+              <div className="bg-linear-to-br from-gray-800/50 to-gray-700/30 rounded-lg p-5 border border-gray-600/30">
                 <h4 className="text-gray-400 text-sm font-medium mb-1">📊 All Models</h4>
                 <div className="text-3xl font-bold text-white">&lt;440ms</div>
                 <div className="text-gray-400 text-sm mt-1">P95 UPL</div>
@@ -866,7 +866,7 @@ export default function FastTalkComparison() {
         )}
 
         {/* Recommendation Box */}
-        <div className="mt-8 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg p-6 border border-gray-600">
+        <div className="mt-8 bg-linear-to-r from-gray-800 to-gray-700 rounded-lg p-6 border border-gray-600">
           <h3 className="text-xl font-bold mb-4">📋 Thesis Recommendations</h3>
           <div className="grid grid-cols-3 gap-6 text-sm">
             <div>

@@ -42,7 +42,7 @@ export function SectionHeading({
           </h2>
         </div>
         {description && (
-          <p className="mx-auto max-w-[42rem] text-muted-foreground">
+          <p className="mx-auto max-w-2xl text-muted-foreground">
             {description}
           </p>
         )}

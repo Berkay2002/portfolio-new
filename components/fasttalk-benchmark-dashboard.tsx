@@ -420,7 +420,7 @@ export default function FastTalkComparison() {
           {['overview', 'latency', 'variance', 'distribution', 'raw-data'].map(tab => (
             <Button
               key={tab}
-              variant={activeTab === tab ? 'default' : 'outline'}
+              variant={activeTab === tab ? 'default' : 'outline-solid'}
               size="sm"
               onClick={() => setActiveTab(tab)}
             >
@@ -434,7 +434,7 @@ export default function FastTalkComparison() {
           <>
             {/* Hero Metrics */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <Card className="bg-gradient-to-br from-green-500/10 to-transparent border-green-500/30">
+              <Card className="bg-linear-to-br from-green-500/10 to-transparent border-green-500/30">
                 <CardHeader className="pb-2">
                   <CardDescription className="text-green-600 dark:text-green-400 font-medium flex items-center gap-1.5">
                     <Trophy className="w-4 h-4" /> Fastest Median UPL
@@ -445,7 +445,7 @@ export default function FastTalkComparison() {
                   <div className="text-purple-500 dark:text-purple-400 text-sm mt-1">Qwen3 8B</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gradient-to-br from-blue-500/10 to-transparent border-blue-500/30">
+              <Card className="bg-linear-to-br from-blue-500/10 to-transparent border-blue-500/30">
                 <CardHeader className="pb-2">
                   <CardDescription className="text-blue-600 dark:text-blue-400 font-medium flex items-center gap-1.5">
                     <Target className="w-4 h-4" /> Most Consistent
@@ -456,7 +456,7 @@ export default function FastTalkComparison() {
                   <div className="text-cyan-500 dark:text-cyan-400 text-sm mt-1">Llama 3.1 8B</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gradient-to-br from-amber-500/10 to-transparent border-amber-500/30">
+              <Card className="bg-linear-to-br from-amber-500/10 to-transparent border-amber-500/30">
                 <CardHeader className="pb-2">
                   <CardDescription className="text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1.5">
                     <CheckCircle className="w-4 h-4" /> Most Reliable

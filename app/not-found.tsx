@@ -16,7 +16,7 @@ export default function NotFound() {
         transition={{ duration: 0.5 }}
       >
         <div className="space-y-4">
-          <h1 className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text font-bold text-7xl text-transparent">
+          <h1 className="bg-linear-to-r from-blue-600 to-cyan-500 bg-clip-text font-bold text-7xl text-transparent">
             404
           </h1>
           <h2 className="font-semibold text-3xl">Page Not Found</h2>

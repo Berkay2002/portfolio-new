@@ -32,7 +32,7 @@ export function HeroSection() {
       id="hero"
     >
       {/* Background */}
-      <div className="pointer-events-none absolute inset-0 h-full w-full bg-gradient-to-b from-background/80 via-background/60 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 h-full w-full bg-linear-to-b from-background/80 via-background/60 to-transparent" />
 
       {/* Particle effect is provided globally (app/page.tsx) */}
 
@@ -59,7 +59,7 @@ export function HeroSection() {
             }}
           >
             {t("sections.hero.greeting")}{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
               {personalInfo.name}
             </span>
           </motion.h1>
@@ -78,7 +78,7 @@ export function HeroSection() {
 
           <motion.p
             animate={{ opacity: 1, y: 0 }}
-            className="mx-auto max-w-[42rem] text-muted-foreground leading-normal sm:text-xl sm:leading-8"
+            className="mx-auto max-w-2xl text-muted-foreground leading-normal sm:text-xl sm:leading-8"
             initial={{ opacity: 0, y: MOTION_INITIAL_Y }}
             transition={{
               duration: MOTION_DURATION_SHORT,
@@ -104,7 +104,7 @@ export function HeroSection() {
                 <span className="relative z-10">
                   {t("common.viewProjects")}
                 </span>
-                <span className="absolute inset-0 rounded-md bg-gradient-to-r from-blue-600 to-cyan-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                <span className="absolute inset-0 rounded-md bg-linear-to-r from-blue-600 to-cyan-500 opacity-0 transition-opacity group-hover:opacity-100" />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
@@ -117,7 +117,7 @@ export function HeroSection() {
       </div>
 
       {/* Fade-out gradient at the bottom for smoother transition */}
-      <div className="pointer-events-none absolute right-0 bottom-0 left-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent" />
+      <div className="pointer-events-none absolute right-0 bottom-0 left-0 h-40 bg-linear-to-t from-background via-background/80 to-transparent" />
     </section>
   );
 }

@@ -90,7 +90,7 @@ const ProjectCarouselCard = ({
                 <TooltipTrigger asChild>
                   <Button
                     asChild
-                    className="h-8 w-8 bg-background/80 backdrop-blur-sm hover:bg-background"
+                    className="h-8 w-8 bg-background/80 backdrop-blur-xs hover:bg-background"
                     size="icon"
                     variant="outline"
                   >
@@ -127,7 +127,7 @@ const ProjectCarouselCard = ({
         )}
       </CardHeader>
 
-      <CardContent className="flex-grow pb-4">
+      <CardContent className="grow pb-4">
         <p className="mb-4 line-clamp-3 text-muted-foreground transition-colors group-hover:text-foreground/80">
           {getLocalizedDescription()}
         </p>

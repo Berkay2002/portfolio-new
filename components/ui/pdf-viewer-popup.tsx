@@ -14,7 +14,7 @@ type PdfViewerPopupProps = {
   buttonVariant?:
     | "default"
     | "destructive"
-    | "outline"
+    | "outline-solid"
     | "secondary"
     | "ghost"
     | "link";
@@ -24,7 +24,7 @@ export function PDFViewerPopup({
   pdfUrl,
   fileName,
   triggerClassName,
-  buttonVariant = "outline",
+  buttonVariant = "outline-solid",
 }: PdfViewerPopupProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useLanguage();

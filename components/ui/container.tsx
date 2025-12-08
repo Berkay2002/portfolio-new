@@ -19,7 +19,7 @@ export const Container = forwardRef<HTMLElement, ContainerProps>(
         className={cn("mx-auto w-full px-4", {
           "max-w-7xl": size === "default",
           "max-w-5xl": size === "small",
-          "max-w-screen-2xl": size === "large",
+          "max-w-(--breakpoint-2xl)": size === "large",
           "": size === "full",
         })}
       >

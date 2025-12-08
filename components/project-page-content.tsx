@@ -195,7 +195,7 @@ export default function ProjectPageContent({
                       unoptimized
                     />
                     {(item.caption || (locale === "sv" && item.captionSv)) && (
-                      <div className="absolute inset-x-0 bottom-0 bg-background/80 p-2 text-sm backdrop-blur-sm">
+                      <div className="absolute inset-x-0 bottom-0 bg-background/80 p-2 text-sm backdrop-blur-xs">
                         {getLocalizedContent(item.caption, item.captionSv)}
                       </div>
                     )}

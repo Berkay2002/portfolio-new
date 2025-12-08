@@ -30,7 +30,7 @@ export function BlogCard({ post, index = 0, className }: BlogCardProps) {
   return (
     <motion.div
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-lg border border-neutral-200 bg-background shadow-sm transition-shadow hover:shadow-md dark:border-neutral-800",
+        "group flex h-full flex-col overflow-hidden rounded-lg border border-neutral-200 bg-background shadow-xs transition-shadow hover:shadow-md dark:border-neutral-800",
         className
       )}
       initial={{ opacity: 0, y: 20 }}
@@ -42,7 +42,7 @@ export function BlogCard({ post, index = 0, className }: BlogCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
     >
       {post.thumbnail && (
-        <div className="relative aspect-[16/9] overflow-hidden">
+        <div className="relative aspect-video overflow-hidden">
           <Image
             alt={post.title}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -60,7 +60,7 @@ export function BlogCard({ post, index = 0, className }: BlogCardProps) {
         </div>
       )}
 
-      <div className="flex flex-grow flex-col p-5">
+      <div className="flex grow flex-col p-5">
         <div className="mb-3 flex items-center gap-4 text-muted-foreground text-sm">
           <div className="flex items-center">
             <Calendar className="mr-1 h-3.5 w-3.5" />

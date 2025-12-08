@@ -20,7 +20,7 @@ export default function TDDE19Page() {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
-      <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="border-b bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
         <div className="container mx-auto flex items-center gap-4 px-4 py-4">
           <Link href="/playground">
             <Button type="button" variant="ghost" size="sm">
