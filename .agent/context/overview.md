@@ -10,7 +10,7 @@ Next.js App Router portfolio site for Berkay Orhan (machine learning engineer) w
 
 ## Key Terminology
 - Projects: Defined in lib/data/portfolio-data.ts and per-project modules under lib/data/projects/*; drive /projects/[id] routes.
-- Papers: Currently mapped via lib/data/animatch-paper.ts and rendered in /papers/[id].
+- Papers: Mapped via lib/data/*-paper.ts modules and exposed both at /papers/[id] and the /papers listing page with inline PDF viewer buttons.
 - Translations: EN/SV strings in lib/translations.ts consumed through LanguageProvider.
 - Theme: Dark/light handled by next-themes; particle background is a global visual layer.
 

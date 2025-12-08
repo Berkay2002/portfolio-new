@@ -50,4 +50,5 @@ export const animatch: Project = {
   outcomeSv:
     "Ger responsiva rekommendationer för flera titlar utan UI-lag genom att flytta likhetsberäkning till en worker och spara val. Användare kan utforska trending- och topplistor och därefter förfina valen för att få kontextuellt liknande anime baserat på rika inbäddningssignaler.",
   githubLink: "https://github.com/Berkay2002/anime-recommendation",
+  paperLink: "/papers/animatch-paper.pdf",
 };

@@ -10,6 +10,8 @@ Format:
 -->
 
 ## 2025-12-08
+- **Papers listing & links** - Added /papers listing page with PDF viewer buttons, linked Papers in the header nav, and exposed paper links for SynGraph and AniMatch projects.
+- **Home papers carousel** - Added Papers carousel on the homepage with anchor-linked nav, inline PDF buttons, and a View All Papers CTA linking to /papers; navbar now scrolls to the Papers section.
 - **AniMatch title update** - Renamed project title to “AniMatch: Anime Recommendation” to preserve branding with descriptive context.
 - **Anime recommendation image removed** - Cleared outdated image reference for the anime-recommendation project entry.
 - **Anime recommendation refresh** - Updated animatch project entry to the newer anime-recommendation repo (Next.js 16, Tailwind 4, Radix UI, MongoDB, worker-based BERT similarity, multi-select flow, new GitHub link).

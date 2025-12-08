@@ -1,7 +1,7 @@
 # Architecture
 
 ## Directory Structure
-- app/: App Router pages; home at page.tsx, dynamic project route at projects/[id]/page.tsx, paper route at papers/[id]/page.tsx, shared layout/metadata in layout.tsx.
+- app/: App Router pages; home at page.tsx, dynamic project route at projects/[id]/page.tsx, paper detail route at papers/[id]/page.tsx, papers listing at papers/page.tsx, shared layout/metadata in layout.tsx.
 - components/: layout shell (header/footer/providers), sections for homepage blocks, ui primitives (shadcn/Radix based), and specialized renderers (markdown/latex, pdf viewers, particle background).
 - lib/: translations.ts, data/ portfolio-data.ts plus project modules, animatch-paper.ts, config/, and utils/ helpers.
 - public/: static assets including project images and papers; site.webmanifest, robots.txt.
@@ -12,7 +12,7 @@
 - app/page.tsx: client page composing hero/about/timeline/projects carousel/contact with particle background and query-driven scroll manager.
 - app/projects/[id]/page.tsx: static params/metadata from projects array; renders ProjectPageContent.
 - components/project-page-content.tsx: client detail page with localized text, features, galleries, and external links (live, GitHub, paper PDF popup).
-- app/papers/[id]/page.tsx: client renderer for animatch paper via PaperRenderer, injects KaTeX CSS on mount, links back to project.
+- app/papers/[id]/page.tsx: client renderer for paper detail via PaperRenderer (KaTeX CSS on mount) with back-to-project link; papers/page.tsx lists available papers with inline PDF viewer buttons.
 - lib/data/portfolio-data.ts: single source for personal info, skills, timeline, social links, and project registry.
 - lib/translations.ts: EN/SV string tables consumed by LanguageProvider/useLanguage hook.
 - middleware.ts: 301 redirect from www subdomain to apex.

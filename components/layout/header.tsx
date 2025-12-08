@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 import { personalInfo } from "@/lib/data/portfolio-data";
 import { cn } from "@/lib/utils";
@@ -14,6 +15,7 @@ import { ThemeToggle } from "./theme-toggle";
 
 export function Header() {
   const { t } = useLanguage();
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("/");
@@ -35,16 +37,25 @@ export function Header() {
     { name: t("nav.about"), href: "/?section=about" },
     { name: t("nav.experience"), href: "/?section=timeline" },
     { name: t("nav.projects"), href: "/?section=projects" },
+    { name: t("nav.papers"), href: "/?section=papers" },
     { name: t("nav.contact"), href: "/?section=contact" },
   ];
 
   // Monitor scroll position and active section
+  // Sync active section with pathname for non-home routes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setActiveSection(pathname || "/");
+  }, [pathname]);
+
+  // Monitor scroll position and active section only on home page
+  useEffect(() => {
+    if (pathname !== "/") return;
+
     const handleScroll = () => {
       setScrolled(window.scrollY > HEADER_SCROLLED_OFFSET);
 
-      // Determine active section based on scroll position
-      const sections = ["about", "timeline", "projects", "contact"];
+      const sections = ["about", "timeline", "projects", "papers", "contact"];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -58,13 +69,12 @@ export function Header() {
           }
         }
       }
-      // If no section is active, default to home
       setActiveSection("/");
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
 
   return (
     <header

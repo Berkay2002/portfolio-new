@@ -1,6 +1,13 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Download, ExternalLink, FileText, X } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/components/layout/language-provider";
@@ -41,9 +48,13 @@ export function PDFViewerPopup({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2 max-h-[95vh] w-[1000px] max-w-[95vw] transform gap-0 overflow-hidden rounded-lg border bg-card p-0 shadow-lg">
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogContent className="-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2 max-h-[95vh] w-[1000px] max-w-[95vw] transform gap-0 overflow-hidden rounded-lg border bg-card p-0 shadow-lg">
         <div className="flex items-center justify-between border-b bg-card p-4">
-          <h3 className="font-medium text-card-foreground">{fileName}</h3>
+          <DialogTitle asChild>
+            <h3 className="font-medium text-card-foreground">{fileName}</h3>
+          </DialogTitle>
           <div className="flex items-center gap-2">
             <Button
               asChild
@@ -95,7 +106,8 @@ export function PDFViewerPopup({
             title={fileName}
           />
         </div>
-      </DialogContent>
+        </DialogContent>
+      </DialogPortal>
     </Dialog>
   );
 }

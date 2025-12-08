@@ -8,10 +8,12 @@ import { useEffect, useState, use } from "react";
 import { Container } from "@/components/ui/container";
 import { PaperRenderer } from "@/components/ui/paper-renderer";
 import { animatchPaper } from "@/lib/data/animatch-paper";
+import { syngraphPaper } from "@/lib/data/syngraph-paper";
 
 // Map of available papers
 const papers = {
   animatch: animatchPaper,
+  researcher: syngraphPaper,
 };
 
 export default function PaperPage(props: { params: Promise<{ id: string }> }) {

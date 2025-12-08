@@ -55,4 +55,5 @@ export const researcher: Project = {
   outcomeSv:
     "Visar en pålitlig deep-research-upplevelse med mänskliga förtydliganden, parallell delämnesutforskning och citerade rapporter som passar kursbedömning.",
   githubLink: "https://github.com/Berkay2002/researcher",
+  paperLink: "/papers/syngraph.pdf",
 };
