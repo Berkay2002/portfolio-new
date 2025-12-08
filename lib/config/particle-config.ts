@@ -1,18 +1,18 @@
 export const DEFAULT_PARTICLE_CONFIG = {
   colors: ["#3b82f6", "#06b6d4", "#0ea5e9"],
   global: {
-    densityDivisor: 8,
-    maxCount: 150,
+    densityDivisor: 6,
+    maxCount: 200,
     opacity: 0.25,
   },
   header: {
-    densityDivisor: 14,
-    maxCount: 40,
+    densityDivisor: 10,
+    maxCount: 60,
     opacity: 0.18,
   },
   footer: {
-    densityDivisor: 20,
-    maxCount: 40,
+    densityDivisor: 15,
+    maxCount: 60,
     opacity: 0.12,
   },
   responsive: {

@@ -82,7 +82,11 @@ export default function Home() {
   return (
     <>
       {/* Global particle background for the entire page */}
-      <ParticleBackground />
+      <ParticleBackground
+        densityDivisor={10}
+        maxCount={80}
+        opacity={0.8}
+      />
       <ScrollManager />
       <HeroSection />
       <AboutSection />

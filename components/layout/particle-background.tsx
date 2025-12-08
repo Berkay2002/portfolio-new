@@ -36,8 +36,8 @@ export default function ParticleBackground({
       // ignore localStorage errors
     }
 
-    const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-    if (mq?.matches) {
+    const mq = window.matchMedia?. ("(prefers-reduced-motion: reduce)");
+    if (mq?. matches) {
       return false;
     }
 
@@ -69,7 +69,7 @@ export default function ParticleBackground({
       return;
     }
     const ctx = canvas.getContext("2d");
-    if (!ctx) {
+    if (! ctx) {
       return;
     }
 
@@ -91,7 +91,7 @@ export default function ParticleBackground({
     setSize();
     window.addEventListener("resize", setSize);
 
-    if (!enabled) {
+    if (! enabled) {
       return;
     }
 
@@ -139,6 +139,7 @@ function createParticleAnimator(
   }
 ) {
   type Particle = {
+    id: number;
     x: number;
     y: number;
     size: number;
@@ -168,7 +169,7 @@ function createParticleAnimator(
       ? opts.densityDivisor * smallMultiplier
       : opts.densityDivisor;
 
-  const particleCount = Math.min(
+  const particleCount = Math. min(
     Math.floor(
       (opts.local ? canvas.width || 0 : window.innerWidth) / effectiveDivisor
     ),
@@ -178,6 +179,7 @@ function createParticleAnimator(
   const particles: Particle[] = [];
   for (let i = 0; i < particleCount; i++) {
     particles.push({
+      id: i,
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       size: Math.random() * PARTICLE_SIZE_VARIANCE + PARTICLE_SIZE_MIN,
@@ -197,9 +199,9 @@ function createParticleAnimator(
 
   const drawParticle = (p: Particle) => {
     const fadeOutFactor = computeFadeOutFactor(p.y, canvas.height);
-    ctx.globalAlpha = p.opacity * fadeOutFactor * opts.opacity;
+    ctx. globalAlpha = p.opacity * fadeOutFactor * opts.opacity;
     ctx.fillStyle = p.color;
-    ctx.beginPath();
+    ctx. beginPath();
     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalAlpha = 1;
@@ -216,27 +218,94 @@ function createParticleAnimator(
     }
   };
 
+  // Spatial grid for O(n) particle connections
+  class SpatialGrid {
+    private cellSize: number;
+    private cols: number;
+    private rows: number;
+    private grid: Map<string, Particle[]>;
+
+    constructor(width: number, height: number, cellSize: number) {
+      this.cellSize = cellSize;
+      this.cols = Math.ceil(width / cellSize);
+      this.rows = Math.ceil(height / cellSize);
+      this.grid = new Map();
+    }
+
+    clear() {
+      this.grid. clear();
+    }
+
+    insert(particle: Particle) {
+      const cellX = Math.floor(particle.x / this.cellSize);
+      const cellY = Math.floor(particle. y / this.cellSize);
+      const key = `${cellX},${cellY}`;
+      
+      if (!this.grid.has(key)) {
+        this.grid.set(key, []);
+      }
+      this.grid.get(key)! .push(particle);
+    }
+
+    getNearbyParticles(particle: Particle): Particle[] {
+      const cellX = Math.floor(particle. x / this.cellSize);
+      const cellY = Math.floor(particle.y / this.cellSize);
+      const nearby: Particle[] = [];
+
+      // Check current cell and 8 surrounding cells
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          const key = `${cellX + dx},${cellY + dy}`;
+          const cellParticles = this.grid.get(key);
+          if (cellParticles) {
+            nearby.push(...cellParticles);
+          }
+        }
+      }
+
+      return nearby;
+    }
+  }
+
+  // Create spatial grid with cell size equal to connection distance
+  const spatialGrid = new SpatialGrid(canvas. width, canvas.height, CONNECTION_DISTANCE);
+
   let rafId = 0;
   const animate = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx. clearRect(0, 0, canvas.width, canvas.height);
     
-    // Draw particles and connections
-    for (let i = 0; i < particles.length; i++) {
-      const p1 = particles[i];
-      drawParticle(p1);
-      updateParticle(p1);
+    // Draw particles and update positions
+    for (const particle of particles) {
+      drawParticle(particle);
+      updateParticle(particle);
+    }
 
-      // Draw connections to other particles
-      for (let j = i + 1; j < particles.length; j++) {
-        const p2 = particles[j];
+    // Clear and rebuild spatial grid after updating positions
+    spatialGrid.clear();
+    for (const particle of particles) {
+      spatialGrid.insert(particle);
+    }
+
+    // Draw connections using spatial grid optimization
+    const processed = new Set<number>();
+    
+    for (const p1 of particles) {
+      processed.add(p1.id);
+      
+      // Get only nearby particles instead of checking all particles
+      const nearbyParticles = spatialGrid.getNearbyParticles(p1);
+      
+      for (const p2 of nearbyParticles) {
+        // Skip if same particle or already processed this pair
+        if (p1.id === p2.id || processed.has(p2.id)) continue;
+
         const dx = p1.x - p2.x;
         const dy = p1.y - p2.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < CONNECTION_DISTANCE) {
-          const opacity = (1 - distance / CONNECTION_DISTANCE) * opts.opacity * CONNECTION_OPACITY_FACTOR;
+          const opacity = (1 - distance / CONNECTION_DISTANCE) * opts. opacity * CONNECTION_OPACITY_FACTOR;
           
-          // Use the color of the first particle for the line, or a mix
           ctx.beginPath();
           ctx.strokeStyle = p1.color;
           ctx.globalAlpha = opacity;
@@ -248,6 +317,7 @@ function createParticleAnimator(
         }
       }
     }
+
     rafId = requestAnimationFrame(animate);
   };
 
