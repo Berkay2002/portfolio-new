@@ -2,7 +2,7 @@ import type { Project } from "@/types";
 
 export const retrofy: Project = {
   id: "retrofy",
-  title: "Retrofy",
+  title: "Retrofy: AI Image Editor",
   description:
     "A modern, mobile-first AI-powered image editing application built with Next.js 15 and Google's Generative AI. Transform images with natural language prompts and maintain complete editing history with a custom retro/brutalist design system.",
   descriptionSv:

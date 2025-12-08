@@ -2,7 +2,7 @@ import type { Project } from "@/types";
 
 export const snapgredient: Project = {
   id: "snapgredient",
-  title: "Snapgredient (AI Recipe Generator)",
+  title: "Snapgredient: AI Recipe Generator",
   description:
     "Flutter + Firebase mobile app that scans ingredient photos, detects items with Gemini, and generates personalized recipes with saved history and profiles.",
   descriptionSv:

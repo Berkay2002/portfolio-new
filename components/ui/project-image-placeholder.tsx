@@ -56,8 +56,9 @@ export function ProjectImagePlaceholder({
   return (
     <div className={cn("relative h-full w-full overflow-hidden", className)}>
       <svg
-        className="absolute inset-0"
+        className="absolute inset-0 h-full w-full"
         height="100%"
+        preserveAspectRatio="xMidYMid slice"
         viewBox="0 0 600 300"
         width="100%"
         xmlns="http://www.w3.org/2000/svg"

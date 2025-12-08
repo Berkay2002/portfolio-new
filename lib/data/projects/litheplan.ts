@@ -2,7 +2,7 @@ import type { Project } from "@/types";
 
 export const litheplan: Project = {
   id: "litheplan",
-  title: "LiTHePlan",
+  title: "LiTHePlan: LIU Course Planner",
   description:
     "A comprehensive academic planning platform for Linköping University civil engineering students to discover, explore, and plan their 90hp master's degree courses across 15 different specializations. Features 475 courses, intelligent course conflict detection, and profile sharing capabilities.",
   descriptionSv:

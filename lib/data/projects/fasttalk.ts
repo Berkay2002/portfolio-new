@@ -2,7 +2,7 @@ import type { Project } from "@/types";
 
 export const fasttalk: Project = {
   id: "fasttalk",
-  title: "FastTalk",
+  title: "FastTalk: Real-Time Voice Stack",
   description:
     "Real-time voice conversation stack with STT→LLM→TTS, supporting monolith or distributed microservices and WebSocket streaming end to end.",
   descriptionSv:

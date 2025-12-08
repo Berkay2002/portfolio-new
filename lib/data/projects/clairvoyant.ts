@@ -2,7 +2,7 @@ import type { Project } from "@/types";
 
 export const clairvoyant: Project = {
   id: "clairvoyant",
-  title: "Clairvoyant",
+  title: "Clairvoyant: AI Research Chat",
   description:
     "An advanced AI-powered chat and research platform featuring dual-agent architecture with intelligent chat agents and comprehensive research capabilities. Built with Vercel AI SDK and Google Gemini integration, featuring generative UI components and multi-step research workflows.",
   descriptionSv:

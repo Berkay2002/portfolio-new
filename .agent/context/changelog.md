@@ -10,6 +10,10 @@ Format:
 -->
 
 ## 2025-12-08
+- **Medieteknik entry refresh** - Updated medieteknik project data with current Next.js 16/Tailwind 4 stack, motion features, Swedish-first copy, and new GitHub link.
+- **Clarified project titles (more)** - Applied descriptive colon titles for FastTalk, Retrofy, LiTHePlan, and Clairvoyant.
+- **Clarified project titles** - Added descriptive colon titles for Oversee and Snapgredient to better convey each project's purpose at a glance.
+- **Project placeholders cover slot** - Updated placeholder SVG to scale with xMidYMid slice and fill project image areas without letterboxing.
 - **FastTalk frontend surfacing** - Added frontend link button on project pages and expanded FastTalk entry with Next.js 16 dashboard details, tech stack updates, and outcomes reflecting the WebSocket UI.
 - **Portfolio refresh** - Added FastTalk, Agentic GraphRAG, SynGraph (Researcher), Oversee, Primitive UI, and Snapgredient project entries with new data modules and wired them into the project registry.
 - **FastTalk details** - Expanded FastTalk entry with multi-engine TTS, Whisper VAD STT, flexible LLM backends, turn/barge-in handling, deployment modes, and performance targets aligned to the project README.

@@ -2,7 +2,7 @@ import type { Project } from "@/types";
 
 export const oversee: Project = {
   id: "oversee",
-  title: "Oversee",
+  title: "Oversee: Ops & AI Dashboard",
   description:
     "Multi-tenant operations dashboard with Supabase auth, Swedish UX, and AI-assisted context that surfaces KPIs, trends, and top issues per organization.",
   descriptionSv:
