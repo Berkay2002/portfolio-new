@@ -44,7 +44,7 @@ export function MarkdownLatexRenderer({
           .use(
             rehypeKatex,
             {
-              throwOnError: false,
+              strict: false,
               trust: true,
             } satisfies Parameters<typeof rehypeKatex>[0]
           )

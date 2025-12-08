@@ -11,6 +11,7 @@ type ProjectCardButtonProps = {
   href: string;
   variant?:
     | "default"
+    | "outline"
     | "outline-solid"
     | "secondary"
     | "destructive"

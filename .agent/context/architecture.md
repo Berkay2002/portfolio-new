@@ -21,12 +21,12 @@
 ## Patterns & Conventions
 - Default to server components; mark interactive pieces with "use client" (ProjectPageContent, PaperPage, home page for scroll manager/particles).
 - Data-driven rendering: project/paper data pulled from lib/data; translations resolved via LanguageProvider.
-- Hydration safety: gate browser-only work on mounted state before rendering (e.g., ProjectPageContent, PaperPage, particle effects).
+- Hydration safety: gate browser-only work on mounted state via requestAnimationFrame flip before rendering (e.g., ProjectPageContent, PaperPage, particle effects, skill bars).
 - SEO: rich metadata/OpenGraph/Twitter in layout; JSON-LD component; www-to-apex middleware; preloads for fonts/KaTeX.
 - Media: images served unoptimized with ExpandableImage; PDFs via PDFViewerPopup/ PaperRenderer with KaTeX styling.
 
 ## Dependencies
-- Runtime: Next.js 14, React 18, TypeScript (strict).
+- Runtime: Next.js 16, React 19, TypeScript (strict).
 - UI/Styling: Tailwind CSS, tailwindcss-animate, shadcn/ui, Radix primitives, class-variance-authority, Framer Motion, particle background.
 - State/i18n/theme: next-themes, custom LanguageProvider with translations.ts.
 - Content/rendering: rehype/remark + KaTeX/react-katex for math, markdown rendering helpers.

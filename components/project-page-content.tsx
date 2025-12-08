@@ -13,7 +13,7 @@ import { ExpandableImage } from "@/components/ui/expandable-image";
 import type { Project } from "@/types";
 
 const PDFViewerPopup = dynamic(
-  () => import("@/components/ui/pdf-viewer-popup"),
+  () => import("@/components/ui/pdf-viewer-popup").then((mod) => mod.PDFViewerPopup),
   { ssr: false }
 );
 

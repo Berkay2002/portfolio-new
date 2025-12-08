@@ -1,7 +1,7 @@
 # Conventions
 
 ## Language & Framework
-- TypeScript (strict) with Next.js 14 App Router; React 18; Tailwind CSS + shadcn/ui (Radix primitives) for UI.
+- TypeScript (strict) with Next.js 16 App Router; React 19; Tailwind CSS + shadcn/ui (Radix primitives) for UI.
 - Bundler/runner: bun preferred; npm compatible. Images run unoptimized per next.config.mjs.
 
 ## Naming Conventions
@@ -16,7 +16,7 @@
 ## Best Practices
 - i18n: Fetch strings via useLanguage/ translations.ts; provide both EN/SV when adding new text.
 - Data source of truth: project/paper metadata lives in lib/data; avoid duplicating descriptions elsewhere.
-- Hydration safety: gate browser-only logic on mounted state for client components (PDF viewer, particle effects, project page).
+- Hydration safety: flip mounted flags via requestAnimationFrame when needed for browser-only code (PDF viewer, particle/skill bars); keep client-only logic out of SSR paths.
 - Accessibility/SEO: use rel="noopener noreferrer" with target="_blank" links; rely on layout metadata/JsonLd; keep <html lang> via HtmlLangSetter.
 - Media: use ExpandableImage with unoptimized flag to match disabled Next image optimization; preload critical assets in layout when needed.
 

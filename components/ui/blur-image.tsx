@@ -16,7 +16,7 @@ type BlurImageProps = {
   quality?: number;
   objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
   objectPosition?: string;
-  placeholder?: "blur-sm" | "empty" | "data:image/...";
+  placeholder?: "blur" | "empty";
   placeholderSrc?: string;
 };
 
@@ -70,6 +70,7 @@ export function BlurImage({
         }}
         onLoad={() => setIsLoading(false)}
         placeholder={placeholder}
+        blurDataURL={placeholder === "blur" ? placeholderSrc : undefined}
         priority={priority}
         quality={quality}
         sizes={sizes}
