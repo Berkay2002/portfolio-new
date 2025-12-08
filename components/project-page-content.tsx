@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
-// ...existing code...
 import { ExpandableImage } from "@/components/ui/expandable-image";
 import type { Project } from "@/types";
 
@@ -41,6 +40,23 @@ export default function ProjectPageContent({
       return svArray;
     }
     return enArray || [];
+  };
+
+  const getLocalizedMicroservices = (
+    services?: {
+      name: string;
+      description: string;
+      descriptionSv?: string;
+      technologies?: string[];
+      link?: string;
+    }[]
+  ) => {
+    if (!services) return [];
+    return services.map((svc) => ({
+      ...svc,
+      description:
+        locale === "sv" && svc.descriptionSv ? svc.descriptionSv : svc.description,
+    }));
   };
 
   return (
@@ -116,6 +132,45 @@ export default function ProjectPageContent({
                   )
                 )}
               </ul>
+            </div>
+          )}
+
+          {/* Microservices section */}
+          {project.microservices && project.microservices.length > 0 && (
+            <div className="space-y-4">
+              <h2 className="font-semibold text-xl">Microservices</h2>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {getLocalizedMicroservices(project.microservices).map((svc) => (
+                  <Card key={svc.name} className="border bg-card p-4 shadow-sm">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h3 className="font-semibold text-lg leading-tight">{svc.name}</h3>
+                        <p className="mt-1 text-sm text-muted-foreground">{svc.description}</p>
+                      </div>
+                      {svc.link && (
+                        <Link
+                          aria-label={`${svc.name} GitHub`}
+                          className="inline-flex items-center text-muted-foreground transition-colors hover:text-foreground"
+                          href={svc.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Github className="h-4 w-4" />
+                        </Link>
+                      )}
+                    </div>
+                    {svc.technologies && svc.technologies.length > 0 && (
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {svc.technologies.map((tech) => (
+                          <Badge key={tech} variant="tech" className="text-[0.7rem] py-0.5">
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </Card>
+                ))}
+              </div>
             </div>
           )}
 
@@ -229,6 +284,23 @@ export default function ProjectPageContent({
 
             {/* Links */}
             <div className="space-y-3">
+              {project.frontendLink && (
+                <Button
+                  asChild
+                  className="w-full justify-between"
+                  variant="outline"
+                >
+                  <Link
+                    href={project.frontendLink}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <span>View Frontend</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
+                </Button>
+              )}
+
               {project.link && (
                 <Button
                   asChild

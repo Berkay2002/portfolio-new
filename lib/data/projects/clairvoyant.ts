@@ -22,7 +22,7 @@ export const clairvoyant: Project = {
     "LangChain",
   ],
   link: "https://clairvoyant-berkay2002.vercel.app/",
-  image: "/images/projects/clairvoyant.png",
+  image: undefined,
   imageAlt: "Clairvoyant AI chat and research platform interface",
   detailedDescription:
     "Clairvoyant is a production-ready AI platform that combines intelligent chat agents with powerful research tools. The system implements a sophisticated dual-agent architecture powered by Vercel AI SDK and Google Gemini integration, featuring generative UI components and multi-step research workflows designed for productivity and accuracy.",

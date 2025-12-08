@@ -5,6 +5,7 @@ export type Project = {
   descriptionSv?: string;
   technologies: string[];
   link?: string;
+  frontendLink?: string; // Optional link to dedicated frontend UI
   institution?: string;
   image?: string; // Path to screenshot/image
   imageAlt?: string; // Alternative text for the image
@@ -20,6 +21,13 @@ export type Project = {
   outcomeSv?: string; // Swedish results or impact of the project
   githubLink?: string; // Link to GitHub repository
   paperLink?: string; // Link to research paper PDF
+  microservices?: {
+    name: string;
+    description: string;
+    descriptionSv?: string;
+    technologies?: string[];
+    link?: string;
+  }[];
   gallery?: {
     image: string;
     alt: string;

@@ -7,18 +7,23 @@ import type {
   SocialLinks,
   TimelineEvent,
 } from "@/types";
+import { agenticRag } from "./projects/agentic-rag";
 import { agentMesh } from "./projects/agent-mesh";
 import { retrofy } from "./projects/ai-image-editor";
 import { albyradet } from "./projects/albyradet";
 import { animatch } from "./projects/animatch";
 import { clairvoyant } from "./projects/clairvoyant";
 import { claudeXmlAgent } from "./projects/claude-xml-agent";
+import { fasttalk } from "./projects/fasttalk";
 import { kliv } from "./projects/kliv";
 import { litheplan } from "./projects/litheplan";
 import { livenotes } from "./projects/livenotes";
 import { medieteknik } from "./projects/medieteknik";
+import { oversee } from "./projects/oversee";
+import { primitiveUi } from "./projects/primitive-ui";
+import { researcher } from "./projects/researcher";
+import { snapgredient } from "./projects/snapgredient";
 import { solarSystem } from "./projects/solar-system";
-import { sttService } from "./projects/stt-service";
 
 export const personalInfo: PersonalInfo = {
   name: "Berkay Orhan",
@@ -313,7 +318,13 @@ export const skillDetails: Record<
 };
 
 export const projects: Project[] = [
+  fasttalk,
+  agenticRag,
   agentMesh,
+  researcher,
+  oversee,
+  primitiveUi,
+  snapgredient,
   retrofy,
   albyradet,
   animatch,
@@ -324,7 +335,6 @@ export const projects: Project[] = [
   livenotes,
   medieteknik,
   solarSystem,
-  sttService,
 ];
 
 export const socialLinks: SocialLinks = {
