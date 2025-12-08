@@ -29,7 +29,7 @@ export default function PaperPage(props: { params: Promise<{ id: string }> }) {
   }, [paperData]);
 
   useEffect(() => {
-    setMounted(true);
+    const frame = requestAnimationFrame(() => setMounted(true));
 
     // Add KaTeX CSS
     const link = document.createElement("link");
@@ -41,6 +41,7 @@ export default function PaperPage(props: { params: Promise<{ id: string }> }) {
     document.head.appendChild(link);
 
     return () => {
+      cancelAnimationFrame(frame);
       // Clean up
       const links = document.head.querySelectorAll('link[href*="katex"]');
       // biome-ignore lint/style/useForOf: <Stop>

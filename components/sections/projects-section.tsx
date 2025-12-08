@@ -2,11 +2,10 @@
 /** biome-ignore-all lint/correctness/noUnusedImports: <Dont worry> */
 "use client";
 
-import { motion, useScroll } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { motion } from "framer-motion";
+import { ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
 import { useLanguage } from "@/components/layout/language-provider";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -42,37 +41,6 @@ const CARD_ANIMATION_DELAY_STEP = 0.1;
 // Maximum number of tech badges to show on project card (avoid magic number)
 const MAX_TECH_BADGES = 3;
 
-// Number of skeleton placeholders to render while loading
-const PLACEHOLDER_COUNT = 3;
-
-// Generate stable placeholder keys (use crypto.randomUUID if available, fallback to deterministic ids)
-const PLACEHOLDER_KEYS = (() => {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-    return Array.from({ length: PLACEHOLDER_COUNT }, () => crypto.randomUUID());
-  }
-  return Array.from(
-    { length: PLACEHOLDER_COUNT },
-    (_, i) => `placeholder-${i + 1}`
-  );
-})();
-
-// Create a client-side projects loader component
-const ProjectsLoader = () => (
-  <div className="grid animate-pulse grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-    {PLACEHOLDER_KEYS.map((key) => (
-      <div
-        className="relative h-64 overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800"
-        key={key}
-      >
-        <div className="absolute bottom-0 w-full p-4">
-          <div className="mb-2 h-5 w-2/3 rounded bg-gray-300 dark:bg-gray-700" />
-          <div className="h-4 w-full rounded bg-gray-300 dark:bg-gray-700" />
-        </div>
-      </div>
-    ))}
-  </div>
-);
-
 // Project card component with better accessibility
 const ProjectCard = ({
   project,
@@ -82,7 +50,7 @@ const ProjectCard = ({
   index: number;
 }) => {
   const gradientVariant = gradientVariants[index % gradientVariants.length];
-  const { t, locale } = useLanguage();
+  const { locale } = useLanguage();
 
   // Get localized description based on selected language
   const getLocalizedDescription = () => {
@@ -213,11 +181,6 @@ const ProjectCard = ({
 
 export function ProjectsSection() {
   const { t } = useLanguage();
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
 
   return (
     <section className="bg-background py-16" id="projects">

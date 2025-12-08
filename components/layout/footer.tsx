@@ -5,16 +5,13 @@
 import { motion } from "framer-motion";
 import {
   ChevronUp,
-  Facebook,
   FileText,
   Github,
   Linkedin,
-  Twitter,
 } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/components/layout/language-provider";
 import { socialLinks } from "@/lib/data/portfolio-data";
-import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import ParticleBackground from "./particle-background";
 
@@ -27,72 +24,6 @@ export function Footer() {
       top: 0,
       behavior: "smooth",
     });
-  };
-
-  const shareWebsite = (platform: string) => {
-    const url = "https://berkay.se";
-    const text = t("footer.shareText");
-
-    let shareUrl = "";
-
-    switch (platform) {
-      case "twitter":
-        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
-        break;
-      case "facebook":
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-        break;
-      case "email":
-        shareUrl = `mailto:?subject=${encodeURIComponent(text)}&body=${encodeURIComponent(url)}`;
-        break;
-      case "linkedin":
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-        break;
-      default:
-        if (navigator.share) {
-          navigator
-            .share({
-              title: "Berkay Orhan's Portfolio",
-              text,
-              url,
-            })
-            .catch(() => {
-              // Sharing failed; silently ignore as per repo rules (no console).
-            });
-          return;
-        }
-        // Fallback to copying to clipboard
-        navigator.clipboard
-          .writeText(url)
-          .then(() => {
-            // Use Notification API if available and permitted, else fallback to console
-            if (
-              "Notification" in window &&
-              Notification.permission === "granted"
-            ) {
-              new Notification(t("footer.copiedToClipboard"));
-            } else if (
-              "Notification" in window &&
-              Notification.permission !== "denied"
-            ) {
-              Notification.requestPermission().then((permission) => {
-                if (permission === "granted") {
-                  new Notification(t("footer.copiedToClipboard"));
-                } else {
-                  // Fallback: non-blocking log
-                }
-              });
-            } else {
-              // Fallback: non-blocking log
-            }
-          })
-          .catch(() => {
-            // Fallback: log error if copy fails (no alert)
-          });
-        return;
-    }
-
-    window.open(shareUrl, "_blank");
   };
 
   return (

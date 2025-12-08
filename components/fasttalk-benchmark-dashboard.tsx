@@ -14,11 +14,9 @@ import {
   CheckCircle, 
   BarChart3, 
   AlertTriangle, 
-  Star,
   FileText,
   TrendingUp,
-  Activity,
-  Zap
+  Activity
 } from 'lucide-react';
 
 type ModelKey = 'qwen' | 'llama' | 'ministral';
@@ -642,7 +640,7 @@ export default function FastTalkComparison() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="rounded-lg p-4 bg-green-500/10 border border-green-500/30">
                     <h4 className="text-green-600 dark:text-green-400 font-medium mb-2">Short Questions (~2.3s)</h4>
-                    <p className="text-muted-foreground text-xs mb-3">"What's the last thing that genuinely surprised you?"</p>
+                    <p className="text-muted-foreground text-xs mb-3">&ldquo;What&#39;s the last thing that genuinely surprised you?&rdquo;</p>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between"><span className="text-purple-500 dark:text-purple-400">Qwen3</span><span className="font-medium">278ms</span></div>
                       <div className="flex justify-between"><span className="text-amber-500 dark:text-amber-400">Ministral3</span><span>296ms</span></div>
@@ -651,7 +649,7 @@ export default function FastTalkComparison() {
                   </div>
                   <div className="rounded-lg p-4 bg-yellow-500/10 border border-yellow-500/30">
                     <h4 className="text-yellow-600 dark:text-yellow-400 font-medium mb-2">Medium Questions (~8.4s)</h4>
-                    <p className="text-muted-foreground text-xs mb-3">"If you could redesign one everyday object..."</p>
+                    <p className="text-muted-foreground text-xs mb-3">&ldquo;If you could redesign one everyday object...&rdquo;</p>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between"><span className="text-purple-500 dark:text-purple-400">Qwen3</span><span className="font-medium">291ms</span></div>
                       <div className="flex justify-between"><span className="text-cyan-500 dark:text-cyan-400">Llama3.1</span><span>320ms</span></div>
@@ -660,7 +658,7 @@ export default function FastTalkComparison() {
                   </div>
                   <div className="rounded-lg p-4 bg-red-500/10 border border-red-500/30">
                     <h4 className="text-red-600 dark:text-red-400 font-medium mb-2">Long Questions (~16.8s)</h4>
-                    <p className="text-muted-foreground text-xs mb-3">"How would this reshape education, careers..."</p>
+                    <p className="text-muted-foreground text-xs mb-3">&ldquo;How would this reshape education, careers...&rdquo;</p>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between"><span className="text-purple-500 dark:text-purple-400">Qwen3</span><span>~650ms*</span></div>
                       <div className="flex justify-between"><span className="text-amber-500 dark:text-amber-400">Ministral3</span><span>~652ms*</span></div>
