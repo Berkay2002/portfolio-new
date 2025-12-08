@@ -4,7 +4,6 @@ import {
   createContext,
   type ReactNode,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import translations from "@/lib/translations";
@@ -44,29 +43,27 @@ type LanguageProviderProps = {
   children: ReactNode;
 };
 
+const getInitialLocale = (): Locale => {
+  if (typeof window === "undefined") {
+    return "en";
+  }
+
+  const savedLocale = localStorage.getItem("language") as Locale;
+  if (savedLocale === "en" || savedLocale === "sv") {
+    return savedLocale;
+  }
+
+  return "en";
+};
+
 export function LanguageProvider({ children }: LanguageProviderProps) {
-  // Get saved language or default to English
-  const [locale, setLocaleState] = useState<Locale>("en");
-  const [isClient, setIsClient] = useState(false);
-
-  // Set isClient to true once component mounts
-  useEffect(() => {
-    setIsClient(true);
-
-    // Try to get language from localStorage
-    const savedLocale = localStorage.getItem("language") as Locale;
-    if (savedLocale && (savedLocale === "en" || savedLocale === "sv")) {
-      setLocaleState(savedLocale);
-    } else {
-      // Default to English instead of detecting browser language
-      setLocaleState("en");
-    }
-  }, []);
+  // Get saved language or default to English; compute once to avoid client-only setState in effects
+  const [locale, setLocaleState] = useState<Locale>(getInitialLocale);
 
   // Save language preference
   const setLocale = (newLocale: Locale) => {
     setLocaleState(newLocale);
-    if (isClient) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("language", newLocale);
     }
   };

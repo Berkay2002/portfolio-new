@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { useLanguage } from "@/components/layout/language-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,8 +10,12 @@ import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 // ...existing code...
 import { ExpandableImage } from "@/components/ui/expandable-image";
-import { PDFViewerPopup } from "@/components/ui/pdf-viewer-popup";
 import type { Project } from "@/types";
+
+const PDFViewerPopup = dynamic(
+  () => import("@/components/ui/pdf-viewer-popup"),
+  { ssr: false }
+);
 
 type ProjectPageContentProps = {
   project: Project;
@@ -21,12 +25,7 @@ type ProjectPageContentProps = {
 export default function ProjectPageContent({
   project,
 }: ProjectPageContentProps) {
-  const [mounted, setMounted] = useState(false);
   const { t, locale } = useLanguage();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Get localized content based on selected language
   const getLocalizedContent = (enContent?: string, svContent?: string) => {
@@ -264,7 +263,7 @@ export default function ProjectPageContent({
                 </Button>
               )}
 
-              {project.paperLink && mounted && (
+              {project.paperLink && (
                 <PDFViewerPopup
                   fileName={`${project.title} - Research Paper`}
                   pdfUrl={

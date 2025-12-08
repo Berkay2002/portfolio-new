@@ -41,16 +41,19 @@ export function MarkdownLatexRenderer({
           .use(remarkParse)
           .use(remarkMath)
           .use(remarkRehype, { allowDangerousHtml: true })
-          .use(rehypeKatex, {
-            throwOnError: false,
-            trust: true,
-          } as any) // Type casting as any to bypass type errors
+          .use(
+            rehypeKatex,
+            {
+              throwOnError: false,
+              trust: true,
+            } satisfies Parameters<typeof rehypeKatex>[0]
+          )
           .use(rehypeRaw)
           .use(rehypeStringify)
           .process(preprocessed);
 
         setHtml(String(result));
-      } catch (_error) {
+      } catch {
         // Show error in the UI
         setHtml(
           `<p class="text-red-500">Error rendering LaTeX content. See console for details.</p>`

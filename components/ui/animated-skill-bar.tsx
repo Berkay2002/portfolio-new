@@ -228,7 +228,8 @@ export function AnimatedSkillBar({
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setMounted(true);
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
   }, []);
 
   // Lighten slightly when in dark mode so the color reads well on dark backgrounds.

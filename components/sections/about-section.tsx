@@ -1,5 +1,4 @@
-"use client";
-
+"use client";;
 import { motion } from "framer-motion";
 import { FileDown } from "lucide-react";
 import Link from "next/link";
@@ -61,6 +60,8 @@ import {
 } from "../ui/hover-card";
 import { Progress } from "../ui/progress";
 import { SectionHeading } from "../ui/section-heading";
+
+import type { JSX } from "react";
 
 // Animation timing constants
 const SKILL_CARD_ANIMATION_DURATION = 0.3;

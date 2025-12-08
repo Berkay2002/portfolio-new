@@ -188,6 +188,90 @@ const mediumQuestionRuns = {
   ]
 };
 
+const MetricCard = ({ title, qwen, llama, ministral, unit = 'ms', lower = true, highlight = false }: MetricCardProps) => {
+  const values = { qwen, llama, ministral };
+  const winner = lower 
+    ? Object.entries(values).reduce((a, b) => a[1] < b[1] ? a : b)[0]
+    : Object.entries(values).reduce((a, b) => a[1] > b[1] ? a : b)[0];
+  
+  const getColor = (model: string) => {
+    if (model === 'qwen') return winner === 'qwen' ? 'text-purple-500 dark:text-purple-400' : 'text-muted-foreground';
+    if (model === 'llama') return winner === 'llama' ? 'text-cyan-500 dark:text-cyan-400' : 'text-muted-foreground';
+    return winner === 'ministral' ? 'text-amber-500 dark:text-amber-400' : 'text-muted-foreground';
+  };
+  
+  return (
+    <Card className={cn(highlight && 'ring-2 ring-primary')}>
+      <CardHeader className="pb-2">
+        <CardDescription>{title}</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <div className="flex justify-between items-center">
+          <span className="text-purple-500 dark:text-purple-400 text-xs">Qwen3</span>
+          <span className={cn("text-lg font-bold", getColor('qwen'))}>
+            {qwen.toFixed(1)}{unit}
+            {winner === 'qwen' && <Badge variant="secondary" className="ml-2 bg-purple-500/20 text-purple-500 dark:text-purple-400">✓</Badge>}
+          </span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-cyan-500 dark:text-cyan-400 text-xs">Llama3.1</span>
+          <span className={cn("text-lg font-bold", getColor('llama'))}>
+            {llama.toFixed(1)}{unit}
+            {winner === 'llama' && <Badge variant="secondary" className="ml-2 bg-cyan-500/20 text-cyan-500 dark:text-cyan-400">✓</Badge>}
+          </span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-amber-500 dark:text-amber-400 text-xs">Ministral3</span>
+          <span className={cn("text-lg font-bold", getColor('ministral'))}>
+            {ministral.toFixed(1)}{unit}
+            {winner === 'ministral' && <Badge variant="secondary" className="ml-2 bg-amber-500/20 text-amber-500 dark:text-amber-400">✓</Badge>}
+          </span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+const WinnerBadge = ({ model }: WinnerBadgeProps) => {
+  const styles: Record<ModelKey, string> = {
+    qwen: 'bg-purple-500/20 text-purple-500 dark:text-purple-400 border-purple-500/30',
+    llama: 'bg-cyan-500/20 text-cyan-500 dark:text-cyan-400 border-cyan-500/30',
+    ministral: 'bg-amber-500/20 text-amber-500 dark:text-amber-400 border-amber-500/30'
+  };
+  const names: Record<ModelKey, string> = { qwen: 'Qwen3', llama: 'Llama3.1', ministral: 'Ministral3' };
+  return (
+    <Badge variant="outline" className={cn(styles[model], "gap-1")}>
+      <Trophy className="w-3 h-3" /> {names[model]}
+    </Badge>
+  );
+};
+
+const MetricRow = ({ label, qwen, llama, ministral, unit = 'ms', lower = true, highlight = false }: MetricRowProps) => {
+  const values = { qwen, llama, ministral };
+  const validValues = Object.entries(values).filter(([, v]) => v !== null && v !== undefined) as [string, number][];
+  const winner = lower 
+    ? validValues.reduce((a, b) => a[1] < b[1] ? a : b)[0]
+    : validValues.reduce((a, b) => a[1] > b[1] ? a : b)[0];
+  
+  const format = (v: number | null) => v === null || v === undefined ? '-' : typeof v === 'number' ? v.toFixed(1) : v;
+  
+  return (
+    <tr className={cn("border-b border-border", highlight && 'bg-primary/5')}>
+      <td className="py-3 px-3 font-medium">{label}</td>
+      <td className={cn("text-right px-3", winner === 'qwen' && 'text-purple-500 dark:text-purple-400 font-semibold')}>
+        {format(qwen)}{unit && qwen !== null ? unit : ''}
+      </td>
+      <td className={cn("text-right px-3", winner === 'llama' && 'text-cyan-500 dark:text-cyan-400 font-semibold')}>
+        {format(llama)}{unit && llama !== null ? unit : ''}
+      </td>
+      <td className={cn("text-right px-3", winner === 'ministral' && 'text-amber-500 dark:text-amber-400 font-semibold')}>
+        {format(ministral)}{unit && ministral !== null ? unit : ''}
+      </td>
+      <td className="text-center px-3"><WinnerBadge model={winner as ModelKey} /></td>
+    </tr>
+  );
+};
+
 export default function FastTalkComparison() {
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -270,90 +354,6 @@ export default function FastTalkComparison() {
     ministral: mediumQuestionRuns.ministral3[i].upl
   }));
 
-  // MetricCard component for 3 models
-  const MetricCard = ({ title, qwen, llama, ministral, unit = 'ms', lower = true, highlight = false }: MetricCardProps) => {
-    const values = { qwen, llama, ministral };
-    const winner = lower 
-      ? Object.entries(values).reduce((a, b) => a[1] < b[1] ? a : b)[0]
-      : Object.entries(values).reduce((a, b) => a[1] > b[1] ? a : b)[0];
-    
-    const getColor = (model: string) => {
-      if (model === 'qwen') return winner === 'qwen' ? 'text-purple-500 dark:text-purple-400' : 'text-muted-foreground';
-      if (model === 'llama') return winner === 'llama' ? 'text-cyan-500 dark:text-cyan-400' : 'text-muted-foreground';
-      return winner === 'ministral' ? 'text-amber-500 dark:text-amber-400' : 'text-muted-foreground';
-    };
-    
-    return (
-      <Card className={cn(highlight && 'ring-2 ring-primary')}>
-        <CardHeader className="pb-2">
-          <CardDescription>{title}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="flex justify-between items-center">
-            <span className="text-purple-500 dark:text-purple-400 text-xs">Qwen3</span>
-            <span className={cn("text-lg font-bold", getColor('qwen'))}>
-              {qwen.toFixed(1)}{unit}
-              {winner === 'qwen' && <Badge variant="secondary" className="ml-2 bg-purple-500/20 text-purple-500 dark:text-purple-400">✓</Badge>}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-cyan-500 dark:text-cyan-400 text-xs">Llama3.1</span>
-            <span className={cn("text-lg font-bold", getColor('llama'))}>
-              {llama.toFixed(1)}{unit}
-              {winner === 'llama' && <Badge variant="secondary" className="ml-2 bg-cyan-500/20 text-cyan-500 dark:text-cyan-400">✓</Badge>}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-amber-500 dark:text-amber-400 text-xs">Ministral3</span>
-            <span className={cn("text-lg font-bold", getColor('ministral'))}>
-              {ministral.toFixed(1)}{unit}
-              {winner === 'ministral' && <Badge variant="secondary" className="ml-2 bg-amber-500/20 text-amber-500 dark:text-amber-400">✓</Badge>}
-            </span>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  };
-
-  const WinnerBadge = ({ model }: WinnerBadgeProps) => {
-    const styles: Record<ModelKey, string> = {
-      qwen: 'bg-purple-500/20 text-purple-500 dark:text-purple-400 border-purple-500/30',
-      llama: 'bg-cyan-500/20 text-cyan-500 dark:text-cyan-400 border-cyan-500/30',
-      ministral: 'bg-amber-500/20 text-amber-500 dark:text-amber-400 border-amber-500/30'
-    };
-    const names: Record<ModelKey, string> = { qwen: 'Qwen3', llama: 'Llama3.1', ministral: 'Ministral3' };
-    return (
-      <Badge variant="outline" className={cn(styles[model], "gap-1")}>
-        <Trophy className="w-3 h-3" /> {names[model]}
-      </Badge>
-    );
-  };
-
-  const MetricRow = ({ label, qwen, llama, ministral, unit = 'ms', lower = true, highlight = false }: MetricRowProps) => {
-    const values = { qwen, llama, ministral };
-    const validValues = Object.entries(values).filter(([, v]) => v !== null && v !== undefined) as [string, number][];
-    const winner = lower 
-      ? validValues.reduce((a, b) => a[1] < b[1] ? a : b)[0]
-      : validValues.reduce((a, b) => a[1] > b[1] ? a : b)[0];
-    
-    const format = (v: number | null) => v === null || v === undefined ? '-' : typeof v === 'number' ? v.toFixed(1) : v;
-    
-    return (
-      <tr className={cn("border-b border-border", highlight && 'bg-primary/5')}>
-        <td className="py-3 px-3 font-medium">{label}</td>
-        <td className={cn("text-right px-3", winner === 'qwen' && 'text-purple-500 dark:text-purple-400 font-semibold')}>
-          {format(qwen)}{unit && qwen !== null ? unit : ''}
-        </td>
-        <td className={cn("text-right px-3", winner === 'llama' && 'text-cyan-500 dark:text-cyan-400 font-semibold')}>
-          {format(llama)}{unit && llama !== null ? unit : ''}
-        </td>
-        <td className={cn("text-right px-3", winner === 'ministral' && 'text-amber-500 dark:text-amber-400 font-semibold')}>
-          {format(ministral)}{unit && ministral !== null ? unit : ''}
-        </td>
-        <td className="text-center px-3"><WinnerBadge model={winner as ModelKey} /></td>
-      </tr>
-    );
-  };
 
   return (
     <div className="min-h-screen bg-background text-foreground p-6">

@@ -22,27 +22,30 @@ export default function ParticleBackground({
   colors = DEFAULT_PARTICLE_CONFIG.colors,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState<boolean>(() => {
+    if (typeof window === "undefined") {
+      return true;
+    }
 
-  // initialize preference and listen for toggles
-  useEffect(() => {
     try {
       const saved = localStorage.getItem(DEFAULT_PARTICLE_CONFIG.storageKey);
       if (saved !== null) {
-        setEnabled(saved === "true");
-        return;
+        return saved === "true";
       }
     } catch {
       // ignore localStorage errors
     }
 
-    if (typeof window !== "undefined") {
-      const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-      if (mq?.matches) {
-        setEnabled(false);
-      }
+    const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    if (mq?.matches) {
+      return false;
     }
 
+    return true;
+  });
+
+  // initialize preference and listen for toggles
+  useEffect(() => {
     const onToggle = (e: Event) => {
       const detail = (e as CustomEvent)?.detail as
         | { enabled: boolean }

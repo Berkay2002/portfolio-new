@@ -1,33 +1,30 @@
 /** biome-ignore-all assist/source/organizeImports: <> */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DEFAULT_PARTICLE_CONFIG } from "@/lib/config/particle-config";
 
 export function ParticleToggle() {
   const storageKey = DEFAULT_PARTICLE_CONFIG.storageKey;
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState<boolean>(() => {
+    if (typeof window === "undefined") {
+      return true;
+    }
 
-  useEffect(() => {
-    // Respect reduced motion preference by default disabling particles
-    if (typeof window !== "undefined") {
-      const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-      const prefersReduced = mq ? mq.matches : false;
-      if (prefersReduced) {
-        setEnabled(false);
-        return;
-      }
+    const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    if (mq?.matches) {
+      return false;
     }
 
     const saved = localStorage.getItem(storageKey);
     if (saved === null) {
-      setEnabled(true);
-    } else {
-      setEnabled(saved === "true");
+      return true;
     }
-  }, [storageKey]);
+
+    return saved === "true";
+  });
 
   const toggle = () => {
     const next = !enabled;
