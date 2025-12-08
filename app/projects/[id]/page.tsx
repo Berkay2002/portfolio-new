@@ -4,10 +4,11 @@ import ProjectPageContent from "@/components/project-page-content";
 import { projects } from "@/lib/data/portfolio-data";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   await Promise.resolve(); // Ensure function contains an await expression
   const project = projects.find((p) => p.id === params.id);
 
@@ -35,7 +36,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function ProjectPage({ params }: Props) {
+export default async function ProjectPage(props: Props) {
+  const params = await props.params;
   const project = projects.find((p) => p.id === params.id);
 
   if (!project) {

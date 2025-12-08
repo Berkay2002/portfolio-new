@@ -3,7 +3,7 @@
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 
 import { Container } from "@/components/ui/container";
 import { PaperRenderer } from "@/components/ui/paper-renderer";
@@ -14,7 +14,8 @@ const papers = {
   animatch: animatchPaper,
 };
 
-export default function PaperPage({ params }: { params: { id: string } }) {
+export default function PaperPage(props: { params: Promise<{ id: string }> }) {
+  const params = use(props.params);
   const [mounted, setMounted] = useState(false);
 
   // Get the paper data
