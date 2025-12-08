@@ -290,12 +290,21 @@ export default function ProjectPageContent({
                   className="w-full justify-between"
                   variant="outline"
                 >
-                  <Link
-                    href={project.frontendLink}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
+                  <Link href={project.frontendLink}>
                     <span>View Frontend</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
+                </Button>
+              )}
+
+              {project.playgroundLink && (
+                <Button
+                  asChild
+                  className="w-full justify-between"
+                  variant="outline"
+                >
+                  <Link href={project.playgroundLink}>
+                    <span>{t("projectPage.viewPlayground")}</span>
                     <ExternalLink className="h-4 w-4" />
                   </Link>
                 </Button>

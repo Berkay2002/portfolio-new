@@ -24,6 +24,7 @@ export const fasttalk: Project = {
   ],
   link: "https://github.com/Berkay2002/fasttalk-llm-microservice",
   frontendLink: "https://github.com/Berkay2002/fasttalk-frontend",
+  playgroundLink: "/playground/tdde19",
   image: undefined,
   imageAlt: "FastTalk microservice stack",
   detailedDescription:

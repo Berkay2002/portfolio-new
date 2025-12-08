@@ -20,6 +20,7 @@ export type Project = {
   outcome?: string; // Results or impact of the project
   outcomeSv?: string; // Swedish results or impact of the project
   githubLink?: string; // Link to GitHub repository
+  playgroundLink?: string; // Link to interactive playground/demo
   paperLink?: string; // Link to research paper PDF
   microservices?: {
     name: string;
