@@ -111,10 +111,11 @@ export default function ParticleBackground({
     };
   }, [local, densityDivisor, maxCount, opacity, colors, enabled]);
 
-  // For global mode we want a fixed canvas that covers the viewport; for local mode we use absolute
+  // For global mode we want the canvas to cover the full page height and scroll with it (absolute)
+  // For local mode we use absolute to cover the parent container
   const baseClass = local
     ? "pointer-events-none absolute inset-0 z-0"
-    : "pointer-events-none fixed inset-0 z-0";
+    : "pointer-events-none absolute top-0 left-0 z-0";
 
   return (
     <canvas
@@ -153,6 +154,8 @@ function createParticleAnimator(
   const PARTICLE_SPEED_RANDOM_CENTER = 0.5;
   const PARTICLE_OPACITY_MIN = 0.1;
   const PARTICLE_OPACITY_VARIANCE = 0.6;
+  const CONNECTION_DISTANCE = 150; // Max distance to draw a line
+  const CONNECTION_OPACITY_FACTOR = 0.5; // Multiplier for line opacity
 
   const SMALL_SCREEN_BREAKPOINT = 640;
   const DEFAULT_SMALL_MULTIPLIER = 1.7;
@@ -216,9 +219,34 @@ function createParticleAnimator(
   let rafId = 0;
   const animate = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (const p of particles) {
-      drawParticle(p);
-      updateParticle(p);
+    
+    // Draw particles and connections
+    for (let i = 0; i < particles.length; i++) {
+      const p1 = particles[i];
+      drawParticle(p1);
+      updateParticle(p1);
+
+      // Draw connections to other particles
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < CONNECTION_DISTANCE) {
+          const opacity = (1 - distance / CONNECTION_DISTANCE) * opts.opacity * CONNECTION_OPACITY_FACTOR;
+          
+          // Use the color of the first particle for the line, or a mix
+          ctx.beginPath();
+          ctx.strokeStyle = p1.color;
+          ctx.globalAlpha = opacity;
+          ctx.lineWidth = 1;
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+      }
     }
     rafId = requestAnimationFrame(animate);
   };

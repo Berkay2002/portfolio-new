@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useLanguage } from "./language-provider";
 import { LanguageSwitcher } from "./language-switcher";
-import ParticleBackground from "./particle-background";
 import { ThemeToggle } from "./theme-toggle";
 
 export function Header() {
@@ -76,15 +75,8 @@ export function Header() {
           : "bg-transparent py-4 backdrop-blur-[2px]" // Very subtle blur when not scrolled
       )}
     >
-      {/* Local particle overlay for header */}
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-30 dark:opacity-40">
-        <ParticleBackground
-          densityDivisor={14}
-          local
-          maxCount={40}
-          opacity={0.18}
-        />
-      </div>
+      {/* Local particle overlay for header - Removed to match clean design */}
+      
       <div className="container mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <motion.div
           animate={{ opacity: 1, x: 0 }}

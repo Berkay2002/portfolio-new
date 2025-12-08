@@ -5,9 +5,8 @@ import Link from "next/link";
 
 import { personalInfo } from "@/lib/data/portfolio-data";
 import { useLanguage } from "../layout/language-provider";
+import ParticleBackground from "../layout/particle-background";
 import { Button } from "../ui/button";
-
-// Particle background is rendered globally from app/page.tsx
 
 // Motion / animation timing constants
 const MOTION_DURATION_SHORT = 0.5;
@@ -34,7 +33,15 @@ export function HeroSection() {
       {/* Background */}
       <div className="pointer-events-none absolute inset-0 h-full w-full bg-linear-to-b from-background/80 via-background/60 to-transparent" />
 
-      {/* Particle effect is provided globally (app/page.tsx) */}
+      {/* Particle effect */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-100">
+        <ParticleBackground
+          densityDivisor={10}
+          local
+          maxCount={80}
+          opacity={0.8}
+        />
+      </div>
 
       {/* Animated gradient blur */}
       <div className="-top-40 -left-40 absolute h-80 w-80 animate-blob rounded-full bg-blue-500/5 blur-3xl" />
