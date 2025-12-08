@@ -10,6 +10,9 @@ Format:
 -->
 
 ## 2025-12-08
+- **AniMatch title update** - Renamed project title to “AniMatch: Anime Recommendation” to preserve branding with descriptive context.
+- **Anime recommendation image removed** - Cleared outdated image reference for the anime-recommendation project entry.
+- **Anime recommendation refresh** - Updated animatch project entry to the newer anime-recommendation repo (Next.js 16, Tailwind 4, Radix UI, MongoDB, worker-based BERT similarity, multi-select flow, new GitHub link).
 - **Medieteknik entry refresh** - Updated medieteknik project data with current Next.js 16/Tailwind 4 stack, motion features, Swedish-first copy, and new GitHub link.
 - **Clarified project titles (more)** - Applied descriptive colon titles for FastTalk, Retrofy, LiTHePlan, and Clairvoyant.
 - **Clarified project titles** - Added descriptive colon titles for Oversee and Snapgredient to better convey each project's purpose at a glance.
