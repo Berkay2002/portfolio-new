@@ -9,6 +9,10 @@ Format:
 - **Brief summary** - Details about what changed
 -->
 
+## 2025-12-09
+- **Agentic GraphRAG copy refresh** - Expanded project entry with dynamic agent orchestration, guardrails, ingestion/eval details, and linked the thesis PDF for Ericsson test scope analysis.
+- **Agentic GraphRAG eval status** - Clarified that evaluation harness is wired but runs are ongoing, avoiding implied published metrics.
+
 ## 2025-12-08
 - **Papers listing & links** - Added /papers listing page with PDF viewer buttons, linked Papers in the header nav, and exposed paper links for SynGraph and AniMatch projects.
 - **Home papers carousel** - Added Papers carousel on the homepage with anchor-linked nav, inline PDF buttons, and a View All Papers CTA linking to /papers; navbar now scrolls to the Papers section.

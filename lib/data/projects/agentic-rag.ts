@@ -2,11 +2,11 @@ import type { Project } from "@/types";
 
 export const agenticRag: Project = {
   id: "agentic-rag",
-  title: "Agentic GraphRAG for Test Scope Analysis",
+  title: "Agentic GraphRAG: Test Scope Analysis",
   description:
-    "Master's thesis system that fuses knowledge graphs, pgvector, and human-in-the-loop agents to answer test-scope questions for telecom software.",
+    "Thesis-grade agentic GraphRAG built for Ericsson: dynamic tool-orchestrated retrieval over knowledge graphs + pgvector with guardrails for telecom test scope analysis.",
   descriptionSv:
-    "Examensarbetesystem som kombinerar kunskapsgrafer, pgvector och human-in-the-loop-agenter för att svara på testfrågor inom telekommjukvara.",
+    "Examensarbetesystem för Ericsson: agentisk GraphRAG med dynamisk verktygsorkestrering över kunskapsgraf + pgvector och guardrails för testomfattningsanalys.",
   technologies: [
     "Python",
     "LangChain",
@@ -21,41 +21,41 @@ export const agenticRag: Project = {
   link: "https://github.com/Berkay2002/agentic-rag-test-scope-analysis",
   imageAlt: "Agentic GraphRAG architecture diagram",
   detailedDescription:
-    "Research-grade agentic RAG that evaluates retrieval strategies (vector, keyword, graph, hybrid) over Neo4j + PostgreSQL, with LangChain create_agent orchestration, middleware for limits/PII, and HITL checkpoints. Includes ingestion pipelines powered by Docling and Tree-sitter plus full evaluation metrics (P@k, MAP, MRR).",
+    "Dynamic GraphRAG agent that follows information scent: a LangChain create_agent orchestrates vector, BM25, graph traversals, and hybrid RRF based on query intent over Neo4j + Postgres/pgvector. Implements safe vs YOLO modes with deterministic guardrails (PII scrubbing, existence checks) and HITL interrupts. Ingestion uses Docling for PDFs and Tree-sitter for AST-aware chunking, with entity linking into a software QA ontology. Evaluation harness is wired for P@k/MAP/MRR with LangSmith traces; evaluation runs are ongoing.",
   detailedDescriptionSv:
-    "Forskningsfokuserad agentisk RAG som utvärderar sökstrategier (vektor, nyckelord, graf, hybrid) över Neo4j + PostgreSQL, med LangChain create_agent-orkestrering, middleware för limiter/PII och HITL-checkpoints. Innehåller ingest-pipelines med Docling och Tree-sitter samt kompletta utvärderingsmått (P@k, MAP, MRR).",
+    "Dynamisk GraphRAG-agent som följer informationsdoft: en LangChain create_agent orkestrerar vektor-, BM25-, graf- och hybrid-RRF-sök beroende på frågeintent över Neo4j + Postgres/pgvector. Implementerar Safe vs YOLO-lägen med deterministiska guardrails (PII-scrubbing, existenskontroller) och HITL-avbrott. Ingestion använder Docling för PDF:er och Tree-sitter för AST-medveten chunking med entitetslänkning in i en QA-ontologi. Utvärderingsramverket är kopplat för P@k/MAP/MRR med LangSmith-spår; utvärderingskörningar pågår.",
   features: [
-    "Dual storage: Neo4j knowledge graph + Postgres/pgvector + BM25",
-    "@tool-based retrieval suite (vector, keyword, graph traverse, hybrid RRF)",
-    "LangChain create_agent with middleware (model/tool limits, PII, HITL)",
-    "Docling-based document loader and AST-aware code loader via Tree-sitter",
-    "Evaluation CLI with precision/recall/MAP/MRR across strategies",
+    "Dynamic agent picks vector, BM25, graph traverse, or hybrid RRF per query scent",
+    "Knowledge graph ontology for requirements->code->tests with dual storage (Neo4j + pgvector)",
+    "Guardrailed agent modes: Safe (HITL/PII checks) vs YOLO for faster iteration",
+    "Docling + Tree-sitter ingestion for PDFs/specs and structure-aware chunking",
+    "Evaluation CLI with LangSmith traces and P@k/Recall/MAP/MRR across strategies",
   ],
   featuresSv: [
-    "Dubbellagring: Neo4j-kunskapsgraf + Postgres/pgvector + BM25",
-    "@tool-baserad hämtningssvit (vektor, nyckelord, graftraversering, hybrid RRF)",
-    "LangChain create_agent med middleware (modell-/verktygsgränser, PII, HITL)",
-    "Docling-baserad dokumentladdare och AST-medveten kodladdare via Tree-sitter",
-    "Utvärderings-CLI med precision/recall/MAP/MRR över strategier",
+    "Dynamisk agent väljer vektor, BM25, graftraversering eller hybrid RRF per informationsdoft",
+    "Kunskapsgraf-ontologi för krav->kod->tester med dubbellagring (Neo4j + pgvector)",
+    "Guardrail-lägen: Safe (HITL/PII-kontroller) vs YOLO för snabbare iteration",
+    "Docling + Tree-sitter-ingest för PDF:er/specar och strukturanpassad chunking",
+    "Utvärderings-CLI med LangSmith-spår och P@k/Recall/MAP/MRR över strategier",
   ],
   challenges: [
-    "Aligning graph, vector, and lexical retrieval quality for test queries",
-    "Keeping agent tool use safe via limits and human approvals",
-    "Building reproducible ingestion across diverse document and code formats",
+    "Entity linking noisy test cases and change requests into the graph ontology",
+    "Balancing semantic, lexical, and structural retrieval without adding noise",
+    "Maintaining guardrails (PII, HITL) while keeping agent loops responsive",
   ],
   challengesSv: [
-    "Justera graf-, vektor- och lexikalisk sökkvalitet för testfrågor",
-    "Hålla agentens verktygsanvändning säker via begränsningar och mänskliga godkännanden",
-    "Bygga reproducerbar ingestion över många dokument- och kodformat",
+    "Entitetslänka brusiga testfall och change requests in i grafontologin",
+    "Balansera semantisk, lexikalisk och strukturell retrieval utan att addera brus",
+    "Bibehålla guardrails (PII, HITL) och samtidigt hålla agentloopen responsiv",
   ],
   solution:
-    "Implements modular @tool factories, dual storage writers with retries, HITL middleware, and configurable Gemini thinking budgets. Provides CLI commands for chat, query, load, ingest, evaluate, and info to reproduce experiments.",
+    "Modular tool factories (vector_search, graph_traverse, hybrid_search), dual-store writers with retries, and Safe/YOLO toggles backed by PII scrubbing + HITL interrupts. CLI supports chat, ingest, ontology load, and eval to reproduce Ericsson experiments with controllable thinking budgets.",
   solutionSv:
-    "Implementerar modulära @tool-fabriker, dubbla lagringssidor med retries, HITL-middleware och konfigurerbara Gemini thinking-budgetar. Tillhandahåller CLI-kommandon för chat, query, load, ingest, evaluate och info för att återskapa experiment.",
+    "Modulära verktygsfabriker (vector_search, graph_traverse, hybrid_search), dubbla skrivare med retries samt Safe/YOLO-brytare med PII-scrubbing och HITL-avbrott. CLI täcker chat, ingest, ontologi-load och eval för att återskapa Ericsson-experiment med styrbara thinking-budgetar.",
   outcome:
-    "Delivers a transparent research artifact for Ericsson collaboration, enabling side-by-side evaluation of retrieval strategies and agent behaviors with full observability via LangSmith.",
+    "Used as the Ericsson master’s thesis artifact; evaluation runs are ongoing with side-by-side baselines (BM25/vector/graph/hybrid vs agentic) instrumented in LangSmith for traceable practitioner feedback.",
   outcomeSv:
-    "Ger ett transparent forskningsartefakt för samarbete med Ericsson, som möjliggör jämförande utvärdering av sökstrategier och agentbeteenden med full observabilitet via LangSmith.",
+    "Används som examensartefakt för Ericsson; utvärderingskörningar pågår med jämförelser mellan BM25/vektor/graf/hybrid och agentisk strategi, instrumenterat i LangSmith för spårbar feedback från ingenjörer.",
   githubLink: "https://github.com/Berkay2002/agentic-rag-test-scope-analysis",
-  paperLink: undefined,
+  paperLink: "/papers/Agentic_RAG___Knowledge_Graphs_for_Test_Scope_Analysis.pdf",
 };
