@@ -12,6 +12,7 @@ import { agentMesh } from "./projects/agent-mesh";
 import { retrofy } from "./projects/ai-image-editor";
 import { albyradet } from "./projects/albyradet";
 import { animatch } from "./projects/animatch";
+import { chatbot } from "./projects/chatbot";
 import { clairvoyant } from "./projects/clairvoyant";
 import { claudeXmlAgent } from "./projects/claude-xml-agent";
 import { fasttalk } from "./projects/fasttalk";
@@ -24,6 +25,8 @@ import { primitiveUi } from "./projects/primitive-ui";
 import { researcher } from "./projects/researcher";
 import { snapgredient } from "./projects/snapgredient";
 import { solarSystem } from "./projects/solar-system";
+import { statsforspotify } from "./projects/statsforspotify";
+import { voxelProject } from "./projects/voxel-project";
 
 export const personalInfo: PersonalInfo = {
   name: "Berkay Orhan",
@@ -318,6 +321,9 @@ export const skillDetails: Record<
 };
 
 export const projects: Project[] = [
+  voxelProject,
+  statsforspotify,
+  chatbot,
   fasttalk,
   agenticRag,
   agentMesh,

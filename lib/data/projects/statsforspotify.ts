@@ -27,7 +27,7 @@ export const statsforspotify: Project = {
   ],
   link: "https://github.com/Berkay2002/statsforspotify",
   githubLink: "https://github.com/Berkay2002/statsforspotify",
-  image: undefined,
+  image: "/images/projects/statsforspotify-mobile-1.png",
   imageAlt: "Stats for Spotify dashboard showing top artists, tracks, and trend visualization",
   detailedDescription:
     "Production-ready music analytics platform built with Next.js 16 App Router and Supabase. Tracks users' top 50 artists, tracks, and albums across multiple time ranges (4 weeks, 6 months, all time) with automated snapshot collection respecting 24-hour intervals. Features include historical trend visualization with Recharts-powered line graphs and sparklines, color-coded rank change badges (↑5, ↓3, NEW, —), and progressive enhancement that works with or without historical data. Social features enable friend discovery through mutual Spotify followers, privacy controls (public/friends-only/private), Discord-style usernames with discriminators, and the ability to browse friends' listening history. Built with Row Level Security (RLS) ensuring users can only access their own data and authorized friend data. Includes comprehensive data management with JSON/CSV export, profile customization, and full data deletion capability for Spotify API compliance. Vercel Analytics and Speed Insights provide performance monitoring, while Framer Motion powers smooth animations and transitions. Auto-generated TypeScript types from Supabase schema ensure type safety across all database operations.",
@@ -77,4 +77,18 @@ export const statsforspotify: Project = {
     "Delivered a production-ready music analytics platform with 50+ UI components, automated data collection respecting API limits, comprehensive social features with privacy controls, and full Spotify API compliance. Achieved optimal performance through parallel data fetching, React Query caching, and Server Components. Type safety maintained across entire stack with automated schema synchronization. Successfully deployed on Vercel with Analytics and Speed Insights integration, providing users with historical music taste tracking, friend discovery, and detailed listening statistics while maintaining data privacy and security through Row Level Security.",
   outcomeSv:
     "Levererade en produktionsklar musikanalysplattform med 50+ UI-komponenter, automatiserad datainsamling som respekterar API-gränser, omfattande sociala funktioner med integritetskontroller och fullständig Spotify API-efterlevnad. Uppnådde optimal prestanda genom parallell datahämtning, React Query-caching och Server Components. Typsäkerhet bibehölls över hela stacken med automatiserad schemasynkronisering. Framgångsrikt utplacerad på Vercel med Analytics och Speed Insights-integration, vilket ger användare historisk musiksmakspårning, vänupptäckt och detaljerad lyssningsstatistik samtidigt som datasekretess och säkerhet bibehålls genom Row Level Security.",
+  gallery: [
+    {
+      image: "/images/projects/statsforspotify-mobile-1.png",
+      alt: "Stats for Spotify mobile view - Top Artists screen",
+      caption: "Mobile view showing top artists with historical trend indicators",
+      captionSv: "Mobilvy som visar toppartister med historiska trendindikatorer",
+    },
+    {
+      image: "/images/projects/statsforspotify-mobile-2.png",
+      alt: "Stats for Spotify mobile view - Detailed stats screen",
+      caption: "Mobile view displaying detailed listening statistics and trends",
+      captionSv: "Mobilvy som visar detaljerad lyssningsstatistik och trender",
+    },
+  ],
 };

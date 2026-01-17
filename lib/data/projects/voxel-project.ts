@@ -21,7 +21,7 @@ export const voxelProject: Project = {
   ],
   link: "https://github.com/Berkay2002/voxel-project",
   githubLink: "https://github.com/Berkay2002/voxel-project",
-  image: "demo/demo_surface.gif",
+  image: "/images/projects/demo/demo_surface.gif",
   imageAlt: "Voxel Engine surface exploration with procedural terrain",
   detailedDescription:
     "A high-performance voxel game engine built from scratch using modern C++20, inspired by Minecraft. The engine features a modular architecture with core subsystems (graphics, rendering, scene, atmosphere, settings) decoupled from game logic. It uses OpenGL 4.6 Core Profile with aggressive face culling, frustum culling, and multithreaded chunk generation. The world system generates infinite procedural terrain using 3D Perlin Noise with biome transitions, spaghetti cave systems with natural water flooding, and destructible terrain via raycast-based block interactions. Rendering includes a dynamic day/night cycle with lunar phases, directional lighting with per-vertex ambient occlusion, screen-space ambient occlusion (SSAO), shadow mapping with cascades, transparent water, volumetric clouds, distance fog, and a weather system with rain/snow particles. The engine is registry-driven for blocks and textures, uses centralized configuration, and implements async chunk loading with BS::thread_pool for background generation while maintaining GPU uploads on the main thread.",
@@ -91,31 +91,31 @@ export const voxelProject: Project = {
     "Voxelmotorn levererar smidigt 60+ FPS-spelande med oändlig procedurell terränggenerering, realistiska grottsystem och uppslukande väder-/belysningseffekter. Den modulära C++20-arkitekturen säkerställer ren separation mellan motorkärnan och spellogiken, vilket gör kodbasen underhållbar och utbyggbar. Flertrådig chunk-generering med begränsade GPU-uppladdningar förhindrar frame-dropp, medan aggressiv ytkullning avsevärt minskar vertex-antal. Den registerstyrda konfigurationen möjliggör enkel innehållsskapande och justering. Omfattande automatiserade tester med Google Test säkerställer tillförlitlighet över strålberäkningar, chunk-lagring, höjdkartor, blockregister och voxel-raycasting. Motorn demonstrerar framgångsrikt moderna grafiktekniker inklusive SSAO, shadow mapping, volymetriska moln och transparent vattenrendering, allt körande på OpenGL 4.6 Core Profile.",
   gallery: [
     {
-      image: "demo/demo_surface.gif",
+      image: "/images/projects/demo/demo_surface.gif",
       alt: "Voxel Engine surface exploration showing procedural terrain with biomes",
       caption: "Surface exploration with procedural terrain generation and biome transitions",
       captionSv: "Ytutforskning med procedurell terränggenerering och biomövergångar",
     },
     {
-      image: "demo/demo_caves.gif",
+      image: "/images/projects/demo/demo_caves.gif",
       alt: "Voxel Engine cave systems with natural water flooding",
       caption: "Spaghetti cave systems with natural entrances and water flooding",
       captionSv: "Spaghetti-grottsystem med naturliga ingångar och vattenöversvämning",
     },
     {
-      image: "demo/demo.gif",
+      image: "/images/projects/demo/demo.gif",
       alt: "Voxel Engine general gameplay demonstration",
       caption: "General gameplay showcasing terrain, lighting, and block interactions",
       captionSv: "Allmänt spelande som visar terräng, belysning och blockinteraktioner",
     },
     {
-      image: "demo/demo.mp4",
+      image: "/images/projects/demo/demo.mp4",
       alt: "Voxel Engine video demonstration",
       caption: "Full video demonstration of engine features and capabilities",
       captionSv: "Fullständig videodemonstration av motorfunktioner och kapaciteter",
     },
     {
-      image: "demo/2026-01-04 16-26-56.mkv",
+      image: "/images/projects/demo/2026-01-04 16-26-56.mkv",
       alt: "Voxel Engine extended gameplay recording",
       caption: "Extended gameplay recording showcasing all major features",
       captionSv: "Utökad spelupptagning som visar alla huvudfunktioner",
