@@ -40,7 +40,7 @@
         "remark-math": "^6.0.0",
         "remark-parse": "^11.0.0",
         "remark-rehype": "^11.1.1",
-        "simple-icons": "^14.10.0",
+        "simple-icons": "^16.6.0",
         "tailwind-merge": "^3.0.2",
         "tailwindcss-animate": "^1.0.7",
         "unified": "^11.0.5",
@@ -1588,7 +1588,7 @@
 
     "signal-exit": ["signal-exit@4.1.0", "", {}, "sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw=="],
 
-    "simple-icons": ["simple-icons@14.15.0", "", {}, "sha512-yjlJ8skP4isCd4dQTDGFbv0hQgDIr57DbWaovEeHADPAZa5DBEAs+3ZnBb76ti+yz7/OzFI3SqTP1SKku1uhCw=="],
+    "simple-icons": ["simple-icons@16.6.0", "", {}, "sha512-lzSVlAhflhwud7EprwSalbCpHKpculOfaAk1P+S3QajO1bHG5nqwI1VeGnn4rwaE4xSSSKDsOFFL0XfIDv5iIQ=="],
 
     "sisteransi": ["sisteransi@1.0.5", "", {}, "sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg=="],
 
