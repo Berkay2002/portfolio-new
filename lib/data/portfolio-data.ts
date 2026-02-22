@@ -394,4 +394,21 @@ export const timelineEvents: TimelineEvent[] = [
     type: "work"
   },
   */
+  {
+    id: "ericsson-thesis",
+    title: "Master's Thesis – Agentic HybridRAG for Test Scope Analysis",
+    titleSv: "Examensarbete – Agentbaserad HybridRAG för testomfångsanalys",
+    location: "Ericsson",
+    locationSv: "Ericsson",
+    description:
+      "Designed and evaluated an agentic retrieval assistant for recommending relevant test cases in industrial CI/CD workflows, combining hybrid RAG, knowledge graphs, and polyglot persistence.",
+    descriptionSv:
+      "Utformade och utvärderade ett agentbaserat retrieval-system för att rekommendera relevanta testfall i industriella CI/CD-flöden, med kombination av hybrid-RAG, kunskapsgrafer och polyglot persistens.",
+    detailedDescription:
+      "Conducted a 20-week master's thesis at Ericsson, investigating how to improve the reliability of an agentic retrieval assistant for test scope analysis in a large-scale industrial CI/CD environment. The system — referred to as Agentic HybridRAG — combines dense semantic retrieval, sparse lexical matching, and bounded knowledge-graph navigation within an agentic ReAct-style workflow. Artifacts (requirements, test cases, defect reports, trace links) are stored across polyglot backends (relational, vector, and graph) and enriched before indexing. Research questions covered benchmark design for heterogeneous retrieval, the effect of agent workflow and tool-interface strictness on retrieval quality, and how LLM characteristics (instruction tuning, MoE vs. dense) affect tool-use reliability. Evaluation combined IR metrics (Precision@k, Recall@k, MAP) with LLM-as-a-judge scoring and practitioner usability assessment.",
+    detailedDescriptionSv:
+      "Genomförde ett 20-veckors examensarbete på Ericsson med fokus på att förbättra tillförlitligheten hos ett agentbaserat retrieval-system för testomfångsanalys i en storskalig industriell CI/CD-miljö. Systemet — kallat Agentic HybridRAG — kombinerar tät semantisk sökning, gles lexikal matchning och begränsad kunskapsgrafnavigering inom ett agentbaserat ReAct-arbetsflöde. Artefakter (krav, testfall, felrapporter, spårlänkar) lagras i polyglota backends (relationsdatabas, vektordatabas, grafdatabas) och berikas innan indexering. Forskningsfrågorna täckte benchmark-design för heterogen retrieval, effekten av agentarbetsflöde och verktygsstrikthet på retrieval-kvalitet, samt hur LLM-egenskaper (instruktionstuning, MoE vs. tät modell) påverkar tillförlitlig verktygsanvändning. Utvärderingen kombinerade IR-mätvärden (Precision@k, Recall@k, MAP) med LLM-som-domare-poängsättning och användbarhetsbedömning av praktiker.",
+    date: "Jan 2025 – Jun 2025",
+    type: "work",
+  },
 ];
