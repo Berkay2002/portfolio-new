@@ -148,6 +148,8 @@ export default function RootLayout({
 
         {/* Web app manifest */}
         <link href="/site.webmanifest" rel="manifest" />
+
+        <JsonLd />
       </head>
       <body className={`${inter.className} light antialiased`}>
         <ThemeProvider>
@@ -159,7 +161,6 @@ export default function RootLayout({
               <main className="flex-1">{children}</main>
               <Footer />
               <ScrollToTop />
-              <JsonLd />
             </div>
           </LanguageProvider>
         </ThemeProvider>
