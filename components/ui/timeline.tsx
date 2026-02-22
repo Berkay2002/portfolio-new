@@ -58,7 +58,7 @@ export function Timeline({ events, className }: TimelineProps) {
 
     if (logoSrc) {
       return (
-        <div className="absolute left-0 flex h-10 w-10 items-center justify-center">
+        <div className="absolute left-0 flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background overflow-hidden p-1">
           <Image
             src={logoSrc}
             alt={event.location}
