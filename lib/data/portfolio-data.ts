@@ -396,8 +396,8 @@ export const timelineEvents: TimelineEvent[] = [
   */
   {
     id: "ericsson-thesis",
-    title: "Master's Thesis – Agentic RAG & Knowledge Graphs for Test Scope Analysis",
-    titleSv: "Examensarbete – Agentbaserad RAG & kunskapsgrafer för testomfångsanalys",
+    title: "Master's Thesis – Design & Evaluation of an Agentic Hybrid Retrieval System",
+    titleSv: "Examensarbete – Design & utvärdering av ett agentbaserat hybridbaserat hämtningssystem",
     location: "Ericsson",
     locationSv: "Ericsson",
     description:
