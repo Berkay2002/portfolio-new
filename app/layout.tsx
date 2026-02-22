@@ -37,9 +37,13 @@ export const metadata: Metadata = {
     template: "%s | Berkay Orhan",
   },
   description:
-    "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
+    "Berkay is a Machine Learning Engineer based in Sweden, showcasing projects and research in AI, data science, and full-stack engineering.",
   keywords: [
+    "Berkay",
+    "Berkay Orhan",
     "Machine Learning",
+    "Machine Learning Engineer",
+    "AI Engineer",
     "Control Systems",
     "Cybersecurity",
     "Web Development",
@@ -49,7 +53,8 @@ export const metadata: Metadata = {
     "TypeScript",
     "Python",
     "Next.js",
-    "Berkay Orhan",
+    "Linköping",
+    "Sweden",
   ],
   authors: [{ name: "Berkay Orhan" }],
   creator: "Berkay Orhan",
@@ -81,7 +86,7 @@ export const metadata: Metadata = {
     url: "https://berkay.se",
     title: "Berkay Orhan | Machine Learning Engineer",
     description:
-      "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
+      "Berkay is a Machine Learning Engineer based in Sweden, showcasing projects and research in AI, data science, and full-stack engineering.",
     siteName: "Berkay Orhan Portfolio",
     images: [
       {
@@ -96,7 +101,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Berkay Orhan | Machine Learning Engineer",
     description:
-      "Machine Learning Engineer showcasing projects and technical skills in AI, data science, and engineering",
+      "Berkay is a Machine Learning Engineer based in Sweden, showcasing projects and research in AI, data science, and full-stack engineering.",
     site: "@berkayorhan",
     creator: "@berkayorhan",
     images: ["/images/og-image.jpg"],
@@ -111,10 +116,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "verification_token",
-    yandex: "verification_token",
-  },
+  // Google Search Console: verified via DNS/HTML — token managed separately
 };
 
 export default function RootLayout({
