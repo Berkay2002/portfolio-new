@@ -579,7 +579,7 @@ export default function FastTalkComparison() {
                     <YAxis dataKey="metric" type="category" tick={{ fill: 'currentColor' }} className="text-muted-foreground" width={100} />
                     <Tooltip 
                       contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px' }}
-                      formatter={(v: number) => [`${v.toFixed(1)}ms`]}
+                      formatter={(v) => [`${Number(v).toFixed(1)}ms`]}
                     />
                     <Legend />
                     <Bar dataKey="qwen" name="Qwen3 8B" fill={COLORS.qwen} radius={[0, 4, 4, 0]} />
