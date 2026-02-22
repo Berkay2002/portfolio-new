@@ -366,6 +366,8 @@ export const timelineEvents: TimelineEvent[] = [
       "Examen som Civilingenjör inom Medieteknik. Programmet kombinerade tekniska färdigheter med kreativa tillämpningar, täckande programmering, matematik, signalbehandling och människa-datorinteraktion. Viktiga kurser inkluderade algoritmer och datastrukturer, linjär algebra, digital signalbehandling, datorgrafik och webbutveckling. Genomförde flera betydande projekt inklusive interaktiva visualiseringar, webbapplikationer och multimediasystem.",
     date: "2021 - 2024",
     type: "education",
+    iconLight: "/images/timeline/liu-light.png",
+    iconDark: "/images/timeline/liu-dark.png",
   },
   {
     id: "masters",
@@ -383,6 +385,8 @@ export const timelineEvents: TimelineEvent[] = [
       "Läser för närvarande en Master of Science in Engineering med fokus på avancerade maskininlärningstekniker, datorseende och cybersäkerhet. Programmet inkluderar djuplärningsarkitekturer, neurala nätverk, bildbehandlingsalgoritmer, säkerhetsprotokoll och etiska AI-överväganden. Arbetar med banbrytande forskningsprojekt inom naturlig språkbehandling och datorseende, samtidigt som jag utvecklar expertis inom Python, TensorFlow, PyTorch och olika ML-ramverk.",
     date: "2024 - Present",
     type: "education",
+    iconLight: "/images/timeline/liu-light.png",
+    iconDark: "/images/timeline/liu-dark.png",
   },
   /* Temporarily commented out
   {

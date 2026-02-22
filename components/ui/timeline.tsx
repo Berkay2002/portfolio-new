@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Award, Briefcase, ChevronDown, GraduationCap } from "lucide-react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 import { useLanguage } from "@/components/layout/language-provider";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +24,7 @@ type TimelineProps = {
 
 export function Timeline({ events, className }: TimelineProps) {
   const { locale } = useLanguage();
+  const { resolvedTheme } = useTheme();
 
   const getIcon = (type: TimelineEvent["type"]) => {
     switch (type) {
@@ -47,6 +50,36 @@ export function Timeline({ events, className }: TimelineProps) {
       default:
         return "bg-neutral-500";
     }
+  };
+
+  const renderIconCircle = (event: TimelineEvent) => {
+    const logoSrc =
+      resolvedTheme === "dark" ? event.iconDark : event.iconLight;
+
+    if (logoSrc) {
+      return (
+        <div className="absolute left-0 flex h-10 w-10 items-center justify-center rounded-full border-2 border-background bg-background overflow-hidden">
+          <Image
+            src={logoSrc}
+            alt={event.location}
+            width={40}
+            height={40}
+            className="object-contain"
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className={cn(
+          "absolute left-0 flex h-10 w-10 items-center justify-center rounded-full border-2 border-background",
+          getIconColor(event.type)
+        )}
+      >
+        <span className="text-white">{getIcon(event.type)}</span>
+      </div>
+    );
   };
 
   // Get localized content based on the selected language
@@ -89,14 +122,7 @@ export function Timeline({ events, className }: TimelineProps) {
           whileInView={{ opacity: 1, x: 0 }}
         >
           {/* Icon Circle */}
-          <div
-            className={cn(
-              "absolute left-0 flex h-10 w-10 items-center justify-center rounded-full border-2 border-background",
-              getIconColor(event.type)
-            )}
-          >
-            <span className="text-white">{getIcon(event.type)}</span>
-          </div>
+          {renderIconCircle(event)}
 
           <div className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">

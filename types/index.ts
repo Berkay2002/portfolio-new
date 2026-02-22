@@ -68,6 +68,8 @@ export type TimelineEvent = {
   detailedDescriptionSv?: string; // Swedish detailed description
   date: string;
   icon?: string;
+  iconLight?: string; // path to logo for light theme
+  iconDark?: string;  // path to logo for dark theme
   type: "education" | "work" | "achievement";
 };
 
