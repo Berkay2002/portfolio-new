@@ -111,7 +111,7 @@ export function Timeline({ events, className }: TimelineProps) {
 
       {events.map((event, index) => (
         <motion.div
-          className="relative pl-10"
+          className="relative pl-14"
           initial={{ opacity: 0, x: -20 }}
           key={event.id}
           transition={{
