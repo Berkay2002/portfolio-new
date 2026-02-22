@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://berkay.se/
+Sitemap: https://berkay.se/sitemap.xml
