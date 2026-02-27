@@ -57,7 +57,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
-    "eslint": "^9.39.1",
+    "eslint": "^10.0.2",
     "eslint-config-next": "16.1.6",
     "postcss": "^8",
     "shadcn": "3.8.5",
