@@ -84,8 +84,21 @@ export default function ProjectPageContent({
             )}
           </div>
 
-          {/* Hero image */}
-          {project.image && (
+          {/* Hero video or image */}
+          {project.video ? (
+            <div className="relative aspect-video overflow-hidden rounded-lg border bg-muted">
+              <video
+                autoPlay
+                className="h-full w-full object-cover object-top"
+                loop
+                muted
+                playsInline
+                poster={project.image}
+              >
+                <source src={project.video} type="video/mp4" />
+              </video>
+            </div>
+          ) : project.image ? (
             <div className="relative aspect-video overflow-hidden rounded-lg border bg-muted">
               <ExpandableImage
                 alt={project.imageAlt || project.title}
@@ -95,7 +108,7 @@ export default function ProjectPageContent({
                 unoptimized
               />
             </div>
-          )}
+          ) : null}
 
           {/* Project description */}
           <div className="space-y-4">

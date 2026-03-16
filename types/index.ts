@@ -9,6 +9,7 @@ export type Project = {
   institution?: string;
   image?: string; // Path to screenshot/image
   imageAlt?: string; // Alternative text for the image
+  video?: string; // Path to hero video (takes precedence over image)
   detailedDescription?: string; // Longer description for project detail page
   detailedDescriptionSv?: string; // Swedish longer description for project detail page
   features?: string[]; // List of key features
