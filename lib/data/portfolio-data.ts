@@ -8,6 +8,7 @@ import type {
   TimelineEvent,
 } from "@/types";
 import { agenticRag } from "./projects/agentic-rag";
+import { alertz } from "./projects/alertz";
 import { retrofy } from "./projects/ai-image-editor";
 import { albyradet } from "./projects/albyradet";
 import { animatch } from "./projects/animatch";
@@ -323,6 +324,7 @@ export const projects: Project[] = [
   voxelProject,
   statsforspotify,
   chatbot,
+  alertz,
   fasttalk,
   agenticRag,
   researcher,
