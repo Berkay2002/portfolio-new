@@ -16,6 +16,7 @@ import { chatbot } from "./projects/chatbot";
 import { clairvoyant } from "./projects/clairvoyant";
 import { claudeXmlAgent } from "./projects/claude-xml-agent";
 import { fasttalk } from "./projects/fasttalk";
+import { fracturedCrown } from "./projects/fractured-crown";
 import { kliv } from "./projects/kliv";
 import { litheplan } from "./projects/litheplan";
 import { livenotes } from "./projects/livenotes";
@@ -321,6 +322,7 @@ export const skillDetails: Record<
 };
 
 export const projects: Project[] = [
+  fracturedCrown,
   voxelProject,
   statsforspotify,
   chatbot,

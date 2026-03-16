@@ -37,7 +37,14 @@ Before generating any project entry, read these bundled reference files:
 - **`references/examples.md`** — real project entry examples at different complexity levels (simple, medium, complex with microservices). Explorers and the synthesizer should read this to match tone and structure.
 - **`references/project-type.md`** — the full `Project` type definition with field annotations. Read this to know which fields to populate and what each field expects.
 
-Instruct explorer agents to read these files before writing their reports, and read them yourself before synthesizing the final entry.
+Before drafting any prose, also read the **Humanizer skill** for AI-pattern removal:
+
+- **`~/.claude/skills/humanizer/SKILL.md`** — the checklist of AI writing patterns to avoid
+- **`~/.claude/skills/humanizer/references/ai-patterns.md`** — the full pattern catalog with before/after examples
+
+All user-facing text in the project entry (descriptions, features, challenges, solution, outcome) must pass through the humanizer lens. Portfolio descriptions should sound like a developer talking about their own project, not a press release or product spec. See the "Writing voice" section in Phase 2 for specifics.
+
+Instruct explorer agents to read the project reference files before writing their reports, and read them yourself before synthesizing the final entry.
 
 ## Phase 1: Deep Repo Exploration (GitHub Mode)
 
@@ -45,19 +52,41 @@ The README is a starting point, not the answer. The goal is to understand the pr
 
 ### Step 1: Locate the repo locally or clone it
 
-Always prefer working with local files — it's faster, more powerful, and avoids API rate limits.
+Always prefer working with local files — it's faster, more powerful, and avoids API rate limits. Cloning should be a last resort, not the default. Run through the discovery cascade below in order and stop as soon as you find a match.
 
-**1a. Check if the repo already exists locally.** Search these paths for a directory matching the repo name:
+#### Discovery cascade
+
+**1a. Quick local checks** — fast, no indexing required:
 
 ```bash
-find ~/personal ~/projects ~/ -maxdepth 2 -type d -name "{repo-name}" 2>/dev/null | head -5
+# Check sibling directories and common workspace paths
+ls -d ../{repo-name} 2>/dev/null
+ls -d ~/personal/{repo-name} ~/projects/{repo-name} ~/repos/{repo-name} ~/code/{repo-name} 2>/dev/null
 ```
 
-Also check current working directory siblings (e.g., `../{repo-name}`).
+Also check if the current working directory _is_ the repo (e.g., the user ran `/project .`).
 
-**1b. If found locally** → use that path directly. No clone needed. Set `REPO_PATH` to the found directory.
+**1b. OS-aware broad search** — detect the platform and use the best available indexed search. This catches repos on external drives, deeply nested paths, or non-standard locations that the quick checks miss.
 
-**1c. If not found locally** → clone into a temp directory:
+```bash
+OS="$(uname -s)"
+```
+
+| OS | Search command | Notes |
+|----|---------------|-------|
+| **Darwin** (macOS) | `mdfind "kMDItemFSName == '{repo-name}' && kMDItemContentType == 'public.folder'" \| head -5` | Spotlight-indexed, near-instant, covers all mounted volumes including `/Volumes/` |
+| **Linux** | `locate -i "/{repo-name}" 2>/dev/null \| grep "/{repo-name}$" \| head -5` | Uses `mlocate`/`plocate` index. If `locate` isn't available, fall back to `find / -maxdepth 5 -type d -name "{repo-name}" 2>/dev/null \| head -5` (slower but works everywhere) |
+| **Windows (WSL/Git Bash)** | `find /mnt/c/Users /mnt/d -maxdepth 4 -type d -name "{repo-name}" 2>/dev/null \| head -5` | Searches common Windows drive mounts under WSL |
+
+If multiple matches are found, prefer directories that contain a `.git` folder (confirms it's the actual repo, not just a same-named directory). If still ambiguous, pick the shortest path or ask the user.
+
+**1c. Ask the user** — if the broad search finds nothing, ask before cloning:
+
+> "I couldn't find `{repo-name}` on your machine. Do you know where it lives locally, or should I clone it?"
+
+This avoids wasting time cloning a 500 MB repo the user already has somewhere.
+
+**1d. Clone as last resort** — only if the user confirms there's no local copy, or explicitly asks you to clone:
 
 ```bash
 TEMP_DIR=$(mktemp -d)
@@ -65,7 +94,9 @@ git clone --depth 1 https://github.com/{owner}/{repo}.git "$TEMP_DIR/{repo-name}
 REPO_PATH="$TEMP_DIR/{repo-name}"
 ```
 
-> **Cleanup note:** If a temp clone was created, clean it up (`rm -rf "$TEMP_DIR"`) after the skill completes (after Phase 3).
+**1e. Set `REPO_PATH`** — whether found locally or cloned, set `REPO_PATH` to the directory for all subsequent steps.
+
+> **Cleanup note:** If a temp clone was created, clean it up (`rm -rf "$TEMP_DIR"`) after the skill completes (after Phase 3). Never clean up a pre-existing local repo.
 
 ### Step 2: Gather orientation
 
@@ -147,12 +178,12 @@ Give each explorer only files relevant to its area. Aim for 5-15 files per explo
 
 ### Step 5: Synthesize into project entry
 
-Once all explorers report back, combine their findings into the project data. Read the reference files yourself (`references/examples.md` and `references/project-type.md`) before writing the entry. The descriptions should be:
+Once all explorers report back, combine their findings into the project data. Read the reference files yourself (`references/examples.md`, `references/project-type.md`, and the humanizer files) before writing the entry. The descriptions should be:
 
 - **Specific and technical** — mention actual technologies, patterns, and architecture decisions
 - **Grounded in code** — describe what the code does, not what the README claims
 - **Honest about scope** — don't inflate a small utility into a platform
-- **Consistent in tone** — match existing entries (see `references/examples.md` for calibration)
+- **Human-sounding** — apply the humanizer checklist (see Phase 2 "Writing voice" for details)
 
 ## Phase 2: Generate the Project Entry
 
@@ -201,6 +232,24 @@ Rules:
 - Only include fields that have actual content — omit undefined optionals entirely
 - Don't set `image: undefined` — just omit the field
 - Match the formatting style of existing modules (see `researcher.ts`, `animatch.ts`, `fasttalk.ts`)
+
+### Writing voice
+
+This is a portfolio — the text should read like a developer describing their own work, not like a product page or technical spec. Before drafting any prose, read the humanizer skill files (`~/.claude/skills/humanizer/SKILL.md` and `~/.claude/skills/humanizer/references/ai-patterns.md`) and apply them throughout.
+
+Common AI patterns to watch for in project descriptions:
+
+- **Copula avoidance** — write "is" instead of "serves as", "stands as", "functions as"
+- **Significance inflation** — don't call things "pivotal", "groundbreaking", or a "testament to"
+- **Monotonous feature bullets** — vary sentence length and structure. Not every bullet needs to be the same format. Some can be short. Others can explain something and then add a qualifier like "because Realtime isn't always reliable"
+- **Sterile tone** — add casual connectors where they fit: "basically", "which turned out to be tricky", "the short version is". The text should have a person behind it
+- **Rule of three** — don't force ideas into triads for artificial comprehensiveness
+
+The features array can keep the "Label: description" format (existing entries use it), but the description after the colon should sound conversational, not like documentation. Challenges especially benefit from a human voice — write them as if explaining to a colleague what was hard and why, not as a bullet-pointed risk register.
+
+Swedish translations should match the same casual-professional register. Don't make the Swedish more formal than the English.
+
+After drafting, reread every prose field and ask: would a person actually write this sentence? Fix what still feels off.
 
 ### Present draft for approval
 
