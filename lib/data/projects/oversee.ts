@@ -18,7 +18,7 @@ export const oversee: Project = {
     "MDX",
     "D3/Recharts",
   ],
-  link: "https://github.com/Berkay2002/oversee",
+  link: "https://oversee-fawn.vercel.app",
   imageAlt: "Oversee dashboard with KPIs and charts",
   detailedDescription:
     "Authenticated org workspace that redirects users to their default org and renders an overview (Översikt) with KPI cards, day/week/month trends, category distribution, technician performance, and top reported issues. The page registers context for the built-in AI assistant and ships Swedish help docs via MDX.",
