@@ -8,18 +8,15 @@ import type {
   TimelineEvent,
 } from "@/types";
 import { agenticRag } from "./projects/agentic-rag";
-import { agentMesh } from "./projects/agent-mesh";
 import { retrofy } from "./projects/ai-image-editor";
 import { albyradet } from "./projects/albyradet";
 import { animatch } from "./projects/animatch";
 import { chatbot } from "./projects/chatbot";
 import { clairvoyant } from "./projects/clairvoyant";
-import { claudeXmlAgent } from "./projects/claude-xml-agent";
 import { fasttalk } from "./projects/fasttalk";
 import { fracturedCrown } from "./projects/fractured-crown";
 import { kliv } from "./projects/kliv";
 import { litheplan } from "./projects/litheplan";
-import { livenotes } from "./projects/livenotes";
 import { medieteknik } from "./projects/medieteknik";
 import { oversee } from "./projects/oversee";
 import { primitiveUi } from "./projects/primitive-ui";
@@ -98,7 +95,7 @@ export const skillDetails: Record<
   },
   "Full-Stack Development": {
     description:
-      "Expertise in building, deploying, and maintaining full-stack applications using Next.js, React, TypeScript, Node.js, REST APIs, authentication, real-time collaboration, and cloud-native patterns. Demonstrated in complex, production-ready projects (Clairvoyant, Agent Mesh, Kliv, Albyrådet, LiTHePlan, LiveNotes, Retrofy, Animatch, Medieteknik, etc.).",
+      "Expertise in building, deploying, and maintaining full-stack applications using Next.js, React, TypeScript, Node.js, REST APIs, authentication, real-time collaboration, and cloud-native patterns. Demonstrated in complex, production-ready projects (Clairvoyant, Kliv, Albyrådet, LiTHePlan, Retrofy, Animatch, Medieteknik, etc.).",
     level: 94,
     yearsExperience: 3,
   },
@@ -116,7 +113,7 @@ export const skillDetails: Record<
   },
   "Next.js": {
     description:
-      "Expert-level experience with Next.js (v14/v15) for full-stack, production-grade web apps: app router, SSR, API routes, server/client components, authentication, real-time features, and advanced deployment. Used as the foundation for all major projects (Clairvoyant, Agent Mesh, Kliv, Albyrådet, LiTHePlan, LiveNotes, Retrofy, Animatch, Medieteknik, etc.).",
+      "Expert-level experience with Next.js (v14/v15) for full-stack, production-grade web apps: app router, SSR, API routes, server/client components, authentication, real-time features, and advanced deployment. Used as the foundation for all major projects (Clairvoyant, Kliv, Albyrådet, LiTHePlan, Retrofy, Animatch, Medieteknik, etc.).",
     level: 97,
     yearsExperience: 3,
   },
@@ -212,30 +209,30 @@ export const skillDetails: Record<
   },
   "Vercel AI SDK": {
     description:
-      "Advanced use of Vercel AI SDK for building production-grade, multi-agent, and research AI platforms (Clairvoyant, Agent Mesh). Experience includes streaming, tool orchestration, dual-agent architectures, and integration with Gemini/LLM APIs.",
+      "Advanced use of Vercel AI SDK for building production-grade, multi-agent, and research AI platforms (Clairvoyant). Experience includes streaming, tool orchestration, dual-agent architectures, and integration with Gemini/LLM APIs.",
     level: 92,
     yearsExperience: 0.5,
   },
 
   // ---
   // Why Next.js proficiency is set to 97/100:
-  // You have used Next.js (v14/v15) as the foundation for nearly all major projects, including complex, production-ready apps (Clairvoyant, Agent Mesh, Kliv, Albyrådet, LiTHePlan, LiveNotes, Retrofy, Animatch, Medieteknik, etc.).
+  // You have used Next.js (v14/v15) as the foundation for nearly all major projects, including complex, production-ready apps (Clairvoyant, Kliv, Albyrådet, LiTHePlan, Retrofy, Animatch, Medieteknik, etc.).
   // Your portfolio demonstrates mastery of the app router, SSR, API routes, server/client component boundaries, authentication, real-time features, and advanced deployment. The breadth and depth of your Next.js usage, including custom design systems, real-time collaboration, and AI integrations, justify an expert-level rating.
   "Google Gemini": {
     description:
-      "Extensive experience integrating Google Gemini (Pro/Flash) for LLM-powered chat, research, and multi-agent orchestration (Clairvoyant, Agent Mesh). Used for reasoning, streaming, and tool augmentation in production apps.",
+      "Extensive experience integrating Google Gemini (Pro/Flash) for LLM-powered chat, research, and multi-agent orchestration (Clairvoyant). Used for reasoning, streaming, and tool augmentation in production apps.",
     level: 90,
     yearsExperience: 0.5,
   },
   "Google Gemini SDK": {
     description:
-      "Advanced use of Gemini SDK for prompt engineering, streaming, and tool integration in AI platforms (Clairvoyant, Agent Mesh). Experience with both Pro and Flash models, including multi-agent and research workflows.",
+      "Advanced use of Gemini SDK for prompt engineering, streaming, and tool integration in AI platforms (Clairvoyant). Experience with both Pro and Flash models, including multi-agent and research workflows.",
     level: 88,
     yearsExperience: 0.5,
   },
   "Google Vertex AI": {
     description:
-      "Used Vertex AI for scalable, cloud-based LLM inference and orchestration in multi-agent systems (Agent Mesh). Experience includes deployment, authentication, and integration with Google Cloud Run and Gemini models.",
+      "Used Vertex AI for scalable, cloud-based LLM inference and orchestration in multi-agent systems. Experience includes deployment, authentication, and integration with Google Cloud Run and Gemini models.",
     level: 85,
     yearsExperience: 0.5,
   },
@@ -309,13 +306,13 @@ export const skillDetails: Record<
   },
   Vercel: {
     description:
-      "Expert-level experience deploying, scaling, and optimizing fullstack Next.js/React apps (Clairvoyant, Kliv, LiTHePlan, LiveNotes, Retrofy, Animatch, etc.) on Vercel. Proficient with custom domains, serverless functions, edge middleware, and analytics.",
+      "Expert-level experience deploying, scaling, and optimizing fullstack Next.js/React apps (Clairvoyant, Kliv, LiTHePlan, Retrofy, Animatch, etc.) on Vercel. Proficient with custom domains, serverless functions, edge middleware, and analytics.",
     level: 95,
     yearsExperience: 3,
   },
   Docker: {
     description:
-      "Advanced use of Docker for containerizing microservices, AI inference, and web apps (STT Service, Agent Mesh, etc.). Experience with multi-stage builds, GPU/CPU variants, docker-compose, and production deployment.",
+      "Advanced use of Docker for containerizing microservices, AI inference, and web apps (STT Service, etc.). Experience with multi-stage builds, GPU/CPU variants, docker-compose, and production deployment.",
     level: 85,
     yearsExperience: 1,
   },
@@ -328,7 +325,6 @@ export const projects: Project[] = [
   chatbot,
   fasttalk,
   agenticRag,
-  agentMesh,
   researcher,
   oversee,
   primitiveUi,
@@ -337,10 +333,8 @@ export const projects: Project[] = [
   albyradet,
   animatch,
   clairvoyant,
-  claudeXmlAgent,
   kliv,
   litheplan,
-  livenotes,
   medieteknik,
   solarSystem,
 ];
