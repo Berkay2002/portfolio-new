@@ -36,8 +36,8 @@ import {
   SiTailwindcss,
   SiTensorflow,
   SiTypescript,
-  SiUpstash,
   SiVercel,
+  SiKubernetes,
 } from "react-icons/si";
 import {
   TbApi,
@@ -74,8 +74,8 @@ const skillIcons: Record<string, JSX.Element> = {
   TypeScript: <SiTypescript className="text-[#3178C6]" />,
   React: <SiReact className="text-[#61DAFB]" />,
   "Node.js": <SiNodedotjs className="text-[#339933]" />,
-  "Next.js": <SiNextdotjs className="text-[#000000]" />,
-  "Next.js 15": <SiNextdotjs className="text-[#000000]" />,
+  "Next.js": <SiNextdotjs className="text-[#000000] dark:text-white" />,
+  "Next.js 16": <SiNextdotjs className="text-[#000000] dark:text-white" />,
   "React 19": <SiReact className="text-[#61DAFB]" />,
   "Tailwind CSS": <SiTailwindcss className="text-[#06B6D4]" />,
   "C++": <SiCplusplus className="text-[#00599C]" />,
@@ -84,7 +84,7 @@ const skillIcons: Record<string, JSX.Element> = {
   MongoDBAtlas: <SiMongodb className="text-[#47A248]" />,
   Firebase: <SiFirebase className="text-[#FFCA28]" />,
   Supabase: <SiSupabase className="text-[#3ECF8E]" />,
-  Vercel: <SiVercel className="text-[#000000]" />,
+  Vercel: <SiVercel className="text-[#000000] dark:text-white" />,
   "Machine Learning": <FaBrain className="text-purple-500" />,
   "Deep Learning": <FaBrain className="text-indigo-500" />,
   "Neural Networks": <FaBrain className="text-blue-500" />,
@@ -98,7 +98,7 @@ const skillIcons: Record<string, JSX.Element> = {
   "Data Visualization": <FaChartLine className="text-teal-500" />,
   "Automatic control": <FaMicrochip className="text-orange-500" />,
   // AI & Machine Learning
-  "Vercel AI SDK": <IoLogoVercel className="text-black" />,
+  "Vercel AI SDK": <IoLogoVercel className="text-black dark:text-white" />,
   "Google Gemini": <RiGeminiFill className="text-blue-500" />,
   LangChain: <SiLangchain className="text-green-600" />,
   PyTorch: <SiPytorch className="text-red-600" />,
@@ -113,13 +113,14 @@ const skillIcons: Record<string, JSX.Element> = {
   Redis: <SiRedis className="text-red-600" />,
   MongoDB: <SiMongodb className="text-[#47A248]" />,
   // UI/UX & Styling
-  "shadcn/ui": <SiShadcnui className="text-gray-700" />,
+  "shadcn/ui": <SiShadcnui className="text-gray-700 dark:text-gray-300" />,
   "Framer Motion": <TbBrandFramer className="text-pink-500" />,
-  "Radix UI": <TbBrandRadixUi className="text-gray-600" />,
+  "Base UI": <TbBrandRadixUi className="text-blue-600 dark:text-blue-400" />,
+  "Radix UI": <TbBrandRadixUi className="text-gray-600 dark:text-gray-400" />,
   // Cloud & Deployment
   "Google Cloud": <TbCloud className="text-blue-600" />,
   Docker: <SiDocker className="text-[#2496ED]" />,
-  Upstash: <SiUpstash className="text-orange-500" />,
+  Kubernetes: <SiKubernetes className="text-[#326CE5]" />,
 };
 
 export function AboutSection() {

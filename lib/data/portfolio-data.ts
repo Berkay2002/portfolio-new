@@ -44,7 +44,7 @@ export const skills: Skill[] = [
   },
   {
     category: "Full-Stack Development",
-    items: ["Next.js 15", "React 19", "Node.js", "TypeScript", "REST APIs"],
+    items: ["Next.js 16", "React 19", "Node.js", "TypeScript", "REST APIs"],
   },
   {
     category: "AI & Machine Learning",
@@ -63,11 +63,11 @@ export const skills: Skill[] = [
   },
   {
     category: "UI/UX & Styling",
-    items: ["Tailwind CSS", "shadcn/ui", "Framer Motion", "Radix UI"],
+    items: ["Tailwind CSS", "shadcn/ui", "Base UI", "Framer Motion", "Radix UI"],
   },
   {
     category: "Cloud & Deployment",
-    items: ["Vercel", "Google Cloud", "Docker", "Firebase", "Upstash"],
+    items: ["Vercel", "Google Cloud", "Docker", "Firebase", "Kubernetes"],
   },
 ];
 
@@ -197,10 +197,22 @@ export const skillDetails: Record<
     yearsExperience: 5,
   },
   // --- Added missing tooltips below ---
-  "Next.js 15": {
+  "Next.js 16": {
     description:
       "Latest major version of the Next.js React framework, used for full-stack web apps.",
     level: 97,
+    yearsExperience: 1,
+  },
+  "Base UI": {
+    description:
+      "Unstyled, accessible React component library from MUI for building custom design systems.",
+    level: 70,
+    yearsExperience: 0.5,
+  },
+  Kubernetes: {
+    description:
+      "Container orchestration platform for deploying, scaling, and managing containerized applications.",
+    level: 70,
     yearsExperience: 1,
   },
   "React 19": {
