@@ -22,7 +22,8 @@ export const voxelProject: Project = {
   ],
   link: "https://github.com/Berkay2002/voxel-project",
   githubLink: "https://github.com/Berkay2002/voxel-project",
-  image: "/images/projects/demo/demo_surface.gif",
+  video: "/videos/voxel-project/demo.mp4",
+  image: "/images/projects/voxel-project/poster.jpg",
   imageAlt: "Voxel Engine surface exploration with procedural terrain",
   detailedDescription:
     "A voxel game engine built from scratch in C++20, inspired by Minecraft. The core architecture splits engine subsystems (graphics, rendering, scene, atmosphere, settings) from game logic, with a state machine driving the full lifecycle: title screen, settings, world loading, and gameplay. The world generates infinite terrain using 3D Perlin noise with smoothstep biome blending (Plains, Mountains), carves spaghetti cave networks with natural water flooding, distributes ores at depth-appropriate strata, and cuts rivers using cellular noise. Rendering runs a multi-pass OpenGL 4.6 pipeline: shadow map depth pass with texel-boundary stabilization, half-resolution SSAO with a 64-sample hemisphere kernel and box blur, the main forward-lit pass with per-vertex AO and biome tinting, transparent water, volumetric clouds (2D and 3D modes), and instanced weather particles. Chunk generation and meshing happen on a thread pool, with GPU uploads capped at 4 per frame on the main thread. Blocks and textures are data-driven via a JSON-backed registry.",
@@ -68,23 +69,26 @@ export const voxelProject: Project = {
     "Motorn kör i 60+ FPS med 20 chunks renderingsavstånd och hanterar oändlig terränggenerering, grottor, malmer och floder utan märkbar pop-in tack vare den hastighetsbegränsade asynkrona pipelinen. Flerpass-renderaren producerar ganska övertygande belysning — shadow maps, SSAO och AO per vertex kombineras väl, och dag/natt-cykeln med 8 månfaser och volymetriska moln ger mycket atmosfär. Den modulära arkitekturen höll saker underhållbara allteftersom kodbasen växte till ~340k rader C++ och ~25k rader GLSL. Testsviten körs automatiskt vid varje push via GitHub Actions och täcker de icke-GPU-beroende delsystemen.",
   gallery: [
     {
-      image: "/images/projects/demo/demo_surface.gif",
+      image: "/images/projects/voxel-project/poster.jpg",
       alt: "Voxel Engine surface exploration showing procedural terrain with biomes",
+      video: "/videos/voxel-project/demo_surface.mp4",
       caption:
         "Surface exploration with procedural terrain generation and biome transitions",
       captionSv:
         "Ytutforskning med procedurell terränggenerering och biomövergångar",
     },
     {
-      image: "/images/projects/demo/demo_caves.gif",
+      image: "/images/projects/voxel-project/poster.jpg",
       alt: "Voxel Engine cave systems with natural water flooding",
+      video: "/videos/voxel-project/demo_caves.mp4",
       caption: "Spaghetti cave systems with natural entrances and water flooding",
       captionSv:
         "Spaghetti-grottsystem med naturliga ingångar och vattenöversvämning",
     },
     {
-      image: "/images/projects/demo/demo.gif",
+      image: "/images/projects/voxel-project/poster.jpg",
       alt: "Voxel Engine general gameplay demonstration",
+      video: "/videos/voxel-project/demo_gameplay.mp4",
       caption:
         "General gameplay showcasing terrain, lighting, and block interactions",
       captionSv:

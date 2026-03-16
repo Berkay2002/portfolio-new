@@ -33,9 +33,10 @@ export type Project = {
   gallery?: {
     image: string;
     alt: string;
+    video?: string; // Video source — when set, renders a looping video instead of a static image
     caption?: string;
     captionSv?: string;
-  }[]; // Additional images for the project
+  }[]; // Additional images/videos for the project
 };
 
 export type Skill = {

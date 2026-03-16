@@ -255,13 +255,26 @@ export default function ProjectPageContent({
                     className="group relative aspect-video overflow-hidden rounded-lg border bg-muted"
                     key={item.image}
                   >
-                    <ExpandableImage
-                      alt={item.alt}
-                      className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                      fill
-                      src={item.image}
-                      unoptimized
-                    />
+                    {item.video ? (
+                      <video
+                        autoPlay
+                        className="h-full w-full object-cover object-top"
+                        loop
+                        muted
+                        playsInline
+                        poster={item.image}
+                      >
+                        <source src={item.video} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <ExpandableImage
+                        alt={item.alt}
+                        className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                        fill
+                        src={item.image}
+                        unoptimized
+                      />
+                    )}
                     {(item.caption || (locale === "sv" && item.captionSv)) && (
                       <div className="absolute inset-x-0 bottom-0 bg-background/80 p-2 text-sm backdrop-blur-xs">
                         {getLocalizedContent(item.caption, item.captionSv)}
