@@ -18,7 +18,7 @@ export const animatch: Project = {
     "Web Workers",
     "BERT embeddings",
   ],
-  link: "https://github.com/Berkay2002/anime-recommendation",
+  link: "https://anime-recommendation-gamma.vercel.app",
   detailedDescription:
     "A Next.js 16 App Router web app that delivers anime recommendations from BERT embeddings stored in MongoDB. Users pick multiple titles, which are merged into weighted vectors (descriptions, genres, demographics, ratings, themes) and processed in a web worker to keep the UI responsive. The interface persists choices in localStorage, exposes trending/top-ranked lists, and uses Radix UI + Tailwind 4 for mobile-first layouts.",
   detailedDescriptionSv:

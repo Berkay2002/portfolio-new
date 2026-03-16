@@ -17,7 +17,7 @@ export const primitiveUi: Project = {
     "React Native",
     "Next.js (docs)",
   ],
-  link: "https://github.com/Berkay2002/tddc73",
+  link: "https://tddc73.vercel.app",
   imageAlt: "Primitive UI components and demos",
   detailedDescription:
     "TDDC73 course project that implements nine UI/layout components (cards, toggle, slider, progress, buttons, inputs, VStack/HStack/ZStack) from scratch using only CustomPaint, GestureDetector, custom RenderBox, and animations. Includes multi-framework labs (Flutter, Kotlin Compose/XML, React Native) and a Next.js documentation/demo site.",

@@ -27,7 +27,7 @@ export const statsforspotify: Project = {
     "PWA",
     "Bun",
   ],
-  link: "https://github.com/Berkay2002/statsforspotify",
+  link: "https://statsforspotify-chi.vercel.app",
   githubLink: "https://github.com/Berkay2002/statsforspotify",
   image: "/images/projects/statsforspotify-overview.png",
   imageAlt:
