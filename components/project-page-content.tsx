@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ExternalLink, Github } from "lucide-react";
+import { ChevronLeft, Download, ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useLanguage } from "@/components/layout/language-provider";
@@ -342,14 +342,29 @@ export default function ProjectPageContent({
                   className="w-full justify-between"
                   variant="outline"
                 >
-                  <Link
-                    href={project.link}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <span>{t("projectPage.viewLiveProject")}</span>
-                    <ExternalLink className="h-4 w-4" />
-                  </Link>
+                  {project.link.endsWith(".zip") ? (
+                    <a href={project.link} download>
+                      <span>
+                        {(locale === "sv" && project.linkLabelSv) ||
+                          project.linkLabel ||
+                          t("projectPage.viewLiveProject")}
+                      </span>
+                      <Download className="h-4 w-4" />
+                    </a>
+                  ) : (
+                    <Link
+                      href={project.link}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span>
+                        {(locale === "sv" && project.linkLabelSv) ||
+                          project.linkLabel ||
+                          t("projectPage.viewLiveProject")}
+                      </span>
+                      <ExternalLink className="h-4 w-4" />
+                    </Link>
+                  )}
                 </Button>
               )}
 

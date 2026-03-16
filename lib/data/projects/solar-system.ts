@@ -55,5 +55,8 @@ export const solarSystem: Project = {
     "The add-on installs into Blender's sidebar and lets you build a solar system from scratch or use real planet presets, run the simulation, and get a playable animation out of it. The standard mode handles quick visualizations in seconds. The advanced mode with N-body gravity is more accurate but can take a while depending on planet count and simulation length — the README warns you to save your project first, which about sums it up.",
   outcomeSv:
     "Tillägget installeras i Blenders sidofält och låter dig bygga ett solsystem från grunden eller använda riktiga planetförinställningar, köra simuleringen och få en spelbar animation. Standardläget hanterar snabba visualiseringar på sekunder. Det avancerade läget med N-kroppsgravitation är mer exakt men kan ta en stund beroende på antal planeter och simuleringstid — README:n varnar att man bör spara sitt projekt först, vilket säger det mesta.",
+  link: "/downloads/SolarSystem.zip",
+  linkLabel: "Download Add-on (.zip)",
+  linkLabelSv: "Ladda ner tillägg (.zip)",
   githubLink: "https://github.com/Sahriz/BlenderSolarsystemSim",
 };

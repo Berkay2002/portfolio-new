@@ -5,6 +5,8 @@ export type Project = {
   descriptionSv?: string;
   technologies: string[];
   link?: string;
+  linkLabel?: string; // Custom label for the link button (default: "View Live Project")
+  linkLabelSv?: string; // Swedish custom label for the link button
   frontendLink?: string; // Optional link to dedicated frontend UI
   institution?: string;
   image?: string; // Path to screenshot/image
