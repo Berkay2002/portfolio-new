@@ -4,9 +4,9 @@ export const statsforspotify: Project = {
   id: "statsforspotify",
   title: "Stats for Spotify: Music Analytics Platform",
   description:
-    "Full-stack web application that tracks Spotify listening history, visualizes music taste evolution over time, and enables social music discovery with friends through real-time analytics and automated snapshots.",
+    "Full-stack web app that tracks your Spotify listening history, visualizes how your taste evolves over time, and lets you compare stats with friends. Includes in-browser playback, recap insights, and a PWA for mobile.",
   descriptionSv:
-    "Full-stack webbapplikation som spårar Spotify-lyssningshistorik, visualiserar musiksmakens utveckling över tid och möjliggör social musikupptäckt med vänner genom realtidsanalys och automatiska ögonblicksbilder.",
+    "Full-stack webbapp som spårar din Spotify-lyssningshistorik, visualiserar hur din smak förändras över tid och låter dig jämföra statistik med vänner. Inkluderar uppspelning i webbläsaren, recap-insikter och en PWA för mobilen.",
   technologies: [
     "Next.js 16",
     "React 19",
@@ -14,6 +14,7 @@ export const statsforspotify: Project = {
     "Supabase",
     "PostgreSQL",
     "Spotify API",
+    "Spotify Web Playback SDK",
     "Tailwind CSS 4",
     "shadcn/ui",
     "Recharts",
@@ -23,72 +24,114 @@ export const statsforspotify: Project = {
     "Row Level Security (RLS)",
     "OAuth 2.0",
     "Edge Functions",
+    "PWA",
     "Bun",
   ],
   link: "https://github.com/Berkay2002/statsforspotify",
   githubLink: "https://github.com/Berkay2002/statsforspotify",
-  image: "/images/projects/statsforspotify-mobile-1.png",
-  imageAlt: "Stats for Spotify dashboard showing top artists, tracks, and trend visualization",
+  image: "/images/projects/statsforspotify-overview.png",
+  imageAlt:
+    "Stats for Spotify dashboard showing top artists, tracks, albums, and fun recaps",
   detailedDescription:
-    "Production-ready music analytics platform built with Next.js 16 App Router and Supabase. Tracks users' top 50 artists, tracks, and albums across multiple time ranges (4 weeks, 6 months, all time) with automated snapshot collection respecting 24-hour intervals. Features include historical trend visualization with Recharts-powered line graphs and sparklines, color-coded rank change badges (↑5, ↓3, NEW, —), and progressive enhancement that works with or without historical data. Social features enable friend discovery through mutual Spotify followers, privacy controls (public/friends-only/private), Discord-style usernames with discriminators, and the ability to browse friends' listening history. Built with Row Level Security (RLS) ensuring users can only access their own data and authorized friend data. Includes comprehensive data management with JSON/CSV export, profile customization, and full data deletion capability for Spotify API compliance. Vercel Analytics and Speed Insights provide performance monitoring, while Framer Motion powers smooth animations and transitions. Auto-generated TypeScript types from Supabase schema ensure type safety across all database operations.",
+    "Music analytics platform built with Next.js 16 and Supabase that goes well beyond what Spotify Wrapped gives you. Tracks your top 50 artists, tracks, and albums across three time ranges with daily snapshots, then runs that data through Postgres RPCs to surface things like which album is dominating your listening, who your most consistent artists are, and where the biggest rank shakeups happened. A floating Spotify player lets you listen without leaving the app — it uses the Web Playback SDK on desktop and falls back to polling on mobile where the SDK is unreliable. The friend system is request-based with Discord-style usernames, privacy tiers, and the ability to browse each other's stats. Installable as a PWA on both Android and iOS.",
   detailedDescriptionSv:
-    "Produktionsklar musikanalysplattform byggd med Next.js 16 App Router och Supabase. Spårar användares topp 50 artister, låtar och album över flera tidsintervall (4 veckor, 6 månader, all tid) med automatisk ögonblicksinsamling som respekterar 24-timmarsintervaller. Funktioner inkluderar historisk trendvisualisering med Recharts-drivna linjediagram och sparklines, färgkodade rangändringsmärken (↑5, ↓3, NEW, —) och progressiv förbättring som fungerar med eller utan historiska data. Sociala funktioner möjliggör vänupptäckt genom ömsesidiga Spotify-följare, integritetskontroller (offentlig/endast vänner/privat), Discord-stil användarnamn med diskriminatorer och möjligheten att bläddra bland vänners lyssningshistorik. Byggd med Row Level Security (RLS) som säkerställer att användare endast kan komma åt sin egen data och auktoriserad vändata. Inkluderar omfattande datahantering med JSON/CSV-export, profilanpassning och fullständig dataradering för Spotify API-efterlevnad. Vercel Analytics och Speed Insights ger prestandaövervakning, medan Framer Motion driver smidiga animationer och övergångar. Autogenererade TypeScript-typer från Supabase-schema säkerställer typsäkerhet över alla databasoperationer.",
+    "Musikanalysplattform byggd med Next.js 16 och Supabase som går långt bortom vad Spotify Wrapped ger dig. Spårar dina topp 50 artister, låtar och album över tre tidsintervall med dagliga ögonblicksbilder, och kör sedan datan genom Postgres RPC:er för att hitta saker som vilket album som dominerar ditt lyssnande, vilka dina mest konsekventa artister är och var de största rangskakningarna skedde. En flytande Spotify-spelare låter dig lyssna utan att lämna appen — den använder Web Playback SDK på desktop och faller tillbaka till polling på mobilen där SDK:t är opålitligt. Vänsystemet är förfrågningsbaserat med Discord-stil användarnamn, sekretessnivåer och möjligheten att bläddra i varandras statistik. Installerbar som PWA på både Android och iOS.",
   features: [
-    "Real-time music tracking with top 50 artists, tracks, and albums across 4-week, 6-month, and all-time ranges",
-    "Automated snapshot collection on dashboard visits with 24-hour interval protection and optional scheduled Edge Function collection",
-    "Historical trend visualization using Recharts with sparklines, line graphs, and color-coded rank change indicators (↑5, ↓3, NEW, —)",
-    "Social friend system with mutual Spotify follower discovery, follow-back suggestions, user search, and cached follow verification to reduce API calls",
-    "Privacy controls allowing users to set stats visibility (public, friends-only, or private) with Row Level Security enforcement",
-    "Comprehensive data management including JSON/CSV export, profile customization, detailed statistics, and Spotify-compliant full data deletion",
-    "Performance optimized with parallel data fetching, TanStack React Query caching, Server Components, Next.js Image optimization, and code splitting",
-    "Modern UI with dark/light mode toggle, mobile-responsive design, Framer Motion animations, 50+ shadcn/ui components, and Vercel Analytics integration",
-    "Type-safe database operations using auto-generated TypeScript types from Supabase schema with automated daily synchronization",
+    "Top 50 tracking for artists, tracks, and albums across 4-week, 6-month, and all-time ranges with automated daily snapshots",
+    "Four recap cards — 3 Versions of You, Album Takeover, Hall of Fame, and Plot Twists — all computed server-side in Postgres RPCs so the frontend just renders the results",
+    "Floating Spotify player using the Web Playback SDK on desktop, with adaptive polling fallback on mobile and a retry loop for device registration timing issues",
+    "Historical trend charts with Recharts sparklines, line graphs, and color-coded rank badges (↑5, ↓3, NEW, —) that degrade gracefully when snapshot history is thin",
+    "Request-based friend system with Discord-style usernames, auto-accept for mutual requests, useOptimistic for instant UI feedback, and three-tier privacy controls enforced by RLS",
+    "Genre analytics page that derives genre rankings from your top artists, pre-fetched across all time ranges for instant tab switching",
+    "Artist, track, and album detail pages with hero images, listening stats from Supabase, ranking history charts, follow/unfollow, and in-app playback",
+    "PWA installable on Android (via beforeinstallprompt) and iOS (manual instructions), with platform-aware playback preference between in-app SDK and native Spotify deep links",
+    "Data management with JSON/CSV export, profile customization, full data deletion, and account deletion for Spotify API compliance",
   ],
   featuresSv: [
-    "Realtidsmusikspårning med topp 50 artister, låtar och album över 4-veckor, 6-månader och all-tid intervaller",
-    "Automatisk ögonblicksinsamling vid dashboardbesök med 24-timmars intervallskydd och valfri schemalagd Edge Function-insamling",
-    "Historisk trendvisualisering med Recharts med sparklines, linjediagram och färgkodade rangändringsindikatorer (↑5, ↓3, NEW, —)",
-    "Socialt vänsystem med ömsesidig Spotify-följarupptäckt, följ-tillbaka-förslag, användarsökning och cachad följarverifiering för att minska API-anrop",
-    "Integritetskontroller som tillåter användare att ställa in statistiksynlighet (offentlig, endast vänner eller privat) med Row Level Security-verkställighet",
-    "Omfattande datahantering inklusive JSON/CSV-export, profilanpassning, detaljerad statistik och Spotify-kompatibel fullständig dataradering",
-    "Prestandaoptimerad med parallell datahämtning, TanStack React Query-caching, Server Components, Next.js Image-optimering och koddelning",
-    "Modernt UI med mörk/ljus lägesväxling, mobil-responsiv design, Framer Motion-animationer, 50+ shadcn/ui-komponenter och Vercel Analytics-integration",
-    "Typsäkra databasoperationer med autogenererade TypeScript-typer från Supabase-schema med automatiserad daglig synkronisering",
+    "Topp 50-spårning för artister, låtar och album över 4-veckors, 6-månaders och all-tids-intervall med automatiska dagliga ögonblicksbilder",
+    "Fyra recap-kort — 3 Versions of You, Album Takeover, Hall of Fame och Plot Twists — alla beräknade server-side i Postgres RPC:er så frontenden bara renderar resultaten",
+    "Flytande Spotify-spelare med Web Playback SDK på desktop, adaptiv polling-fallback på mobilen och en retry-loop för problem med enhetsregistreringstiming",
+    "Historiska trenddiagram med Recharts sparklines, linjediagram och färgkodade rangmärken (↑5, ↓3, NEW, —) som degraderar graciöst när ögonblickshistoriken är tunn",
+    "Förfrågningsbaserat vänsystem med Discord-stil användarnamn, auto-accept för ömsesidiga förfrågningar, useOptimistic för omedelbar UI-feedback och tre-nivåers sekretesskontroller med RLS",
+    "Genre-analyssida som härleder genrerankningar från dina toppartister, förhämtade över alla tidsintervall för omedelbar flikväxling",
+    "Artist-, låt- och albumdetaljsidor med hero-bilder, lyssningsstatistik från Supabase, ranghistorikdiagram, följ/avfölj och uppspelning i appen",
+    "PWA installerbar på Android (via beforeinstallprompt) och iOS (manuella instruktioner), med plattformsmedveten uppspelningspreferens mellan in-app SDK och Spotify-djuplänkar",
+    "Datahantering med JSON/CSV-export, profilanpassning, fullständig dataradering och kontoradering för Spotify API-efterlevnad",
   ],
   challenges: [
-    "Managing automated snapshot collection while respecting Spotify API rate limits and avoiding excessive database writes",
-    "Implementing a scalable friend system that verifies mutual Spotify followers without making redundant API calls",
-    "Ensuring data privacy and security with Row Level Security across multiple user permission levels (public, friends-only, private)",
-    "Visualizing ranking history with progressive enhancement that works seamlessly with or without historical data",
-    "Maintaining type safety across the entire stack with database schema changes and Spotify API responses",
+    "The Spotify Web Playback SDK only works for Premium users and behaves differently across browsers — plus device registration is asynchronous and racy, so playback can fail if you try to play before Spotify acknowledges the new device",
+    "Recaps analytics involve substantial SQL: gaps-and-islands for streak detection, window functions for day-over-day deltas, and distinguishing 'new entry' from 'rank changed' across hundreds of snapshots. The plot-twists function alone is ~390 lines of CTEs",
+    "Bidirectional friendship queries need to check both directions of the relationship in every query, and two users sending requests simultaneously could create duplicate rows without the auto-accept logic",
+    "Genres don't come from a Spotify endpoint — they're derived from artist metadata, which means counting and ranking them client-side from aggregated artist data across time ranges",
   ],
   challengesSv: [
-    "Hantera automatisk ögonblicksinsamling samtidigt som Spotify API-gränser respekteras och överdrivna databasskrivningar undviks",
-    "Implementera ett skalbart vänsystem som verifierar ömsesidiga Spotify-följare utan att göra överflödiga API-anrop",
-    "Säkerställa datasekretess och säkerhet med Row Level Security över flera användarbehörighetsnivåer (offentlig, endast vänner, privat)",
-    "Visualisera ranghistorik med progressiv förbättring som fungerar sömlöst med eller utan historiska data",
-    "Bibehålla typsäkerhet över hela stacken med databasschemaändringar och Spotify API-svar",
+    "Spotify Web Playback SDK fungerar bara för Premium-användare och beter sig olika i olika webbläsare — plus att enhetsregistrering är asynkron och känslig för timing, så uppspelning kan misslyckas om man försöker spela innan Spotify har registrerat enheten",
+    "Recaps-analysen innebär tung SQL: gaps-and-islands för streak-detektion, fönsterfunktioner för dag-till-dag-deltan och att skilja 'ny post' från 'rang ändrad' över hundratals ögonblicksbilder. Enbart plot-twists-funktionen är ~390 rader CTEs",
+    "Dubbelriktade vänskapsförfrågningar måste kontrollera båda riktningarna i varje fråga, och två användare som skickar förfrågningar samtidigt kunde skapa dubbletter utan auto-accept-logiken",
+    "Genrer kommer inte från en Spotify-endpoint — de härleds från artistmetadata, vilket innebär räkning och rankning på klientsidan från aggregerad artistdata över tidsintervall",
   ],
   solution:
-    "Implemented auto-snapshot trigger component that checks last snapshot timestamp before initiating collection, with 24-hour interval enforcement at both client and API levels. Friend system uses a cached follow verification table with configurable TTL to minimize Spotify API calls while keeping data fresh. Row Level Security policies enforce privacy settings at database level, with helper functions checking user relationships and permissions. Recharts visualizations detect presence of historical data and gracefully degrade to current-only views when snapshots are unavailable. Database types are auto-generated from Supabase schema using CLI and synchronized daily via GitHub Actions, ensuring type safety without manual maintenance.",
+    "The player uses a dual-mode architecture: Web Playback SDK on desktop with real-time state events, and adaptive polling (2s playing, 5s paused, 10s idle) on mobile where the SDK is unreliable. A retry loop handles the device registration race by catching 404s and re-transferring playback. All recap computations run as Postgres RPCs with security-definer functions that enforce privacy at the database level — the React components receive pre-shaped JSONB and do zero data processing. The friend system stores relationships in its own table (not Spotify's follow API) with bidirectional .or() queries and an auto-accept path when both users have pending requests to each other. Genre rankings are computed server-side across all three time ranges in parallel via Promise.all, then passed to the client as a single payload for instant tab switching. Database types stay in sync through GitHub Actions running supabase gen types daily.",
   solutionSv:
-    "Implementerade auto-snapshot-trigger-komponent som kontrollerar senaste ögonblickstidsstämpel innan insamling initieras, med 24-timmars intervallverkställighet på både klient- och API-nivåer. Vänsystemet använder en cachad följarverifieringstabell med konfigurerbar TTL för att minimera Spotify API-anrop samtidigt som data hålls fräsch. Row Level Security-policyer verkställer integritetsinställningar på databasnivå, med hjälpfunktioner som kontrollerar användarrelationer och behörigheter. Recharts-visualiseringar detekterar närvaron av historiska data och degraderar graciöst till endast nuvarande vyer när ögonblicksbilder är otillgängliga. Databastyper autogenereras från Supabase-schema med CLI och synkroniseras dagligen via GitHub Actions, vilket säkerställer typsäkerhet utan manuellt underhåll.",
+    "Spelaren använder en dual-mode-arkitektur: Web Playback SDK på desktop med realtids-state-events och adaptiv polling (2s vid uppspelning, 5s pausad, 10s inaktiv) på mobilen där SDK:t är opålitligt. En retry-loop hanterar enhetsregistreringsracet genom att fånga 404:or och överföra uppspelning igen. Alla recap-beräkningar körs som Postgres RPC:er med security-definer-funktioner som verkställer sekretess på databasnivå — React-komponenterna tar emot förformad JSONB och gör noll databearbetning. Vänsystemet lagrar relationer i en egen tabell (inte Spotifys följar-API) med dubbelriktade .or()-frågor och en auto-accept-väg när båda användarna har väntande förfrågningar till varandra. Genrerankningar beräknas server-side över alla tre tidsintervall parallellt via Promise.all och skickas till klienten som en enda payload för omedelbar flikväxling. Databastyper hålls synkade genom GitHub Actions som kör supabase gen types dagligen.",
   outcome:
-    "Delivered a production-ready music analytics platform with 50+ UI components, automated data collection respecting API limits, comprehensive social features with privacy controls, and full Spotify API compliance. Achieved optimal performance through parallel data fetching, React Query caching, and Server Components. Type safety maintained across entire stack with automated schema synchronization. Successfully deployed on Vercel with Analytics and Speed Insights integration, providing users with historical music taste tracking, friend discovery, and detailed listening statistics while maintaining data privacy and security through Row Level Security.",
+    "A deployed music analytics platform at statsforspotify-chi.vercel.app with in-browser Spotify playback, four recap insight cards backed by complex Postgres analytics, a request-based social system with privacy controls, genre breakdowns, and full artist/track/album detail pages with ranking history. Installable as a PWA on both mobile platforms. The whole thing runs on Supabase with RLS enforcing privacy at the database layer, auto-generated types keeping the frontend in sync, and Vercel Analytics tracking real usage.",
   outcomeSv:
-    "Levererade en produktionsklar musikanalysplattform med 50+ UI-komponenter, automatiserad datainsamling som respekterar API-gränser, omfattande sociala funktioner med integritetskontroller och fullständig Spotify API-efterlevnad. Uppnådde optimal prestanda genom parallell datahämtning, React Query-caching och Server Components. Typsäkerhet bibehölls över hela stacken med automatiserad schemasynkronisering. Framgångsrikt utplacerad på Vercel med Analytics och Speed Insights-integration, vilket ger användare historisk musiksmakspårning, vänupptäckt och detaljerad lyssningsstatistik samtidigt som datasekretess och säkerhet bibehålls genom Row Level Security.",
+    "En driftsatt musikanalysplattform på statsforspotify-chi.vercel.app med Spotify-uppspelning i webbläsaren, fyra recap-insiktskort backade av komplex Postgres-analys, ett förfrågningsbaserat socialt system med sekretesskontroller, genreuppdelningar och fullständiga artist/låt/album-detaljsidor med ranghistorik. Installerbar som PWA på båda mobilplattformarna. Hela lösningen körs på Supabase med RLS som verkställer sekretess på databasnivå, autogenererade typer som håller frontenden synkad och Vercel Analytics som spårar verklig användning.",
   gallery: [
     {
-      image: "/images/projects/statsforspotify-mobile-1.png",
-      alt: "Stats for Spotify mobile view - Top Artists screen",
-      caption: "Mobile view showing top artists with historical trend indicators",
-      captionSv: "Mobilvy som visar toppartister med historiska trendindikatorer",
+      image: "/images/projects/statsforspotify-overview.png",
+      alt: "Stats for Spotify dashboard overview",
+      caption:
+        "Dashboard overview with top artists, tracks, albums, and fun recaps",
+      captionSv:
+        "Dashboard-översikt med toppartister, låtar, album och roliga recaps",
     },
     {
-      image: "/images/projects/statsforspotify-mobile-2.png",
-      alt: "Stats for Spotify mobile view - Detailed stats screen",
-      caption: "Mobile view displaying detailed listening statistics and trends",
-      captionSv: "Mobilvy som visar detaljerad lyssningsstatistik och trender",
+      image: "/images/projects/statsforspotify-top-artists.png",
+      alt: "Stats for Spotify top artists grid",
+      caption:
+        "Top Artists grid view with artist cards and Open in Spotify buttons",
+      captionSv:
+        "Toppartister i rutnätsvy med artistkort och Öppna i Spotify-knappar",
+    },
+    {
+      image: "/images/projects/statsforspotify-top-tracks.png",
+      alt: "Stats for Spotify top tracks list",
+      caption: "Top Tracks list with sparkline toggle and rank indicators",
+      captionSv: "Topplåtar-lista med sparkline-toggle och rangindikatorer",
+    },
+    {
+      image: "/images/projects/statsforspotify-artist-detail.png",
+      alt: "Stats for Spotify artist detail page for Lana Del Rey",
+      caption:
+        "Artist detail page with hero image, follow button, and personal top tracks",
+      captionSv:
+        "Artistdetaljsida med hero-bild, följ-knapp och personliga topplåtar",
+    },
+    {
+      image: "/images/projects/statsforspotify-track-detail.png",
+      alt: "Stats for Spotify track detail page showing ranking history chart",
+      caption:
+        "Track detail page with ranking history chart, peak position, and days charted",
+      captionSv:
+        "Låtdetaljsida med ranghistorikdiagram, toppposition och dagar på listan",
+    },
+    {
+      image: "/images/projects/statsforspotify-recaps.png",
+      alt: "Stats for Spotify Fun Recaps showing 3 Versions of You",
+      caption:
+        "Fun Recaps page with 3 Versions of You comparing taste across time ranges",
+      captionSv:
+        "Fun Recaps-sida med 3 Versions of You som jämför smak över tidsintervall",
+    },
+    {
+      image: "/images/projects/statsforspotify-friend-profile.png",
+      alt: "Stats for Spotify friend profile page",
+      caption:
+        "Friend profile page showing their top artists with privacy-gated access",
+      captionSv:
+        "Väns profilsida som visar deras toppartister med sekretessstyrd åtkomst",
     },
   ],
 };
