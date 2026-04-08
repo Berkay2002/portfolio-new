@@ -1,0 +1,202 @@
+\documentclass{modernsimplecv}
+% try out different fonts: classic, fira, raleway, chivo
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1cm, a4paper]{geometry}
+
+% ------------------------------------------------------------------------------------
+% you can try out different fonts here by commenting the following lines in and out
+% -----------------------------------------------------------------------------------
+\usepackage[default]{raleway}
+%\usepackage[sfdefault]{FiraSans} %% option 'sfdefault' activates Fira Sans as the default text font\renewcommand*\oldstylenums[1]{{\firaoldstyle #1}}\normalfont
+%\usepackage[familydefault,light]{Chivo}
+%\usepackage[sfdefault,light,condensed]{roboto}
+%\usepackage[default]{cantarell}
+%\usepackage[sfdefault]{AlegreyaSans}
+
+\usepackage{tabularx}
+\usepackage{beuron}
+\usepackage{LobsterTwo}%if not suposed to be main font, load other main font after this
+
+% Redefine cvevent without year
+\newcommand{\cvevent}[4]{
+    \textbf{#1} \ % Project Title
+    \emph{#2} · #3 \ % Project Type and Organization
+    \small{#4} \\[1em] % Project Description
+}
+
+
+%------------------------------------------------------------------ Variablen
+
+\newlength{\rightcolwidth}
+\newlength{\leftcolwidth}
+\setlength{\leftcolwidth}{0.48\textwidth}
+\setlength{\rightcolwidth}{0.47\textwidth}
+
+%------------------------------------------------------------------
+\title{Berkay's CV}
+\author{\LaTeX{} Berkay Orhan}
+\date{April 2026}
+
+\pagestyle{empty}
+\begin{document}
+
+
+\thispagestyle{empty}
+%-------------------------------------------------------------
+
+\tikz[remember picture,overlay] {%
+\node[rectangle, fill=white, anchor=north, minimum width=\paperwidth, minimum height=5cm](header) at (current page.north){};%
+}
+
+\begin{minipage}[t]{0.21\textwidth}
+\vspace{0pt} % Trick for alignment
+\includegraphics[width=\textwidth]{berkay.jpg}\hspace{1em}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.77\textwidth}
+\vspace{0pt} % Trick for alignment
+\begin{shaded*}
+
+\begin{minipage}[t]{0.4\textwidth}
+\vspace{0pt} % Trick for alignment
+% Replace the fancy font or keep as is
+{\par\centering\huge\LobsterTwo{Berkay Orhan}} \\[0.3cm]
+\faGlobe~ Nationality: Swedish \\
+\faBirthdayCake~ 2002 \\
+\faMapMarker~ Norrköping, Sweden \\
+
+{\small
+\faGraduationCap~ \underline{Program:} M.Sc Media Technology and Engineering \\
+\faCommentsO~ \underline{Languages:} \emph{Swedish} Native, \emph{Turkish} Native, \emph{English} Advanced.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.55\textwidth}
+\vspace{0pt} % Trick for alignment
+\faPhone~ 072-321-0958 \\
+\faAt~ \protect\url{berkayorhan@hotmail.se} \\
+
+\faMapMarker~ Luntgatan 60219, Norrköping \\
+
+%\aiAcademiaSquare
+\faLinkedin~ \href{http://linkedin.com/in/berkay-orhan-b71256204}{linkedin.com/in/berkay-orhan-b71256204} \\
+\faGithub~ \href{https://github.com/Berkay2002}{github.com/Berkay2002} \\
+\faGlobe~ \href{https://berkay.se}{berkay.se} \\
+
+\end{minipage}
+\hfill
+\end{shaded*}
+\end{minipage}\\[15pt]
+
+%------------------------------------------------
+
+% hier muss die "unsichtbare" Überschrift rein, weil er sonst nicht die Paracols startet... komisch...
+\subsection*{}
+\vspace{-3em}
+
+\setlength{\columnsep}{1.5cm}
+\columnratio{0.48}[0.47]
+\begin{paracol}{2}
+\hbadness5000
+%\backgroundcolor{c[1]}[rgb]{1,1,0.8} % cream yellow for column-1 %\backgroundcolor{g}[rgb]{0.8,1,1} % \backgroundcolor{l}[rgb]{0,0,0.7} % dark blue for left margin
+
+\paracolbackgroundoptions
+
+% 0.9,0.9,0.9 -- 0.8,0.8,0.8
+
+
+\footnotesize
+{
+\begin{minipage}[t]{\leftcolwidth}
+\small
+\section*{Projects}
+
+\cvevent{Municipality Chatbot}{AI-Powered Citizen Services}{Personal}{%
+Enterprise AI chatbot platform for Swedish municipalities with GraphRAG combining vector search, knowledge graphs, and keyword matching. Features multi-provider LLM support, an embeddable React widget, and self-hosted GDPR-compliant architecture. Built with Python, LangChain, LangGraph, FastAPI, Neo4j, pgvector, React, and Docker.
+}
+
+\cvevent{FastTalk}{Real-Time Voice Stack}{Personal}{%
+Real-time voice conversation system with STT→LLM→TTS pipeline and end-to-end WebSocket streaming. Features Kokoro and Chatterbox TTS engines, PydanticAI-driven LLM with tool calling, and AudioWorklet-based 48\,kHz audio I/O. Built with Python, FastAPI, vLLM, faster-whisper, Docker, CUDA, Next.js, and React.
+}
+
+\cvevent{SynGraph}{Deep Research Agent}{Linköping University}{%
+LangGraph + Next.js workflow orchestrating supervisor/worker agents for deep research with dual search engines (Tavily + Exa), human clarification interrupts, and citation-backed report generation. Built with TypeScript, Next.js, LangGraph, and Google Gemini.
+}
+
+\cvevent{Oversee}{Ops \& AI Dashboard}{Personal}{%
+Multi-tenant workshop management platform with role-based access and an AI assistant that parses Excel files and manages reports through tool-calling. Features human-in-the-loop approval dialogs and Swedish-first analytics dashboards. Built with Next.js 16, Supabase, Vercel AI SDK, TanStack Table, and Playwright.
+}
+
+\cvevent{Stats for Spotify}{Music Analytics Platform}{Personal}{%
+Full-stack web app that tracks Spotify listening history, visualizes taste evolution, and lets users compare stats with friends. Includes in-browser playback via the Web Playback SDK, server-computed recap insights, and historical trend charts. Built with Next.js 16, Supabase, Spotify API, Recharts, and Row Level Security.
+}
+
+\cvevent{LiTHePlan}{University Course Planning}{Personal}{%
+Course planning tool for Linköping University master's students. Browse 339 courses across 15 programs, build validated 90\,hp study plans with drag-and-drop, dual conflict detection, and a Cmd+K command palette. Built with Next.js 16, Supabase, Upstash Redis, and Playwright.
+}
+
+\cvevent{Kliv Idrottsförening}{Sports Association Website}{Personal (Pro Bono)}{%
+Website for a youth judo club with Google Calendar webhook sync, admin dashboard for event management, email notifications via Nodemailer, and an animated bento grid homepage. Built with Next.js 16, React, Google Calendar API, Redis, Clerk Auth, and Cloudinary.
+}
+
+\cvevent{Albyrådet}{Non-Profit Web Application}{Personal (Pro Bono)}{%
+Website for a youth organization in Alby, Botkyrka with membership application forms, contact emails via Nodemailer, and a hand-built project carousel with Framer Motion animations. Built with Next.js 15, Express.js, MongoDB, Mongoose, and shadcn/ui.
+}
+
+\vspace{4em}
+\end{minipage}
+
+
+
+}
+%-----------------------------------------------------------
+\switchcolumn
+
+\small
+
+\section*{Technical Skills}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+  \textbf{Languages} & TypeScript, Python, JavaScript, C++ \\
+  \textbf{Web/Fullstack} & Next.js, React, Node.js, REST APIs, shadcn/ui, Tailwind CSS, Framer Motion, Radix UI \\
+  \textbf{Backend/APIs} & FastAPI, Express.js, WebSockets, Microservices \\
+  \textbf{AI/ML/Agents} & LangChain, LangGraph, Vercel AI SDK, Google Gemini, PyTorch, Whisper, CUDA, PydanticAI \\
+  \textbf{Databases} & Supabase, PostgreSQL, pgvector, Neo4j, MongoDB, Qdrant, Redis \\
+  \textbf{Cloud/DevOps} & Vercel, Google Cloud, Docker, Firebase \\
+  \textbf{Specialized} & Agentic RAG, GraphRAG, Multi-agent systems, MCP, Real-time STT/TTS/LLM streaming \\
+\end{tabularx}
+
+
+\section*{Experience}
+
+\noindent\textbf{Jan 2026 -- Jun 2026} \\
+\textbf{Master's Thesis Student} \\
+Ericsson · Linköping \\
+Designed and evaluated an agentic hybrid retrieval system for recommending relevant test cases in industrial CI/CD workflows. Combined dense semantic retrieval, sparse lexical matching, and knowledge-graph navigation within a ReAct-style agent workflow using LangChain, LangGraph, Neo4j, and pgvector. \\[1em]
+
+\noindent\textbf{Summer 2023 \& 2024} \\
+\textbf{Part-time Employee} \\
+LIDL · Stockholm \\
+Performed various tasks including stocking shelves, assisting customers, operating the cash register, and maintaining cleanliness in the store. \\[1em]
+
+\section*{Education}
+
+\noindent\textbf{2024--2026 (Ongoing)} \\
+\textbf{Master of Science in Media Technology \& Engineering} \\
+Linköping University \\
+Specializing in Machine Learning, AI, and Web Development. \\[1em]
+
+\noindent\textbf{2021--2024} \\
+\textbf{Bachelor of Science in Media Technology \& Engineering} \\
+Linköping University \\
+Focus on programming, mathematics, and signal processing. \\[1em]
+
+\noindent\textbf{2019--2021} \\
+\textbf{Naturvetenskapsprogrammet} \\
+Huddinge Gymnasium \\
+
+\noindent\textbf{2018--2019} \\
+\textbf{Naturvetenskapsprogrammet} \\
+Tumba Gymnasium \\
+
+
+\end{paracol}
+
+\end{document}
