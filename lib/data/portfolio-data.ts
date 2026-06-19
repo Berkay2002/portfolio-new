@@ -26,6 +26,7 @@ import { snapgredient } from "./projects/snapgredient";
 import { solarSystem } from "./projects/solar-system";
 import { statsforspotify } from "./projects/statsforspotify";
 import { voxelProject } from "./projects/voxel-project";
+import { wikillm } from "./projects/wikillm";
 
 export const personalInfo: PersonalInfo = {
   name: "Berkay Orhan",
@@ -332,6 +333,7 @@ export const skillDetails: Record<
 };
 
 export const projects: Project[] = [
+  wikillm,
   fracturedCrown,
   voxelProject,
   statsforspotify,
