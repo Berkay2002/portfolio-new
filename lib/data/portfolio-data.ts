@@ -363,23 +363,42 @@ export const socialLinks: SocialLinks = {
 
 export const timelineEvents: TimelineEvent[] = [
   {
-    id: "bachelors",
-    title: "Bachelor's Degree in Engineering",
-    titleSv: "Bachelor's Degree in Engineering",
-    location: "Linköping University",
-    locationSv: "Linköpings universitet",
+    id: "ericsson-rd-internship",
+    title: "R&D Internship",
+    titleSv: "R&D-praktik",
+    location: "Ericsson",
+    locationSv: "Ericsson",
     description:
-      "Completed my bachelor's with a focus on programming and applied mathematics.",
+      "AI Engineer internship in Ericsson R&D, working on applied AI systems in Linköping.",
     descriptionSv:
-      "Avslutade min kandidatexamen med fokus på programmering och tillämpad matematik.",
+      "R&D-praktik som AI Engineer på Ericsson, med arbete på tillämpade AI-system i Linköping.",
     detailedDescription:
-      "Graduated with a Bachelor of Science in Engineering, specializing in Media Technology. The program combined technical skills with creative applications, covering programming, mathematics, signal processing, and human-computer interaction. Key coursework included algorithms and data structures, linear algebra, digital signal processing, computer graphics, and web development. Completed several significant projects including interactive visualizations, web applications, and multimedia systems.",
+      "Full-time, on-site R&D internship at Ericsson in Linköping, continuing applied AI engineering work after the master's thesis project conducted with Ericsson.",
     detailedDescriptionSv:
-      "Examen som Civilingenjör inom Medieteknik. Programmet kombinerade tekniska färdigheter med kreativa tillämpningar, täckande programmering, matematik, signalbehandling och människa-datorinteraktion. Viktiga kurser inkluderade algoritmer och datastrukturer, linjär algebra, digital signalbehandling, datorgrafik och webbutveckling. Genomförde flera betydande projekt inklusive interaktiva visualiseringar, webbapplikationer och multimediasystem.",
-    date: "2021 - 2024",
-    type: "education",
-    iconLight: "/images/timeline/liu-light.png",
-    iconDark: "/images/timeline/liu-dark.png",
+      "Heltidspraktik på plats inom R&D på Ericsson i Linköping, med fortsatt tillämpat AI-engineeringarbete efter examensarbetet som genomfördes tillsammans med Ericsson.",
+    date: "Jun 2026 - Present",
+    type: "work",
+    iconLight: "/images/timeline/ericsson-light.svg",
+    iconDark: "/images/timeline/ericsson-dark.svg",
+  },
+  {
+    id: "ericsson-thesis",
+    title: "Master's Thesis – Design & Evaluation of an Agentic Hybrid Retrieval System",
+    titleSv: "Examensarbete – Design & utvärdering av ett agentbaserat hybridbaserat hämtningssystem",
+    location: "Ericsson",
+    locationSv: "Ericsson",
+    description:
+      "Designed and evaluated an agentic retrieval assistant for recommending relevant test cases in industrial CI/CD workflows, combining hybrid RAG, knowledge graphs, and polyglot persistence.",
+    descriptionSv:
+      "Utformade och utvärderade ett agentbaserat retrieval-system för att rekommendera relevanta testfall i industriella CI/CD-flöden, med kombination av hybrid-RAG, kunskapsgrafer och polyglot persistens.",
+    detailedDescription:
+      "Conducted a 20-week master's thesis at Ericsson, investigating how to improve the reliability of an agentic retrieval assistant for test scope analysis in a large-scale industrial CI/CD environment. The system — referred to as Agentic HybridRAG — combines dense semantic retrieval, sparse lexical matching, and bounded knowledge-graph navigation within an agentic ReAct-style workflow. Artifacts (requirements, test cases, defect reports, trace links) are stored across polyglot backends (relational, vector, and graph) and enriched before indexing. Research questions covered benchmark design for heterogeneous retrieval, the effect of agent workflow and tool-interface strictness on retrieval quality, and how LLM characteristics (instruction tuning, MoE vs. dense) affect tool-use reliability. Evaluation combined IR metrics (Precision@k, Recall@k, MAP) with LLM-as-a-judge scoring and practitioner usability assessment.",
+    detailedDescriptionSv:
+      "Genomförde ett 20-veckors examensarbete på Ericsson med fokus på att förbättra tillförlitligheten hos ett agentbaserat retrieval-system för testomfångsanalys i en storskalig industriell CI/CD-miljö. Systemet — kallat Agentic HybridRAG — kombinerar tät semantisk sökning, gles lexikal matchning och begränsad kunskapsgrafnavigering inom ett agentbaserat ReAct-arbetsflöde. Artefakter (krav, testfall, felrapporter, spårlänkar) lagras i polyglota backends (relationsdatabas, vektordatabas, grafdatabas) och berikas innan indexering. Forskningsfrågorna täckte benchmark-design för heterogen retrieval, effekten av agentarbetsflöde och verktygsstrikthet på retrieval-kvalitet, samt hur LLM-egenskaper (instruktionstuning, MoE vs. tät modell) påverkar tillförlitlig verktygsanvändning. Utvärderingen kombinerade IR-mätvärden (Precision@k, Recall@k, MAP) med LLM-som-domare-poängsättning och användbarhetsbedömning av praktiker.",
+    date: "Jan 2026 – Jun 2026",
+    type: "work",
+    iconLight: "/images/timeline/ericsson-light.svg",
+    iconDark: "/images/timeline/ericsson-dark.svg",
   },
   {
     id: "masters",
@@ -400,6 +419,25 @@ export const timelineEvents: TimelineEvent[] = [
     iconLight: "/images/timeline/liu-light.png",
     iconDark: "/images/timeline/liu-dark.png",
   },
+  {
+    id: "bachelors",
+    title: "Bachelor's Degree in Engineering",
+    titleSv: "Bachelor's Degree in Engineering",
+    location: "Linköping University",
+    locationSv: "Linköpings universitet",
+    description:
+      "Completed my bachelor's with a focus on programming and applied mathematics.",
+    descriptionSv:
+      "Avslutade min kandidatexamen med fokus på programmering och tillämpad matematik.",
+    detailedDescription:
+      "Graduated with a Bachelor of Science in Engineering, specializing in Media Technology. The program combined technical skills with creative applications, covering programming, mathematics, signal processing, and human-computer interaction. Key coursework included algorithms and data structures, linear algebra, digital signal processing, computer graphics, and web development. Completed several significant projects including interactive visualizations, web applications, and multimedia systems.",
+    detailedDescriptionSv:
+      "Examen som Civilingenjör inom Medieteknik. Programmet kombinerade tekniska färdigheter med kreativa tillämpningar, täckande programmering, matematik, signalbehandling och människa-datorinteraktion. Viktiga kurser inkluderade algoritmer och datastrukturer, linjär algebra, digital signalbehandling, datorgrafik och webbutveckling. Genomförde flera betydande projekt inklusive interaktiva visualiseringar, webbapplikationer och multimediasystem.",
+    date: "2021 - 2024",
+    type: "education",
+    iconLight: "/images/timeline/liu-light.png",
+    iconDark: "/images/timeline/liu-dark.png",
+  },
   /* Temporarily commented out
   {
     id: "internship",
@@ -410,23 +448,4 @@ export const timelineEvents: TimelineEvent[] = [
     type: "work"
   },
   */
-  {
-    id: "ericsson-thesis",
-    title: "Master's Thesis – Design & Evaluation of an Agentic Hybrid Retrieval System",
-    titleSv: "Examensarbete – Design & utvärdering av ett agentbaserat hybridbaserat hämtningssystem",
-    location: "Ericsson",
-    locationSv: "Ericsson",
-    description:
-      "Designed and evaluated an agentic retrieval assistant for recommending relevant test cases in industrial CI/CD workflows, combining hybrid RAG, knowledge graphs, and polyglot persistence.",
-    descriptionSv:
-      "Utformade och utvärderade ett agentbaserat retrieval-system för att rekommendera relevanta testfall i industriella CI/CD-flöden, med kombination av hybrid-RAG, kunskapsgrafer och polyglot persistens.",
-    detailedDescription:
-      "Conducted a 20-week master's thesis at Ericsson, investigating how to improve the reliability of an agentic retrieval assistant for test scope analysis in a large-scale industrial CI/CD environment. The system — referred to as Agentic HybridRAG — combines dense semantic retrieval, sparse lexical matching, and bounded knowledge-graph navigation within an agentic ReAct-style workflow. Artifacts (requirements, test cases, defect reports, trace links) are stored across polyglot backends (relational, vector, and graph) and enriched before indexing. Research questions covered benchmark design for heterogeneous retrieval, the effect of agent workflow and tool-interface strictness on retrieval quality, and how LLM characteristics (instruction tuning, MoE vs. dense) affect tool-use reliability. Evaluation combined IR metrics (Precision@k, Recall@k, MAP) with LLM-as-a-judge scoring and practitioner usability assessment.",
-    detailedDescriptionSv:
-      "Genomförde ett 20-veckors examensarbete på Ericsson med fokus på att förbättra tillförlitligheten hos ett agentbaserat retrieval-system för testomfångsanalys i en storskalig industriell CI/CD-miljö. Systemet — kallat Agentic HybridRAG — kombinerar tät semantisk sökning, gles lexikal matchning och begränsad kunskapsgrafnavigering inom ett agentbaserat ReAct-arbetsflöde. Artefakter (krav, testfall, felrapporter, spårlänkar) lagras i polyglota backends (relationsdatabas, vektordatabas, grafdatabas) och berikas innan indexering. Forskningsfrågorna täckte benchmark-design för heterogen retrieval, effekten av agentarbetsflöde och verktygsstrikthet på retrieval-kvalitet, samt hur LLM-egenskaper (instruktionstuning, MoE vs. tät modell) påverkar tillförlitlig verktygsanvändning. Utvärderingen kombinerade IR-mätvärden (Precision@k, Recall@k, MAP) med LLM-som-domare-poängsättning och användbarhetsbedömning av praktiker.",
-    date: "Jan 2026 – Jun 2026",
-    type: "work",
-    iconLight: "/images/timeline/ericsson-light.svg",
-    iconDark: "/images/timeline/ericsson-dark.svg",
-  },
 ];
