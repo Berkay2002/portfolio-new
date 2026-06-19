@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { AboutSection } from "@/components/sections/about-section";
 import { ContactSection } from "@/components/sections/contact-section";
 import { HeroSection } from "@/components/sections/hero-section";
+import { MasterThesisSection } from "@/components/sections/master-thesis-section";
 import { ProjectsCarouselSection } from "@/components/sections/projects-carousel-section";
 import { TimelineSection } from "@/components/sections/timeline-section";
 import { Container } from "@/components/ui/container";
@@ -100,6 +101,7 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <TimelineSection />
+      <MasterThesisSection />
       <ProjectsCarouselSection />
       <Container className="pt-0" id="papers">
         <SectionHeading

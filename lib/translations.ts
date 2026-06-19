@@ -38,6 +38,30 @@ const translations: Translations = {
         title: "Education & Experience",
         description: "My background",
       },
+      thesis: {
+        title: "Master's Thesis",
+        description: "Research conducted in collaboration with Ericsson.",
+        collaboration:
+          "Conducted in collaboration with Ericsson in a telecommunications setting.",
+        summary:
+          "A master's thesis on agentic hybrid retrieval for industrial test-case recommendation, evaluated across 52 hand-built scenarios over 11,366 production test cases.",
+        exploreBenchmark: "Explore benchmark",
+        readThesis: "Read thesis",
+        evidence: "Research evidence",
+        scenarios: "scenarios",
+        scenariosDetail:
+          "Hand-built retrieval tasks stratified by family, complexity, and answerability.",
+        testCases: "test cases",
+        testCasesDetail:
+          "Industrial corpus with structured metadata and trace links.",
+        workflows: "workflows",
+        workflowsDetail: "ReAct and Orchestrator-worker compared directly.",
+        models: "models",
+        modelsDetail: "GLM-5.1, DeepSeek-V3.2, and Qwen3-Coder.",
+        metricFamilies: "metric families",
+        metricFamiliesDetail:
+          "Functional checks, IR metrics, and LLM-as-a-judge scoring.",
+      },
       projects: {
         title: "Projects",
         description: "Some of my work",
@@ -125,6 +149,30 @@ const translations: Translations = {
       timeline: {
         title: "Utbildning & Erfarenhet",
         description: "Min bakgrund",
+      },
+      thesis: {
+        title: "Masterexamensarbete",
+        description: "Forskning genomförd i samarbete med Ericsson.",
+        collaboration:
+          "Genomfört i samarbete med Ericsson i en telekommunikationsmiljö.",
+        summary:
+          "Ett masterexamensarbete om agentisk hybridretrieval för rekommendation av industriella testfall, utvärderat över 52 handbyggda scenarier och 11 366 produktionstestfall.",
+        exploreBenchmark: "Utforska benchmark",
+        readThesis: "Läs examensarbetet",
+        evidence: "Forskningsunderlag",
+        scenarios: "scenarier",
+        scenariosDetail:
+          "Handbyggda retrieval-uppgifter stratifierade efter familj, komplexitet och svarbarhet.",
+        testCases: "testfall",
+        testCasesDetail:
+          "Industriell korpus med strukturerad metadata och spårbarhetslänkar.",
+        workflows: "arbetsflöden",
+        workflowsDetail: "ReAct och Orchestrator-worker jämförs direkt.",
+        models: "modeller",
+        modelsDetail: "GLM-5.1, DeepSeek-V3.2 och Qwen3-Coder.",
+        metricFamilies: "metrikfamiljer",
+        metricFamiliesDetail:
+          "Funktionella kontroller, IR-mått och LLM-som-domare-poäng.",
       },
       projects: {
         title: "Projekt",

@@ -18,6 +18,7 @@ type PdfViewerPopupProps = {
   pdfUrl: string;
   fileName: string;
   triggerClassName?: string;
+  triggerLabel?: string;
   buttonVariant?:
     | "default"
     | "destructive"
@@ -31,6 +32,7 @@ export function PDFViewerPopup({
   pdfUrl,
   fileName,
   triggerClassName,
+  triggerLabel,
   buttonVariant = "outline-solid",
 }: PdfViewerPopupProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +45,7 @@ export function PDFViewerPopup({
           className={cn("gap-2", triggerClassName)}
           variant={buttonVariant}
         >
-          <span>{t("projectPage.viewResearchPaper")}</span>
+          <span>{triggerLabel ?? t("projectPage.viewResearchPaper")}</span>
           <FileText className="h-4 w-4" />
         </Button>
       </DialogTrigger>
