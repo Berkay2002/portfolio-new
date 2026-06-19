@@ -57,17 +57,47 @@ export const wikillm: Project = {
       href: "https://www.npmjs.com/package/wikillm",
     },
     {
-      label: "Copy Claude Code install",
-      labelSv: "Kopiera Claude Code-installation",
-      icon: "claude",
-      command:
-        "/plugin marketplace add Berkay2002/wikillm\n/plugin install wikillm@wikillm\n/reload-plugins",
+      label: "Install CLI",
+      labelSv: "Installera CLI",
+      icon: "npm",
+      items: [
+        {
+          label: "Run with npx",
+          labelSv: "Kör med npx",
+          icon: "npm",
+          command: "npx wikillm",
+        },
+        {
+          label: "Install package",
+          labelSv: "Installera paket",
+          icon: "npm",
+          command: "npm i wikillm",
+        },
+        {
+          label: "Install globally",
+          labelSv: "Installera globalt",
+          icon: "npm",
+          command: "npm i -g wikillm",
+        },
+      ],
     },
     {
-      label: "Copy Codex install",
-      labelSv: "Kopiera Codex-installation",
-      icon: "openai",
-      command: "codex plugin marketplace add Berkay2002/wikillm",
+      label: "Install agent plugin",
+      labelSv: "Installera agentplugin",
+      icon: "agent-stack",
+      items: [
+        {
+          label: "Claude Code",
+          icon: "claude",
+          command:
+            "/plugin marketplace add Berkay2002/wikillm\n/plugin install wikillm@wikillm\n/reload-plugins",
+        },
+        {
+          label: "Codex",
+          icon: "openai",
+          command: "codex plugin marketplace add Berkay2002/wikillm",
+        },
+      ],
     },
   ],
   imageAlt: "wikillm knowledge base scaffold and agent workflow",

@@ -1,6 +1,14 @@
 "use client";
 
-import { Check, ChevronLeft, Clipboard, Download, ExternalLink, Github } from "lucide-react";
+import {
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  Clipboard,
+  Download,
+  ExternalLink,
+  Github,
+} from "lucide-react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useState } from "react";
@@ -11,6 +19,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ExpandableImage } from "@/components/ui/expandable-image";
 import type { Project } from "@/types";
 
@@ -28,6 +42,22 @@ const projectLinkIcons: Record<string, IconType | undefined> = {
   npm: SiNpm,
   openai: SiOpenai,
 };
+
+function renderProjectLinkIcon(icon?: string) {
+  if (icon === "agent-stack") {
+    return (
+      <span className="relative inline-flex h-4 w-6 shrink-0">
+        <SiClaude className="absolute left-0 top-0 h-4 w-4" />
+        <span className="absolute left-2 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-background ring-1 ring-background">
+          <SiOpenai className="h-3.5 w-3.5" />
+        </span>
+      </span>
+    );
+  }
+
+  const IconComponent = icon ? projectLinkIcons[icon] : undefined;
+  return IconComponent ? <IconComponent className="h-4 w-4" /> : null;
+}
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <Ignore>
 export default function ProjectPageContent({
@@ -362,9 +392,87 @@ export default function ProjectPageContent({
               {project.projectLinks?.map((item) => {
                 const label = getLocalizedContent(item.label, item.labelSv);
                 const actionKey = `${item.label}-${item.href || item.command || ""}`;
-                const IconComponent = item.icon
-                  ? projectLinkIcons[item.icon]
-                  : undefined;
+                const itemIcon = renderProjectLinkIcon(item.icon);
+
+                if (item.items && item.items.length > 0) {
+                  return (
+                    <DropdownMenu key={`${item.label}-dropdown`}>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          className="w-full justify-between"
+                          type="button"
+                          variant="outline"
+                        >
+                          <span>{label}</span>
+                          <span className="inline-flex items-center gap-2">
+                            {itemIcon}
+                            <ChevronDown className="h-4 w-4" />
+                          </span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        align="end"
+                        className="w-[var(--radix-dropdown-menu-trigger-width)]"
+                      >
+                        {item.items.map((dropdownItem) => {
+                          const itemLabel = getLocalizedContent(
+                            dropdownItem.label,
+                            dropdownItem.labelSv
+                          );
+                          const dropdownActionKey = `${item.label}-${dropdownItem.label}-${dropdownItem.href || dropdownItem.command || ""}`;
+                          const dropdownIcon = renderProjectLinkIcon(
+                            dropdownItem.icon
+                          );
+
+                          if (dropdownItem.href) {
+                            return (
+                              <DropdownMenuItem
+                                asChild
+                                key={dropdownActionKey}
+                              >
+                                <Link
+                                  href={dropdownItem.href}
+                                  rel="noopener noreferrer"
+                                  target="_blank"
+                                >
+                                  {dropdownIcon || (
+                                    <ExternalLink className="h-4 w-4" />
+                                  )}
+                                  <span>{itemLabel}</span>
+                                </Link>
+                              </DropdownMenuItem>
+                            );
+                          }
+
+                          if (dropdownItem.command) {
+                            return (
+                              <DropdownMenuItem
+                                key={dropdownActionKey}
+                                onSelect={(event) => {
+                                  event.preventDefault();
+                                  void copyCommand(
+                                    dropdownActionKey,
+                                    dropdownItem.command as string
+                                  );
+                                }}
+                              >
+                                {dropdownIcon || (
+                                  <Clipboard className="h-4 w-4" />
+                                )}
+                                <span className="flex-1">{itemLabel}</span>
+                                {copiedAction === dropdownActionKey && (
+                                  <Check className="h-4 w-4" />
+                                )}
+                              </DropdownMenuItem>
+                            );
+                          }
+
+                          return null;
+                        })}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  );
+                }
 
                 if (item.href) {
                   return (
@@ -380,9 +488,7 @@ export default function ProjectPageContent({
                         target="_blank"
                       >
                         <span>{label}</span>
-                        {IconComponent ? (
-                          <IconComponent className="h-4 w-4" />
-                        ) : (
+                        {itemIcon || (
                           <ExternalLink className="h-4 w-4" />
                         )}
                       </Link>
@@ -404,10 +510,8 @@ export default function ProjectPageContent({
                       <span>{label}</span>
                       {copiedAction === actionKey ? (
                         <Check className="h-4 w-4" />
-                      ) : IconComponent ? (
-                        <IconComponent className="h-4 w-4" />
                       ) : (
-                        <Clipboard className="h-4 w-4" />
+                        itemIcon || <Clipboard className="h-4 w-4" />
                       )}
                     </Button>
                   );

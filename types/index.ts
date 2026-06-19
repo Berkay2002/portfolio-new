@@ -14,9 +14,16 @@ export type Project = {
   projectLinks?: {
     label: string;
     labelSv?: string;
-    icon?: "npm" | "claude" | "openai";
+    icon?: "npm" | "claude" | "openai" | "agent-stack";
     href?: string;
     command?: string;
+    items?: {
+      label: string;
+      labelSv?: string;
+      icon?: "npm" | "claude" | "openai" | "agent-stack";
+      href?: string;
+      command?: string;
+    }[];
   }[];
   link?: string;
   linkLabel?: string; // Custom label for the link button (default: "View Live Project")
