@@ -13,18 +13,18 @@ import {
 } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { PDFViewerPopup } from "@/components/ui/pdf-viewer-popup";
-import { agenticRagPaper } from "@/lib/data/agentic-rag-paper";
 import { animatchPaper } from "@/lib/data/animatch-paper";
 import { syngraphPaper } from "@/lib/data/syngraph-paper";
+import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
 
 const papers = [
   {
-    id: "agentic-rag",
-    title: agenticRagPaper.title,
-    authors: agenticRagPaper.authors,
-    abstract: agenticRagPaper.abstractContent,
-    pdfUrl: agenticRagPaper.pdfUrl,
-    projectHref: "/projects/agentic-rag",
+    id: "when-agentic-workflows-help",
+    title: whenAgenticWorkflowsPaper.title,
+    authors: whenAgenticWorkflowsPaper.authors,
+    abstract: whenAgenticWorkflowsPaper.abstractContent,
+    pdfUrl: whenAgenticWorkflowsPaper.pdfUrl,
+    detailHref: "/papers/when-agentic-workflows-help",
   },
   {
     id: "researcher",
@@ -83,9 +83,16 @@ export default function PapersPage() {
                   pdfUrl={paper.pdfUrl}
                   triggerClassName="w-full justify-between sm:w-auto"
                 />
-                <Button asChild variant="secondary">
-                  <Link href={paper.projectHref}>View project</Link>
-                </Button>
+                {paper.detailHref && (
+                  <Button asChild variant="secondary">
+                    <Link href={paper.detailHref}>Benchmark results</Link>
+                  </Button>
+                )}
+                {paper.projectHref && (
+                  <Button asChild variant="secondary">
+                    <Link href={paper.projectHref}>View project</Link>
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>

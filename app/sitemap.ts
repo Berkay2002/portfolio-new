@@ -14,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // Generate sitemap entries for papers
-  const paperSitemapEntries = projects
+  const projectPaperSitemapEntries = projects
     .filter((project) => project.paperLink)
     .map((project) => ({
       url: `${baseUrl}/papers/${project.id}`,
@@ -22,6 +22,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.6,
     }));
+  const standalonePaperSitemapEntries = [
+    {
+      url: `${baseUrl}/papers/when-agentic-workflows-help`,
+      lastModified: currentDate,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+  ];
 
   return [
     {
@@ -33,6 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Add project detail pages
     ...projectSitemapEntries,
     // Add paper pages
-    ...paperSitemapEntries,
+    ...projectPaperSitemapEntries,
+    ...standalonePaperSitemapEntries,
   ];
 }

@@ -1,80 +1,75 @@
-"use client";
-
 import { ChevronLeft } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { useEffect, useState, use } from "react";
 
 import { Container } from "@/components/ui/container";
 import { PaperRenderer } from "@/components/ui/paper-renderer";
-import { agenticRagPaper } from "@/lib/data/agentic-rag-paper";
 import { animatchPaper } from "@/lib/data/animatch-paper";
 import { syngraphPaper } from "@/lib/data/syngraph-paper";
+import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
 
 // Map of available papers
 const papers = {
-  "agentic-rag": agenticRagPaper,
+  "when-agentic-workflows-help": whenAgenticWorkflowsPaper,
   animatch: animatchPaper,
   researcher: syngraphPaper,
 };
 
-export default function PaperPage(props: { params: Promise<{ id: string }> }) {
-  const params = use(props.params);
-  const [mounted, setMounted] = useState(false);
+const paperBackLinks = {
+  animatch: "/projects/animatch",
+  researcher: "/projects/researcher",
+};
 
-  // Get the paper data
-  const paperData = papers[params.id as keyof typeof papers];
+type PaperId = keyof typeof papers;
 
-  // Use document title for SEO
-  useEffect(() => {
-    if (paperData) {
-      document.title = `${paperData.title} | Research Paper`;
-    }
-  }, [paperData]);
+type PaperPageProps = {
+  params: Promise<{ id: string }>;
+};
 
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => setMounted(true));
+export async function generateMetadata(
+  props: PaperPageProps
+): Promise<Metadata> {
+  const params = await props.params;
+  const paperData = papers[params.id as PaperId];
 
-    // Add KaTeX CSS
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css";
-    link.integrity =
-      "sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn";
-    link.crossOrigin = "anonymous";
-    document.head.appendChild(link);
-
-    return () => {
-      cancelAnimationFrame(frame);
-      // Clean up
-      const links = document.head.querySelectorAll('link[href*="katex"]');
-      // biome-ignore lint/style/useForOf: <Stop>
-      for (let i = 0; i < links.length; i += 1) {
-        const katexLink = links[i];
-        if (document.head.contains(katexLink)) {
-          document.head.removeChild(katexLink);
-        }
-      }
+  if (!paperData) {
+    return {
+      title: "Paper Not Found",
     };
-  }, []);
-
-  if (!mounted) {
-    return null; // Avoid rendering on server to prevent hydration issues with LaTeX
   }
+
+  return {
+    title: `${paperData.title} | Research Paper | Berkay Orhan`,
+    description: paperData.abstractContent,
+  };
+}
+
+export async function generateStaticParams() {
+  return Object.keys(papers).map((id) => ({ id }));
+}
+
+export default async function PaperPage(props: PaperPageProps) {
+  const params = await props.params;
+  const paperData = papers[params.id as PaperId];
 
   if (!paperData) {
     notFound();
   }
+
+  const backHref =
+    paperBackLinks[params.id as keyof typeof paperBackLinks] ?? "/papers";
+  const backLabel = backHref === "/papers" ? "Back to papers" : "Back to project";
 
   return (
     <Container className="py-12">
       {/* Back button */}
       <Link
         className="mb-6 inline-flex items-center text-muted-foreground text-sm transition-colors hover:text-foreground"
-        href={`/projects/${params.id}`}
+        href={backHref}
       >
         <ChevronLeft className="mr-1 h-4 w-4" />
-        Back to project
+        {backLabel}
       </Link>
 
       <PaperRenderer

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -57,15 +57,15 @@ export type ToolReliability = {
   meanGrounding?: number;
 };
 
-export type AgenticRagBenchmarkData = {
+export type ThesisBenchmarkData = {
   mainResults: MainResult[];
   judgeIrCorrelations: JudgeIrCorrelation[];
   abstention: AbstentionResult[];
   toolReliability: ToolReliability[];
 };
 
-type AgenticRagBenchmarkProps = {
-  data: AgenticRagBenchmarkData;
+type ThesisBenchmarkProps = {
+  data: ThesisBenchmarkData;
 };
 
 const AUGMENTATIONS: Augmentation[] = ["Prompt", "Skill", "Skill+Meta"];
@@ -145,7 +145,8 @@ function ToggleGroup<T extends string>({
   );
 }
 
-export function AgenticRagBenchmark({ data }: AgenticRagBenchmarkProps) {
+export function ThesisBenchmark({ data }: ThesisBenchmarkProps) {
+  const [mounted, setMounted] = useState(false);
   const [augmentation, setAugmentation] =
     useState<Augmentation>("Prompt");
   const [metric, setMetric] = useState<MetricKey>("passRate");
@@ -204,6 +205,12 @@ export function AgenticRagBenchmark({ data }: AgenticRagBenchmarkProps) {
     successRate: row.successRate * 100,
   }));
 
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setMounted(true));
+
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <section className="space-y-6">
       <div>
@@ -231,79 +238,9 @@ export function AgenticRagBenchmark({ data }: AgenticRagBenchmarkProps) {
           />
         </div>
         <div className="h-80 w-full">
-          <ResponsiveContainer height="100%" width="100%">
-            <BarChart data={comparisonData} margin={{ bottom: 18, left: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis
-                dataKey="model"
-                interval={0}
-                tick={{ fontSize: 12 }}
-                tickMargin={12}
-              />
-              <YAxis
-                domain={metricConfig.domain}
-                tickFormatter={(value) =>
-                  formatNumber(Number(value), metricConfig.suffix)
-                }
-                width={48}
-              />
-              <Tooltip
-                formatter={(value) =>
-                  formatNumber(Number(value), metricConfig.suffix)
-                }
-              />
-              <Legend />
-              <Bar dataKey="P&E" fill={CHART_COLORS.plan} radius={[4, 4, 0, 0]} />
-              <Bar
-                dataKey="ReAct"
-                fill={CHART_COLORS.react}
-                radius={[4, 4, 0, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="space-y-4 rounded-lg border bg-background p-4">
-          <ToggleGroup
-            label="IR metric"
-            onChange={setCorrelationMetric}
-            options={CORRELATION_METRICS.map((item) => item.key)}
-            value={correlationMetric}
-          />
-          <div className="h-72 w-full">
+          {mounted ? (
             <ResponsiveContainer height="100%" width="100%">
-              <BarChart
-                data={correlationData}
-                layout="vertical"
-                margin={{ left: 18, right: 12 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                <XAxis domain={[0, 0.6]} type="number" />
-                <YAxis
-                  dataKey="dimension"
-                  tick={{ fontSize: 12 }}
-                  type="category"
-                  width={112}
-                />
-                <Tooltip formatter={(value) => Number(value).toFixed(3)} />
-                <Bar
-                  dataKey="correlation"
-                  fill={CHART_COLORS.neutral}
-                  name="Spearman rho"
-                  radius={[0, 4, 4, 0]}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="space-y-4 rounded-lg border bg-background p-4">
-          <h3 className="font-medium text-base">Missed Abstention Rate</h3>
-          <div className="h-72 w-full">
-            <ResponsiveContainer height="100%" width="100%">
-              <BarChart data={abstentionData} margin={{ bottom: 18 }}>
+              <BarChart data={comparisonData} margin={{ bottom: 18, left: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
                   dataKey="model"
@@ -311,8 +248,18 @@ export function AgenticRagBenchmark({ data }: AgenticRagBenchmarkProps) {
                   tick={{ fontSize: 12 }}
                   tickMargin={12}
                 />
-                <YAxis domain={[0, 80]} tickFormatter={(value) => `${value}%`} />
-                <Tooltip formatter={(value) => percent(Number(value))} />
+                <YAxis
+                  domain={metricConfig.domain}
+                  tickFormatter={(value) =>
+                    formatNumber(Number(value), metricConfig.suffix)
+                  }
+                  width={48}
+                />
+                <Tooltip
+                  formatter={(value) =>
+                    formatNumber(Number(value), metricConfig.suffix)
+                  }
+                />
                 <Legend />
                 <Bar
                   dataKey="P&E"
@@ -326,6 +273,91 @@ export function AgenticRagBenchmark({ data }: AgenticRagBenchmarkProps) {
                 />
               </BarChart>
             </ResponsiveContainer>
+          ) : (
+            <div className="flex h-full items-center justify-center rounded-md bg-muted/30 text-muted-foreground text-sm">
+              Loading interactive chart
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="space-y-4 rounded-lg border bg-background p-4">
+          <ToggleGroup
+            label="IR metric"
+            onChange={setCorrelationMetric}
+            options={CORRELATION_METRICS.map((item) => item.key)}
+            value={correlationMetric}
+          />
+          <div className="h-72 w-full">
+            {mounted ? (
+              <ResponsiveContainer height="100%" width="100%">
+                <BarChart
+                  data={correlationData}
+                  layout="vertical"
+                  margin={{ left: 18, right: 12 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                  <XAxis domain={[0, 0.6]} type="number" />
+                  <YAxis
+                    dataKey="dimension"
+                    tick={{ fontSize: 12 }}
+                    type="category"
+                    width={112}
+                  />
+                  <Tooltip formatter={(value) => Number(value).toFixed(3)} />
+                  <Bar
+                    dataKey="correlation"
+                    fill={CHART_COLORS.neutral}
+                    name="Spearman rho"
+                    radius={[0, 4, 4, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex h-full items-center justify-center rounded-md bg-muted/30 text-muted-foreground text-sm">
+                Loading interactive chart
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="space-y-4 rounded-lg border bg-background p-4">
+          <h3 className="font-medium text-base">Missed Abstention Rate</h3>
+          <div className="h-72 w-full">
+            {mounted ? (
+              <ResponsiveContainer height="100%" width="100%">
+                <BarChart data={abstentionData} margin={{ bottom: 18 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis
+                    dataKey="model"
+                    interval={0}
+                    tick={{ fontSize: 12 }}
+                    tickMargin={12}
+                  />
+                  <YAxis
+                    domain={[0, 80]}
+                    tickFormatter={(value) => `${value}%`}
+                  />
+                  <Tooltip formatter={(value) => percent(Number(value))} />
+                  <Legend />
+                  <Bar
+                    dataKey="P&E"
+                    fill={CHART_COLORS.plan}
+                    radius={[4, 4, 0, 0]}
+                  />
+                  <Bar
+                    dataKey="ReAct"
+                    fill={CHART_COLORS.react}
+                    radius={[4, 4, 0, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex h-full items-center justify-center rounded-md bg-muted/30 text-muted-foreground text-sm">
+                Loading interactive chart
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -333,51 +365,57 @@ export function AgenticRagBenchmark({ data }: AgenticRagBenchmarkProps) {
       <div className="space-y-4 rounded-lg border bg-background p-4">
         <h3 className="font-medium text-base">Tool-Use Reliability</h3>
         <div className="h-80 w-full">
-          <ResponsiveContainer height="100%" width="100%">
-            <ComposedChart data={reliabilityData} margin={{ bottom: 42 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis
-                angle={-20}
-                dataKey="name"
-                interval={0}
-                textAnchor="end"
-                tick={{ fontSize: 11 }}
-              />
-              <YAxis
-                domain={[80, 100]}
-                tickFormatter={(value) => `${value}%`}
-                yAxisId="rate"
-              />
-              <YAxis
-                orientation="right"
-                tickFormatter={(value) => `${Number(value) / 1000}k`}
-                yAxisId="calls"
-              />
-              <Tooltip
-                formatter={(value, name) =>
-                  name === "successRate"
-                    ? percent(Number(value))
-                    : Number(value).toLocaleString()
-                }
-              />
-              <Legend />
-              <Bar
-                dataKey="totalCalls"
-                fill={CHART_COLORS.neutral}
-                name="Tool calls"
-                radius={[4, 4, 0, 0]}
-                yAxisId="calls"
-              />
-              <Line
-                dataKey="successRate"
-                name="Success rate"
-                stroke={CHART_COLORS.warning}
-                strokeWidth={3}
-                type="monotone"
-                yAxisId="rate"
-              />
-            </ComposedChart>
-          </ResponsiveContainer>
+          {mounted ? (
+            <ResponsiveContainer height="100%" width="100%">
+              <ComposedChart data={reliabilityData} margin={{ bottom: 42 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis
+                  angle={-20}
+                  dataKey="name"
+                  interval={0}
+                  textAnchor="end"
+                  tick={{ fontSize: 11 }}
+                />
+                <YAxis
+                  domain={[80, 100]}
+                  tickFormatter={(value) => `${value}%`}
+                  yAxisId="rate"
+                />
+                <YAxis
+                  orientation="right"
+                  tickFormatter={(value) => `${Number(value) / 1000}k`}
+                  yAxisId="calls"
+                />
+                <Tooltip
+                  formatter={(value, name) =>
+                    name === "successRate"
+                      ? percent(Number(value))
+                      : Number(value).toLocaleString()
+                  }
+                />
+                <Legend />
+                <Bar
+                  dataKey="totalCalls"
+                  fill={CHART_COLORS.neutral}
+                  name="Tool calls"
+                  radius={[4, 4, 0, 0]}
+                  yAxisId="calls"
+                />
+                <Line
+                  dataKey="successRate"
+                  name="Success rate"
+                  stroke={CHART_COLORS.warning}
+                  strokeWidth={3}
+                  type="monotone"
+                  yAxisId="rate"
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="flex h-full items-center justify-center rounded-md bg-muted/30 text-muted-foreground text-sm">
+              Loading interactive chart
+            </div>
+          )}
         </div>
       </div>
     </section>

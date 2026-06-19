@@ -3,9 +3,9 @@
 import { Download, FileText } from "lucide-react";
 import { useState } from "react";
 import {
-  AgenticRagBenchmark,
-  type AgenticRagBenchmarkData,
-} from "@/components/ui/agentic-rag-benchmark";
+  ThesisBenchmark,
+  type ThesisBenchmarkData,
+} from "@/components/ui/thesis-benchmark";
 import { Button } from "./button";
 import { Card } from "./card";
 import { MarkdownLatexRenderer } from "./markdown-latex-renderer";
@@ -26,7 +26,7 @@ type PaperRendererProps = {
   }[];
   pdfUrl: string;
   highlights?: BenchmarkHighlight[];
-  benchmark?: AgenticRagBenchmarkData;
+  benchmark?: ThesisBenchmarkData;
 };
 
 export function PaperRenderer({
@@ -72,7 +72,7 @@ export function PaperRenderer({
         </section>
       ) : null}
 
-      {benchmark ? <AgenticRagBenchmark data={benchmark} /> : null}
+      {benchmark ? <ThesisBenchmark data={benchmark} /> : null}
 
       <Card className="p-6">
         <div className="mb-6">

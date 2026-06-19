@@ -26,9 +26,9 @@ import {
 import { PDFViewerPopup } from "@/components/ui/pdf-viewer-popup";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
-import { agenticRagPaper } from "@/lib/data/agentic-rag-paper";
 import { animatchPaper } from "@/lib/data/animatch-paper";
 import { syngraphPaper } from "@/lib/data/syngraph-paper";
+import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
 
 // Keeping the import but not using it for now
 // import { BlogPreviewSection } from "@/components/sections/blog-preview-section";
@@ -63,12 +63,12 @@ function ScrollManager() {
 export default function Home() {
   const papers = [
     {
-      id: "agentic-rag",
-      title: agenticRagPaper.title,
-      authors: agenticRagPaper.authors,
-      abstract: agenticRagPaper.abstractContent,
-      pdfUrl: agenticRagPaper.pdfUrl,
-      projectHref: "/projects/agentic-rag",
+      id: "when-agentic-workflows-help",
+      title: whenAgenticWorkflowsPaper.title,
+      authors: whenAgenticWorkflowsPaper.authors,
+      abstract: whenAgenticWorkflowsPaper.abstractContent,
+      pdfUrl: whenAgenticWorkflowsPaper.pdfUrl,
+      detailHref: "/papers/when-agentic-workflows-help",
     },
     {
       id: "researcher",
@@ -142,9 +142,18 @@ export default function Home() {
                             pdfUrl={paper.pdfUrl}
                             triggerClassName="w-full justify-between sm:w-auto"
                           />
-                          <Button asChild variant="outline">
-                            <Link href={paper.projectHref}>View project</Link>
-                          </Button>
+                          {paper.detailHref && (
+                            <Button asChild variant="outline">
+                              <Link href={paper.detailHref}>
+                                Benchmark results
+                              </Link>
+                            </Button>
+                          )}
+                          {paper.projectHref && (
+                            <Button asChild variant="outline">
+                              <Link href={paper.projectHref}>View project</Link>
+                            </Button>
+                          )}
                         </div>
                       </CardContent>
                     </Card>

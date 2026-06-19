@@ -1,6 +1,6 @@
-import type { AgenticRagBenchmarkData } from "@/components/ui/agentic-rag-benchmark";
+import type { ThesisBenchmarkData } from "@/components/ui/thesis-benchmark";
 
-export const agenticRagPaper = {
+export const whenAgenticWorkflowsPaper = {
   title:
     "When Agentic Workflows Help: Hybrid Retrieval for Test Case Recommendation over Heterogeneous Software Artifacts",
   authors: ["Berkay Orhan"],
@@ -420,7 +420,7 @@ export const agenticRagPaper = {
         errorRate: 0.14,
       },
     ],
-  } satisfies AgenticRagBenchmarkData,
+  } satisfies ThesisBenchmarkData,
   sections: [
     {
       title: "Problem Setting",

@@ -7,7 +7,6 @@ import type {
   SocialLinks,
   TimelineEvent,
 } from "@/types";
-import { agenticRag } from "./projects/agentic-rag";
 import { alertz } from "./projects/alertz";
 import { retrofy } from "./projects/ai-image-editor";
 import { albyradet } from "./projects/albyradet";
@@ -340,7 +339,6 @@ export const projects: Project[] = [
   chatbot,
   alertz,
   fasttalk,
-  agenticRag,
   researcher,
   oversee,
   primitiveUi,
