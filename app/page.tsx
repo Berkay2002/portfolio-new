@@ -26,6 +26,7 @@ import {
 import { PDFViewerPopup } from "@/components/ui/pdf-viewer-popup";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
+import { agenticRagPaper } from "@/lib/data/agentic-rag-paper";
 import { animatchPaper } from "@/lib/data/animatch-paper";
 import { syngraphPaper } from "@/lib/data/syngraph-paper";
 
@@ -61,6 +62,14 @@ function ScrollManager() {
 
 export default function Home() {
   const papers = [
+    {
+      id: "agentic-rag",
+      title: agenticRagPaper.title,
+      authors: agenticRagPaper.authors,
+      abstract: agenticRagPaper.abstractContent,
+      pdfUrl: agenticRagPaper.pdfUrl,
+      projectHref: "/projects/agentic-rag",
+    },
     {
       id: "researcher",
       title: syngraphPaper.title,

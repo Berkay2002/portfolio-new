@@ -57,5 +57,6 @@ export const agenticRag: Project = {
   outcomeSv:
     "Används som examensartefakt för Ericsson; utvärderingskörningar pågår med jämförelser mellan BM25/vektor/graf/hybrid och agentisk strategi, instrumenterat i LangSmith för spårbar feedback från ingenjörer.",
   githubLink: "https://github.com/Berkay2002/agentic-rag-test-scope-analysis",
-  paperLink: "/papers/Agentic_RAG___Knowledge_Graphs_for_Test_Scope_Analysis.pdf",
+  paperLink:
+    "/papers/when-agentic-workflows-help-hybrid-retrieval-for-test-case-recommendation-over-heterogeneous-software-artifacts.pdf",
 };

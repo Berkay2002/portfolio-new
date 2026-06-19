@@ -7,11 +7,13 @@ import { useEffect, useState, use } from "react";
 
 import { Container } from "@/components/ui/container";
 import { PaperRenderer } from "@/components/ui/paper-renderer";
+import { agenticRagPaper } from "@/lib/data/agentic-rag-paper";
 import { animatchPaper } from "@/lib/data/animatch-paper";
 import { syngraphPaper } from "@/lib/data/syngraph-paper";
 
 // Map of available papers
 const papers = {
+  "agentic-rag": agenticRagPaper,
   animatch: animatchPaper,
   researcher: syngraphPaper,
 };
@@ -78,6 +80,10 @@ export default function PaperPage(props: { params: Promise<{ id: string }> }) {
       <PaperRenderer
         abstractContent={paperData.abstractContent}
         authors={paperData.authors}
+        benchmark={"benchmark" in paperData ? paperData.benchmark : undefined}
+        highlights={
+          "highlights" in paperData ? paperData.highlights : undefined
+        }
         pdfUrl={paperData.pdfUrl}
         sections={paperData.sections}
         title={paperData.title}

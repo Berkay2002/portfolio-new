@@ -383,18 +383,20 @@ export const timelineEvents: TimelineEvent[] = [
   },
   {
     id: "ericsson-thesis",
-    title: "Master's Thesis – Design & Evaluation of an Agentic Hybrid Retrieval System",
-    titleSv: "Examensarbete – Design & utvärdering av ett agentbaserat hybridbaserat hämtningssystem",
+    title:
+      "When Agentic Workflows Help: Hybrid Retrieval for Test Case Recommendation over Heterogeneous Software Artifacts",
+    titleSv:
+      "När agentbaserade arbetsflöden hjälper: Hybridhämtning för testfallsrekommendation över heterogena mjukvaruartefakter",
     location: "Ericsson",
     locationSv: "Ericsson",
     description:
-      "Designed and evaluated an agentic retrieval assistant for recommending relevant test cases in industrial CI/CD workflows, combining hybrid RAG, knowledge graphs, and polyglot persistence.",
+      "Designed and evaluated an agentic hybrid retrieval assistant for industrial test scope analysis across 936 benchmark runs on 11,366 production test cases.",
     descriptionSv:
-      "Utformade och utvärderade ett agentbaserat retrieval-system för att rekommendera relevanta testfall i industriella CI/CD-flöden, med kombination av hybrid-RAG, kunskapsgrafer och polyglot persistens.",
+      "Utformade och utvärderade en agentbaserad hybrid-retrievalassistent för industriell testomfångsanalys över 936 benchmarkkörningar på 11 366 produktionstestfall.",
     detailedDescription:
-      "Conducted a 20-week master's thesis at Ericsson, investigating how to improve the reliability of an agentic retrieval assistant for test scope analysis in a large-scale industrial CI/CD environment. The system — referred to as Agentic HybridRAG — combines dense semantic retrieval, sparse lexical matching, and bounded knowledge-graph navigation within an agentic ReAct-style workflow. Artifacts (requirements, test cases, defect reports, trace links) are stored across polyglot backends (relational, vector, and graph) and enriched before indexing. Research questions covered benchmark design for heterogeneous retrieval, the effect of agent workflow and tool-interface strictness on retrieval quality, and how LLM characteristics (instruction tuning, MoE vs. dense) affect tool-use reliability. Evaluation combined IR metrics (Precision@k, Recall@k, MAP) with LLM-as-a-judge scoring and practitioner usability assessment.",
+      "Conducted a 30 ECTS master's thesis at Ericsson on test case recommendation over heterogeneous software artifacts. The system combines dense semantic retrieval, sparse lexical matching, structured relational queries, and bounded graph navigation through constrained agent tools. The evaluation compared ReAct and orchestrator-worker Plan-and-Execute workflows across three language models and three knowledge-delivery modes, using both IR metrics and a calibrated LLM-as-a-judge protocol. Results showed model-dependent workflow and skill effects, complementary signals between judge and IR metrics, and persistent abstention weaknesses on unanswerable queries.",
     detailedDescriptionSv:
-      "Genomförde ett 20-veckors examensarbete på Ericsson med fokus på att förbättra tillförlitligheten hos ett agentbaserat retrieval-system för testomfångsanalys i en storskalig industriell CI/CD-miljö. Systemet — kallat Agentic HybridRAG — kombinerar tät semantisk sökning, gles lexikal matchning och begränsad kunskapsgrafnavigering inom ett agentbaserat ReAct-arbetsflöde. Artefakter (krav, testfall, felrapporter, spårlänkar) lagras i polyglota backends (relationsdatabas, vektordatabas, grafdatabas) och berikas innan indexering. Forskningsfrågorna täckte benchmark-design för heterogen retrieval, effekten av agentarbetsflöde och verktygsstrikthet på retrieval-kvalitet, samt hur LLM-egenskaper (instruktionstuning, MoE vs. tät modell) påverkar tillförlitlig verktygsanvändning. Utvärderingen kombinerade IR-mätvärden (Precision@k, Recall@k, MAP) med LLM-som-domare-poängsättning och användbarhetsbedömning av praktiker.",
+      "Genomförde ett 30 hp examensarbete på Ericsson om testfallsrekommendation över heterogena mjukvaruartefakter. Systemet kombinerar tät semantisk retrieval, gles lexikal matchning, strukturerade relationsdatabasfrågor och begränsad grafnavigering genom kontrollerade agentverktyg. Utvärderingen jämförde ReAct och orchestrator-worker Plan-and-Execute över tre språkmodeller och tre kunskapsleveranslägen, med både IR-mätvärden och ett kalibrerat LLM-som-domare-protokoll. Resultaten visade modellberoende effekter av workflow och skills, kompletterande signaler mellan domar- och IR-mätvärden samt kvarstående svagheter i abstention på obesvarbara frågor.",
     date: "Jan 2026 – Jun 2026",
     type: "work",
     iconLight: "/images/timeline/ericsson-light.svg",

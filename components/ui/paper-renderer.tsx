@@ -2,9 +2,19 @@
 
 import { Download, FileText } from "lucide-react";
 import { useState } from "react";
+import {
+  AgenticRagBenchmark,
+  type AgenticRagBenchmarkData,
+} from "@/components/ui/agentic-rag-benchmark";
 import { Button } from "./button";
 import { Card } from "./card";
 import { MarkdownLatexRenderer } from "./markdown-latex-renderer";
+
+type BenchmarkHighlight = {
+  value: string;
+  label: string;
+  detail: string;
+};
 
 type PaperRendererProps = {
   title: string;
@@ -15,6 +25,8 @@ type PaperRendererProps = {
     content: string;
   }[];
   pdfUrl: string;
+  highlights?: BenchmarkHighlight[];
+  benchmark?: AgenticRagBenchmarkData;
 };
 
 export function PaperRenderer({
@@ -23,6 +35,8 @@ export function PaperRenderer({
   abstractContent,
   sections,
   pdfUrl,
+  highlights,
+  benchmark,
 }: PaperRendererProps) {
   const [showFullPaper, setShowFullPaper] = useState(false);
 
@@ -37,6 +51,28 @@ export function PaperRenderer({
           </a>
         </Button>
       </div>
+
+      {highlights?.length ? (
+        <section className="space-y-4">
+          <h2 className="font-semibold text-xl">Benchmark Highlights</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {highlights.map((highlight) => (
+              <div
+                className="rounded-lg border bg-background p-4"
+                key={highlight.label}
+              >
+                <p className="font-bold text-2xl">{highlight.value}</p>
+                <p className="mt-1 font-medium text-sm">{highlight.label}</p>
+                <p className="mt-2 text-muted-foreground text-xs leading-relaxed">
+                  {highlight.detail}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {benchmark ? <AgenticRagBenchmark data={benchmark} /> : null}
 
       <Card className="p-6">
         <div className="mb-6">
