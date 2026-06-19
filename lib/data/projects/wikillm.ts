@@ -53,17 +53,20 @@ export const wikillm: Project = {
     {
       label: "View npm package",
       labelSv: "Visa npm-paket",
+      icon: "npm",
       href: "https://www.npmjs.com/package/wikillm",
     },
     {
       label: "Copy Claude Code install",
       labelSv: "Kopiera Claude Code-installation",
+      icon: "claude",
       command:
         "/plugin marketplace add Berkay2002/wikillm\n/plugin install wikillm@wikillm\n/reload-plugins",
     },
     {
       label: "Copy Codex install",
       labelSv: "Kopiera Codex-installation",
+      icon: "openai",
       command: "codex plugin marketplace add Berkay2002/wikillm",
     },
   ],

@@ -4,6 +4,8 @@ import { Check, ChevronLeft, Clipboard, Download, ExternalLink, Github } from "l
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import type { IconType } from "react-icons";
+import { SiClaude, SiNpm, SiOpenai } from "react-icons/si";
 import { useLanguage } from "@/components/layout/language-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,6 +21,12 @@ const PDFViewerPopup = dynamic(
 
 type ProjectPageContentProps = {
   project: Project;
+};
+
+const projectLinkIcons: Record<string, IconType | undefined> = {
+  claude: SiClaude,
+  npm: SiNpm,
+  openai: SiOpenai,
 };
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <Ignore>
@@ -354,6 +362,9 @@ export default function ProjectPageContent({
               {project.projectLinks?.map((item) => {
                 const label = getLocalizedContent(item.label, item.labelSv);
                 const actionKey = `${item.label}-${item.href || item.command || ""}`;
+                const IconComponent = item.icon
+                  ? projectLinkIcons[item.icon]
+                  : undefined;
 
                 if (item.href) {
                   return (
@@ -369,7 +380,11 @@ export default function ProjectPageContent({
                         target="_blank"
                       >
                         <span>{label}</span>
-                        <ExternalLink className="h-4 w-4" />
+                        {IconComponent ? (
+                          <IconComponent className="h-4 w-4" />
+                        ) : (
+                          <ExternalLink className="h-4 w-4" />
+                        )}
                       </Link>
                     </Button>
                   );
@@ -389,6 +404,8 @@ export default function ProjectPageContent({
                       <span>{label}</span>
                       {copiedAction === actionKey ? (
                         <Check className="h-4 w-4" />
+                      ) : IconComponent ? (
+                        <IconComponent className="h-4 w-4" />
                       ) : (
                         <Clipboard className="h-4 w-4" />
                       )}

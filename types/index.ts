@@ -14,6 +14,7 @@ export type Project = {
   projectLinks?: {
     label: string;
     labelSv?: string;
+    icon?: "npm" | "claude" | "openai";
     href?: string;
     command?: string;
   }[];
