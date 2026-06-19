@@ -5,7 +5,7 @@ export const whenAgenticWorkflowsPaper = {
     "When Agentic Workflows Help: Hybrid Retrieval for Test Case Recommendation over Heterogeneous Software Artifacts",
   authors: ["Berkay Orhan"],
   abstractContent:
-    "This master's thesis designs, implements, and evaluates an agentic hybrid retrieval assistant for test scope analysis in a telecommunications CI/CD setting. The system combines dense semantic retrieval, sparse lexical matching, structured relational queries, and bounded graph navigation over heterogeneous industrial test artifacts. The evaluation uses 52 hand-built scenarios over a corpus of 11,366 industrial test cases. Each scenario includes expected artifact identifiers, expected entity references, a reference answer, and an answerability label, and is run across ReAct and Orchestrator-worker workflows with full-prompt and skill-based setups.",
+    "This master's thesis designs, implements, and evaluates an agentic hybrid retrieval assistant for test scope analysis in a telecommunications setting. The system combines dense semantic retrieval, sparse lexical matching, structured relational queries, and bounded graph navigation over heterogeneous industrial test artifacts. The evaluation uses 52 hand-built scenarios over a corpus of 11,366 semi-structured industrial test cases containing free-text descriptions, test instructions, structured metadata, and trace links. Each scenario includes expected artifact identifiers, expected entity references, a reference answer, and an answerability label, and is run across ReAct and Orchestrator-worker workflows with full-prompt and skill-based setups.",
   highlights: [
     {
       value: "52",
@@ -17,7 +17,7 @@ export const whenAgenticWorkflowsPaper = {
       value: "11,366",
       label: "Production test cases",
       detail:
-        "Industrial telecommunications corpus with structured metadata and trace links.",
+        "Semi-structured test cases with free text, instructions, metadata, and trace links.",
     },
     {
       value: "3 metric families",

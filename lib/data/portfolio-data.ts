@@ -388,13 +388,13 @@ export const timelineEvents: TimelineEvent[] = [
     location: "Ericsson",
     locationSv: "Ericsson",
     description:
-      "Designed and evaluated an agentic hybrid retrieval assistant for industrial test scope analysis across 936 benchmark runs on 11,366 production test cases.",
+      "Designed and evaluated an agentic hybrid retrieval assistant for industrial test scope analysis across 52 scenarios over 11,366 semi-structured production test cases.",
     descriptionSv:
-      "Utformade och utvärderade en agentbaserad hybrid-retrievalassistent för industriell testomfångsanalys över 936 benchmarkkörningar på 11 366 produktionstestfall.",
+      "Utformade och utvärderade en agentbaserad hybrid-retrievalassistent för industriell testomfångsanalys över 52 scenarier och 11 366 semistrukturerade produktionstestfall.",
     detailedDescription:
-      "Conducted a 30 ECTS master's thesis at Ericsson on test case recommendation over heterogeneous software artifacts. The system combines dense semantic retrieval, sparse lexical matching, structured relational queries, and bounded graph navigation through constrained agent tools. The evaluation compared ReAct and orchestrator-worker Plan-and-Execute workflows across three language models and three knowledge-delivery modes, using both IR metrics and a calibrated LLM-as-a-judge protocol. Results showed model-dependent workflow and skill effects, complementary signals between judge and IR metrics, and persistent abstention weaknesses on unanswerable queries.",
+      "Conducted a 30 ECTS master's thesis at Ericsson on test case recommendation over heterogeneous software artifacts. The system combines dense semantic retrieval, sparse lexical matching, structured relational queries, and bounded graph navigation through constrained agent tools. The evaluation compared ReAct and Orchestrator-worker workflows across GLM-5.1, DeepSeek-V3.2, and Qwen3-Coder, using full-prompt and skill-based setups. Quality was measured with functional checks, IR metrics, and an LLM-as-a-judge protocol.",
     detailedDescriptionSv:
-      "Genomförde ett 30 hp examensarbete på Ericsson om testfallsrekommendation över heterogena mjukvaruartefakter. Systemet kombinerar tät semantisk retrieval, gles lexikal matchning, strukturerade relationsdatabasfrågor och begränsad grafnavigering genom kontrollerade agentverktyg. Utvärderingen jämförde ReAct och orchestrator-worker Plan-and-Execute över tre språkmodeller och tre kunskapsleveranslägen, med både IR-mätvärden och ett kalibrerat LLM-som-domare-protokoll. Resultaten visade modellberoende effekter av workflow och skills, kompletterande signaler mellan domar- och IR-mätvärden samt kvarstående svagheter i abstention på obesvarbara frågor.",
+      "Genomförde ett 30 hp examensarbete på Ericsson om testfallsrekommendation över heterogena mjukvaruartefakter. Systemet kombinerar tät semantisk retrieval, gles lexikal matchning, strukturerade relationsdatabasfrågor och begränsad grafnavigering genom kontrollerade agentverktyg. Utvärderingen jämförde ReAct och Orchestrator-worker över GLM-5.1, DeepSeek-V3.2 och Qwen3-Coder, med fullständiga systemprompter och skill-baserade upplägg. Kvalitet mättes med funktionella kontroller, IR-mått och ett LLM-som-domare-protokoll.",
     date: "Jan 2026 – Jun 2026",
     type: "work",
     iconLight: "/images/timeline/ericsson-light.svg",

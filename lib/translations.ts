@@ -44,7 +44,7 @@ const translations: Translations = {
         collaboration:
           "Conducted in collaboration with Ericsson in a telecommunications setting.",
         summary:
-          "A master's thesis on agentic hybrid retrieval for industrial test-case recommendation, evaluated across 52 hand-built scenarios over 11,366 production test cases.",
+          "A master's thesis on agentic hybrid retrieval for industrial test-case recommendation, evaluated across 52 hand-built scenarios over 11,366 semi-structured production test cases.",
         exploreBenchmark: "Explore benchmark",
         readThesis: "Read thesis",
         evidence: "Research evidence",
@@ -53,7 +53,7 @@ const translations: Translations = {
           "Hand-built retrieval tasks stratified by family, complexity, and answerability.",
         testCases: "test cases",
         testCasesDetail:
-          "Industrial corpus with structured metadata and trace links.",
+          "Free-text descriptions and test instructions combined with structured metadata and trace links.",
         workflows: "workflows",
         workflowsDetail: "ReAct and Orchestrator-worker compared directly.",
         models: "models",
@@ -156,7 +156,7 @@ const translations: Translations = {
         collaboration:
           "Genomfört i samarbete med Ericsson i en telekommunikationsmiljö.",
         summary:
-          "Ett masterexamensarbete om agentisk hybridretrieval för rekommendation av industriella testfall, utvärderat över 52 handbyggda scenarier och 11 366 produktionstestfall.",
+          "Ett masterexamensarbete om agentisk hybridretrieval för rekommendation av industriella testfall, utvärderat över 52 handbyggda scenarier och 11 366 semistrukturerade produktionstestfall.",
         exploreBenchmark: "Utforska benchmark",
         readThesis: "Läs examensarbetet",
         evidence: "Forskningsunderlag",
@@ -165,7 +165,7 @@ const translations: Translations = {
           "Handbyggda retrieval-uppgifter stratifierade efter familj, komplexitet och svarbarhet.",
         testCases: "testfall",
         testCasesDetail:
-          "Industriell korpus med strukturerad metadata och spårbarhetslänkar.",
+          "Fritextbeskrivningar och testinstruktioner kombinerade med strukturerad metadata och spårbarhetslänkar.",
         workflows: "arbetsflöden",
         workflowsDetail: "ReAct och Orchestrator-worker jämförs direkt.",
         models: "modeller",
