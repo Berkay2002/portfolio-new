@@ -62,20 +62,17 @@ export const wikillm: Project = {
       icon: "npm",
       items: [
         {
-          label: "Run with npx",
-          labelSv: "Kör med npx",
+          label: "npx wikillm",
           icon: "npm",
           command: "npx wikillm",
         },
         {
-          label: "Install package",
-          labelSv: "Installera paket",
+          label: "npm i wikillm",
           icon: "npm",
           command: "npm i wikillm",
         },
         {
-          label: "Install globally",
-          labelSv: "Installera globalt",
+          label: "npm i -g wikillm",
           icon: "npm",
           command: "npm i -g wikillm",
         },
