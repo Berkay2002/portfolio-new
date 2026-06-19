@@ -1,8 +1,9 @@
 "use client";
 
-import { ChevronLeft, Download, ExternalLink, Github } from "lucide-react";
+import { Check, ChevronLeft, Clipboard, Download, ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 import { useLanguage } from "@/components/layout/language-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ export default function ProjectPageContent({
   project,
 }: ProjectPageContentProps) {
   const { t, locale } = useLanguage();
+  const [copiedAction, setCopiedAction] = useState<string | null>(null);
 
   // Get localized content based on selected language
   const getLocalizedContent = (enContent?: string, svContent?: string) => {
@@ -40,6 +42,16 @@ export default function ProjectPageContent({
       return svArray;
     }
     return enArray || [];
+  };
+
+  const copyCommand = async (key: string, command: string) => {
+    try {
+      await navigator.clipboard.writeText(command);
+      setCopiedAction(key);
+      window.setTimeout(() => setCopiedAction(null), 1600);
+    } catch {
+      setCopiedAction(null);
+    }
   };
 
   const getLocalizedMicroservices = (
@@ -294,6 +306,35 @@ export default function ProjectPageContent({
               {t("projectPage.projectInfo")}
             </h2>
 
+            {project.projectInfo && project.projectInfo.length > 0 && (
+              <div className="mb-6 space-y-3">
+                {project.projectInfo.map((item) => {
+                  const label = getLocalizedContent(item.label, item.labelSv);
+                  const value = getLocalizedContent(item.value, item.valueSv);
+
+                  return (
+                    <div key={`${item.label}-${item.value}`}>
+                      <h3 className="font-medium text-muted-foreground text-sm">
+                        {label}
+                      </h3>
+                      {item.href ? (
+                        <Link
+                          className="text-sm underline-offset-4 hover:underline"
+                          href={item.href}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {value}
+                        </Link>
+                      ) : (
+                        <p className="text-sm">{value}</p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
             {/* Technologies */}
             <div className="mb-6">
               <h3 className="mb-2 font-medium text-muted-foreground text-sm">
@@ -310,6 +351,54 @@ export default function ProjectPageContent({
 
             {/* Links */}
             <div className="space-y-3">
+              {project.projectLinks?.map((item) => {
+                const label = getLocalizedContent(item.label, item.labelSv);
+                const actionKey = `${item.label}-${item.href || item.command || ""}`;
+
+                if (item.href) {
+                  return (
+                    <Button
+                      asChild
+                      className="w-full justify-between"
+                      key={actionKey}
+                      variant="outline"
+                    >
+                      <Link
+                        href={item.href}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <span>{label}</span>
+                        <ExternalLink className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  );
+                }
+
+                if (item.command) {
+                  return (
+                    <Button
+                      className="w-full justify-between"
+                      key={actionKey}
+                      onClick={() => {
+                        void copyCommand(actionKey, item.command as string);
+                      }}
+                      type="button"
+                      variant="outline"
+                    >
+                      <span>{label}</span>
+                      {copiedAction === actionKey ? (
+                        <Check className="h-4 w-4" />
+                      ) : (
+                        <Clipboard className="h-4 w-4" />
+                      )}
+                    </Button>
+                  );
+                }
+
+                return null;
+              })}
+
               {project.frontendLink && (
                 <Button
                   asChild

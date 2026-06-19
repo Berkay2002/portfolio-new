@@ -18,7 +18,55 @@ export const wikillm: Project = {
     "Codex Plugins",
     "Marp",
   ],
-  link: "https://github.com/Berkay2002/wikillm",
+  projectInfo: [
+    {
+      label: "Type",
+      labelSv: "Typ",
+      value: "CLI + agent plugin",
+      valueSv: "CLI + agentplugin",
+    },
+    {
+      label: "Distribution",
+      labelSv: "Distribution",
+      value: "npm package + plugin marketplace",
+      valueSv: "npm-paket + pluginmarknad",
+    },
+    {
+      label: "CLI command",
+      labelSv: "CLI-kommando",
+      value: "npx wikillm",
+    },
+    {
+      label: "Agent hosts",
+      labelSv: "Agent-hostar",
+      value: "Claude Code and Codex",
+      valueSv: "Claude Code och Codex",
+    },
+    {
+      label: "Knowledge model",
+      labelSv: "Kunskapsmodell",
+      value: "Compiled markdown wiki",
+      valueSv: "Kompilerad markdown-wiki",
+    },
+  ],
+  projectLinks: [
+    {
+      label: "View npm package",
+      labelSv: "Visa npm-paket",
+      href: "https://www.npmjs.com/package/wikillm",
+    },
+    {
+      label: "Copy Claude Code install",
+      labelSv: "Kopiera Claude Code-installation",
+      command:
+        "/plugin marketplace add Berkay2002/wikillm\n/plugin install wikillm@wikillm\n/reload-plugins",
+    },
+    {
+      label: "Copy Codex install",
+      labelSv: "Kopiera Codex-installation",
+      command: "codex plugin marketplace add Berkay2002/wikillm",
+    },
+  ],
   imageAlt: "wikillm knowledge base scaffold and agent workflow",
   detailedDescription:
     "wikillm is a TypeScript CLI and plugin bundle for building LLM-maintained markdown knowledge bases. The npx wizard creates a vault with raw sources, compiled wiki articles, Obsidian config, host-specific CLAUDE.md and AGENTS.md schemas, optional outputs, and automation guidance. The plugin ships skills for ingest, query, lint, Obsidian CLI, Marp, schema regeneration, and onboarding across Claude Code and Codex.",

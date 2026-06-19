@@ -4,6 +4,19 @@ export type Project = {
   description: string;
   descriptionSv?: string;
   technologies: string[];
+  projectInfo?: {
+    label: string;
+    labelSv?: string;
+    value: string;
+    valueSv?: string;
+    href?: string;
+  }[];
+  projectLinks?: {
+    label: string;
+    labelSv?: string;
+    href?: string;
+    command?: string;
+  }[];
   link?: string;
   linkLabel?: string; // Custom label for the link button (default: "View Live Project")
   linkLabelSv?: string; // Swedish custom label for the link button
