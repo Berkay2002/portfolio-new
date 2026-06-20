@@ -16,6 +16,8 @@
 \usepackage{tabularx}
 \usepackage{beuron}
 \usepackage{LobsterTwo}%if not suposed to be main font, load other main font after this
+\pagecolor{white}
+\color{black}
 
 % Redefine cvevent without year
 \newcommand{\cvevent}[4]{
@@ -50,7 +52,7 @@
 
 \begin{minipage}[t]{0.21\textwidth}
 \vspace{0pt} % Trick for alignment
-\includegraphics[width=\textwidth]{berkay.jpg}\hspace{1em}
+\includegraphics[width=\textwidth,height=\textwidth,keepaspectratio=false]{berkay.jpg}\hspace{1em}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.77\textwidth}
@@ -110,35 +112,35 @@
 \section*{Projects}
 
 \cvevent{WikiLLM}{LLM-Maintained Knowledge Bases}{Personal}{%
-TypeScript CLI and agent plugin that compiles raw project sources into cross-linked Obsidian markdown wikis for Claude Code and Codex. Features an npx vault wizard, generated AGENTS.md and CLAUDE.md schemas, ingest/query/lint skills, Marp output, and host-specific automation guidance. Built with TypeScript, Node.js, npm CLI, Obsidian Markdown, and agent plugin packaging.
+TypeScript CLI and agent plugin that turns raw project sources into cross-linked Obsidian wikis for Claude Code and Codex. Includes an npx vault wizard, generated AGENTS.md/CLAUDE.md schemas, ingest/query/lint skills, Marp export, and host-specific automation guidance.
 }
 
 \cvevent{FastTalk}{Real-Time Voice Stack}{Personal}{%
-Real-time voice conversation system with STT$\rightarrow$LLM$\rightarrow$TTS pipeline and end-to-end WebSocket streaming. Features Kokoro and Chatterbox TTS engines, PydanticAI-driven LLM with tool calling, and AudioWorklet-based 48\,kHz audio I/O. Built with Python, FastAPI, vLLM, faster-whisper, Docker, CUDA, Next.js, and React.
+Real-time voice conversation system with STT$\rightarrow$LLM$\rightarrow$TTS WebSocket streaming, Kokoro/Chatterbox TTS, PydanticAI tool calling, and AudioWorklet 48\,kHz I/O. Built with Python, FastAPI, vLLM, faster-whisper, Docker, CUDA, Next.js, and React.
 }
 
 \cvevent{Nexus}{Local Multi-Agent Harness}{Personal}{%
-Open-source local agent platform that routes one prompt through a classifier, orchestrator, and research/code/creative subagents sharing a sandboxed filesystem. Features hot tools, discoverable MCP wrapper tools, provider-tier routing, Claude OAuth and Codex CLI model paths, and a Next.js execution UI. Built with TypeScript, LangGraph, DeepAgents, AIO Sandbox, Next.js, Docker, and MCP.
+Local agent platform that routes one prompt through a classifier, orchestrator, and research/code/creative subagents in a sandboxed workspace. Includes MCP wrapper discovery, tiered provider routing, Claude OAuth/Codex CLI model paths, and a Next.js execution UI.
 }
 
 \cvevent{Oversee}{Ops \& AI Dashboard}{Personal}{%
-Multi-tenant workshop management platform with role-based access and an AI assistant that parses Excel files and manages reports through tool-calling. Features human-in-the-loop approval dialogs and Swedish-first analytics dashboards. Built with Next.js 16, Supabase, Vercel AI SDK, TanStack Table, and Playwright.
+Multi-tenant workshop platform with role-based access and an AI assistant for Excel parsing and report workflows. Includes human-in-the-loop approvals and Swedish-first analytics. Built with Next.js 16, Supabase, Vercel AI SDK, TanStack Table, and Playwright.
 }
 
 \cvevent{Stats for Spotify}{Music Analytics Platform}{Personal}{%
-Full-stack web app that tracks Spotify listening history, visualizes taste evolution, and lets users compare stats with friends. Includes in-browser playback via the Web Playback SDK, server-computed recap insights, and historical trend charts. Built with Next.js 16, Supabase, Spotify API, Recharts, and Row Level Security.
+Spotify analytics app for listening history, taste evolution, friend comparisons, in-browser playback, recap insights, and trend charts. Built with Next.js 16, Supabase, Spotify API, Recharts, and Row Level Security.
 }
 
 \cvevent{LiTHePlan}{University Course Planning}{Personal}{%
-Course planning tool for Linköping University master's students. Browse 339 courses across 15 programs, build validated 90\,hp study plans with drag-and-drop, dual conflict detection, and a Cmd+K command palette. Built with Next.js 16, Supabase, Upstash Redis, and Playwright.
+Course planning tool for Linköping University master's students with 339 courses, validated 90\,hp study plans, drag-and-drop planning, conflict detection, and a Cmd+K palette. Built with Next.js 16, Supabase, Upstash Redis, and Playwright.
 }
 
 \cvevent{Kliv Idrottsförening}{Sports Association Website}{Personal (Pro Bono)}{%
-Website for a youth judo club with Google Calendar webhook sync, admin dashboard for event management, email notifications via Nodemailer, and an animated bento grid homepage. Built with Next.js 16, React, Google Calendar API, Redis, Clerk Auth, and Cloudinary.
+Website for a youth judo club with Google Calendar webhook sync, event admin, Nodemailer notifications, and an animated bento homepage. Built with Next.js 16, React, Google Calendar API, Redis, Clerk Auth, and Cloudinary.
 }
 
 \cvevent{Albyrådet}{Non-Profit Web Application}{Personal (Pro Bono)}{%
-Website for a youth organization in Alby, Botkyrka with membership application forms, contact emails via Nodemailer, and a hand-built project carousel with Framer Motion animations. Built with Next.js 15, Express.js, MongoDB, Mongoose, and shadcn/ui.
+Website for a youth organization in Alby with membership forms, Nodemailer contact flows, and a custom Framer Motion project carousel. Built with Next.js 15, Express.js, MongoDB, Mongoose, and shadcn/ui.
 }
 
 \vspace{4em}
@@ -178,7 +180,7 @@ Performed various tasks including stocking shelves, assisting customers, operati
 
 \section*{Education}
 
-\noindent\textbf{2024--2026 (Ongoing)} \\
+\noindent\textbf{2024--Present} \\
 \textbf{Master of Science in Media Technology \& Engineering} \\
 Linköping University \\
 Specializing in Machine Learning, AI, and Web Development. \\[1em]
