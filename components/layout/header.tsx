@@ -96,10 +96,10 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 w-full transition-all duration-500", // Lower z-index to allow particles to show through
+        "sticky top-0 z-40 w-full border-b transition-all duration-500",
         scrolled
-          ? "border-neutral-200/10 border-b bg-background/60 py-2 shadow-xs backdrop-blur-md dark:border-neutral-800/10"
-          : "bg-transparent py-4 backdrop-blur-[2px]" // Very subtle blur when not scrolled
+          ? "border-border/70 bg-background/78 py-2 shadow-[0_12px_40px_-28px_hsl(var(--foreground)/0.5)] backdrop-blur-xl"
+          : "border-transparent bg-background/25 py-4 backdrop-blur-sm"
       )}
     >
       <div className="container mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -139,7 +139,7 @@ export function Header() {
                   className={cn(
                     "group relative z-50 px-1 py-2 font-medium text-sm transition-colors hover:text-primary",
                     activeSection === item.href
-                      ? "text-blue-500"
+                      ? "text-primary"
                       : "text-foreground"
                   )}
                   href={item.href}
@@ -147,7 +147,7 @@ export function Header() {
                   <span className="relative z-10">{item.name}</span>
                   <span
                     className={cn(
-                      "absolute bottom-0 left-0 h-0.5 bg-linear-to-r from-blue-500 to-cyan-500 transition-all duration-300",
+                      "absolute bottom-0 left-0 h-0.5 bg-linear-to-r from-blue-500 to-cyan-400 transition-all duration-300",
                       activeSection === item.href
                         ? "w-full"
                         : "w-0 group-hover:w-full"
@@ -194,7 +194,7 @@ export function Header() {
         {isMenuOpen && (
           <motion.div
             animate={{ opacity: 1, height: "auto" }}
-            className="mx-auto max-w-7xl overflow-hidden border-neutral-200/10 border-t bg-background/80 px-4 backdrop-blur-md sm:px-6 md:hidden lg:px-8 dark:border-neutral-800/10"
+            className="mx-auto max-w-7xl overflow-hidden border-border/70 border-t bg-background/90 px-4 backdrop-blur-xl sm:px-6 md:hidden lg:px-8"
             exit={{ opacity: 0, height: 0 }}
             initial={{ opacity: 0, height: 0 }}
           >

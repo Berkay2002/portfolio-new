@@ -28,7 +28,10 @@ export default function PlaygroundPage() {
 
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {playgroundItems.map((item) => (
-          <Card key={item.id} className="transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
+          <Card
+            className="transition-all duration-300 hover:border-blue-500 hover:shadow-lg"
+            key={item.id}
+          >
             <CardHeader>
               <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>

@@ -62,7 +62,7 @@ export function ViewDetailsButton({
 
   return (
     <ProjectCardButton
-      className={cn("bg-blue-600 text-white hover:bg-blue-700", className)}
+      className={className}
       href={`/projects/${projectId}`}
       text={t("sections.projects.viewDetails")}
       variant="default"

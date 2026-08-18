@@ -196,7 +196,7 @@ export function ContactSection() {
 
   return (
     <section
-      className="bg-linear-to-b from-background to-neutral-50/10 py-16 sm:py-20 dark:to-neutral-900/30"
+      className="border-border/40 border-t bg-card/30 py-16 backdrop-blur-[2px] sm:py-24"
       id="contact"
     >
       <div className="container mx-auto px-4">
@@ -211,7 +211,7 @@ export function ContactSection() {
             viewport={{ once: true }}
             whileInView={{ opacity: 1, x: 0 }}
           >
-            <div className="flex h-full flex-col justify-between rounded-xl border border-border/50 bg-card p-6 shadow-xs backdrop-blur-xs dark:border-border/30 dark:bg-card/40">
+            <div className="technical-surface flex h-full flex-col justify-between rounded-2xl p-6">
               <h3 className="mb-4 font-semibold text-foreground text-lg">
                 {t("contact.sendMessage")}
               </h3>
@@ -345,7 +345,6 @@ export function ContactSection() {
                 <div className="flex items-center justify-end">
                   <Button
                     aria-busy={isSubmitting}
-                    className="bg-blue-600 text-white hover:bg-blue-700"
                     disabled={isSubmitting}
                     type="submit"
                   >
@@ -425,7 +424,7 @@ export function ContactSection() {
             viewport={{ once: true }}
             whileInView={{ opacity: 1, x: 0 }}
           >
-            <div className="flex h-full flex-col rounded-xl border border-border/50 bg-card p-6 shadow-xs backdrop-blur-xs dark:border-border/30 dark:bg-card/40">
+            <div className="technical-surface flex h-full flex-col rounded-2xl p-6">
               <h3 className="mb-2 font-semibold text-foreground text-lg">
                 {t("contact.connectWithMe")}
               </h3>

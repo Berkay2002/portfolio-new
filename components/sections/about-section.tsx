@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import { motion } from "framer-motion";
 import { FileDown } from "lucide-react";
 import Link from "next/link";
@@ -143,21 +143,21 @@ export function AboutSection() {
         >
           <div className="sticky top-24 space-y-8">
             <motion.div
-              className="relative mx-auto aspect-square max-w-xs overflow-hidden rounded-xl border shadow-md md:mx-0"
+              className="technical-surface relative mx-auto aspect-square max-w-xs overflow-hidden rounded-2xl p-2 md:mx-0"
               transition={{ type: "spring", stiffness: 300, damping: 10 }}
               whileHover={{ scale: 1.03 }}
             >
               <BlurImage
                 alt="Profile"
                 height={300}
-                imageClassName="object-cover w-full h-full"
+                imageClassName="object-cover w-full h-full rounded-xl"
                 priority
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 src="/images/profile.png"
                 width={300}
               />
             </motion.div>
-            <div className="mx-auto max-w-xs space-y-4 md:mx-0">
+            <div className="mx-auto max-w-xs space-y-4 border-primary/40 border-l-2 pl-5 md:mx-0">
               <h3 className="font-semibold text-xl">
                 {t("sections.about.technical")}
               </h3>

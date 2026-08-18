@@ -45,7 +45,7 @@ export function MasterThesisSection() {
     <Container className="pt-0" id="master-thesis">
       <SectionHeading title={t("sections.thesis.title")} />
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)] lg:items-start">
+      <div className="technical-surface mt-12 grid gap-10 rounded-3xl p-6 sm:p-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)] lg:items-start lg:p-10">
         <motion.div
           className="space-y-6"
           initial={{ opacity: 0, y: 18 }}
@@ -104,7 +104,7 @@ export function MasterThesisSection() {
                 key={stat.labelKey}
               >
                 <dt>
-                  <span className="block font-semibold text-2xl tabular-nums">
+                  <span className="block font-mono font-semibold text-2xl text-primary tabular-nums">
                     {stat.value}
                   </span>
                   <span className="text-muted-foreground text-sm">

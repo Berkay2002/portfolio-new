@@ -26,7 +26,7 @@ const MAX_TECH_BADGES = 3;
 
 export default function ProjectsPage() {
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="container mx-auto max-w-7xl px-4 py-12 sm:py-20">
       <SectionHeading title="Projects" />
       <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((project, index) => {
@@ -37,7 +37,7 @@ export default function ProjectsPage() {
               className="group flex h-full flex-col overflow-hidden border transition-all duration-300 hover:border-blue-500 hover:shadow-xl"
               key={project.id}
             >
-              <div className="relative h-48 w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+              <div className="relative h-48 w-full overflow-hidden bg-muted">
                 {project.image ? (
                   <Image
                     alt={project.imageAlt || project.title}
@@ -80,7 +80,7 @@ export default function ProjectsPage() {
               <CardHeader className="pt-3 pb-2">
                 <CardTitle className="flex items-center justify-between gap-2 text-xl">
                   <Link
-                    className="transition-colors hover:text-blue-500"
+                    className="transition-colors hover:text-primary"
                     href={`/projects/${project.id}`}
                   >
                     <span>{project.title}</span>

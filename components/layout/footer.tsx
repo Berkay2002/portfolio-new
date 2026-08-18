@@ -25,7 +25,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative border-neutral-200 border-t bg-linear-to-b from-background to-background/80 py-8 sm:py-10 md:py-12 dark:border-neutral-800">
+    <footer className="relative border-border/70 border-t bg-card/45 py-8 backdrop-blur-sm sm:py-10 md:py-12">
       <div className="container mx-auto max-w-7xl px-4">
         <div className="grid grid-cols-1 gap-8 py-4 sm:py-6 md:grid-cols-2 md:gap-12">
           {/* Left column - Info and social links */}
@@ -37,7 +37,13 @@ export function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
           >
             <div className="text-center md:text-left">
-              <p className="mb-1 font-semibold text-lg">Berkay Orhan</p>
+              <p className="mb-1 flex items-center justify-center gap-2 font-semibold text-lg md:justify-start">
+                <span
+                  aria-hidden
+                  className="h-2 w-2 rotate-45 bg-primary shadow-[0_0_14px_hsl(var(--primary)/0.7)]"
+                />
+                Berkay Orhan
+              </p>
               <p className="text-muted-foreground text-sm">
                 © {currentYear} {t("footer.allRightsReserved")}
               </p>
@@ -99,7 +105,7 @@ function SocialButton({ href, icon, label }: SocialButtonProps) {
   return (
     <Button
       asChild
-      className="h-8 rounded-full transition-all hover:bg-blue-50 hover:text-blue-500 dark:hover:bg-blue-950/30"
+      className="h-8 rounded-full transition-all hover:bg-accent hover:text-primary"
       size="sm"
       variant="outline"
     >

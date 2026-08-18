@@ -65,7 +65,7 @@ const ProjectCarouselCard = ({
   return (
     <Card className="group flex h-full flex-col overflow-hidden border transition-all duration-300 hover:border-blue-500 hover:shadow-xl">
       {/* Project Image */}
-      <div className="relative h-64 w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+      <div className="relative h-64 w-full overflow-hidden bg-muted">
         {project.image ? (
           <Image
             alt={project.imageAlt || project.title}
@@ -116,7 +116,7 @@ const ProjectCarouselCard = ({
       <CardHeader className="pb-4">
         <CardTitle className="flex items-start justify-between gap-2">
           <Link
-            className="flex-1 transition-colors hover:text-blue-500"
+            className="flex-1 transition-colors hover:text-primary"
             href={`/projects/${project.id}`}
           >
             <span className="text-xl leading-tight">{project.title}</span>
@@ -165,7 +165,7 @@ export function ProjectsCarouselSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="bg-background py-16" id="projects">
+    <section className="border-border/40 border-y bg-card/30 py-16 backdrop-blur-[2px] sm:py-24" id="projects">
       <Container>
         <SectionHeading title={t("sections.projects.title")} />
 
