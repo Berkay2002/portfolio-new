@@ -5,7 +5,6 @@ import Link from "next/link";
 
 import { personalInfo } from "@/lib/data/portfolio-data";
 import { useLanguage } from "../layout/language-provider";
-import ParticleBackground from "../layout/particle-background";
 import { Button } from "../ui/button";
 
 // Motion / animation timing constants
@@ -19,8 +18,6 @@ const MOTION_DELAY_BUTTONS = 0.8;
 // Small vertical offset used for initial motion entrance
 const MOTION_INITIAL_Y = 20;
 
-// ParticleBackground removed — global background is provided by app/page.tsx
-
 export function HeroSection() {
   const { t, locale } = useLanguage();
 
@@ -32,16 +29,6 @@ export function HeroSection() {
     >
       {/* Background */}
       <div className="pointer-events-none absolute inset-0 h-full w-full bg-linear-to-b from-background/80 via-background/60 to-transparent" />
-
-      {/* Particle effect */}
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-100">
-        <ParticleBackground
-          densityDivisor={10}
-          local
-          maxCount={80}
-          opacity={0.8}
-        />
-      </div>
 
       {/* Animated gradient blur */}
       <div className="-top-40 -left-40 absolute h-80 w-80 animate-blob rounded-full bg-blue-500/5 blur-3xl" />

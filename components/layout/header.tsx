@@ -3,8 +3,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { personalInfo } from "@/lib/data/portfolio-data";
 import { cn } from "@/lib/utils";
@@ -52,7 +52,9 @@ export function Header() {
   useEffect(() => {
     if (pathname !== "/") return;
 
-    const handleScroll = () => {
+    let animationFrame = 0;
+
+    const updateHeader = () => {
       setScrolled(window.scrollY > HEADER_SCROLLED_OFFSET);
 
       const sections = ["about", "timeline", "projects", "papers", "contact"];
@@ -72,8 +74,23 @@ export function Header() {
       setActiveSection("/");
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      if (animationFrame) {
+        return;
+      }
+
+      animationFrame = window.requestAnimationFrame(() => {
+        updateHeader();
+        animationFrame = 0;
+      });
+    };
+
+    updateHeader();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.cancelAnimationFrame(animationFrame);
+    };
   }, [pathname]);
 
   return (
@@ -85,8 +102,6 @@ export function Header() {
           : "bg-transparent py-4 backdrop-blur-[2px]" // Very subtle blur when not scrolled
       )}
     >
-      {/* Local particle overlay for header - Removed to match clean design */}
-      
       <div className="container mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <motion.div
           animate={{ opacity: 1, x: 0 }}
@@ -118,6 +133,9 @@ export function Header() {
                 transition={{ delay: NAV_ITEM_ANIMATION_DELAY * (index + 1) }}
               >
                 <Link
+                  aria-current={
+                    activeSection === item.href ? "location" : undefined
+                  }
                   className={cn(
                     "group relative z-50 px-1 py-2 font-medium text-sm transition-colors hover:text-primary",
                     activeSection === item.href
@@ -154,6 +172,8 @@ export function Header() {
           <LanguageSwitcher />
           <ThemeToggle />
           <Button
+            aria-controls="mobile-navigation"
+            aria-expanded={isMenuOpen}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             className="rounded-full md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -178,7 +198,7 @@ export function Header() {
             exit={{ opacity: 0, height: 0 }}
             initial={{ opacity: 0, height: 0 }}
           >
-            <nav className="flex flex-col gap-3 py-6">
+            <nav className="flex flex-col gap-3 py-6" id="mobile-navigation">
               {navItems.map((item, index) => (
                 <motion.div
                   animate={{ opacity: 1, x: 0 }}
@@ -189,6 +209,9 @@ export function Header() {
                   }}
                 >
                   <Link
+                    aria-current={
+                      activeSection === item.href ? "location" : undefined
+                    }
                     className={cn(
                       "flex items-center rounded-md px-2 py-3 transition-colors",
                       activeSection === item.href

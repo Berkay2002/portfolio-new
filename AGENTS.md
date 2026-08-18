@@ -55,4 +55,4 @@ Translations live in `lib/translations.ts` (EN/SV nested object). Consumed via `
 - **Naming**: PascalCase for component files, camelCase for variables/functions, kebab-case for routes/folders
 - **Project IDs** in `portfolio-data.ts` must be unique and URL-safe (they drive dynamic routes)
 - **Links**: use `rel="noopener noreferrer"` with `target="_blank"`
-- **Content rendering**: LaTeX processed via `lib/utils/latex-helpers.ts`; KaTeX CSS loaded from CDN and preloaded in layout
+- **Content rendering**: LaTeX processed via `lib/utils/latex-helpers.ts`; KaTeX CSS is bundled with the LaTeX renderer

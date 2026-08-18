@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -11,6 +11,7 @@ const SCROLL_TO_TOP_VISIBILITY_THRESHOLD = 300;
 export function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   // Set up scroll event listener
   useEffect(() => {
@@ -21,7 +22,8 @@ export function ScrollToTop() {
         setIsVisible(false);
       }
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -29,7 +31,7 @@ export function ScrollToTop() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: reduceMotion ? "auto" : "smooth",
     });
   };
 
@@ -70,7 +72,6 @@ export function ScrollToTop() {
             variant="outline"
           >
             <ArrowUp className="h-5 w-5" />
-            <span className="sr-only">Scroll to top</span>
           </Button>
         </motion.div>
       )}

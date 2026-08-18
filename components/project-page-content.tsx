@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ExpandableImage } from "@/components/ui/expandable-image";
+import { ProjectVideo } from "@/components/ui/project-video";
 import type { Project } from "@/types";
 
 const PDFViewerPopup = dynamic(
@@ -137,16 +138,12 @@ export default function ProjectPageContent({
           {/* Hero video or image */}
           {project.video ? (
             <div className="relative aspect-video overflow-hidden rounded-lg border bg-muted">
-              <video
-                autoPlay
+              <ProjectVideo
                 className="h-full w-full object-cover object-top"
-                loop
-                muted
-                playsInline
+                label={`${project.title} demonstration`}
                 poster={project.image}
-              >
-                <source src={project.video} type="video/mp4" />
-              </video>
+                src={project.video}
+              />
             </div>
           ) : project.image ? (
             <div className="relative aspect-video overflow-hidden rounded-lg border bg-muted">
@@ -154,8 +151,8 @@ export default function ProjectPageContent({
                 alt={project.imageAlt || project.title}
                 className="object-cover object-top"
                 fill
+                sizes="(max-width: 1024px) 100vw, 66vw"
                 src={project.image}
-                unoptimized
               />
             </div>
           ) : null}
@@ -306,23 +303,19 @@ export default function ProjectPageContent({
                     key={item.image}
                   >
                     {item.video ? (
-                      <video
-                        autoPlay
+                      <ProjectVideo
                         className="h-full w-full object-cover object-top"
-                        loop
-                        muted
-                        playsInline
+                        label={item.alt}
                         poster={item.image}
-                      >
-                        <source src={item.video} type="video/mp4" />
-                      </video>
+                        src={item.video}
+                      />
                     ) : (
                       <ExpandableImage
                         alt={item.alt}
                         className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         src={item.image}
-                        unoptimized
                       />
                     )}
                     {(item.caption || (locale === "sv" && item.captionSv)) && (

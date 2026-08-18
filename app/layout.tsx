@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/header";
 import { HtmlLangSetter } from "@/components/layout/html-lang-setter";
 import { JsonLd } from "@/components/layout/json-ld";
 import { LanguageProvider } from "@/components/layout/language-provider";
+import { MotionProvider } from "@/components/layout/motion-provider";
 import { ScrollToTop } from "@/components/layout/scroll-to-top";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
@@ -128,25 +129,6 @@ export default function RootLayout({
   return (
     <html className="scroll-smooth" lang="en" suppressHydrationWarning>
       <head>
-        {/* Preload critical resources */}
-        <link as="image" href="/images/profile.png" rel="preload" />
-
-        {/* KaTeX CSS for LaTeX rendering */}
-        <link
-          crossOrigin="anonymous"
-          href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
-          integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn"
-          rel="stylesheet"
-        />
-
-        {/* Preconnect to external domains */}
-        <link href="https://fonts.googleapis.com" rel="preconnect" />
-        <link
-          crossOrigin="anonymous"
-          href="https://fonts.gstatic.com"
-          rel="preconnect"
-        />
-
         {/* Web app manifest */}
         <link href="/site.webmanifest" rel="manifest" />
 
@@ -155,14 +137,16 @@ export default function RootLayout({
       <body className={`${inter.className} light antialiased`}>
         <ThemeProvider>
           <LanguageProvider>
-            <HtmlLangSetter />
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <ScrollProgress />
-              <main className="flex-1">{children}</main>
-              <Footer />
-              <ScrollToTop />
-            </div>
+            <MotionProvider>
+              <HtmlLangSetter />
+              <div className="flex min-h-screen flex-col">
+                <Header />
+                <ScrollProgress />
+                <main className="flex-1">{children}</main>
+                <Footer />
+                <ScrollToTop />
+              </div>
+            </MotionProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

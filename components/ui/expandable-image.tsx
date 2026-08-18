@@ -7,7 +7,7 @@ export type ExpandableImageProps = {
   alt: string;
   className?: string;
   fill?: boolean;
-  unoptimized?: boolean;
+  sizes?: string;
 };
 
 export function ExpandableImage({
@@ -15,7 +15,7 @@ export function ExpandableImage({
   alt,
   className,
   fill = false,
-  unoptimized = false,
+  sizes = "(max-width: 1024px) 100vw, 66vw",
 }: ExpandableImageProps) {
   const [open, setOpen] = useState(false);
   return (
@@ -27,8 +27,8 @@ export function ExpandableImage({
             className={className}
             fill={fill}
             priority={false}
+            sizes={sizes}
             src={src}
-            unoptimized={unoptimized}
           />
         </div>
       </DialogTrigger>
@@ -39,8 +39,8 @@ export function ExpandableImage({
             className="bg-black object-contain"
             fill
             priority={false}
+            sizes="(max-width: 768px) 100vw, 768px"
             src={src}
-            unoptimized={unoptimized}
           />
         </div>
       </DialogContent>

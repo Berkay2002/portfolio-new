@@ -10,7 +10,7 @@ import {
   Mail,
   Send,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/layout/language-provider";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -27,13 +27,14 @@ import { Textarea } from "../ui/textarea";
 
 // Email validation regex at top level for performance
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const EMAIL_REGEX_STRICT = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
 type ContactFormData = {
   name: string;
   email: string;
   message: string;
 };
+
+type ContactFormErrors = Partial<Record<keyof ContactFormData, string>>;
 
 const EMAILJS_SERVICE_ID = "service_6clfcwo"; // Replace with your service ID
 const EMAILJS_TEMPLATE_ID = "template_lgv4lmj"; // Replace with your template ID
@@ -46,13 +47,12 @@ export function ContactSection() {
     email: "",
     message: "",
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<ContactFormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
     null
   );
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const formRef = useRef<HTMLFormElement>(null);
 
   // Initialize EmailJS
   useEffect(() => {
@@ -61,7 +61,7 @@ export function ContactSection() {
 
   // Simplified validation helpers
   const validateName = (value: string) => {
-    if (value.length < 2) {
+    if (value.trim().length < 2) {
       return locale === "sv"
         ? "Namnet måste vara minst 2 tecken"
         : "Name must be at least 2 characters";
@@ -70,7 +70,7 @@ export function ContactSection() {
   };
 
   const validateEmail = (value: string) => {
-    if (!EMAIL_REGEX.test(value)) {
+    if (!EMAIL_REGEX.test(value.trim())) {
       return locale === "sv"
         ? "Vänligen ange en giltig e-postadress"
         : "Please enter a valid email address";
@@ -79,7 +79,7 @@ export function ContactSection() {
   };
 
   const validateMessage = (value: string) => {
-    if (value.length < 10) {
+    if (value.trim().length < 10) {
       return locale === "sv"
         ? "Meddelandet måste vara minst 10 tecken"
         : "Message must be at least 10 characters";
@@ -110,26 +110,21 @@ export function ContactSection() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    validateField(name as keyof ContactFormData, value);
+    const field = e.target.name as keyof ContactFormData;
+    const { value } = e.target;
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    validateField(field, value);
   };
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {};
+    const newErrors: ContactFormErrors = {};
+    const fields = Object.keys(formData) as (keyof ContactFormData)[];
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!EMAIL_REGEX_STRICT.test(formData.email)) {
-      newErrors.email = "Invalid email address";
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
+    for (const field of fields) {
+      const error = getErrorMessage(field, formData[field]);
+      if (error) {
+        newErrors[field] = error;
+      }
     }
 
     return newErrors;
@@ -180,6 +175,7 @@ export function ContactSection() {
       );
 
       setSubmitStatus("success");
+      setErrors({});
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
       // Error handled through UI feedback
@@ -194,21 +190,9 @@ export function ContactSection() {
     }
   };
 
-  // Custom hook for detecting if a field has content
-  const useHasContent = (value: string) => {
-    const [hasContent, setHasContent] = useState(false);
-
-    useEffect(() => {
-      setHasContent(value.trim().length > 0);
-    }, [value]);
-
-    return hasContent;
-  };
-
-  // Check if fields have content
-  const nameHasContent = useHasContent(formData.name);
-  const emailHasContent = useHasContent(formData.email);
-  const messageHasContent = useHasContent(formData.message);
+  const nameHasContent = formData.name.trim().length > 0;
+  const emailHasContent = formData.email.trim().length > 0;
+  const messageHasContent = formData.message.trim().length > 0;
 
   return (
     <section
@@ -231,10 +215,12 @@ export function ContactSection() {
               <h3 className="mb-4 font-semibold text-foreground text-lg">
                 {t("contact.sendMessage")}
               </h3>
-              <form className="space-y-5" onSubmit={handleSubmit} ref={formRef}>
+              <form className="space-y-5" noValidate onSubmit={handleSubmit}>
                 <div className="relative">
                   <Input
+                    aria-describedby={errors.name ? "name-error" : undefined}
                     aria-invalid={!!errors.name}
+                    autoComplete="name"
                     className={cn(
                       "peer h-11 rounded-md pt-4 placeholder-transparent transition-all duration-200 focus:border-primary focus:ring-1 focus:ring-primary",
                       errors.name &&
@@ -242,8 +228,10 @@ export function ContactSection() {
                     )}
                     id="name"
                     name="name"
+                    minLength={2}
                     onChange={handleChange}
                     placeholder=" "
+                    required
                     type="text"
                     value={formData.name}
                   />
@@ -260,13 +248,21 @@ export function ContactSection() {
                     {t("contact.nameLabel")}
                   </label>
                   {errors.name && (
-                    <p className="mt-1.5 text-red-500 text-sm">{errors.name}</p>
+                    <p
+                      className="mt-1.5 text-red-500 text-sm"
+                      id="name-error"
+                      role="alert"
+                    >
+                      {errors.name}
+                    </p>
                   )}
                 </div>
 
                 <div className="relative">
                   <Input
+                    aria-describedby={errors.email ? "email-error" : undefined}
                     aria-invalid={!!errors.email}
+                    autoComplete="email"
                     className={cn(
                       "peer h-11 rounded-md pt-4 placeholder-transparent transition-all duration-200 focus:border-primary focus:ring-1 focus:ring-primary",
                       errors.email &&
@@ -276,6 +272,7 @@ export function ContactSection() {
                     name="email"
                     onChange={handleChange}
                     placeholder=" "
+                    required
                     type="email"
                     value={formData.email}
                   />
@@ -292,7 +289,11 @@ export function ContactSection() {
                     {t("contact.emailLabel")}
                   </label>
                   {errors.email && (
-                    <p className="mt-1.5 text-red-500 text-sm">
+                    <p
+                      className="mt-1.5 text-red-500 text-sm"
+                      id="email-error"
+                      role="alert"
+                    >
                       {errors.email}
                     </p>
                   )}
@@ -300,6 +301,9 @@ export function ContactSection() {
 
                 <div className="relative">
                   <Textarea
+                    aria-describedby={
+                      errors.message ? "message-error" : undefined
+                    }
                     aria-invalid={!!errors.message}
                     className={cn(
                       "peer resize-none rounded-md pt-5 placeholder-transparent transition-all duration-200 focus:border-primary focus:ring-1 focus:ring-primary",
@@ -308,8 +312,10 @@ export function ContactSection() {
                     )}
                     id="message"
                     name="message"
+                    minLength={10}
                     onChange={handleChange}
                     placeholder=" "
+                    required
                     rows={4}
                     value={formData.message}
                   />
@@ -326,7 +332,11 @@ export function ContactSection() {
                     {t("contact.messageLabel")}
                   </label>
                   {errors.message && (
-                    <p className="mt-1.5 text-red-500 text-sm">
+                    <p
+                      className="mt-1.5 text-red-500 text-sm"
+                      id="message-error"
+                      role="alert"
+                    >
                       {errors.message}
                     </p>
                   )}
@@ -334,6 +344,7 @@ export function ContactSection() {
 
                 <div className="flex items-center justify-end">
                   <Button
+                    aria-busy={isSubmitting}
                     className="bg-blue-600 text-white hover:bg-blue-700"
                     disabled={isSubmitting}
                     type="submit"
@@ -373,7 +384,11 @@ export function ContactSection() {
 
                 {/* Success/Error messaging */}
                 {submitStatus === "success" && (
-                  <div className="mt-4 flex items-start rounded-md border border-green-200 bg-green-50 p-3 text-green-700 dark:border-green-900/30 dark:bg-green-900/20 dark:text-green-400">
+                  <div
+                    aria-live="polite"
+                    className="mt-4 flex items-start rounded-md border border-green-200 bg-green-50 p-3 text-green-700 dark:border-green-900/30 dark:bg-green-900/20 dark:text-green-400"
+                    role="status"
+                  >
                     <CheckCircle className="mt-0.5 mr-2 h-5 w-5 shrink-0" />
                     <div>
                       <p className="font-medium">{t("contact.successTitle")}</p>
@@ -385,7 +400,10 @@ export function ContactSection() {
                 )}
 
                 {submitStatus === "error" && (
-                  <div className="mt-4 flex items-start rounded-md border border-red-200 bg-red-50 p-3 text-red-700 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
+                  <div
+                    className="mt-4 flex items-start rounded-md border border-red-200 bg-red-50 p-3 text-red-700 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400"
+                    role="alert"
+                  >
                     <AlertCircle className="mt-0.5 mr-2 h-5 w-5 shrink-0" />
                     <div>
                       <p className="font-medium">{t("contact.errorTitle")}</p>

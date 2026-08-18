@@ -20,7 +20,8 @@ export function ScrollProgress() {
       setIsVisible(window.scrollY > SCROLL_PROGRESS_VISIBILITY_THRESHOLD);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -30,6 +31,7 @@ export function ScrollProgress() {
 
   return (
     <motion.div
+      aria-hidden
       animate={{ opacity: 1 }}
       className="fixed top-0 right-0 left-0 z-50 h-1 origin-left bg-primary"
       initial={{ opacity: 0 }}

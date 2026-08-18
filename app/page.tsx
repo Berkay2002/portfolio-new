@@ -1,8 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense } from "react";
+import ParticleBackground from "@/components/layout/particle-background";
+import { ScrollManager } from "@/components/layout/scroll-manager";
 import { AboutSection } from "@/components/sections/about-section";
 import { ContactSection } from "@/components/sections/contact-section";
 import { HeroSection } from "@/components/sections/hero-section";
@@ -31,61 +30,34 @@ import { animatchPaper } from "@/lib/data/animatch-paper";
 import { syngraphPaper } from "@/lib/data/syngraph-paper";
 import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
 
-import ParticleBackground from "@/components/layout/particle-background";
-
-// Timeout in ms to ensure DOM is loaded before scrolling
-const SCROLL_DELAY_MS = 100;
-
-// Client component wrapper for scroll behavior
-function ScrollManager() {
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    // Get the section from URL query parameter
-    const section = searchParams.get("section");
-    if (section) {
-      // Find the section element and scroll to it
-      const element = document.getElementById(section);
-      if (element) {
-        // Use a small timeout to ensure the DOM is fully loaded
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth" });
-        }, SCROLL_DELAY_MS);
-      }
-    }
-  }, [searchParams]);
-
-  return null;
-}
+const papers = [
+  {
+    id: "when-agentic-workflows-help",
+    title: whenAgenticWorkflowsPaper.title,
+    authors: whenAgenticWorkflowsPaper.authors,
+    abstract: whenAgenticWorkflowsPaper.abstractContent,
+    pdfUrl: whenAgenticWorkflowsPaper.pdfUrl,
+    detailHref: "/papers/when-agentic-workflows-help",
+  },
+  {
+    id: "researcher",
+    title: syngraphPaper.title,
+    authors: syngraphPaper.authors,
+    abstract: syngraphPaper.abstractContent,
+    pdfUrl: syngraphPaper.pdfUrl,
+    projectHref: "/projects/researcher",
+  },
+  {
+    id: "animatch",
+    title: animatchPaper.title,
+    authors: animatchPaper.authors,
+    abstract: animatchPaper.abstractContent,
+    pdfUrl: animatchPaper.pdfUrl,
+    projectHref: "/projects/animatch",
+  },
+];
 
 export default function Home() {
-  const papers = [
-    {
-      id: "when-agentic-workflows-help",
-      title: whenAgenticWorkflowsPaper.title,
-      authors: whenAgenticWorkflowsPaper.authors,
-      abstract: whenAgenticWorkflowsPaper.abstractContent,
-      pdfUrl: whenAgenticWorkflowsPaper.pdfUrl,
-      detailHref: "/papers/when-agentic-workflows-help",
-    },
-    {
-      id: "researcher",
-      title: syngraphPaper.title,
-      authors: syngraphPaper.authors,
-      abstract: syngraphPaper.abstractContent,
-      pdfUrl: syngraphPaper.pdfUrl,
-      projectHref: "/projects/researcher",
-    },
-    {
-      id: "animatch",
-      title: animatchPaper.title,
-      authors: animatchPaper.authors,
-      abstract: animatchPaper.abstractContent,
-      pdfUrl: animatchPaper.pdfUrl,
-      projectHref: "/projects/animatch",
-    },
-  ];
-
   return (
     <>
       {/* Global particle background for the entire page */}
@@ -94,7 +66,9 @@ export default function Home() {
         maxCount={80}
         opacity={0.8}
       />
-      <ScrollManager />
+      <Suspense fallback={null}>
+        <ScrollManager />
+      </Suspense>
       <HeroSection />
       <AboutSection />
       <TimelineSection />
@@ -108,6 +82,7 @@ export default function Home() {
         />
         <div className="mt-12">
           <Carousel
+            aria-label="Research papers"
             className="w-full"
             opts={{
               align: "start",
@@ -115,8 +90,9 @@ export default function Home() {
             }}
           >
             <CarouselContent className="-ml-2 md:-ml-4">
-              {papers.map((paper) => (
+              {papers.map((paper, index) => (
                 <CarouselItem
+                  aria-label={`${index + 1} of ${papers.length}`}
                   className="pl-2 md:basis-1/2 md:pl-4 lg:basis-1/3"
                   key={paper.id}
                 >

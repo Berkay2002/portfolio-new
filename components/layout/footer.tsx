@@ -1,8 +1,6 @@
-/** biome-ignore-all lint/correctness/noUnusedImports: <Dont worry> */
-/** biome-ignore-all lint/correctness/noUnusedVariables: <Dont worry> */
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ChevronUp,
   FileText,
@@ -13,30 +11,21 @@ import Link from "next/link";
 import { useLanguage } from "@/components/layout/language-provider";
 import { socialLinks } from "@/lib/data/portfolio-data";
 import { Button } from "../ui/button";
-import ParticleBackground from "./particle-background";
 
 export function Footer() {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
+  const reduceMotion = useReducedMotion();
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: reduceMotion ? "auto" : "smooth",
     });
   };
 
   return (
     <footer className="relative border-neutral-200 border-t bg-linear-to-b from-background to-background/80 py-8 sm:py-10 md:py-12 dark:border-neutral-800">
-      {/* Local particle overlay for footer */}
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-25 dark:opacity-35">
-        <ParticleBackground
-          densityDivisor={20}
-          local
-          maxCount={40}
-          opacity={0.12}
-        />
-      </div>
       <div className="container mx-auto max-w-7xl px-4">
         <div className="grid grid-cols-1 gap-8 py-4 sm:py-6 md:grid-cols-2 md:gap-12">
           {/* Left column - Info and social links */}

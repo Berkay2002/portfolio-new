@@ -71,8 +71,8 @@ const ProjectCarouselCard = ({
             alt={project.imageAlt || project.title}
             className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
             height={256}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             src={project.image}
-            unoptimized
             width={400}
           />
         ) : (
@@ -177,6 +177,7 @@ export function ProjectsCarouselSection() {
           whileInView={{ opacity: 1, y: 0 }}
         >
           <Carousel
+            aria-label={t("sections.projects.title")}
             className="w-full"
             opts={{
               align: "start",
@@ -186,6 +187,7 @@ export function ProjectsCarouselSection() {
             <CarouselContent className="-ml-2 md:-ml-4">
               {projects.map((project, index) => (
                 <CarouselItem
+                  aria-label={`${index + 1} of ${projects.length}`}
                   className="pl-2 md:basis-1/2 md:pl-4 lg:basis-1/3"
                   key={project.id}
                 >

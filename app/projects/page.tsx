@@ -43,8 +43,8 @@ export default function ProjectsPage() {
                     alt={project.imageAlt || project.title}
                     className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     height={192}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     src={project.image}
-                    unoptimized
                     width={400}
                   />
                 ) : (
