@@ -29,12 +29,14 @@ import { wikillm } from "./projects/wikillm";
 
 export const personalInfo: PersonalInfo = {
   name: "Berkay Orhan",
-  title: "Machine Learning Student",
-  bio: "Berkay is an engineering student passionate about machine learning and web development. Currently pursuing a master's in ML, web technologies, and cybersecurity. In free time: photography, gaming, and friends.",
+  title: "AI Engineer & Builder",
+  titleEn: "AI Engineer & Builder",
+  titleSv: "AI-ingenjör & utvecklare",
+  bio: "I’m an AI engineer and builder with a background in Media Technology, currently completing an M.Sc. in Computer Science and Engineering. I build agentic AI systems, retrieval and local-inference infrastructure, real-time voice pipelines, developer tools, and the full-stack products around them.",
   bioEn:
-    "Berkay is an engineering student passionate about machine learning and web development. Currently pursuing a master's in ML, web technologies, and cybersecurity. In free time: photography, gaming, and friends.",
+    "I’m an AI engineer and builder with a background in Media Technology, currently completing an M.Sc. in Computer Science and Engineering. I build agentic AI systems, retrieval and local-inference infrastructure, real-time voice pipelines, developer tools, and the full-stack products around them.",
   bioSv:
-    "Ingenjörsstudent med intresse för maskininlärning och webbutveckling. Läser för närvarande en master inom ML, webbteknologier och cybersäkerhet. På fritiden ägnar jag mig åt fotografi, gaming och att umgås med vänner.",
+    "Jag är AI-ingenjör och utvecklare med en bakgrund inom medieteknik och slutför för närvarande en masterexamen med datateknik som huvudområde. Jag bygger agentbaserade AI-system, infrastruktur för retrieval och lokal inferens, röstsystem i realtid, utvecklarverktyg och fullstackprodukterna runt dem.",
 };
 
 export const skills: Skill[] = [
@@ -402,27 +404,28 @@ export const timelineEvents: TimelineEvent[] = [
   },
   {
     id: "masters",
-    title: "Master's Degree in Engineering",
-    titleSv: "Master's Degree in Engineering",
+    title: "M.Sc. in Computer Science and Engineering",
+    titleSv: "Teknologie master i datateknik",
     location: "Linköping University",
     locationSv: "Linköpings universitet",
     description:
-      "Studying machine learning, image processing and cybersecurity in my master's program.",
+      "Completing an M.Sc. in Computer Science and Engineering, focused on full-stack software engineering, networked and distributed systems, and applied AI.",
     descriptionSv:
-      "Studerar maskininlärning, bildbehandling och cybersäkerhet i mitt masterprogram.",
+      "Slutför en masterexamen med datateknik som huvudområde, med fokus på fullstackutveckling, nätverksbaserade och distribuerade system samt tillämpad AI.",
     detailedDescription:
-      "Currently pursuing a Master of Science in Engineering with a focus on advanced machine learning techniques, computer vision, and cybersecurity. The program includes deep learning architectures, neural networks, image processing algorithms, security protocols, and ethical AI considerations. Working on cutting-edge research projects in natural language processing and computer vision, while developing expertise in Python, TensorFlow, PyTorch, and various ML frameworks.",
+      "Within the Media Technology engineering programme, I chose Computer Science and Engineering as the formal master's major. The master's stage combines full-stack software engineering, networked and distributed systems, and applied AI. I expect to complete the full programme in January 2027.",
     detailedDescriptionSv:
-      "Läser för närvarande en Master of Science in Engineering med fokus på avancerade maskininlärningstekniker, datorseende och cybersäkerhet. Programmet inkluderar djuplärningsarkitekturer, neurala nätverk, bildbehandlingsalgoritmer, säkerhetsprotokoll och etiska AI-överväganden. Arbetar med banbrytande forskningsprojekt inom naturlig språkbehandling och datorseende, samtidigt som jag utvecklar expertis inom Python, TensorFlow, PyTorch och olika ML-ramverk.",
-    date: "2024 - Present",
+      "Inom civilingenjörsprogrammet i medieteknik valde jag datateknik som formellt huvudområde för masterexamen. Masterdelen kombinerar fullstackutveckling, nätverksbaserade och distribuerade system samt tillämpad AI. Jag planerar att slutföra hela programmet i januari 2027.",
+    date: "2024 – Jan 2027 (expected)",
+    dateSv: "2024 – jan 2027 (planerad)",
     type: "education",
     iconLight: "/images/timeline/liu-light.png",
     iconDark: "/images/timeline/liu-dark.png",
   },
   {
     id: "bachelors",
-    title: "Bachelor's Degree in Engineering",
-    titleSv: "Bachelor's Degree in Engineering",
+    title: "B.Sc. in Media Technology and Engineering",
+    titleSv: "Teknologie kandidat i medieteknik",
     location: "Linköping University",
     locationSv: "Linköpings universitet",
     description:

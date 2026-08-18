@@ -27,12 +27,12 @@ const translations: Translations = {
       about: {
         title: "About Me",
         description:
-          "Student of machine learning, control systems, and cybersecurity.",
+          "AI engineer building agentic systems, real-time software, and end-to-end products.",
         technical: "Background",
         technicalText:
-          "Working with machine learning and building web applications. Creating simple visualizations to explain complex ideas.",
+          "My academic background spans Media Technology and Computer Science and Engineering. I began with programming, mathematics, signal processing, visualization, and human-computer interaction, then chose Computer Science and Engineering as my master's major, concentrating on full-stack software engineering, networked and distributed systems, and applied AI. I expect to complete the programme in January 2027.",
         professionalSkills: "Skills",
-        expertise: "Areas of Interest",
+        expertise: "What I Work With",
       },
       timeline: {
         title: "Education & Experience",
@@ -139,12 +139,12 @@ const translations: Translations = {
       about: {
         title: "Om mig",
         description:
-          "Student inom maskininlärning, reglerteknik och cybersäkerhet.",
+          "AI-ingenjör som bygger agentbaserade system, realtidsprogramvara och kompletta produkter.",
         technical: "Bakgrund",
         technicalText:
-          "Arbetar med maskininlärning och utvecklar webbapplikationer. Skapar enkla visualiseringar för att förklara komplexa idéer.",
+          "Min akademiska bakgrund spänner över medieteknik och datateknik. Jag började med programmering, matematik, signalbehandling, visualisering och människa–datorinteraktion, och valde sedan datateknik som huvudområde på masternivå med fokus på fullstackutveckling, nätverksbaserade och distribuerade system samt tillämpad AI. Jag planerar att slutföra programmet i januari 2027.",
         professionalSkills: "Färdigheter",
-        expertise: "Intresseområden",
+        expertise: "Det jag arbetar med",
       },
       timeline: {
         title: "Utbildning & Erfarenhet",

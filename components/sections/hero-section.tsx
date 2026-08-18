@@ -80,7 +80,11 @@ export function HeroSection() {
               delay: MOTION_DELAY_H2,
             }}
           >
-            <h2>{personalInfo.title}</h2>
+            <h2>
+              {locale === "sv" && personalInfo.titleSv
+                ? personalInfo.titleSv
+                : personalInfo.titleEn || personalInfo.title}
+            </h2>
           </motion.div>
 
           <motion.p

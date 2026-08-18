@@ -85,7 +85,12 @@ export function Timeline({ events, className }: TimelineProps) {
   // Get localized content based on the selected language
   const getLocalizedContent = (
     event: TimelineEvent,
-    field: "title" | "location" | "description" | "detailedDescription"
+    field:
+      | "title"
+      | "location"
+      | "description"
+      | "detailedDescription"
+      | "date"
   ) => {
     if (locale === "sv") {
       switch (field) {
@@ -97,6 +102,8 @@ export function Timeline({ events, className }: TimelineProps) {
           return event.descriptionSv || event.description;
         case "detailedDescription":
           return event.detailedDescriptionSv || event.detailedDescription;
+        case "date":
+          return event.dateSv || event.date;
         default:
           return event[field];
       }
@@ -130,7 +137,7 @@ export function Timeline({ events, className }: TimelineProps) {
                 {getLocalizedContent(event, "title")}
               </h3>
               <time className="rounded-md bg-muted px-2 py-1 font-medium text-xs">
-                {event.date}
+                {getLocalizedContent(event, "date")}
               </time>
             </div>
             <p className="text-muted-foreground text-sm">

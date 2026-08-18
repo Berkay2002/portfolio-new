@@ -70,6 +70,8 @@ export type Skill = {
 export type PersonalInfo = {
   name: string;
   title: string;
+  titleEn?: string;
+  titleSv?: string;
   bio: string;
   bioEn?: string;
   bioSv?: string;
@@ -92,6 +94,7 @@ export type TimelineEvent = {
   detailedDescription?: string; // Detailed description for collapsible section
   detailedDescriptionSv?: string; // Swedish detailed description
   date: string;
+  dateSv?: string;
   icon?: string;
   iconLight?: string; // path to logo for light theme
   iconDark?: string;  // path to logo for dark theme
