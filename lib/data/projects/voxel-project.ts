@@ -88,7 +88,7 @@ export const voxelProject: Project = {
     {
       image: "/images/projects/voxel-project/poster.jpg",
       alt: "Voxel Engine general gameplay demonstration",
-      video: "/videos/voxel-project/demo_gameplay.mp4",
+      video: "/videos/voxel-project/demo_surface.mp4",
       caption:
         "General gameplay showcasing terrain, lighting, and block interactions",
       captionSv:

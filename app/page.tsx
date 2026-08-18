@@ -31,9 +31,6 @@ import { animatchPaper } from "@/lib/data/animatch-paper";
 import { syngraphPaper } from "@/lib/data/syngraph-paper";
 import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
 
-// Keeping the import but not using it for now
-// import { BlogPreviewSection } from "@/components/sections/blog-preview-section";
-
 import ParticleBackground from "@/components/layout/particle-background";
 
 // Timeout in ms to ensure DOM is loaded before scrolling
@@ -175,8 +172,6 @@ export default function Home() {
           </Button>
         </div>
       </Container>
-      {/* Commenting out BlogPreviewSection for now
-      <BlogPreviewSection /> */}
       <ContactSection />
     </>
   );

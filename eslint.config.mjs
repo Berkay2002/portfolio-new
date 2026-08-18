@@ -20,7 +20,6 @@ const eslintConfig = defineConfig([
       "out/**",
       "build/**",
       "next-env.d.ts",
-      "components/fasttalk-benchmark-dashboard.jsx",
     ]
   }
 ])

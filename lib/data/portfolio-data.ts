@@ -358,7 +358,7 @@ export const projects: Project[] = [
 export const socialLinks: SocialLinks = {
   github: "https://github.com/Berkay2002",
   linkedin: "https://linkedin.com/in/berkay-orhan-b71256204",
-  cv: "/resume.pdf",
+  cv: "/Resume.pdf",
 };
 
 export const timelineEvents: TimelineEvent[] = [
