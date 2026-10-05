@@ -1,6 +1,6 @@
 # Portfolio design
 
-Status: round 1 of the hero (`design/specs/hero-r1-*.md`). Nothing is approved yet. Once a hero is
+Status: round 1 of the hero (`design/specs/hero-r1.md`). Nothing is approved yet. Once a hero is
 approved, its image goes in `design/approved/` and this file records the system the build follows.
 
 The redesign takes its language from the Genomlyst landing (`genomlyst/design/README.md`): the page
@@ -54,42 +54,67 @@ All four are on Google Fonts, so `next/font/google` loads them.
 
 ## How a round works
 
-1. A round is a spec per variant in `design/specs/<surface>-r<round>[-<variant>].md`, plus a
-   `-common.md` for what the variants share. The spec is the prompt: render size, palette hexes, type
-   described by feel, layout with exact copy, depth, and what must not appear.
-2. Codex renders it with the references attached with `-i`. Renders go in `design/mockups/` with the
-   spec's stem (`hero-r1-a.png`).
-3. Berkay picks. Later rounds are edits of the pick: "Edit the attached image. Keep everything exactly as
-   it is, with these changes only." Each edit round is a new spec file (`hero-r2-a.md`).
+The pipeline is Genomlyst's, recovered from its scripts on 2026-10-05.
+
+1. A round is one spec file, `design/specs/<surface>-r<round>.md`, with a `## Shared` section and one
+   section per variant (`## a-workbench`). The sections are the prompt, passed to the image tool word for
+   word: render size, palette hexes, type described by feel, layout with exact copy, depth, and what must
+   not appear. Notes for people go above `## Shared`.
+2. Plain `codex exec` renders it: Codex reads the spec, calls its built-in image tool exactly once, and
+   passes `## Shared` followed by the variant section verbatim. References go in with `-i`. The render
+   lands in `design/mockups/<spec stem>-<key>.png`.
+3. Berkay picks. Edit rounds are the same call with the previous render attached first and "editing the
+   first attached image" in the instruction; they pass only their own section.
 4. The approved image moves to `design/approved/` and this file is updated with what it settled.
 5. Text, the underline's position and numbers are fixed in code, not re-rendered.
 
+Sizes: mockups ask for 1536x1024 in the instruction to Codex; illustrations ask for 1024x1024 in the
+spec itself.
+
 ### Running a spec
 
-From the repo root, in PowerShell, with `$G` pointing at the Genomlyst checkout:
+`design/scripts/render.ps1` makes the call, then copies the newest png from
+`~/.codex/generated_images/<session id>/` (the id comes from the Codex log in `%TEMP%`) into
+`design/mockups/`. From the repo root in PowerShell, for hero round 1:
 
 ```powershell
 $G = "E:\Dev\.me\projects\genomlyst"
-codex exec `
-  -i "$G\design\approved\landing-desktop.png" `
-  -i "$G\design\assets\character-raw.png" `
-  -i public\images\profile.jpg `
-  "Read design/specs/hero-r1-common.md and design/specs/hero-r1-a.md. Generate the image they describe with your image generation tool, 1536x1024, and save it as design/mockups/hero-r1-a.png. Do not change any other file."
+$refs = "$G\design\approved\landing-desktop.png", "$G\design\assets\character-raw.png", "public\images\profile.jpg"
+foreach ($k in "a-workbench", "b-paper", "c-desk") {
+  .\design\scripts\render.ps1 -Spec design/specs/hero-r1.md -Key $k -Refs $refs
+}
+.\design\scripts\render.ps1 -Spec design/specs/hero-r1.md -Key a2-blue -Refs design\mockups\hero-r1-a-workbench.png -Edit
 ```
 
-Each spec lists the references it needs, in order. The Genomlyst images are style references only and are
-never copied into this repo (Genomlyst is private).
+Add `-Model gpt-6-luna` to pin the model, as Genomlyst did. The underlying call, if you run it by hand:
+
+```
+codex exec -s workspace-write "Read design/specs/hero-r1.md. Use your built-in image generation tool exactly once, at 1536x1024, ... Do not write code and do not edit files." -i <ref1> -i <ref2> < /dev/null > codex.log 2>&1
+```
+
+The prompt goes before `-i`: `-i` takes several values, so a prompt after it is read as an image path.
+Closing stdin (`< /dev/null`, or piping `$null` in PowerShell) keeps codex from waiting on it.
+
+The Genomlyst images are style references only and are never copied into this repo (Genomlyst is
+private).
 
 ### Illustration assets (after the hero is approved)
 
 Each illustration renders at 1024x1024 on flat pure white `#FFFFFF`, at least 60 px margin, no floor, no
 shadow, with the approved character attached as the style reference. The raw render stays in
-`design/assets/<name>-raw.png`; a flood-fill cut-out script makes the transparent `.webp` for
-`public/images/site/`. Layers that animate separately (a stamp, a chip) are split with small PIL scripts
-kept next to the raw files.
+`design/assets/<name>-raw.png`, and `design/scripts/cutout.py` (numpy, pillow, scipy) cuts it out:
+
+```
+python design/scripts/cutout.py design/assets/<name>-raw.png public/images/site/<name>.webp preview.png
+```
+
+It makes the near-white region connected to the image border transparent (min channel >= 232) with a
+soft one-pixel edge, crops to the content plus 8 px and saves webp at quality 88. White inside the
+drawing stays because it does not touch the border. Layers that animate separately (a stamp, a chip)
+are split with small PIL scripts kept next to the raw files.
 
 ## Files
 
-- Specs: `design/specs/<surface>-r<round>[-<variant>].md`, lowercase kebab-case.
-- Renders: `design/mockups/<same stem>.png`. Approved: `design/approved/<surface>-<desktop|mobile-N>.png`.
+- Specs: `design/specs/<surface>-r<round>.md`, lowercase kebab-case, one section per variant.
+- Renders: `design/mockups/<spec stem>-<key>.png`. Approved: `design/approved/<surface>-<desktop|mobile-N>.png`.
 - Raw assets: `design/assets/<name>-raw.png`.
