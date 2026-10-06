@@ -271,7 +271,7 @@ type Peak = [at: number, width: number, height: number]; // all in 0..1
 // A row of waveform bars, quiet at `floor` with bursts at `peaks`. It swells when the trace reaches it.
 export function Wave({
   n,
-  peaks = [],
+  peaks,
   values,
   floor = 0.05,
   vertical = false,
@@ -280,7 +280,7 @@ export function Wave({
   className,
 }: {
   n: number;
-  peaks?: Peak[];
+  peaks: Peak[];
   values?: number[]; // real bar heights, 0 to 1, in place of the drawn peaks
   floor?: number;
   vertical?: boolean;
@@ -301,7 +301,7 @@ export function Wave({
       className={cn("wave pointer-events-none", vertical && "vertical", live && "live on", sweep && "sweep on", className)}
       data-wave
       preserveAspectRatio="none"
-      viewBox={vertical ? `0 0 100 ${n}` : `0 0 ${n} 100`}
+      viewBox={vertical ? `0 0 100 ${bars.length}` : `0 0 ${bars.length} 100`}
     >
       {bars.map((a, i) =>
         vertical ? (

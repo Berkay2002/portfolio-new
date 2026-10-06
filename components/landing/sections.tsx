@@ -382,16 +382,17 @@ export function Research({ thesis }: { thesis: string }) {
   );
 }
 
-// Year to % along the time axis (desktop, from the left) and px down the phone's axis. The years before
-// 2024 barely show on GitHub, so they get a third of the room the later ones do (on phones, less still).
-const axis = (stops: number[]) => (year: number) => {
-  const i = Math.min(stops.length - 2, Math.max(0, Math.floor(year - 2021)));
-  return stops[i]! + (year - 2021 - i) * (stops[i + 1]! - stops[i]!);
+// Year to % along the time axis (desktop, from the left) and px down the phone's axis, from where each
+// year starts; years after the last stop take `step` each. The years before 2024 barely show on GitHub,
+// so they get a third of the room the later ones do (on phones, less still).
+const axis = (stops: number[], step: number) => (year: number) => {
+  const at = (i: number) => (i < stops.length ? stops[i]! : stops.at(-1)! + (i - stops.length + 1) * step);
+  const i = Math.max(0, Math.floor(year - 2021));
+  return at(i) + (year - 2021 - i) * (at(i + 1) - at(i));
 };
-const X = axis([5, 12, 19, 26, 48, 70, 102]);
-const Ypx = axis([64, 84, 104, 124, 214, 334, 594]);
+const X = axis([5, 12, 19, 26, 48, 70], 32);
+const Ypx = axis([64, 84, 104, 124, 214, 334], 260);
 
-const years = [2021, 2022, 2023, 2024, 2025, 2026];
 // Where each moment sits on the axis, and on desktop whether it hangs above it.
 const moments = [
   { at: 2021, above: false },
@@ -400,16 +401,16 @@ const moments = [
   { at: 2026.75, above: false },
 ];
 // The drawn wave, for builds without GitHub data: small at the BSc, more through the MSc, most at Ericsson
-// (t along the axis, 2021 to now).
+// (when, how wide in years, how tall).
 const careerPeaks: [number, number, number][] = [
-  [0.04, 0.06, 0.05],
-  [0.2, 0.08, 0.08],
-  [0.36, 0.08, 0.12],
-  [0.52, 0.06, 0.22],
-  [0.68, 0.08, 0.3],
-  [0.87, 0.04, 0.55],
-  [0.93, 0.04, 0.65],
-  [0.985, 0.025, 1],
+  [2021.23, 0.35, 0.05],
+  [2022.15, 0.46, 0.08],
+  [2023.08, 0.46, 0.12],
+  [2024, 0.35, 0.22],
+  [2024.92, 0.46, 0.3],
+  [2026.02, 0.23, 0.55],
+  [2026.37, 0.23, 0.65],
+  [2026.68, 0.14, 1],
 ];
 // The middle of the week starting on `start`, as a year on the axis.
 const yearOf = (start: string) => 2021 + (Date.parse(start) + 3.5 * 864e5 - Date.UTC(2021, 0, 1)) / (365.25 * 864e5);
@@ -426,7 +427,8 @@ export function Experience({ commits }: { commits: Commits | null }) {
   const values = weeks?.map((w) => Math.round(Math.max(0.02, Math.sqrt(w.count / peak!.count)) * 1000) / 1000);
   const tag = locale === "sv" ? "sv-SE" : "en-GB";
   const num = (n: number) => n.toLocaleString(tag);
-  const thisYear = weeks && +weeks.at(-1)!.start.slice(0, 4);
+  const years = Array.from({ length: Math.floor(to) - 2020 }, (_, i) => 2021 + i);
+  const thisYear = years.at(-1);
   // A year's total, and "so far" on its own line for this year so the label stays narrow.
   const total = (y: number) =>
     commits?.years[y] !== undefined && [num(commits.years[y]), y === thisYear && c.experience.soFar].filter(Boolean).map((l) => <span className="block" key={`${l}`}>{l}</span>);
@@ -435,16 +437,24 @@ export function Experience({ commits }: { commits: Commits | null }) {
     c.experience.peak(num(peak.count)),
     c.experience.week(new Intl.DateTimeFormat(tag, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(peak.start))),
   ];
-  const wave = { floor: 0.02, peaks: careerPeaks, sweep: true };
+  // As time passes the axis grows to the right; past the right edge it is squeezed to fit.
+  const fit = Math.min(1, 90 / (X(to) - 5));
+  const x = (y: number) => 5 + (X(y) - 5) * fit;
 
-  // One stretch of bars per year, since the years are drawn at different widths.
-  const stretches = weeks
-    ? years.map((y) => ({
-        from: y === 2021 ? from : y,
-        to: y === years.at(-1) ? to : y + 1,
-        values: values!.filter((_, i) => Math.max(2021, Math.floor(yearOf(weeks[i]!.start))) === y),
-      }))
-    : [{ from, to, values: undefined }];
+  // One stretch of bars per year, since the years are drawn at different widths; the drawn wave's peaks
+  // are placed in each year's own span.
+  const stretches = years.map((y) => {
+    const a = y === 2021 ? from : y;
+    const b = y === years.at(-1) ? to : y + 1;
+    return {
+      from: a,
+      to: b,
+      years: b - a,
+      values: values?.filter((_, i) => Math.max(2021, Math.floor(yearOf(weeks![i]!.start))) === y),
+      peaks: careerPeaks.map(([at, w, h]): [number, number, number] => [(at - a) / (b - a), w / (b - a), h]),
+    };
+  });
+  const wave = { floor: 0.02, sweep: true };
   return (
     <section className="relative scroll-mt-16 pt-24 lg:pt-20" id="experience">
       <div className="pr-6 pl-12 lg:pl-[4%]">
@@ -456,26 +466,29 @@ export function Experience({ commits }: { commits: Commits | null }) {
       {/* Desktop: the trace comes in on the left and runs the axis from 2021 to now, a bar a week. */}
       <div className="relative mt-6 hidden h-[500px] lg:block">
         <A className="top-[calc(50%-40px)] left-[2%]" />
-        <A className="top-1/2 [--dir:h]" style={{ left: `${X(from)}%` }} />
+        <A className="top-1/2 [--dir:h]" style={{ left: `${x(from)}%` }} />
         {stretches.map((st) => (
-          <div className="-translate-y-1/2 absolute top-1/2 h-[170px]" key={st.from} style={{ left: `${X(st.from)}%`, width: `${X(st.to) - X(st.from)}%` }}>
-            <Wave className="size-full" n={st.values?.length ?? 240} values={st.values} {...wave} />
+          <div className="-translate-y-1/2 absolute top-1/2 h-[170px]" key={st.from} style={{ left: `${x(st.from)}%`, width: `${x(st.to) - x(st.from)}%` }}>
+            <Wave className="size-full" n={Math.round(st.years * 42)} peaks={st.peaks} values={st.values} {...wave} />
           </div>
         ))}
         {years.map((y) => (
           <div key={y}>
-            <span className="-translate-x-1/2 absolute top-[calc(50%-136px)] whitespace-nowrap text-center text-(--dim) text-sm" style={{ left: `${X(y)}%` }}>
+            <span className="-translate-x-1/2 absolute top-[calc(50%-136px)] whitespace-nowrap text-center text-(--dim) text-sm" style={{ left: `${x(y)}%` }}>
               {y}
               {weeks && <span className="block text-(--dim)/70 text-xs">{total(y)}</span>}
             </span>
-            <span className="absolute top-[calc(50%-78px)] h-[70px] border-(--faint) border-l border-dashed" style={{ left: `${X(y)}%` }} />
+            <span className="absolute top-[calc(50%-78px)] h-[70px] border-(--faint) border-l border-dashed" style={{ left: `${x(y)}%` }} />
           </div>
         ))}
         {peakLabel && (
           <>
-            <span className="-translate-x-1/2 -translate-y-1/2 absolute top-[calc(50%-85px)] size-2 rounded-full bg-(--lime)" style={{ left: `${X(at)}%` }} />
-            <span className="absolute top-[calc(50%-150px)] h-[65px] w-px bg-(--dim)/60" style={{ left: `${X(at)}%` }} />
-            <p className="absolute bottom-[calc(50%+154px)] whitespace-nowrap text-sm" style={{ left: `${X(at)}%` }}>
+            <span className="-translate-x-1/2 -translate-y-1/2 absolute top-[calc(50%-85px)] size-2 rounded-full bg-(--lime)" style={{ left: `${x(at)}%` }} />
+            <span className="absolute top-[calc(50%-150px)] h-[65px] w-px bg-(--dim)/60" style={{ left: `${x(at)}%` }} />
+            <p
+              className={cn("absolute bottom-[calc(50%+154px)] whitespace-nowrap text-sm", x(at) > 80 && "text-right")}
+              style={x(at) > 80 ? { right: `${100 - x(at)}%` } : { left: `${x(at)}%` }}
+            >
               {peakLabel[0]}
               <span className="block text-(--dim)">{peakLabel[1]}</span>
             </p>
@@ -488,15 +501,15 @@ export function Experience({ commits }: { commits: Commits | null }) {
             <div key={m.at}>
               <span
                 className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 size-3 rounded-full border-2 border-(--lime) bg-(--bg)"
-                style={{ left: `${X(m.at)}%` }}
+                style={{ left: `${x(m.at)}%` }}
               />
               <span
                 className={cn("absolute w-px bg-(--dim)/60", last ? "top-[calc(50%+8px)] h-[150px]" : m.above ? "top-[calc(50%-150px)] h-[142px]" : "top-[calc(50%+8px)] h-[72px]")}
-                style={{ left: `${X(m.at)}%` }}
+                style={{ left: `${x(m.at)}%` }}
               />
               <div
-                className={cn("absolute", last ? "top-[calc(50%+164px)]" : m.above ? "bottom-[calc(50%+154px)]" : "top-[calc(50%+86px)]", "whitespace-nowrap", X(m.at) > 80 && "text-right")}
-                style={X(m.at) > 80 ? { right: `${100 - X(m.at) - 0.2}%` } : { left: `${X(m.at)}%` }}
+                className={cn("absolute", last ? "top-[calc(50%+164px)]" : m.above ? "bottom-[calc(50%+154px)]" : "top-[calc(50%+86px)]", "whitespace-nowrap", x(m.at) > 80 && "text-right")}
+                style={x(m.at) > 80 ? { right: `${100 - x(m.at) - 0.2}%` } : { left: `${x(m.at)}%` }}
               >
                 <p className={cn("font-display text-[24px]", last && "text-(--lime)")}>{t.title}</p>
                 <p className="mt-1 text-(--fg)/70 text-sm">{t.line}</p>
@@ -505,7 +518,7 @@ export function Experience({ commits }: { commits: Commits | null }) {
           );
         })}
         {weeks && <p className="absolute top-[calc(50%+190px)] left-[4%] text-(--dim) text-sm">{c.experience.bars}</p>}
-        <A className="top-1/2 [--dir:h]" style={{ left: `${X(to)}%` }} />
+        <A className="top-1/2 [--dir:h]" style={{ left: `${x(to)}%` }} />
         <A className="top-[calc(50%+40px)] left-[98%]" />
       </div>
       <Wire from="98%" to="2%" />
@@ -516,7 +529,7 @@ export function Experience({ commits }: { commits: Commits | null }) {
         <A className="left-24" style={{ top: Ypx(from) }} />
         {stretches.map((st) => (
           <div className="-translate-x-1/2 absolute left-24 w-20" key={st.from} style={{ top: Ypx(st.from), height: Ypx(st.to) - Ypx(st.from) }}>
-            <Wave className="size-full" n={st.values?.length ?? 90} values={st.values} vertical {...wave} />
+            <Wave className="size-full" n={Math.round(st.years * 16)} peaks={st.peaks} values={st.values} vertical {...wave} />
           </div>
         ))}
         {years.map((y) => (

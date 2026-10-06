@@ -2,7 +2,8 @@
 
 Status: a-across approved and built (2026-10-06, `design/approved/project-arch-across.png`). b and c
 were not picked and are deleted; git history keeps them. The stations live in `lib/data/flows.ts`, the
-drawing in `components/landing/flow.tsx`.
+drawing in `components/landing/flow.tsx`. The build labels the run "How it works" with no leader or
+sentence, and leaves out the entry and exit dots at each station.
 
 A project page (`/projects/<id>`, from `pages-r1.md` b-project) is a lede, a facts column and five
 sections of text. The trace only runs straight down the left lane with a burst per section, so nothing
