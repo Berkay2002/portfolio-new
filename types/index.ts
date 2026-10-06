@@ -62,11 +62,6 @@ export type Project = {
   }[]; // Additional images/videos for the project
 };
 
-export type Skill = {
-  category: string;
-  items: string[];
-};
-
 export type PersonalInfo = {
   name: string;
   title: string;
@@ -81,30 +76,5 @@ export type SocialLinks = {
   cv: string;
 };
 
-export type TimelineEvent = {
-  id: string;
-  title: string;
-  titleSv?: string; // Swedish title
-  location: string;
-  locationSv?: string; // Swedish location
-  description: string;
-  descriptionSv?: string; // Swedish description
-  detailedDescription?: string; // Detailed description for collapsible section
-  detailedDescriptionSv?: string; // Swedish detailed description
-  date: string;
-  icon?: string;
-  iconLight?: string; // path to logo for light theme
-  iconDark?: string;  // path to logo for dark theme
-  type: "education" | "work" | "achievement";
-};
-
 // Language Definitions
 export type Locale = "en" | "sv";
-
-export type Translation = {
-  [key: string]: string | Translation;
-};
-
-export type Translations = {
-  [locale: string]: Translation;
-};

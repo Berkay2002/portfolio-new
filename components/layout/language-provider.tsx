@@ -6,33 +6,11 @@ import {
   useContext,
   useSyncExternalStore,
 } from "react";
-import translations from "@/lib/translations";
 import type { Locale } from "@/types";
-
-// Helper function to get a nested translation value
-export function getTranslation(
-  obj: Record<string, unknown>,
-  path: string
-): string {
-  const keys = path.split(".");
-  let result: unknown = obj;
-
-  for (const key of keys) {
-    if (result && typeof result === "object" && key in result) {
-      // TypeScript can't know the shape, so cast to Record<string, unknown>
-      result = (result as Record<string, unknown>)[key];
-    } else {
-      return path; // Return the path if translation not found
-    }
-  }
-
-  return typeof result === "string" ? result : path;
-}
 
 type LanguageContextType = {
   locale: Locale;
   setLocale: (locale: Locale) => void;
-  t: (key: string) => string;
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(
@@ -72,19 +50,9 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
     for (const listener of listeners) listener();
   };
 
-  // Translation function
-  const t = (key: string): string => {
-    if (!locale) {
-      return key;
-    }
-    const localeTranslations = translations[locale];
-    return getTranslation(localeTranslations, key);
-  };
-
   const value = {
     locale,
     setLocale,
-    t,
   };
 
   return (

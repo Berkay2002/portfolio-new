@@ -81,5 +81,3 @@ Every user-facing string needs English and Swedish.
 - Imports use the `@/*` alias. ESLint flags unused imports.
 - File names are kebab-case; components are PascalCase, variables and functions camelCase.
 - External links use `target="_blank"` with `rel="noopener noreferrer"`.
-- Leftovers from the old site that no page uses: `lib/translations.ts` (only behind the provider's unused `t()`)
-  and `skills`, `skillDetails` and `timelineEvents` in `portfolio-data.ts`. Don't build on them.
