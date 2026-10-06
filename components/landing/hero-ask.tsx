@@ -25,7 +25,8 @@ function Linked({ text, links, locale }: { text: string; links: Ref[]; locale: "
   const re = new RegExp(`(${[...names.keys()].map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "gi");
   return text.split(re).map((part, i) =>
     i % 2 ? (
-      <Link className="text-(--lime) hover:underline" href={names.get(part.toLowerCase()) ?? "/ask"} key={i}>
+      // The pseudo-element stretches the tap target to 44 px tall without moving the line.
+      <Link className="relative text-(--lime) after:absolute after:inset-x-0 after:-inset-y-3 hover:underline" href={names.get(part.toLowerCase()) ?? "/ask"} key={i}>
         {part}
       </Link>
     ) : (

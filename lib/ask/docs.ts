@@ -38,7 +38,7 @@ function pageText(p: (typeof projects)[number], l: "en" | "sv") {
     ...((sv ? p.challengesSv : p.challenges) ?? []),
     sv ? p.solutionSv : p.solution,
     sv ? p.outcomeSv : p.outcome,
-    ...(p.microservices ?? []).map((m) => `${m.name}: ${sv ? m.descriptionSv : m.description} ${(m.technologies ?? []).join(", ")}`),
+    ...(p.microservices ?? []).map((m) => `${m.name}: ${sv ? m.descriptionSv : m.description} ${(m.technologies ?? []).join(", ")}${m.link ? ` ${m.link}` : ""}`),
     ...(flows[p.id] ?? []).map((st) => `${sv ? (st.nameSv ?? st.name) : st.name}: ${sv ? st.whatSv : st.what}.`),
   ];
 }
@@ -63,6 +63,7 @@ export const askDocs: AskDoc[] = [
           projectMeta[p.id] && `Started ${projectMeta[p.id]!.year}.`,
           ...Object.entries({ Live: p.link, Frontend: p.frontendLink, Source: p.githubLink, Playground: p.playgroundLink, Paper: p.paperLink }).flatMap(([k, v]) => (v ? [`${k}: ${v}.`] : [])),
           ...(p.projectLinks ?? []).flatMap((k) => (k.href ? [`${k.label}: ${k.href}.`] : [])),
+          ...(p.microservices ?? []).flatMap((m) => (m.link ? [`${m.name}: ${m.link}.`] : [])),
         ]
           .filter(Boolean)
           .join(" "),
@@ -83,7 +84,7 @@ export const askDocs: AskDoc[] = [
       },
       head: `${paper.title} ${kind === "thesis" ? "thesis ericsson uppsats" : "paper rapport"}`,
       body: paper.abstractContent,
-      excerpt: { lead: `${kind === "thesis" ? "Master's thesis at Ericsson." : "Project paper."} Authors: ${paper.authors.join(", ")}. ${paper.abstractContent}` },
+      excerpt: { lead: `${kind === "thesis" ? "Master's thesis at Ericsson." : "Project paper."} Authors: ${paper.authors.join(", ")}.${paper.pdfUrl ? ` PDF: ${paper.pdfUrl}.` : ""} ${paper.abstractContent}` },
     })
   ),
   doc({

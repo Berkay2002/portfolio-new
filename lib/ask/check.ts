@@ -24,6 +24,8 @@ assert.deepEqual(ids("Which projects use Go?"), []); // "go" is a whole word, no
 assert.ok(ids("Which projects are from 2025?").length > 0); // the year a project started
 assert.ok(excerpt("statsforspotify").includes("github.com/Berkay2002/statsforspotify")); // the source link, always
 assert.ok(excerpt("wikillm").includes("npmjs.com/package/wikillm")); // a project link's address, not just its label
+assert.ok(excerpt("fasttalk").includes("github.com/Berkay2002/fasttalk-stt-microservice")); // a service's repository
+assert.ok(askDocs.filter((d) => d.kind === "paper").every((d) => excerpt(d.id).includes("PDF: "))); // where to download it
 assert.ok(excerpt("contact").includes("linkedin.com/in/")); // the address, not just the word
 assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched
 
