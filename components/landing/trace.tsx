@@ -15,6 +15,7 @@ type Line = { id: string; d: string };
 type Sample = { len: number; x: number; y: number; thr: number };
 
 const PEN = 0.75; // the pen sits at 75 % of the viewport height
+const LAG = 160; // ms; the pen glides after the scroll instead of jumping, so a fast scroll still shows the line being drawn
 const STEP = 6; // px between samples along a line
 
 const R = 40; // corner radius in px
@@ -77,6 +78,9 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
     samples: new Map<string, { path: SVGPathElement; s: Sample[] }>(),
     waves: [] as { el: Element; thr: number }[],
     bars: [] as { el: Element; thr: number }[],
+    pen: Number.NaN, // where the pen is drawn, easing toward where the scroll puts it
+    frame: 0,
+    at: 0, // time of the last eased frame, 0 when the pen is at rest
   });
 
   const layout = useCallback(() => {
@@ -105,36 +109,56 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
     setSize({ w: el.offsetWidth, h: el.offsetHeight });
   }, []);
 
-  const draw = useCallback(() => {
-    const el = root.current;
-    if (!el) return;
-    const { still, samples, waves } = state.current;
-    const vh = window.innerHeight;
-    const top = el.getBoundingClientRect().top;
-    // Near the end of the page the pen slides down to the bottom edge, so the last lines finish.
-    const rest = document.documentElement.scrollHeight - (window.scrollY + vh);
-    const pen = still || rest < 2 ? Number.POSITIVE_INFINITY : vh * (PEN + (1 - PEN) * Math.min(1, Math.max(0, 1 - rest / (vh * 0.5)))) - top;
-    for (const [id, { path, s }] of samples) {
-      const total = s.at(-1)?.len ?? 0;
-      let drawn = 0;
-      for (const p of s) {
-        if (p.thr > pen) break;
-        drawn = p.len;
+  const step = useCallback((start = performance.now()) => {
+    const tick = (now: number) => {
+      const el = root.current;
+      if (!el) return;
+      const st = state.current;
+      cancelAnimationFrame(st.frame);
+      st.frame = 0;
+      const { still, samples, waves } = st;
+      const vh = window.innerHeight;
+      const top = el.getBoundingClientRect().top;
+      // Near the end of the page the pen slides down to the bottom edge, so the last lines finish.
+      const rest = document.documentElement.scrollHeight - (window.scrollY + vh);
+      const target = rest < 2 ? el.offsetHeight + 1 : vh * (PEN + (1 - PEN) * Math.min(1, Math.max(0, 1 - rest / (vh * 0.5)))) - top;
+      if (still) st.pen = Number.POSITIVE_INFINITY;
+      else if (Number.isNaN(st.pen)) st.pen = target;
+      else st.pen += (target - st.pen) * (1 - Math.exp(-(st.at ? now - st.at : 16) / LAG));
+      if (still || Math.abs(target - st.pen) < 0.5) {
+        if (!still) st.pen = target;
+        st.at = 0;
+      } else {
+        st.at = now;
+        st.frame = requestAnimationFrame(tick);
       }
-      path.style.strokeDashoffset = String(total - drawn);
-      if (id === "main") {
-        const tip = svg.current?.querySelector<SVGCircleElement>("[data-tip]");
-        const at = s.find((p) => p.len === drawn);
-        if (tip && at) {
-          tip.setAttribute("cx", String(at.x));
-          tip.setAttribute("cy", String(at.y));
-          tip.style.opacity = drawn > 0 && drawn < total ? "1" : "0";
+      const pen = st.pen;
+      for (const [id, { path, s }] of samples) {
+        const total = s.at(-1)?.len ?? 0;
+        let drawn = 0;
+        for (const p of s) {
+          if (p.thr > pen) break;
+          drawn = p.len;
+        }
+        path.style.strokeDashoffset = String(total - drawn);
+        if (id === "main") {
+          const tip = svg.current?.querySelector<SVGCircleElement>("[data-tip]");
+          const at = s.find((p) => p.len === drawn);
+          if (tip && at) {
+            tip.setAttribute("cx", String(at.x));
+            tip.setAttribute("cy", String(at.y));
+            tip.style.opacity = drawn > 0 && drawn < total ? "1" : "0";
+          }
         }
       }
-    }
-    for (const w of waves) w.el.classList.toggle("on", w.thr <= pen);
-    for (const b of state.current.bars) b.el.classList.toggle("on", b.thr <= pen);
+      for (const w of waves) w.el.classList.toggle("on", w.thr <= pen);
+      for (const b of st.bars) b.el.classList.toggle("on", b.thr <= pen);
+    };
+    tick(start);
   }, []);
+  const draw = useCallback(() => {
+    if (!state.current.frame) state.current.frame = requestAnimationFrame(step);
+  }, [step]);
 
   // After the lines render, sample them and find where each waveform sits on them.
   useEffect(() => {
@@ -179,18 +203,15 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
           return { el: b, thr: near(...mid(b.getBoundingClientRect())) ?? linear };
         });
       });
-    draw();
-  }, [lines, draw]);
+    step();
+  }, [lines, step]);
 
   useEffect(() => {
     const el = root.current;
     if (!el) return;
-    state.current.still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let frame = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(draw);
-    };
+    const st = state.current;
+    st.still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const onScroll = draw;
     const ro = new ResizeObserver(() => layout());
     ro.observe(el);
     document.fonts?.ready.then(layout);
@@ -198,7 +219,7 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
     window.addEventListener("resize", onScroll);
     return () => {
       ro.disconnect();
-      cancelAnimationFrame(frame);
+      cancelAnimationFrame(st.frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
