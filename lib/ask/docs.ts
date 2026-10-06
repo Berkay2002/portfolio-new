@@ -4,8 +4,9 @@ import { papers } from "@/lib/data/papers";
 import { projectMeta, projects, socialLinks } from "@/lib/data/portfolio-data";
 import { type AskDoc, matches, terms, words } from "./search";
 
-// What "Ask the site" can find: only what the site already shows. Each paper is its title and abstract,
-// never the thesis benchmark data (the Ericsson logs behind it are under NDA). Server only: the page
+// What "Ask the site" can find: only what the site already shows. Each paper is its title, authors, year, PDF
+// and abstract; the sections stay out on purpose, because they carry the thesis benchmark's numbers (the
+// Ericsson logs behind them are under NDA). Server only: the page
 // passes the index to the browser, and the answer route reads `excerpt` for the model.
 
 // What the model reads about a page: a lead it always gets, then the sentences that match the question
@@ -29,10 +30,11 @@ function pageText(p: (typeof projects)[number], l: "en" | "sv") {
   return [
     projectMeta[p.id] && `${sv ? "Startat" : "Started"} ${projectMeta[p.id]!.year}.`,
     p.institution,
+    p.link && t(p.linkLabel, p.linkLabelSv), // what the page calls its main link, like "Download Add-on (.zip)"
     ...(p.projectInfo ?? []).map((f) => `${t(f.label, f.labelSv)}: ${t(f.value, f.valueSv)}.`),
     ...(p.projectLinks ?? []).flatMap((k) => [`${t(k.label, k.labelSv)}${k.href ? `: ${k.href}` : ""}.`, ...(k.items ?? []).map((i) => `${t(i.label, i.labelSv)}${i.command ? `: ${i.command}` : ""}.`)]),
     p.imageAlt,
-    ...(p.gallery ?? []).map((g) => t(g.caption, g.captionSv)),
+    ...(p.gallery ?? []).flatMap((g) => [t(g.caption, g.captionSv), g.alt]),
     sv ? p.detailedDescriptionSv : p.detailedDescription,
     ...((sv ? p.featuresSv : p.features) ?? []),
     ...((sv ? p.challengesSv : p.challenges) ?? []),
@@ -55,13 +57,13 @@ export const askDocs: AskDoc[] = [
       summary: { en: p.description, sv: p.descriptionSv ?? p.description },
       head: `${p.title} ${p.technologies.join(" ")}`,
       // Everything the project page shows, in both languages.
-      body: [p.description, p.descriptionSv, ...pageText(p, "en"), ...pageText(p, "sv")].join(" "),
+      body: [p.description, p.descriptionSv, p.link, p.frontendLink, p.githubLink, p.playgroundLink, p.paperLink, ...pageText(p, "en"), ...pageText(p, "sv")].join(" "),
       // The year and the page's links always reach the model, so "where's the code?" gets the address.
       excerpt: {
         lead: [
           `${p.description} Stack: ${p.technologies.join(", ")}.`,
           projectMeta[p.id] && `Started ${projectMeta[p.id]!.year}.`,
-          ...Object.entries({ Live: p.link, Frontend: p.frontendLink, Source: p.githubLink, Playground: p.playgroundLink, Paper: p.paperLink }).flatMap(([k, v]) => (v ? [`${k}: ${v}.`] : [])),
+          ...Object.entries({ [p.linkLabel ?? "Live"]: p.link, Frontend: p.frontendLink, Source: p.githubLink, Playground: p.playgroundLink, Paper: p.paperLink }).flatMap(([k, v]) => (v ? [`${k}: ${v}.`] : [])),
           ...(p.projectLinks ?? []).flatMap((k) => (k.href ? [`${k.label}: ${k.href}.`] : [])),
           ...(p.microservices ?? []).flatMap((m) => (m.link ? [`${m.name}: ${m.link}.`] : [])),
         ]
@@ -94,7 +96,7 @@ export const askDocs: AskDoc[] = [
     kind: "page",
     title: { en: "Experience", sv: "Erfarenhet" },
     summary: { en: moments("en"), sv: moments("sv") },
-    head: "experience erfarenhet education utbildning job jobb work arbete career",
+    head: "experience erfarenhet education utbildning job jobb jobbat work worked arbete arbetat career",
     body: `${moments("en")} ${moments("sv")} university universitet studied studerade`,
     excerpt: { lead: `Berkay's path: ${moments("en")}` },
   }),

@@ -13,9 +13,10 @@ export type AskDoc = {
 
 export type AskHit = { doc: AskDoc; score: number };
 
-// Words that say nothing about which document a question is after, in both languages.
+// Words that say nothing about which document a question is after, in both languages. "work" and "jobbat" stay:
+// they point at Experience.
 const STOP = new Set(
-  "is in on at to he it do of an my me be or as by if so up we us no am a i the and for with has have had does did his him what which who where when how any anything are was were that this from into about there their them than then can could would should built build made make work worked use used using project projects berkay orhan är på en av om de du ja vi så nu ut ha och med har hade vad vilka vilken vem var när hur som det den att för från till han hans honom ett några något projekt jobbat byggt gjort använt"
+  "is in on at to he it do of an my me be or as by if so up we us no am a i the and for with has have had does did his him what which who where when how any anything are was were that this from into about there their them than then can could would should built build made make use used using project projects berkay orhan är på en av om de du ja vi så nu ut ha och med har hade vad vilka vilken vem var när hur som det den att för från till han hans honom ett några något projekt byggt gjort använt"
     .split(" ")
 );
 

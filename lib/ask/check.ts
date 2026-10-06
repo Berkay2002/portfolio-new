@@ -27,6 +27,11 @@ assert.ok(excerpt("wikillm").includes("npmjs.com/package/wikillm")); // a projec
 assert.ok(excerpt("fasttalk").includes("github.com/Berkay2002/fasttalk-stt-microservice")); // a service's repository
 assert.ok(askDocs.filter((d) => d.kind === "paper").every((d) => excerpt(d.id).includes("PDF: "))); // where to download it
 assert.ok(ids("Jonatan Ebenholm").length > 0); // a coauthor, as /papers lists them
+assert.ok(ids("Where has he worked?").includes("experience")); // "worked" is not a stop word
+assert.ok(ids("Var har han jobbat?").includes("experience"));
+assert.equal(ids("https://github.com/Berkay2002/statsforspotify")[0], "statsforspotify"); // a page's own address finds it
+assert.ok(ids("Graph Theory metadata").includes("litheplan")); // a screenshot's alt text
+assert.ok(ids("download add-on").includes("solar-system")); // the main link's own label
 assert.ok(excerpt("contact").includes("linkedin.com/in/")); // the address, not just the word
 assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched
 
