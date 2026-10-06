@@ -42,9 +42,10 @@ let health = { up: false, at: 0 };
 async function up() {
   if (!GATEWAY) return false;
   if (Date.now() - health.at < 60_000) return health.up;
-  // Any answer from OmniRoute counts; Cloudflare says 502 or 530 when the Mac or the tunnel is off.
+  // Cloudflare says 502 or 530 when the Mac or the tunnel is off, and OmniRoute 401 when the key is missing
+  // or wrong; either way no model will answer, so the page falls back to search.
   const ok = await fetch(`${GATEWAY}/v1/models`, { headers: headers(), signal: AbortSignal.timeout(2500), cache: "no-store" })
-    .then((r) => r.status < 500)
+    .then((r) => r.ok)
     .catch(() => false);
   health = { up: ok, at: Date.now() };
   return ok;
