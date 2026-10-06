@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { type ReactNode, useRef, useState } from "react";
 
-import { MarkdownLatexRenderer } from "@/components/ui/markdown-latex-renderer";
-import { flows } from "@/lib/data/flows";
-import { papers } from "@/lib/data/papers";
-import { type ProjectTag, projectMeta, projects } from "@/lib/data/portfolio-data";
+import type { Station } from "@/lib/data/flows";
+import type { ProjectTag } from "@/lib/data/portfolio-data";
 import { cn } from "@/lib/utils";
+import type { Project } from "@/types";
 import { Flow } from "./flow";
 import { Burst, Dashes, PageHead, Part, Tick, pad, two, under } from "./page-parts";
 import { Header, Index, useCopy } from "./sections";
@@ -15,12 +14,19 @@ import { Thesis } from "./thesis";
 import { A, TraceRoot, Wave } from "./trace";
 
 // The pages outside the landing page (design/specs/pages-r1.md): projects, papers, playground, 404.
+// The route files look up the project and paper data on the server and pass in only what a page shows,
+// so the data for every project and paper never ships to the browser.
 
-export function ProjectList() {
+export type ProjectRow = Pick<Project, "id" | "title" | "description" | "descriptionSv" | "technologies" | "image"> & {
+  year?: number;
+  tags: ProjectTag[];
+};
+
+export function ProjectList({ projects }: { projects: ProjectRow[] }) {
   const { c, locale } = useCopy();
   const p = c.pages.projects;
   const [tag, setTag] = useState("all");
-  const list = projects.filter((x) => tag === "all" || projectMeta[x.id]?.tags.includes(tag as ProjectTag));
+  const list = projects.filter((x) => tag === "all" || x.tags.includes(tag as ProjectTag));
   return (
     <>
       <PageHead index={p.index} title={p.title}>
@@ -64,7 +70,7 @@ export function ProjectList() {
                     src={x.image}
                   />
                 )}
-                <span className="shrink-0 pt-1.5 text-(--dim) text-sm">{projectMeta[x.id]?.year}</span>
+                <span className="shrink-0 pt-1.5 text-(--dim) text-sm">{x.year}</span>
               </div>
             </Link>
           </li>
@@ -74,19 +80,18 @@ export function ProjectList() {
   );
 }
 
-export function ProjectDetail({ id }: { id: string }) {
+// `paper` is the id of the project's page under /papers, if it has one; `flow` is its drawn architecture.
+export function ProjectDetail({ project: x, year, paper, flow }: { project: Project; year?: number; paper?: string; flow?: Station[] }) {
   const { c, locale } = useCopy();
   const p = c.pages.project;
-  const x = projects.find((q) => q.id === id)!;
   const t = (en?: string, sv?: string) => (locale === "sv" && sv) || en;
   const [name, sub] = x.title.split(/:\s(.+)/);
-  const paper = papers.find((q) => "project" in q && q.project === id);
   const links: [string, string][] = [];
   if (x.link) links.push([x.link, t(x.linkLabel, x.linkLabelSv) ?? p.live]);
   if (x.githubLink && x.githubLink !== x.link) links.push([x.githubLink, p.source]);
   if (x.frontendLink) links.push([x.frontendLink, "Frontend ↗"]);
   if (x.playgroundLink) links.push([x.playgroundLink, p.benchmark]);
-  if (x.paperLink) links.push([paper ? `/papers/${paper.id}` : x.paperLink, p.paper]);
+  if (x.paperLink) links.push([paper ? `/papers/${paper}` : x.paperLink, p.paper]);
   for (const l of x.projectLinks ?? []) if (l.href) links.push([l.href, `${t(l.label, l.labelSv)} ↗`]);
   const installs = (x.projectLinks ?? []).filter((l) => l.items);
 
@@ -158,7 +163,6 @@ export function ProjectDetail({ id }: { id: string }) {
       </ul>,
     ]);
 
-  const year = projectMeta[id]?.year;
   return (
     <>
       <PageHead
@@ -170,8 +174,8 @@ export function ProjectDetail({ id }: { id: string }) {
         {sub && <p className="mt-3 text-(--dim) text-xl lg:text-[28px]">{sub}</p>}
         <p className="mt-6 max-w-[60ch] text-(--fg)/80 text-sm leading-relaxed lg:text-base">{t(x.description, x.descriptionSv)}</p>
       </PageHead>
-      {flows[id] && (
-        <Flow label={p.flow} stations={flows[id].map((s) => ({ glyph: s.glyph, name: t(s.name, s.nameSv)!, what: t(s.what, s.whatSv)! }))} />
+      {flow && (
+        <Flow label={p.flow} stations={flow.map((s) => ({ glyph: s.glyph, name: t(s.name, s.nameSv)!, what: t(s.what, s.whatSv)! }))} />
       )}
       {(x.video || x.image) && (
         // The cover runs from the text column to the page's right edge, hung off the trace by a faint rule.
@@ -271,7 +275,18 @@ function Reel({ items, next }: { items: Shot[]; next: string }) {
   );
 }
 
-export function PaperList() {
+export type PaperRow = {
+  id: string;
+  kind: "thesis" | "project";
+  year: number;
+  title: string;
+  authors: readonly string[];
+  abstract: string;
+  benchmark: boolean;
+  project?: string;
+};
+
+export function PaperList({ papers }: { papers: PaperRow[] }) {
   const { c } = useCopy();
   const p = c.pages.papers;
   return (
@@ -290,21 +305,21 @@ export function PaperList() {
                 </p>
                 <h2 className={cn("font-display mt-3 max-w-[34ch]", i === 0 ? "text-[26px] lg:text-[40px]" : "text-[22px] lg:text-[30px]", "leading-[1.1]")}>
                   <Link className="transition-colors hover:text-(--lime)" href={`/papers/${x.id}`}>
-                    {x.paper.title}
+                    {x.title}
                   </Link>
                 </h2>
-                <p className="mt-3 text-(--dim) text-sm">{x.paper.authors.join(", ")}</p>
-                <p className="mt-4 line-clamp-2 max-w-[80ch] text-(--fg)/70 text-sm leading-relaxed">{x.paper.abstractContent}</p>
+                <p className="mt-3 text-(--dim) text-sm">{x.authors.join(", ")}</p>
+                <p className="mt-4 line-clamp-2 max-w-[80ch] text-(--fg)/70 text-sm leading-relaxed">{x.abstract}</p>
                 <p className="mt-5 flex flex-wrap gap-x-8 gap-y-3 text-sm">
                   <Link className={under} href={`/papers/${x.id}`}>
                     {p.read}
                   </Link>
-                  {"benchmark" in x.paper && (
+                  {x.benchmark && (
                     <Link className={under} href={`/papers/${x.id}#benchmark`}>
                       {p.benchmark}
                     </Link>
                   )}
-                  {"project" in x && (
+                  {x.project && (
                     <Link className={under} href={`/projects/${x.project}`}>
                       {p.project}
                     </Link>
@@ -319,25 +334,28 @@ export function PaperList() {
   );
 }
 
-export function PaperDetail({ id }: { id: string }) {
+// The abstract and sections arrive as HTML, rendered from LaTeX on the server (renderLatex).
+export function PaperDetail({
+  paper: x,
+  thesis,
+}: {
+  paper: Omit<PaperRow, "benchmark" | "project"> & { pdf: string; sections: { title: string; html: string }[] };
+  thesis?: Parameters<typeof Thesis>[0];
+}) {
   const { c } = useCopy();
   const p = c.pages.papers;
-  const x = papers.find((q) => q.id === id)!;
   return (
     <>
-      <PageHead back={["/papers", p.back]} index={`${p.kinds[x.kind]} · ${x.year}`} title={x.paper.title} titleClassName="max-w-[24ch] text-[28px] leading-[1.1] lg:text-[44px] lg:leading-[1.08]">
-        <p className="mt-4 text-(--dim) text-sm">{x.paper.authors.join(", ")}</p>
-        <a className={cn(under, "mt-6 inline-block text-sm")} download href={x.paper.pdfUrl}>
+      <PageHead back={["/papers", p.back]} index={`${p.kinds[x.kind]} · ${x.year}`} title={x.title} titleClassName="max-w-[24ch] text-[28px] leading-[1.1] lg:text-[44px] lg:leading-[1.08]">
+        <p className="mt-4 text-(--dim) text-sm">{x.authors.join(", ")}</p>
+        <a className={cn(under, "mt-6 inline-block text-sm")} download href={x.pdf}>
           {p.pdf}
         </a>
       </PageHead>
-      {"benchmark" in x.paper && <Thesis benchmark={x.paper.benchmark} highlights={x.paper.highlights} />}
-      <Part n={1} title={p.abstract}>
-        <MarkdownLatexRenderer content={x.paper.abstractContent} />
-      </Part>
-      {x.paper.sections.map((s, i) => (
-        <Part key={s.title} n={i + 2} title={s.title}>
-          <MarkdownLatexRenderer content={s.content} />
+      {thesis && <Thesis {...thesis} />}
+      {[{ title: p.abstract, html: x.abstract }, ...x.sections].map((s, i) => (
+        <Part key={s.title} n={i + 1} title={s.title}>
+          <div className="latex-content" dangerouslySetInnerHTML={{ __html: s.html }} />
         </Part>
       ))}
     </>

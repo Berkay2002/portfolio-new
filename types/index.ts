@@ -66,8 +66,6 @@ export type PersonalInfo = {
   name: string;
   title: string;
   bio: string;
-  bioEn?: string;
-  bioSv?: string;
 };
 
 export type SocialLinks = {

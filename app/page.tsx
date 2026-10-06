@@ -1,5 +1,7 @@
 import { About, Contact, Experience, Header, Hero, Photos, Research, Work } from "@/components/landing/sections";
 import { TraceRoot } from "@/components/landing/trace";
+import { projects } from "@/lib/data/portfolio-data";
+import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
 import { weeklyCommits } from "@/lib/github";
 
 export default async function Home() {
@@ -11,8 +13,8 @@ export default async function Home() {
         <Header />
         <main>
           <Hero />
-          <Work />
-          <Research />
+          <Work count={projects.length} />
+          <Research thesis={whenAgenticWorkflowsPaper.pdfUrl} />
           <Experience commits={commits} />
           <About />
           <Photos />

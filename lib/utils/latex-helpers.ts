@@ -1,3 +1,11 @@
+import rehypeKatex from "rehype-katex";
+import rehypeRaw from "rehype-raw";
+import rehypeStringify from "rehype-stringify";
+import remarkMath from "remark-math";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import { unified } from "unified";
+
 /**
  * Converts basic LaTeX environments to Markdown equivalents with KaTeX math
  *
@@ -120,27 +128,16 @@ export function preprocessLatex(latexContent: string): string {
   return content;
 }
 
-/**
- * Converts inline LaTeX commands to markdown
- * Used for titles, headings, etc.
- */
-export function inlineLatexToMarkdown(latexText: string): string {
-  let result = latexText;
-
-  // Convert \textbf{text} to markdown bold
-  result = result.replace(/\\textbf\{([^}]+)\}/g, "**$1**");
-
-  // Convert \textit{text} to markdown italic
-  result = result.replace(/\\textit\{([^}]+)\}/g, "*$1*");
-
-  // Convert \emph{text} to markdown emphasis
-  result = result.replace(/\\emph\{([^}]+)\}/g, "*$1*");
-
-  // Convert \texttt{text} to markdown code
-  result = result.replace(/\\texttt\{([^}]+)\}/g, "`$1`");
-
-  // Remove other LaTeX commands
-  result = result.replace(/\\[a-zA-Z]+\{([^}]+)\}/g, "$1");
-
-  return result;
+// Paper text (LaTeX-flavoured markdown) to HTML with KaTeX math. Runs on the server when a paper page is
+// built, so the text is in the HTML and none of this ships to the browser.
+export async function renderLatex(content: string): Promise<string> {
+  const html = await unified()
+    .use(remarkParse)
+    .use(remarkMath)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeKatex, { strict: false, trust: true })
+    .use(rehypeRaw)
+    .use(rehypeStringify)
+    .process(preprocessLatex(content));
+  return String(html);
 }

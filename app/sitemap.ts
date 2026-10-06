@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { papers } from "@/lib/data/papers";
 import { projects } from "@/lib/data/portfolio-data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -14,22 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // Generate sitemap entries for papers
-  const projectPaperSitemapEntries = projects
-    .filter((project) => project.paperLink)
-    .map((project) => ({
-      url: `${baseUrl}/papers/${project.id}`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    }));
-  const standalonePaperSitemapEntries = [
-    {
-      url: `${baseUrl}/papers/when-agentic-workflows-help`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    },
-  ];
+  const paperSitemapEntries = papers.map((paper) => ({
+    url: `${baseUrl}/papers/${paper.id}`,
+    lastModified: currentDate,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
 
   const pageSitemapEntries = ["/projects", "/papers", "/playground", "/playground/tdde19", "/photography"].map((path) => ({
     url: `${baseUrl}${path}`,
@@ -49,7 +40,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Add project detail pages
     ...projectSitemapEntries,
     // Add paper pages
-    ...projectPaperSitemapEntries,
-    ...standalonePaperSitemapEntries,
+    ...paperSitemapEntries,
   ];
 }
