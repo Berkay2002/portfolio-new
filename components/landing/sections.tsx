@@ -61,6 +61,7 @@ export function Header() {
     ["/#research", c.nav.research],
     ["/#experience", c.nav.experience],
     ["/#about", c.nav.about],
+    ["/ask", c.nav.ask],
   ];
   const lang = (
     <button

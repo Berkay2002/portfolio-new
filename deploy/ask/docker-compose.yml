@@ -1,0 +1,37 @@
+# The answer model behind "Ask the site" (README.md beside this file). Runs on the Mac mini:
+#   docker compose up -d
+# OmniRoute serves its dashboard on 20128 and only the OpenAI-style /v1 API on 20129. The tunnel points at
+# 20129, so the dashboard is never on the internet; both ports are published on the Mac's loopback only.
+
+services:
+  omniroute:
+    image: diegosouzapw/omniroute:3.8.51 # amd64 + arm64; bump on purpose, not with :latest
+    container_name: ask-omniroute
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - DATA_DIR=/app/data
+      - PORT=20128
+      - DASHBOARD_PORT=20128
+      - API_PORT=20129
+      - API_HOST=0.0.0.0 # inside the container, so the tunnel container can reach it
+      - REQUIRE_API_KEY=true
+    ports:
+      - "127.0.0.1:20128:20128" # dashboard: http://localhost:20128 on the Mac
+      - "127.0.0.1:20129:20129" # API, for a cloudflared that already runs on the Mac
+    volumes:
+      - ./data:/app/data
+
+  # The tunnel, if the Mac doesn't already run cloudflared. Its public hostname points at
+  # http://ask-omniroute:20129 (set in the Cloudflare dashboard).
+  cloudflared:
+    image: cloudflare/cloudflared:2026.10.0
+    container_name: ask-cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    depends_on:
+      - omniroute
+    profiles:
+      - tunnel

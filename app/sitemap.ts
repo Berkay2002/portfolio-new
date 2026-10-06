@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const pageSitemapEntries = ["/projects", "/papers", "/playground", "/playground/tdde19", "/photography"].map((path) => ({
+  const pageSitemapEntries = ["/projects", "/papers", "/playground", "/playground/tdde19", "/photography", "/ask"].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: currentDate,
     changeFrequency: "monthly" as const,

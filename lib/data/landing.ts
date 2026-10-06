@@ -3,7 +3,7 @@ import type { Locale } from "@/types";
 import { photos as allPhotos } from "./photos";
 
 type Copy = {
-  nav: { work: string; research: string; experience: string; about: string; contact: string };
+  nav: { work: string; research: string; experience: string; about: string; ask: string; contact: string };
   hero: { overline: string; headline: [string, string]; lede: string; cta: string; cv: string };
   work: {
     index: string;
@@ -59,12 +59,29 @@ type Copy = {
     papers: { index: string; title: string; lede: string; back: string; abstract: string; read: string; benchmark: string; pdf: string; project: string; kinds: { thesis: string; project: string } };
     playground: { index: string; title: string; lede: string; back: string; item: [string, string]; open: string; soon: string };
     notFound: { title: string; line: string; home: string };
+    ask: {
+      index: string;
+      title: string;
+      lede: string;
+      placeholder: string;
+      submit: string;
+      try: string;
+      examples: string[];
+      on: string;
+      off: string;
+      answer: string;
+      thinking: string;
+      found: (n: number) => string;
+      none: string;
+      rate: string;
+      failed: string;
+    };
   };
 };
 
 export const landingCopy: Record<Locale, Copy> = {
   en: {
-    nav: { work: "Work", research: "Research", experience: "Experience", about: "About", contact: "Contact" },
+    nav: { work: "Work", research: "Research", experience: "Experience", about: "About", ask: "Ask", contact: "Contact" },
     hero: {
       overline: "SOFTWARE DEVELOPER · LINKÖPING",
       headline: ["I build AI that", "works outside the demo."],
@@ -174,10 +191,27 @@ export const landingCopy: Record<Locale, Copy> = {
         soon: "More soon.",
       },
       notFound: { title: "Off the trace.", line: "This page does not exist, or it moved.", home: "Back to the start →" },
+      ask: {
+        index: "ASK",
+        title: "Ask the site.",
+        lede: "Ask about my projects, my thesis or where I've worked. The search runs in your browser, and when my home server is on, a free model adds a short answer.",
+        placeholder: "Has he shipped anything with voice?",
+        submit: "Ask",
+        try: "Try",
+        examples: ["Has he shipped anything with voice?", "What did he do at Ericsson?", "Which projects use LangGraph?"],
+        on: "answers from a free model on my home server",
+        off: "search only, the answer model is off right now",
+        answer: "answer",
+        thinking: "Reading the matches…",
+        found: (n) => (n === 1 ? "1 match" : `${n} matches`),
+        none: "Nothing on the site matches that. Try a project, a tool or a year.",
+        rate: "That's enough questions for a while. The search still works.",
+        failed: "The model didn't answer this time. Here's what the search found.",
+      },
     },
   },
   sv: {
-    nav: { work: "Projekt", research: "Forskning", experience: "Erfarenhet", about: "Om mig", contact: "Kontakt" },
+    nav: { work: "Projekt", research: "Forskning", experience: "Erfarenhet", about: "Om mig", ask: "Fråga", contact: "Kontakt" },
     hero: {
       overline: "MJUKVARUUTVECKLARE · LINKÖPING",
       headline: ["Jag bygger AI som", "fungerar utanför demon."],
@@ -287,6 +321,23 @@ export const landingCopy: Record<Locale, Copy> = {
         soon: "Mer kommer.",
       },
       notFound: { title: "Utanför spåret.", line: "Sidan finns inte, eller så har den flyttat.", home: "Tillbaka till start →" },
+      ask: {
+        index: "FRÅGA",
+        title: "Fråga sajten.",
+        lede: "Fråga om mina projekt, min uppsats eller var jag har jobbat. Sökningen körs i din webbläsare, och när min hemmaserver är på skriver en gratis modell ett kort svar.",
+        placeholder: "Har han byggt något med röst?",
+        submit: "Fråga",
+        try: "Testa",
+        examples: ["Har han byggt något med röst?", "Vad gjorde han på Ericsson?", "Vilka projekt använder LangGraph?"],
+        on: "svar från en gratis modell på min hemmaserver",
+        off: "bara sökning, svarsmodellen är avstängd just nu",
+        answer: "svar",
+        thinking: "Läser träffarna…",
+        found: (n) => (n === 1 ? "1 träff" : `${n} träffar`),
+        none: "Inget på sajten matchar det. Testa ett projekt, ett verktyg eller ett år.",
+        rate: "Det räcker med frågor en stund. Sökningen fungerar fortfarande.",
+        failed: "Modellen svarade inte den här gången. Här är vad sökningen hittade.",
+      },
     },
   },
 };

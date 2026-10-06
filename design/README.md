@@ -19,6 +19,9 @@ chart plots the 20 per-run values the data has (10 short, 10 medium questions), 
 A project's media follow `project-media-r1.md` a-reel (`design/approved/project-media-reel.png`): the
 cover runs wide under the lede and the screenshots or videos run as a sideways reel with "01 / 07
 Next". The Stats for Spotify and LiTHePlan screenshots had their browser frame cropped off.
+`/ask` (Ask the site, `components/landing/ask.tsx`) is built from the `pages-r1` parts without a round of
+its own: a page head, the question on a burst, the answer on a burst, and the matches as list rows with a tick
+(`design/screens/ask.*.png`).
 
 ## The system
 
