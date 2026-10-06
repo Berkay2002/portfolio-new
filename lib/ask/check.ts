@@ -26,6 +26,7 @@ assert.ok(excerpt("statsforspotify").includes("github.com/Berkay2002/statsforspo
 assert.ok(excerpt("wikillm").includes("npmjs.com/package/wikillm")); // a project link's address, not just its label
 assert.ok(excerpt("fasttalk").includes("github.com/Berkay2002/fasttalk-stt-microservice")); // a service's repository
 assert.ok(askDocs.filter((d) => d.kind === "paper").every((d) => excerpt(d.id).includes("PDF: "))); // where to download it
+for (const d of askDocs.filter((d) => d.kind === "paper")) assert.equal(ids(excerpt(d.id).match(/PDF: (\S+)\./)![1]!)[0], d.id); // its own PDF path finds it
 assert.ok(ids("Jonatan Ebenholm").length > 0); // a coauthor, as /papers lists them
 assert.ok(ids("Where has he worked?").includes("experience")); // "worked" is not a stop word
 assert.ok(ids("Var har han jobbat?").includes("experience"));

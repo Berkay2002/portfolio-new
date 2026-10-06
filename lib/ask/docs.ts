@@ -86,7 +86,7 @@ export const askDocs: AskDoc[] = [
       },
       head: `${paper.title} ${kind === "thesis" ? "thesis ericsson uppsats" : "paper rapport"}`,
       // The authors and year /papers shows, so a coauthor's name or "2024" finds it.
-      body: `${paper.authors.join(" ")} ${year} ${paper.abstractContent}`,
+      body: `${paper.authors.join(" ")} ${year} ${paper.pdfUrl ?? ""} ${paper.abstractContent}`,
       excerpt: { lead: `${kind === "thesis" ? "Master's thesis at Ericsson." : "Project paper."} ${year}. Authors: ${paper.authors.join(", ")}.${paper.pdfUrl ? ` PDF: ${paper.pdfUrl}.` : ""} ${paper.abstractContent}` },
     })
   ),
