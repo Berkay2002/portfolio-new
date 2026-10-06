@@ -141,7 +141,8 @@ export function HeroAsk() {
         data-chat
       >
         <button
-          className="flex min-h-11 items-center self-start text-(--dim) text-sm underline underline-offset-4 hover:text-(--fg)"
+          className="flex min-h-11 items-center self-start text-(--dim) text-sm underline underline-offset-4 hover:text-(--fg) disabled:opacity-40"
+          disabled={waiting} // the pending answer still spends the visitor's allowance, so it finishes first
           onClick={() => {
             conversation.current++;
             shift(() => setTurns([]));

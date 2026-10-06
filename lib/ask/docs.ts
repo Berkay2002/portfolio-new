@@ -102,7 +102,7 @@ export const askDocs: AskDoc[] = [
     title: { en: "Contact", sv: "Kontakt" },
     summary: { en: "Email berkayorhan@hotmail.se, or find him on GitHub and LinkedIn.", sv: "Mejla berkayorhan@hotmail.se, eller hitta honom på GitHub och LinkedIn." },
     head: "contact kontakt email mejl hire anställa reach",
-    body: "github linkedin cv resume email mail",
+    body: `github linkedin cv resume email mail berkayorhan@hotmail.se ${socialLinks.github} ${socialLinks.linkedin} ${socialLinks.cv}`,
     excerpt: { lead: `Contact: email berkayorhan@hotmail.se. GitHub ${socialLinks.github}. LinkedIn ${socialLinks.linkedin}. CV at ${socialLinks.cv}.` },
   }),
 ];
@@ -125,5 +125,6 @@ export const profile = [
   `Berkay Orhan: ${en.hero.lede}`,
   en.about.bio.join(""),
   `Path: ${moments("en")}`,
-  `Projects on the site: ${projects.map((p) => p.title).join("; ")}.`,
+  // Each with its year, so "which are from 2025?" gets the whole list, not just the pages the search sends.
+  `Projects on the site: ${projects.map((p) => `${p.title}${projectMeta[p.id] ? ` (${projectMeta[p.id]!.year})` : ""}`).join("; ")}.`,
 ].join("\n");

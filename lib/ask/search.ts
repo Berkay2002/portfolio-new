@@ -27,9 +27,9 @@ export function terms(question: string) {
   return [...new Set(words(question).filter((w) => w.length > 1 && !STOP.has(w)))]; // two letters keep "AI", "UI", "Go"
 }
 
-// A term matches a word that starts with it ("voice" finds "voices"); a two-letter one only itself, so "Go"
-// doesn't find "Google".
-export const matches = (word: string, term: string) => (term.length > 2 ? word.startsWith(term) : word === term);
+// A term matches a word that starts with it and runs on at most three letters ("voice" finds "voices", "Java"
+// not "JavaScript"); a two-letter one only itself, so "Go" doesn't find "Google".
+export const matches = (word: string, term: string) => (term.length > 2 ? word.startsWith(term) && word.length - term.length <= 3 : word === term);
 
 // A head word counts three times.
 export function search(docs: AskDoc[], question: string, limit = 5): AskHit[] {

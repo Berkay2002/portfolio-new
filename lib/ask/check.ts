@@ -17,6 +17,9 @@ assert.ok(ids("trådsäker").includes("voxel-project")); // a word only in a pro
 assert.ok(ids("renderingspass").includes("voxel-project")); // a station on the project's trace
 assert.ok(ids("KPIs").includes("oversee")); // a word only in a cover's caption
 assert.ok(ids("reload-plugins").includes("wikillm")); // an install command under a project link
+assert.deepEqual(ids("Which projects use Java?"), []); // "java" is not "javascript"
+assert.ok(ids("berkayorhan@hotmail.se").includes("contact")); // the address itself finds the contact page
+assert.ok(profile.includes("(2025)")); // every project's year, for list questions
 assert.deepEqual(ids("Which projects use Go?"), []); // "go" is a whole word, not "Google"
 assert.ok(ids("Which projects are from 2025?").length > 0); // the year a project started
 assert.ok(excerpt("statsforspotify").includes("github.com/Berkay2002/statsforspotify")); // the source link, always
