@@ -5,10 +5,11 @@ import { type ReactNode, useState } from "react";
 
 import { useLanguage } from "@/components/layout/language-provider";
 import { landingCopy, photos, stack } from "@/lib/data/landing";
-import { photos as allPhotos, photoUrl } from "@/lib/data/photos";
+import { photos as allPhotos } from "@/lib/data/photos";
 import { projects, socialLinks } from "@/lib/data/portfolio-data";
 import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
 import { cn } from "@/lib/utils";
+import { Prints } from "./prints";
 import { Stack } from "./stack";
 import { A, Wave } from "./trace";
 
@@ -492,43 +493,42 @@ export function About() {
   return (
     <section className="relative scroll-mt-16 pt-28 lg:pt-40" id="about">
       <Wave className="-translate-x-1/2 absolute top-12 left-5 h-14 w-10 lg:top-24 lg:left-[2%]" n={11} peaks={[[0.5, 0.3, 0.9]]} vertical />
-      <div className="lg:flex lg:gap-[5%] lg:pr-[4%]">
-        <div className="min-w-0 flex-1">
-          <div className="pr-6 pl-12 lg:pl-[5%]">
-            <Index>{c.about.index}</Index>
-            <p className="font-display mt-5 max-w-[30ch] text-[30px] leading-[1.15] lg:text-[clamp(32px,3.2vw,46px)]">
-              {before}
-              <span className="text-(--lime)">{lime}</span>
-              {after}
-            </p>
-          </div>
-          <div className="mt-16 pr-6 pl-12 lg:mt-20 lg:pr-0 lg:pl-[5%]">
-            <p className="mb-4 text-(--dim) text-xs">{c.about.how}</p>
-            <Stack layers={c.about.layers} tools={stack} />
-          </div>
-          <a className="mt-14 ml-12 inline-block border-(--lime) border-b pb-1 lg:ml-[5%]" href={CV}>
-            {c.about.cv}
-          </a>
-        </div>
-        {photos.length > 0 && (
-          <figure className="mt-14 pr-6 pl-12 lg:mt-0 lg:w-[190px] lg:pr-0 lg:pl-0">
-            <div className="grid grid-cols-2 gap-3 lg:flex lg:flex-col lg:gap-4">
-              {photos.map((p) => (
-                <Link href="/photography" key={p.id}>
-                  {/* eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized */}
-                  <img alt={p.alt} className="aspect-[4/3] w-full object-cover grayscale transition-[filter] duration-500 hover:grayscale-0"
-                    loading="lazy" src={photoUrl(p, true)} />
-                </Link>
-              ))}
-            </div>
-            <figcaption className="mt-3 text-(--dim) text-xs">{c.about.photos}</figcaption>
-            <Link className="mt-2 inline-block border-(--lime) border-b pb-0.5 text-sm" href="/photography">
-              {c.about.allPhotos(allPhotos.length)}
-            </Link>
-          </figure>
-        )}
+      <div className="pr-6 pl-12 lg:pl-[5%]">
+        <Index>{c.about.index}</Index>
+        <p className="font-display mt-5 max-w-[30ch] text-[30px] leading-[1.15] lg:text-[clamp(32px,3.2vw,46px)]">
+          {before}
+          <span className="text-(--lime)">{lime}</span>
+          {after}
+        </p>
       </div>
+      <div className="mt-16 pr-6 pl-12 lg:mt-20 lg:pr-0 lg:pl-[5%]">
+        <p className="mb-4 text-(--dim) text-xs">{c.about.how}</p>
+        <Stack layers={c.about.layers} tools={stack} />
+      </div>
+      <a className="mt-14 ml-12 inline-block border-(--lime) border-b pb-1 lg:ml-[5%]" href={CV}>
+        {c.about.cv}
+      </a>
       <Wave className="-translate-x-1/2 absolute bottom-0 left-5 h-14 w-10 lg:left-[2%]" n={11} peaks={[[0.5, 0.3, 0.8]]} vertical />
+    </section>
+  );
+}
+
+// Off the clock: the photos as prints dealt across the page, after About.
+export function Photos() {
+  const { c } = useCopy();
+  if (photos.length === 0) return null;
+  return (
+    <section className="relative scroll-mt-16 pt-20 lg:pt-28" id="photos">
+      <div className="pr-6 pl-12 lg:pl-[5%]">
+        <Index>{c.photos.index}</Index>
+        <h2 className="font-display mt-5 text-[30px] leading-[1.15] lg:text-[clamp(32px,3.2vw,46px)]">{c.photos.title}</h2>
+        <Link className="mt-5 inline-block border-(--lime) border-b pb-1" href="/photography">
+          {c.photos.all(allPhotos.length)}
+        </Link>
+      </div>
+      <div className="mt-14 lg:mt-20">
+        <Prints photos={photos} places={{ japan: c.gallery.japan, portugal: c.gallery.portugal }} />
+      </div>
     </section>
   );
 }

@@ -1,6 +1,7 @@
-import { Fragment, type ReactNode, useEffect, useRef } from "react";
+import { Fragment, type ReactNode, useRef } from "react";
 
 import { cn } from "@/lib/utils";
+import { useUnfold } from "./use-unfold";
 
 // "how I build" as an exploded patent drawing (design/approved/landing-s5-stack.png): five plates,
 // interface on top, each machined with a finish that stands for its layer. Each finish is drawn flat
@@ -144,37 +145,8 @@ function Drawing({ layers, tools, pitch, className }: { layers: string[]; tools:
   const root = useRef<HTMLDivElement>(null);
   const svg = useRef<SVGSVGElement>(null);
 
-  useEffect(() => {
-    const el = root.current;
-    const box = svg.current;
-    if (!el || !box || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    // Closed, the stack is as tall as the top plate plus four small steps.
-    const closed = (93.5 + 63 + T + 4 * 16) / vh;
-    let frame = 0;
-    const update = () => {
-      const { top, height } = box.getBoundingClientRect();
-      if (height === 0) return; // the other breakpoint's drawing
-      const edge = window.innerHeight - Math.min(32, window.innerHeight * 0.04);
-      // 0 while the closed stack is still coming up from the bottom, 1 once the open drawing's bottom is on screen.
-      const t = Math.min(1, Math.max(0, (edge - top - closed * height) / (height * (1 - closed))));
-      const p = t * t * (3 - 2 * t);
-      el.style.setProperty("--p", p.toFixed(3));
-      if (p > 0.995) el.classList.add("open");
-      else if (p < 0.9) el.classList.remove("open");
-    };
-    const onScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [vh]);
+  // Closed, the stack is as tall as the top plate plus four small steps.
+  useUnfold(root, svg, (93.5 + 63 + T + 4 * 16) / vh);
 
   // The three visible corners, from the top plate to the bottom one.
   const guides = [
@@ -187,7 +159,7 @@ function Drawing({ layers, tools, pitch, className }: { layers: string[]; tools:
       {/* On desktop the width also follows the window's height, so the open stack always fits on screen. */}
       <svg
         aria-hidden
-        className="w-[56%] shrink-0 overflow-visible lg:w-[min(clamp(380px,40vw,520px),calc((100svh-140px)*0.66))]"
+        className="w-[56%] shrink-0 overflow-visible lg:w-[min(clamp(420px,46vw,660px),calc((100svh-140px)*0.66))]"
         ref={svg}
         viewBox={`0 0 ${VW} ${vh}`}
       >

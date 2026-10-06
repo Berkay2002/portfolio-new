@@ -35,10 +35,9 @@ type Copy = {
     bio: [string, string, string];
     how: string;
     layers: string[];
-    photos: string;
-    allPhotos: (n: number) => string;
     cv: string;
   };
+  photos: { index: string; title: string; all: (n: number) => string };
   gallery: { index: string; title: string; back: string; japan: string; portugal: string; close: string };
   contact: { index: string; title: [string, string]; top: string };
 };
@@ -97,13 +96,12 @@ export const landingCopy: Record<Locale, Copy> = {
       ],
       how: "how I build",
       layers: ["interface", "agents", "models", "data", "infra"],
-      photos: "off the clock: photography, Japan and Portugal",
-      allPhotos: (n) => `All ${n} photos →`,
       cv: "Download CV →",
     },
+    photos: { index: "06 / OFF THE CLOCK", title: "Photography.", all: (n) => `All ${n} photos →` },
     gallery: { index: "PHOTOGRAPHY", title: "Off the clock.", back: "← Back", japan: "Japan", portugal: "Portugal", close: "Close" },
     contact: {
-      index: "06 / CONTACT",
+      index: "07 / CONTACT",
       title: ["Building something", "that has to work?"],
       top: "Back to top ↑",
     },
@@ -161,13 +159,12 @@ export const landingCopy: Record<Locale, Copy> = {
       ],
       how: "hur jag bygger",
       layers: ["gränssnitt", "agenter", "modeller", "data", "infra"],
-      photos: "på fritiden: fotografi, Japan och Portugal",
-      allPhotos: (n) => `Alla ${n} foton →`,
       cv: "Ladda ner CV →",
     },
+    photos: { index: "06 / PÅ FRITIDEN", title: "Fotografi.", all: (n) => `Alla ${n} foton →` },
     gallery: { index: "FOTOGRAFI", title: "På fritiden.", back: "← Tillbaka", japan: "Japan", portugal: "Portugal", close: "Stäng" },
     contact: {
-      index: "06 / KONTAKT",
+      index: "07 / KONTAKT",
       title: ["Bygger du något", "som måste fungera?"],
       top: "Till toppen ↑",
     },
@@ -183,6 +180,7 @@ export const stack = [
   "Docker · Kubernetes",
 ];
 
-// The four photos shown beside About; the rest are on /photography. Empty hides the column.
-const picks = ["japan-1044", "japan-1766", "portugal-3825", "portugal-8416"];
+// The five prints dealt out in the photo section, the middle one in colour; the rest are on
+// /photography. Empty hides the section.
+const picks = ["japan-1044", "japan-1766", "portugal-3825", "portugal-8416", "japan-1197"];
 export const photos = picks.map((id) => allPhotos.find((p) => p.id === id)!);

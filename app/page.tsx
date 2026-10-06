@@ -1,4 +1,4 @@
-import { About, Contact, Experience, Header, Hero, Research, Work } from "@/components/landing/sections";
+import { About, Contact, Experience, Header, Hero, Photos, Research, Work } from "@/components/landing/sections";
 import { TraceRoot } from "@/components/landing/trace";
 
 export default function Home() {
@@ -13,6 +13,7 @@ export default function Home() {
           <Research />
           <Experience />
           <About />
+          <Photos />
           <Contact />
         </main>
       </TraceRoot>

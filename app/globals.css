@@ -465,7 +465,7 @@
 [data-anim] .wave.vertical:not(.on) rect {
   transform: scaleX(0.12);
 }
-/* The stack opens as it scrolls into view (--p from 0 to 1, set in components/landing/stack.tsx). */
+/* The stack opens as it scrolls into view (--p from 0 to 1, set by components/landing/use-unfold.ts). */
 .stack-plate {
   transform: translateY(calc(var(--shut) * (1 - var(--p, 1))));
   transition: transform 0.25s ease-out;
@@ -542,6 +542,65 @@
   .stack-anim {
     animation: none;
   }
+}
+/* The photo prints start as a pile in the middle and are dealt out as the row scrolls into view
+   (--p from use-unfold.ts; --i is the print's place from the middle, --r and --y its tilt and drop). */
+.prints {
+  --w: 40vw;
+  --step: calc(var(--w) * 0.84);
+  height: calc(var(--w) * 0.75 + 64px);
+}
+@media (min-width: 1024px) {
+  .prints {
+    --w: clamp(180px, 18vw, 250px);
+  }
+}
+.print {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: var(--w);
+  transform: translateX(calc(-50% + var(--i) * var(--step) * var(--p, 1))) translateY(calc(var(--y) * var(--p, 1)))
+    rotate(var(--r));
+  transition: transform 0.25s ease-out;
+}
+.print-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 5px solid var(--fg);
+  filter: grayscale(1);
+  transition: filter 0.5s;
+}
+.print[data-side="mid"] .print-photo,
+.print:hover .print-photo {
+  filter: none;
+}
+.print-place {
+  display: block;
+  margin-top: 10px;
+  color: var(--dim);
+  font-size: 12px;
+  opacity: calc((var(--p, 1) - 0.8) * 5);
+}
+/* Captions sit on the side the next print toward the middle does not cover. */
+.print[data-side="mid"] .print-place {
+  text-align: center;
+}
+.print[data-side="r"] .print-place {
+  text-align: right;
+}
+/* A dashed alignment line behind each print, turned back upright. */
+.print-guide {
+  position: absolute;
+  top: -40px;
+  bottom: -40px;
+  left: 50%;
+  z-index: -1;
+  border-left: 1px dashed var(--dim);
+  transform: rotate(calc(var(--r) * -1));
+  opacity: calc((var(--p, 1) - 0.8) * 2.5);
 }
 /* A sweep wave fills bar by bar as the line passes (the trace sets .on on each bar). */
 .wave.sweep rect {
