@@ -383,15 +383,14 @@ export function Research() {
   );
 }
 
-// Year to % along the time axis (desktop, from the left) and px down the phone's axis. The years before
+// Year to % along the time axis, from the left. The years before
 // 2024 barely show on GitHub, so they get a third of the room the later ones do.
 const axis = (stops: number[]) => (year: number) => {
   const i = Math.min(stops.length - 2, Math.max(0, Math.floor(year - 2021)));
   return stops[i]! + (year - 2021 - i) * (stops[i + 1]! - stops[i]!);
 };
 const X = axis([5, 12, 19, 26, 48, 70, 102]);
-const Ypx = axis([40, 90, 140, 190, 330, 470, 620]);
-const Y = (year: number) => Ypx(year) / 6.4;
+
 const years = [2021, 2022, 2023, 2024, 2025, 2026];
 // Where each moment sits on the axis, and on desktop whether it hangs above it.
 const moments = [
@@ -437,6 +436,9 @@ export function Experience({ commits }: { commits: Commits | null }) {
     c.experience.week(new Intl.DateTimeFormat(tag, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(peak.start))),
   ];
   const wave = { floor: 0.02, peaks: careerPeaks, sweep: true };
+  // Phone: a year as a fraction of the way across, and as a left offset.
+  const f = (y: number) => (X(y) - X(from)) / (X(to) - X(from));
+  const across = (y: number) => `calc(48px + ${f(y)} * (100% - 72px))`;
   // One stretch of bars per year, since the years are drawn at different widths.
   const stretches = weeks
     ? years.map((y) => ({
@@ -450,15 +452,7 @@ export function Experience({ commits }: { commits: Commits | null }) {
       <div className="pr-6 pl-12 lg:pl-[4%]">
         <Index>{c.experience.index}</Index>
         <h2 className="font-display mt-4 text-[40px] leading-none lg:text-[clamp(48px,5vw,72px)]">{c.experience.title}</h2>
-        {peakLabel && (
-          <p className="mt-4 text-(--dim) text-xs lg:hidden">
-            {c.experience.bars}
-            <span className="mt-1 flex items-center gap-2">
-              <span className="size-2 rounded-full bg-(--lime)" />
-              {peakLabel.join(", ")}
-            </span>
-          </p>
-        )}
+        {weeks && <p className="mt-4 text-(--dim) text-xs lg:hidden">{c.experience.bars}</p>}
       </div>
 
       {/* Desktop: the trace comes in on the left and runs the axis from 2021 to now, a bar a week. */}
@@ -518,34 +512,47 @@ export function Experience({ commits }: { commits: Commits | null }) {
       </div>
       <Wire from="98%" to="2%" />
 
-      {/* Phone: the axis runs down from 2021, 88 px in. */}
-      <div className="relative mt-10 h-[640px] lg:hidden">
+      {/* Phone: the trace runs the weeks across the screen, 48 px in to 24 px from the edge, then drops back
+          to its lane for the moments. */}
+      <div className="relative mt-8 lg:hidden">
         <A className="top-0 left-5" />
-        <A className="left-[88px]" style={{ top: Ypx(from) }} />
+        <A className="top-[120px] left-12 [--dir:h]" />
         {stretches.map((st) => (
-          <div className="-translate-x-1/2 absolute left-[88px] w-10" key={st.from} style={{ top: Ypx(st.from), height: Ypx(st.to) - Ypx(st.from) }}>
-            <Wave className="size-full" n={st.values?.length ?? 90} values={st.values} vertical {...wave} />
+          <div className="-translate-y-1/2 absolute top-[120px] h-24" key={st.from} style={{ left: across(st.from), width: `calc(${f(st.to) - f(st.from)} * (100% - 72px))` }}>
+            <Wave className="size-full" n={st.values?.length ?? 60} values={st.values} {...wave} />
           </div>
         ))}
-        {years.map((y) => (
-          <span className="-translate-y-1/2 absolute left-6 text-(--dim) text-xs" key={y} style={{ top: `${Y(y)}%` }}>
+        {[2021, 2024, 2025, 2026].map((y) => (
+          <span className={cn("absolute top-[180px] text-(--dim) text-xs", y > 2021 && "-translate-x-1/2 text-center")} key={y} style={{ left: across(Math.max(from, y)) }}>
             {y}
             {weeks && <span className="block text-(--dim)/70">{total(y)}</span>}
           </span>
         ))}
-        {peakLabel && <span className="-translate-x-1/2 -translate-y-1/2 absolute left-[108px] size-2 rounded-full bg-(--lime)" style={{ top: Ypx(at) }} />}
-        {moments.map((m, i) => {
-          const t = c.experience.moments[i]!;
-          return (
-            <div className="absolute right-6 left-[150px]" key={m.at} style={{ top: `calc(${Y(m.at)}% - 12px)` }}>
-              <span className="-left-[62px] -translate-x-1/2 -translate-y-1/2 absolute top-3 size-3 rounded-full border-2 border-(--lime) bg-(--bg)" />
-              <span className="-left-[54px] absolute top-3 h-px w-[42px] bg-(--dim)/60" />
-              <p className={cn("font-display text-[19px] leading-tight", i === 3 && "text-(--lime)")}>{t.title}</p>
-              <p className="mt-1 text-(--fg)/70 text-xs">{t.line}</p>
-            </div>
-          );
-        })}
-        <A className="left-[88px]" style={{ top: Ypx(to) }} />
+        {peakLabel && (
+          <>
+            <span className="-translate-x-1/2 -translate-y-1/2 absolute top-[72px] size-2 rounded-full bg-(--lime)" style={{ left: across(at) }} />
+            <span className="absolute top-[36px] h-[36px] w-px bg-(--dim)/60" style={{ left: across(at) }} />
+            <p className="absolute top-0 whitespace-nowrap pr-2 text-right text-xs" style={{ right: `calc(100% - ${across(at)})` }}>
+              {peakLabel[0]}
+              <span className="block text-(--dim)">{peakLabel[1]}</span>
+            </p>
+          </>
+        )}
+        <A className="top-[120px] right-6 [--dir:h]" />
+        <A className="top-[236px] right-3" />
+        <A className="top-[284px] left-5" />
+        <ol className="space-y-8 pt-[324px] pr-6 pb-8 pl-12">
+          {moments.map((m, i) => {
+            const t = c.experience.moments[i]!;
+            return (
+              <li className="relative" key={m.at}>
+                <span className="-left-7 -translate-x-1/2 absolute top-2 size-3 rounded-full border-2 border-(--lime) bg-(--bg)" />
+                <p className={cn("font-display text-[19px] leading-tight", i === 3 && "text-(--lime)")}>{t.title}</p>
+                <p className="mt-1 text-(--fg)/70 text-xs">{t.line}</p>
+              </li>
+            );
+          })}
+        </ol>
         <A className="bottom-0 left-5" />
       </div>
     </section>
