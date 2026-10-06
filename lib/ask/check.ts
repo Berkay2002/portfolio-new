@@ -40,7 +40,8 @@ assert.ok(profile.includes("Next.js")); // every project's stack, for list quest
 assert.ok(ids("Where is he working?").includes("experience")); // an inflected question finds the base word
 assert.ok(ids("What did he study?").includes("experience")); // "study" finds "studied"
 assert.ok(!ids("Which project uses LangGraph?").includes("statsforspotify")); // "uses" is a stop word
-assert.deepEqual(ids("Which projects use AudioWorklet API?"), ["fasttalk"]); // "API" alone doesn't let a page in
+assert.deepEqual(ids("Which projects use AudioWorklet API?"), ["fasttalk"]);
+assert.ok(!ids("Which projects use Web Audio API?").includes("statsforspotify")); // every rarer word, when a page has them all // "API" alone doesn't let a page in
 assert.ok(excerpt("voxel-project", "What challenges did VoxelCraft face?").includes("Challenge: ")); // the section asked about
 assert.ok(excerpt("contact").includes("linkedin.com/in/")); // the address, not just the word
 assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched

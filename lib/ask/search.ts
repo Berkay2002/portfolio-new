@@ -41,7 +41,9 @@ export const matches = (word: string, term: string) => {
 };
 
 // A head word counts three times. A word on more than half the pages ("API", "challenges") ranks but doesn't let a
-// page in on its own when the question has a rarer word too: "AudioWorklet API" finds FastTalk, not every API.
+// page in on its own when the question has a rarer word too: "AudioWorklet API" finds FastTalk, not every API. The
+// pages with every rarer word come first and alone ("Web Audio API" is the page with both "web" and "audio"); only
+// when no page has them all does any one of them let a page in.
 export function search(docs: AskDoc[], question: string, limit = 5): AskHit[] {
   const qs = terms(question);
   if (qs.length === 0) return [];
@@ -50,9 +52,10 @@ export function search(docs: AskDoc[], question: string, limit = 5): AskHit[] {
   const df = qs.map((q) => split.filter((d) => has(d.head, q) || has(d.body, q)).length);
   const idf = df.map((n) => (n ? Math.log(1 + docs.length / n) : 0));
   const rare = df.map((n) => n > 0 && n <= docs.length / 2);
-  const needRare = rare.some(Boolean);
-  return split
-    .filter((d) => !needRare || qs.some((q, i) => rare[i] && (has(d.head, q) || has(d.body, q))))
+  const found = (d: (typeof split)[number], q: string) => has(d.head, q) || has(d.body, q);
+  const rq = qs.filter((_, i) => rare[i]);
+  const every = split.filter((d) => rq.every((q) => found(d, q)));
+  return (rq.length === 0 ? split : every.length ? every : split.filter((d) => rq.some((q) => found(d, q))))
     .map((d) => ({
       doc: d.doc,
       score: qs.reduce((sum, q, i) => sum + idf[i]! * (has(d.head, q) ? 3 : has(d.body, q) ? 1 : 0), 0),
