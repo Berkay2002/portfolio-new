@@ -40,6 +40,24 @@ type Copy = {
   photos: { index: string; title: string; all: (n: number) => string };
   gallery: { index: string; title: string; back: string; japan: string; portugal: string; close: string };
   contact: { index: string; title: [string, string]; top: string };
+  pages: {
+    projects: { index: string; title: string; count: (n: number) => string; filters: [string, string][] };
+    project: {
+      back: string;
+      index: string;
+      sections: [string, string, string, string, string];
+      services: string;
+      screens: string;
+      stack: string;
+      live: string;
+      source: string;
+      paper: string;
+      benchmark: string;
+    };
+    papers: { index: string; title: string; lede: string; back: string; abstract: string; read: string; benchmark: string; pdf: string; project: string; kinds: { thesis: string; project: string } };
+    playground: { index: string; title: string; lede: string; back: string; item: [string, string]; open: string; soon: string };
+    notFound: { title: string; line: string; home: string };
+  };
 };
 
 export const landingCopy: Record<Locale, Copy> = {
@@ -105,6 +123,54 @@ export const landingCopy: Record<Locale, Copy> = {
       title: ["Building something", "that has to work?"],
       top: "Back to top ↑",
     },
+    pages: {
+      projects: {
+        index: "WORK",
+        title: "Things I've shipped.",
+        count: (n) => `${n} projects`,
+        filters: [
+          ["all", "All"],
+          ["ai", "AI"],
+          ["web", "Web"],
+          ["graphics", "Graphics"],
+          ["mobile", "Mobile"],
+        ],
+      },
+      project: {
+        back: "← All projects",
+        index: "PROJECT",
+        sections: ["Overview", "Key features", "Challenges", "Solution", "Outcome"],
+        services: "Services",
+        screens: "Screens",
+        stack: "stack",
+        live: "Live site ↗",
+        source: "Source ↗",
+        paper: "Paper →",
+        benchmark: "Benchmark →",
+      },
+      papers: {
+        index: "RESEARCH",
+        title: "Papers.",
+        lede: "My thesis and the papers from my projects.",
+        back: "← Papers",
+        abstract: "Abstract",
+        read: "Read the paper →",
+        benchmark: "Benchmark →",
+        kinds: { thesis: "MASTER'S THESIS · ERICSSON", project: "PROJECT PAPER" },
+        pdf: "Download PDF ↓",
+        project: "Project →",
+      },
+      playground: {
+        index: "PLAYGROUND",
+        title: "Experiments.",
+        lede: "Things you can run and poke at.",
+        back: "← Playground",
+        item: ["FastTalk benchmark", "Three local models in a real-time voice loop, compared on latency, consistency and reliability."],
+        open: "Open →",
+        soon: "More soon.",
+      },
+      notFound: { title: "Off the trace.", line: "This page does not exist, or it moved.", home: "Back to the start →" },
+    },
   },
   sv: {
     nav: { work: "Projekt", research: "Forskning", experience: "Erfarenhet", about: "Om mig", contact: "Kontakt" },
@@ -167,6 +233,54 @@ export const landingCopy: Record<Locale, Copy> = {
       index: "07 / KONTAKT",
       title: ["Bygger du något", "som måste fungera?"],
       top: "Till toppen ↑",
+    },
+    pages: {
+      projects: {
+        index: "PROJEKT",
+        title: "Saker jag har byggt.",
+        count: (n) => `${n} projekt`,
+        filters: [
+          ["all", "Alla"],
+          ["ai", "AI"],
+          ["web", "Webb"],
+          ["graphics", "Grafik"],
+          ["mobile", "Mobil"],
+        ],
+      },
+      project: {
+        back: "← Alla projekt",
+        index: "PROJEKT",
+        sections: ["Översikt", "Funktioner", "Utmaningar", "Lösning", "Resultat"],
+        services: "Tjänster",
+        screens: "Bilder",
+        stack: "stack",
+        live: "Live ↗",
+        source: "Källkod ↗",
+        paper: "Rapport →",
+        benchmark: "Benchmark →",
+      },
+      papers: {
+        index: "FORSKNING",
+        title: "Rapporter.",
+        lede: "Mitt examensarbete och rapporterna från mina projekt.",
+        back: "← Rapporter",
+        abstract: "Sammanfattning",
+        read: "Läs rapporten →",
+        benchmark: "Benchmark →",
+        kinds: { thesis: "EXAMENSARBETE · ERICSSON", project: "PROJEKTRAPPORT" },
+        pdf: "Ladda ner PDF ↓",
+        project: "Projektet →",
+      },
+      playground: {
+        index: "LEKPLATS",
+        title: "Experiment.",
+        lede: "Saker du kan köra och peta på.",
+        back: "← Lekplats",
+        item: ["FastTalk-benchmark", "Tre lokala modeller i en röstloop i realtid, jämförda på latens, jämnhet och tillförlitlighet."],
+        open: "Öppna →",
+        soon: "Mer kommer.",
+      },
+      notFound: { title: "Utanför spåret.", line: "Sidan finns inte, eller så har den flyttat.", home: "Tillbaka till start →" },
     },
   },
 };

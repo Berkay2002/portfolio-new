@@ -1,5 +1,7 @@
 # Pages r1: the pages outside the landing page
 
+Status: approved and built (2026-10-06). See `design/README.md` for what the build left out.
+
 The landing page and `/photography` are in the new graphite and lime look. The other pages still use
 the old white template with cards, tag pills, icons and coloured charts: `/projects`, `/projects/<id>`,
 `/papers`, `/papers/<id>`, `/playground`, `/playground/tdde19` (the FastTalk benchmark) and the 404

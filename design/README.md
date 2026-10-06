@@ -7,6 +7,13 @@ boards are `landing-mobile-r1.md` (`design/approved/landing-mobile-*.png`). Abou
 `photos-r3.md` b-prints (`design/mockups/photos-r3-b-prints.png`). The build is `app/page.tsx`
 with `components/landing/`; screenshots of it are in `design/screens/`.
 
+The other pages follow `pages-r1.md` (built 2026-10-06): `app/(site)/layout.tsx` gives them the landing's
+header and footer and runs the trace straight down the left lane; sections hang a burst off it
+(`components/landing/page-parts.tsx`), list rows a dot. The pages are `components/landing/pages.tsx`,
+the thesis benchmark `thesis.tsx` and the FastTalk benchmark `fasttalk.tsx`. Departures from the
+mockups: the thesis tradeoff scatter and the FastTalk radar chart are left out, and FastTalk's run
+chart plots the 20 per-run values the data has (10 short, 10 medium questions), not 30.
+
 ## The system
 
 - Palette (`.landing` in `app/globals.css`): graphite `#0F1012`, off-white `#ECEAE4`, dim `#8A8C90`,

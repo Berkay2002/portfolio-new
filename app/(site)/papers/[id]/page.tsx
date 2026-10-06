@@ -1,88 +1,24 @@
-import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Container } from "@/components/ui/container";
-import { PaperRenderer } from "@/components/ui/paper-renderer";
-import { animatchPaper } from "@/lib/data/animatch-paper";
-import { syngraphPaper } from "@/lib/data/syngraph-paper";
-import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
+import { PaperDetail } from "@/components/landing/pages";
+import { papers } from "@/lib/data/papers";
 
-// Map of available papers
-const papers = {
-  "when-agentic-workflows-help": whenAgenticWorkflowsPaper,
-  animatch: animatchPaper,
-  researcher: syngraphPaper,
-};
+type Props = { params: Promise<{ id: string }> };
 
-const paperBackLinks = {
-  animatch: "/projects/animatch",
-  researcher: "/projects/researcher",
-};
-
-type PaperId = keyof typeof papers;
-
-type PaperPageProps = {
-  params: Promise<{ id: string }>;
-};
-
-export async function generateMetadata(
-  props: PaperPageProps
-): Promise<Metadata> {
-  const params = await props.params;
-  const paperData = papers[params.id as PaperId];
-
-  if (!paperData) {
-    return {
-      title: "Paper Not Found",
-    };
-  }
-
-  return {
-    title: `${paperData.title} | Research Paper | Berkay Orhan`,
-    description: paperData.abstractContent,
-  };
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { id } = await props.params;
+  const entry = papers.find((p) => p.id === id);
+  if (!entry) return { title: "Paper Not Found" };
+  return { title: `${entry.paper.title} | Paper | Berkay Orhan`, description: entry.paper.abstractContent };
 }
 
-export async function generateStaticParams() {
-  return Object.keys(papers).map((id) => ({ id }));
+export function generateStaticParams() {
+  return papers.map((p) => ({ id: p.id }));
 }
 
-export default async function PaperPage(props: PaperPageProps) {
-  const params = await props.params;
-  const paperData = papers[params.id as PaperId];
-
-  if (!paperData) {
-    notFound();
-  }
-
-  const backHref =
-    paperBackLinks[params.id as keyof typeof paperBackLinks] ?? "/papers";
-  const backLabel = backHref === "/papers" ? "Back to papers" : "Back to project";
-
-  return (
-    <Container className="py-12">
-      {/* Back button */}
-      <Link
-        className="mb-6 inline-flex items-center text-muted-foreground text-sm transition-colors hover:text-foreground"
-        href={backHref}
-      >
-        <ChevronLeft className="mr-1 h-4 w-4" />
-        {backLabel}
-      </Link>
-
-      <PaperRenderer
-        abstractContent={paperData.abstractContent}
-        authors={paperData.authors}
-        benchmark={"benchmark" in paperData ? paperData.benchmark : undefined}
-        highlights={
-          "highlights" in paperData ? paperData.highlights : undefined
-        }
-        pdfUrl={paperData.pdfUrl}
-        sections={paperData.sections}
-        title={paperData.title}
-      />
-    </Container>
-  );
+export default async function PaperPage(props: Props) {
+  const { id } = await props.params;
+  if (!papers.some((p) => p.id === id)) notFound();
+  return <PaperDetail id={id} />;
 }

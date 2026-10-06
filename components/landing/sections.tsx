@@ -25,7 +25,7 @@ export function useCopy() {
   return { c: landingCopy[locale], locale, setLocale };
 }
 
-function Index({ children, className }: { children: ReactNode; className?: string }) {
+export function Index({ children, className }: { children: ReactNode; className?: string }) {
   return <p className={cn("text-(--lime) text-sm tracking-[0.08em]", className)}>{children}</p>;
 }
 
@@ -538,13 +538,6 @@ const external = { rel: "noopener noreferrer", target: "_blank" };
 
 export function Contact() {
   const { c } = useCopy();
-  const footer: [string, string][] = [
-    ["#work", c.nav.work],
-    ["#research", c.nav.research],
-    ["#experience", c.nav.experience],
-    [CV, "CV"],
-    ["#top", c.contact.top],
-  ];
   return (
     <section className="relative scroll-mt-16 pt-32 text-center lg:pt-48" id="contact">
       <div className="px-6 lg:px-12">
@@ -572,20 +565,35 @@ export function Contact() {
           LinkedIn ↗
         </a>
       </p>
-      <footer className="mx-6 mt-28 flex flex-col gap-6 border-(--faint) border-t py-10 text-left lg:mx-[4%] lg:flex-row lg:items-center lg:justify-between">
-        <p className="flex items-baseline gap-4">
-          <span className="font-display text-2xl">Berkay Orhan</span>
-          <span className="text-(--dim) text-sm">© 2026</span>
-        </p>
-        <nav className="flex flex-wrap gap-x-6 text-(--dim) text-sm lg:gap-x-10">
-          {footer.map(([href, label]) => (
-            <a className={cn("flex h-11 items-center", link)} href={href} key={href}>
-              {label}
-            </a>
-          ))}
-        </nav>
-      </footer>
+      <Footer />
     </section>
   );
 }
 
+// The landing page's links are anchors on the same page; elsewhere they lead back to it.
+export function Footer({ home = true }: { home?: boolean }) {
+  const { c } = useCopy();
+  const at = home ? "" : "/";
+  const footer: [string, string][] = [
+    [`${at}#work`, c.nav.work],
+    [`${at}#research`, c.nav.research],
+    [`${at}#experience`, c.nav.experience],
+    [CV, "CV"],
+    ["#top", c.contact.top],
+  ];
+  return (
+    <footer className="mx-6 mt-28 flex flex-col gap-6 border-(--faint) border-t py-10 text-left lg:mx-[4%] lg:flex-row lg:items-center lg:justify-between">
+      <p className="flex items-baseline gap-4">
+        <span className="font-display text-2xl">Berkay Orhan</span>
+        <span className="text-(--dim) text-sm">© 2026</span>
+      </p>
+      <nav className="flex flex-wrap gap-x-6 text-(--dim) text-sm lg:gap-x-10">
+        {footer.map(([href, label]) => (
+          <a className={cn("flex h-11 items-center", link)} href={href} key={href}>
+            {label}
+          </a>
+        ))}
+      </nav>
+    </footer>
+  );
+}

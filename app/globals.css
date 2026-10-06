@@ -613,3 +613,33 @@
 [data-anim] .wave.sweep.vertical rect:not(.on) {
   transform: scaleX(0.12);
 }
+
+/* Paper text on the graphite pages: lime links, faint row rules instead of cell borders. */
+.landing .latex-content {
+  color: color-mix(in srgb, var(--fg) 80%, transparent);
+  font-size: 0.875rem;
+}
+.landing .latex-content h2,
+.landing .latex-content h3 {
+  color: var(--fg);
+  font-weight: 400;
+}
+.landing .latex-content a {
+  color: var(--lime);
+}
+.landing .latex-content code {
+  background-color: var(--faint);
+}
+.landing .latex-content table th,
+.landing .latex-content table td {
+  border: 0;
+  border-bottom: 1px solid var(--faint);
+}
+.landing .latex-content table th {
+  background: none;
+  color: var(--dim);
+  font-weight: 400;
+}
+.landing .latex-content table tr:nth-child(even) {
+  background: none;
+}

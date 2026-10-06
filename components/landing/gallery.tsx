@@ -51,8 +51,8 @@ export function Gallery() {
   };
 
   return (
-    <main className="px-6 pt-28 pb-24 lg:px-[4%] lg:pt-[180px]">
-      <Link className="text-(--dim) text-sm hover:text-(--fg)" href="/#about">
+    <div className="pr-6 pb-24 pl-12 lg:px-[4%]">
+      <Link className="text-(--dim) text-sm hover:text-(--fg)" href="/#photos">
         {c.gallery.back}
       </Link>
       <p className="mt-8 text-(--lime) text-sm tracking-[0.08em]">{c.gallery.index}</p>
@@ -75,6 +75,6 @@ export function Gallery() {
           </figure>
         )}
       </dialog>
-    </main>
+    </div>
   );
 }

@@ -353,6 +353,30 @@ export const projects: Project[] = [
   solarSystem,
 ];
 
+// The year each project started (its repository's creation date) and its groups on /projects.
+export type ProjectTag = "ai" | "web" | "graphics" | "mobile";
+export const projectMeta: Record<string, { year: number; tags: ProjectTag[] }> = {
+  wikillm: { year: 2026, tags: ["ai"] },
+  "fractured-crown": { year: 2026, tags: ["web"] },
+  "voxel-project": { year: 2026, tags: ["graphics"] },
+  statsforspotify: { year: 2026, tags: ["web"] },
+  "municipality-chatbot": { year: 2025, tags: ["ai", "web"] },
+  alertz: { year: 2026, tags: ["web"] },
+  fasttalk: { year: 2025, tags: ["ai"] },
+  researcher: { year: 2025, tags: ["ai"] },
+  oversee: { year: 2025, tags: ["web", "ai"] },
+  "primitive-ui": { year: 2025, tags: ["mobile", "graphics"] },
+  snapgredient: { year: 2025, tags: ["mobile", "ai"] },
+  retrofy: { year: 2025, tags: ["ai", "web"] },
+  albyradet: { year: 2024, tags: ["web"] },
+  animatch: { year: 2024, tags: ["ai", "web"] },
+  clairvoyant: { year: 2025, tags: ["ai"] },
+  kliv: { year: 2025, tags: ["web"] },
+  litheplan: { year: 2025, tags: ["web"] },
+  medieteknik: { year: 2022, tags: ["web"] },
+  "solar-system": { year: 2025, tags: ["graphics"] },
+};
+
 export const socialLinks: SocialLinks = {
   github: "https://github.com/Berkay2002",
   linkedin: "https://linkedin.com/in/berkay-orhan-b71256204",
