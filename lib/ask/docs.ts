@@ -1,7 +1,7 @@
 import { flows } from "@/lib/data/flows";
 import { landingCopy } from "@/lib/data/landing";
 import { papers } from "@/lib/data/papers";
-import { projects, socialLinks } from "@/lib/data/portfolio-data";
+import { projectMeta, projects, socialLinks } from "@/lib/data/portfolio-data";
 import { type AskDoc, matches, terms, words } from "./search";
 
 // What "Ask the site" can find: only what the site already shows. Each paper is its title and abstract,
@@ -27,6 +27,7 @@ function pageText(p: (typeof projects)[number], l: "en" | "sv") {
   const sv = l === "sv";
   const t = (en?: string, s?: string) => (sv ? (s ?? en) : en);
   return [
+    projectMeta[p.id] && `${sv ? "Startat" : "Started"} ${projectMeta[p.id]!.year}.`,
     p.institution,
     ...(p.projectInfo ?? []).map((f) => `${t(f.label, f.labelSv)}: ${t(f.value, f.valueSv)}.`),
     ...(p.projectLinks ?? []).flatMap((k) => [`${t(k.label, k.labelSv)}.`, ...(k.items ?? []).map((i) => `${t(i.label, i.labelSv)}${i.command ? `: ${i.command}` : ""}.`)]),
@@ -55,7 +56,18 @@ export const askDocs: AskDoc[] = [
       head: `${p.title} ${p.technologies.join(" ")}`,
       // Everything the project page shows, in both languages.
       body: [p.description, p.descriptionSv, ...pageText(p, "en"), ...pageText(p, "sv")].join(" "),
-      excerpt: { lead: `${p.description} Stack: ${p.technologies.join(", ")}.`, en: pageText(p, "en"), sv: pageText(p, "sv") },
+      // The year and the page's links always reach the model, so "where's the code?" gets the address.
+      excerpt: {
+        lead: [
+          `${p.description} Stack: ${p.technologies.join(", ")}.`,
+          projectMeta[p.id] && `Started ${projectMeta[p.id]!.year}.`,
+          ...Object.entries({ Live: p.link, Frontend: p.frontendLink, Source: p.githubLink, Playground: p.playgroundLink, Paper: p.paperLink }).flatMap(([k, v]) => (v ? [`${k}: ${v}.`] : [])),
+        ]
+          .filter(Boolean)
+          .join(" "),
+        en: pageText(p, "en"),
+        sv: pageText(p, "sv"),
+      },
     })
   ),
   ...papers.map(({ id, paper, kind }) =>
