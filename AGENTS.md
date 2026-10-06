@@ -1,7 +1,7 @@
 # AGENTS.md
 
-This file provides guidance to Codex when working with code in this repository. `CLAUDE.md` carries the same text
-for Claude Code; keep the two in step.
+This file provides guidance to coding agents (Codex, and Claude Code through `CLAUDE.md`, which imports it) when
+working with code in this repository.
 
 ## Commands
 
