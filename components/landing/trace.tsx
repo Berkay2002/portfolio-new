@@ -17,6 +17,10 @@ type Sample = { len: number; x: number; y: number; thr: number };
 const PEN = 0.75; // the pen sits at 75 % of the viewport height
 const STEP = 6; // px between samples along a line
 
+const R = 40; // corner radius in px
+
+// Joins the anchors. Where the line turns from sideways to down (or back), it runs straight and
+// takes a rounded corner of up to R px; two anchors in the same direction are joined by an S curve.
 function curve(pts: Pt[]) {
   return pts
     .map((q, i) => {
@@ -24,6 +28,17 @@ function curve(pts: Pt[]) {
       const p = pts[i - 1]!;
       const dx = q.x - p.x;
       const dy = q.y - p.y;
+      const sx = Math.sign(dx);
+      const sy = Math.sign(dy);
+      const r = Math.min(R, Math.abs(dx), Math.abs(dy));
+      if (p.h && !q.h) {
+        const x = q.x - sx * r;
+        return `L${x} ${p.y}C${x + (sx * r) / 2} ${p.y} ${q.x} ${p.y + (sy * r) / 2} ${q.x} ${p.y + sy * r}L${q.x} ${q.y}`;
+      }
+      if (!p.h && q.h) {
+        const y = q.y - sy * r;
+        return `L${p.x} ${y}C${p.x} ${y + (sy * r) / 2} ${p.x + (sx * r) / 2} ${q.y} ${p.x + sx * r} ${q.y}L${q.x} ${q.y}`;
+      }
       const c1 = p.h ? `${p.x + dx / 2} ${p.y}` : `${p.x} ${p.y + dy / 2}`;
       const c2 = q.h ? `${q.x - dx / 2} ${q.y}` : `${q.x} ${q.y - dy / 2}`;
       return `C${c1} ${c2} ${q.x} ${q.y}`;

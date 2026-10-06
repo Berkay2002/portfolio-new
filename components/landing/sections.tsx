@@ -30,7 +30,8 @@ function Index({ children, className }: { children: ReactNode; className?: strin
 // Takes the trace sideways between two x positions in a strip of its own (desktop only).
 function Wire({ from, to }: { from: string; to: string }) {
   const r = 40; // corner size in px
-  const right = Number.parseFloat(from) < Number.parseFloat(to);
+  const num = (x: string) => Number.parseFloat(x.replace("calc(", ""));
+  const right = num(from) < num(to);
   const bend = (x: string, out: boolean) => `calc(${x} ${right === out ? "+" : "-"} ${r}px)`;
   return (
     <div aria-hidden className="relative col-span-full hidden h-24 lg:block">
@@ -237,7 +238,8 @@ export function Work() {
           <A className="-bottom-12 -left-7 lg:hidden" />
         </ol>
       </div>
-      <Wire from="96%" to="2%" />
+      {/* The pipeline ends at 43 % + 57 % x 94 % of the page; the trace turns down 40 px past it. */}
+      <Wire from="calc(96.58% + 40px)" to="2%" />
     </section>
   );
 }
@@ -315,7 +317,7 @@ export function Research() {
         {extraDots.map(([x, y]) => (
           <Dot key={`${x}-${y}`} x={x!} y={y!} />
         ))}
-        <A className="top-[96%] left-[79%]" />
+        <A className="top-[96%] left-[calc(76%+40px)]" />
       </div>
 
       {/* Phone: top to bottom. */}
@@ -371,7 +373,7 @@ export function Research() {
           ({c.research.with} Jonatan Ebenholm)
         </p>
       </div>
-      <Wire from="79%" to="2%" />
+      <Wire from="calc(76% + 40px)" to="2%" />
     </section>
   );
 }
@@ -497,7 +499,8 @@ export function About() {
             </p>
           </div>
           <div className="relative mt-16 lg:mt-20">
-            <A className="top-[30px] left-[2%] hidden [--dir:h] lg:block" on="stack" />
+            <A className="top-[-10px] left-[2vw] hidden lg:block" on="stack" />
+            <A className="top-[30px] left-[calc(2vw+40px)] hidden [--dir:h] lg:block" on="stack" />
             <p className="mb-6 pl-12 text-(--dim) text-xs lg:absolute lg:top-0 lg:mb-0 lg:pl-[3.5%]">{c.about.how}</p>
             <ul className="flex flex-col gap-6 lg:flex-row lg:justify-around lg:pl-[8%]">
               {c.about.layers.map((layer, i) => (
