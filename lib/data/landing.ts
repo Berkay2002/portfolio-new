@@ -29,6 +29,10 @@ type Copy = {
     index: string;
     title: string;
     moments: { title: string; line: string }[];
+    bars: string;
+    peak: (n: string) => string;
+    week: (date: string) => string;
+    soFar: string;
   };
   about: {
     index: string;
@@ -107,6 +111,10 @@ export const landingCopy: Record<Locale, Copy> = {
         { title: "Thesis, then R&D intern", line: "Ericsson · Jan–Sep 2026" },
         { title: "Software Developer", line: "Ericsson · Linköping · since Oct 2026" },
       ],
+      bars: "Each bar is a week of my GitHub contributions.",
+      peak: (n) => `${n} contributions`,
+      week: (date) => `week of ${date}`,
+      soFar: "so far",
     },
     about: {
       index: "05 / ABOUT",
@@ -221,6 +229,10 @@ export const landingCopy: Record<Locale, Copy> = {
         { title: "Exjobb, sedan R&D-praktik", line: "Ericsson · jan–sep 2026" },
         { title: "Mjukvaruutvecklare", line: "Ericsson · Linköping · sedan okt 2026" },
       ],
+      bars: "Varje stapel är en vecka av mina bidrag på GitHub.",
+      peak: (n) => `${n} bidrag`,
+      week: (date) => `veckan från ${date}`,
+      soFar: "hittills",
     },
     about: {
       index: "05 / OM MIG",
