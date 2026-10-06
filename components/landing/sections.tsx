@@ -133,9 +133,9 @@ export function Hero() {
   const { c } = useCopy();
   return (
     <section className="relative pt-16 lg:min-h-[max(720px,100svh)] lg:pt-0" id="top">
-      <div className="relative h-[50svh] max-h-[440px] lg:absolute lg:top-0 lg:right-0 lg:h-[92%] lg:max-h-none lg:w-[46%]">
+      <div className="relative h-[50svh] max-h-[440px] lg:absolute lg:top-[72px] lg:right-[2%] lg:h-[calc(92%-72px)] lg:max-h-none">
         {/* eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized */}
-        <img alt="Berkay Orhan" className="portrait-fade size-full object-cover object-[50%_45%] lg:object-top" src="/images/hero-portrait.jpg" />
+        <img alt="Berkay Orhan" className="portrait-fade size-full object-cover object-[50%_45%] lg:h-full lg:w-auto" src="/images/hero-portrait.jpg" />
       </div>
       <div className="-mt-20 relative z-10 px-6 lg:mt-0 lg:max-w-[66%] lg:px-0 lg:pt-[200px] lg:pl-[4%]">
         <Index className="tracking-[0.12em]">{c.hero.overline}</Index>
