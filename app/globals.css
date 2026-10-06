@@ -157,9 +157,11 @@ html {
   letter-spacing: -0.03em;
 }
 
-/* Phones fade only the bottom, so the left of his face is not faded out. */
+/* Phones show his head and shoulders in the middle: the frame cuts the picture at 9 % and 85 % of its height,
+   so the top edge fades into his headroom, the bottom fades out above the cut and the sides clear of his face. */
 .portrait-fade {
-  mask-image: linear-gradient(to bottom, #000 60%, transparent 98%);
+  mask-image: linear-gradient(to right, transparent, #000 18%, #000 82%, transparent), linear-gradient(to bottom, transparent 9%, #000 12%, #000 66%, transparent 84%);
+  mask-composite: intersect;
 }
 @media (width >= 64rem) {
   .portrait-fade {
@@ -276,25 +278,64 @@ html {
   }
 }
 /* The photo prints start as a pile in the middle and are dealt out as the row scrolls into view
-   (--p from use-unfold.ts; --i is the print's place from the middle, --r and --y its tilt and drop). */
+   (--p from use-unfold.ts; --i is the print's place from the middle, --r and --y its tilt and drop).
+   On phones the dealt row runs off both edges and swipes sideways, a print at a time. */
 .prints {
   --w: 40vw;
   --step: calc(var(--w) * 0.84);
-  height: calc(var(--w) * 0.75 + 64px);
+  display: flex;
+  margin-top: -24px;
+  padding: 40px 0 48px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.prints::-webkit-scrollbar {
+  display: none;
+}
+/* Room either side so the first and last prints can come to the middle. */
+.prints::before,
+.prints::after {
+  content: "";
+  flex: none;
+  width: calc(50% - var(--w) / 2);
+}
+.print {
+  position: relative;
+  flex: none;
+  width: var(--w);
+  scroll-snap-align: center;
+  transform: translateX(calc(var(--i) * var(--step) * (var(--p, 1) - 1))) translateY(calc(var(--y) * var(--p, 1)))
+    rotate(var(--r));
+  transition: transform 0.5s ease-out;
+}
+.print + .print {
+  margin-left: calc(var(--step) - var(--w));
 }
 @media (min-width: 1024px) {
   .prints {
     --w: clamp(180px, 18vw, 250px);
+    display: block;
+    height: calc(var(--w) * 0.75 + 64px);
+    margin-top: 0;
+    padding: 0;
+    overflow: visible;
   }
-}
-.print {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  width: var(--w);
-  transform: translateX(calc(-50% + var(--i) * var(--step) * var(--p, 1))) translateY(calc(var(--y) * var(--p, 1)))
-    rotate(var(--r));
-  transition: transform 0.25s ease-out;
+  .prints::before,
+  .prints::after {
+    content: none;
+  }
+  .print {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(calc(-50% + var(--i) * var(--step) * var(--p, 1))) translateY(calc(var(--y) * var(--p, 1)))
+      rotate(var(--r));
+  }
+  .print + .print {
+    margin-left: 0;
+  }
 }
 .print-photo {
   display: block;
