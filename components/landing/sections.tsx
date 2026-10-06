@@ -384,13 +384,13 @@ export function Research() {
 }
 
 // Year to % along the time axis (desktop, from the left) and px down the phone's axis. The years before
-// 2024 barely show on GitHub, so they get a third of the room the later ones do.
+// 2024 barely show on GitHub, so they get a third of the room the later ones do (on phones, less still).
 const axis = (stops: number[]) => (year: number) => {
   const i = Math.min(stops.length - 2, Math.max(0, Math.floor(year - 2021)));
   return stops[i]! + (year - 2021 - i) * (stops[i + 1]! - stops[i]!);
 };
 const X = axis([5, 12, 19, 26, 48, 70, 102]);
-const Ypx = axis([64, 104, 144, 184, 384, 604, 889]);
+const Ypx = axis([64, 84, 104, 124, 214, 334, 594]);
 
 const years = [2021, 2022, 2023, 2024, 2025, 2026];
 // Where each moment sits on the axis, and on desktop whether it hangs above it.
@@ -511,7 +511,7 @@ export function Experience({ commits }: { commits: Commits | null }) {
       </div>
       <Wire from="98%" to="2%" />
 
-      {/* Phone: the axis runs down from 2021, 96 px in, years and totals at its left, moments at its right. */}
+      {/* Phone: the axis runs down from 2021, 96 px in, years at its left, moments at its right. */}
       <div className="relative mt-10 lg:hidden" style={{ height: Ypx(to) + 80 }}>
         <A className="top-0 left-5" />
         <A className="left-24" style={{ top: Ypx(from) }} />
@@ -523,7 +523,6 @@ export function Experience({ commits }: { commits: Commits | null }) {
         {years.map((y) => (
           <span className="-translate-y-1/2 absolute left-3 text-(--dim) text-xs" key={y} style={{ top: Ypx(y) }}>
             {y}
-            {weeks && <span className="block text-(--dim)/70">{total(y)}</span>}
           </span>
         ))}
         {moments.map((m, i) => {
@@ -541,9 +540,8 @@ export function Experience({ commits }: { commits: Commits | null }) {
           <>
             <span className="-translate-x-1/2 -translate-y-1/2 absolute left-[136px] size-2 rounded-full bg-(--lime)" style={{ top: Ypx(at) }} />
             <span className="absolute left-[140px] h-px w-[16px] bg-(--dim)/60" style={{ top: Ypx(at) }} />
-            <p className="absolute left-[156px] text-xs" style={{ top: Ypx(at) + 14 }}>
+            <p className="-translate-y-1/2 absolute left-[156px] text-xs" style={{ top: Ypx(at) }}>
               {peakLabel[0]}
-              <span className="block text-(--dim)">{peakLabel[1]}</span>
             </p>
           </>
         )}
