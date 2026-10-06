@@ -3,7 +3,9 @@
 Status: approved and built (2026-10-06). The hero is `hero-r2-e4-hoodie` (`design/approved/landing-desktop.png`),
 the rest of the page is `landing-r2.md` ("the signal", `design/approved/landing-s*.png`) and the phone
 boards are `landing-mobile-r1.md` (`design/approved/landing-mobile-*.png`). About's "how I build" is
-`stack-r4.md` a-surfaces (`design/approved/landing-s5-stack.png`), and the photo section is
+`stack-r4.md` a-surfaces (`design/approved/landing-s5-stack.png`), with each layer's line running on
+to the projects built with it from `about-r1.md` b-used-in (`design/approved/about-used-in.png`;
+wide screens only, phones list them under the layer), and the photo section is
 `photos-r3.md` b-prints (`design/approved/photos-prints.png`). The build is `app/page.tsx`
 with `components/landing/`; screenshots of it are in `design/screens/`.
 
@@ -14,6 +16,9 @@ the left lane; sections hang a burst off it
 the thesis benchmark `thesis.tsx` and the FastTalk benchmark `fasttalk.tsx`. Departures from the
 mockups: the thesis tradeoff scatter and the FastTalk radar chart are left out, and FastTalk's run
 chart plots the 20 per-run values the data has (10 short, 10 medium questions), not 30.
+A project's media follow `project-media-r1.md` a-reel (`design/approved/project-media-reel.png`): the
+cover runs wide under the lede and the screenshots or videos run as a sideways reel with "01 / 07
+Next". The Stats for Spotify and LiTHePlan screenshots had their browser frame cropped off.
 
 ## The system
 

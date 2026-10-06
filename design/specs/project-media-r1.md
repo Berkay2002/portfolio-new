@@ -1,5 +1,8 @@
 # Project media r1: screenshots and videos on a project page
 
+Status: a-reel approved and built (2026-10-06, `design/approved/project-media-reel.png`). The others
+are deleted; git history keeps them.
+
 The built project pages (`/projects/<id>`, from `pages-r1.md` b-project) show a project's media badly:
 the cover screenshot sits small under the lede with the browser chrome still on it, and "Screens" is a
 two-column grid of thumbnails inside the text column, with captions drifting below. Videos look the

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 
 import { MarkdownLatexRenderer } from "@/components/ui/markdown-latex-renderer";
 import { papers } from "@/lib/data/papers";
@@ -155,25 +155,6 @@ export function ProjectDetail({ id }: { id: string }) {
         ))}
       </ul>,
     ]);
-  if (x.gallery?.length)
-    parts.push([
-      p.screens,
-      <div className="grid gap-10 lg:grid-cols-2" key="g">
-        {x.gallery.map((g) => (
-          <figure key={g.image}>
-            {g.video ? (
-              <video autoPlay className="w-full" loop muted playsInline poster={g.image}>
-                <source src={g.video} type="video/mp4" />
-              </video>
-            ) : (
-              // eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized
-              <img alt={g.alt} className="w-full" loading="lazy" src={g.image} />
-            )}
-            {g.caption && <figcaption className="mt-2 text-(--dim) text-xs">{t(g.caption, g.captionSv)}</figcaption>}
-          </figure>
-        ))}
-      </div>,
-    ]);
 
   const year = projectMeta[id]?.year;
   return (
@@ -188,23 +169,100 @@ export function ProjectDetail({ id }: { id: string }) {
         <p className="mt-6 max-w-[60ch] text-(--fg)/80 text-sm leading-relaxed lg:text-base">{t(x.description, x.descriptionSv)}</p>
       </PageHead>
       {(x.video || x.image) && (
-        <div className={cn(pad, "mt-14 lg:mt-20")}>
+        // The cover runs from the text column to the page's right edge, hung off the trace by a faint rule.
+        <figure className="relative mt-14 pl-12 lg:mt-20 lg:pl-[4%]">
+          <span className="absolute top-0 left-5 h-px w-7 bg-(--faint) lg:left-[2%] lg:w-[2%]" />
+          <Tick className="top-0" />
           {x.video ? (
-            <video autoPlay className="w-full max-w-[1000px]" loop muted playsInline poster={x.image}>
+            <video autoPlay className="w-full max-w-[1400px]" loop muted playsInline poster={x.image}>
               <source src={x.video} type="video/mp4" />
             </video>
           ) : (
             // eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized
-            <img alt={x.imageAlt || x.title} className="w-full max-w-[1000px]" src={x.image} />
+            <img alt={x.imageAlt || x.title} className="w-full max-w-[1400px]" src={x.image} />
           )}
-        </div>
+          {x.imageAlt && <figcaption className="mt-3 pr-6 text-(--dim) text-xs">{x.imageAlt}</figcaption>}
+        </figure>
       )}
       {parts.map(([title, body], i) => (
         <Part key={title} n={i + 1} title={title}>
           {body}
         </Part>
       ))}
+      {x.gallery?.length ? (
+        <section className="relative mt-16 lg:mt-24">
+          <Burst className="top-3.5" />
+          <h2 className={cn(pad, "text-lg leading-7 lg:text-xl")}>
+            <span className="text-(--dim) text-sm">{two(parts.length + 1)} / </span>
+            {p.screens}
+          </h2>
+          <Reel items={x.gallery.map((g) => ({ ...g, caption: t(g.caption, g.captionSv) }))} next={p.next} />
+        </section>
+      ) : null}
     </>
+  );
+}
+
+type Shot = { image: string; video?: string; alt?: string; caption?: string };
+
+// The screens as a sideways reel (design/approved/project-media-reel.png): large shots at one height on a
+// faint rule, a tick over each, the current one lime; the last one runs off the page's right edge.
+function Reel({ items, next }: { items: Shot[]; next: string }) {
+  const track = useRef<HTMLDivElement>(null);
+  const [at, setAt] = useState(0);
+  const shots = () => [...(track.current?.children ?? [])] as HTMLElement[];
+  const onScroll = () => {
+    const el = track.current;
+    if (!el) return;
+    const [first] = shots();
+    const left = el.scrollLeft + (first?.offsetLeft ?? 0);
+    // At the end of the track the last shot is current, even if it never reaches the left edge.
+    const end = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
+    setAt(end ? items.length - 1 : shots().reduce((best, s, i) => (Math.abs(s.offsetLeft - left) < Math.abs((shots()[best]?.offsetLeft ?? 0) - left) ? i : best), 0));
+  };
+  const go = () => {
+    const el = track.current;
+    const [first] = shots();
+    const target = shots()[at + 1 < items.length ? at + 1 : 0];
+    if (el && first && target) el.scrollTo({ left: target.offsetLeft - first.offsetLeft });
+  };
+  return (
+    <div className="mt-6">
+      {items.length > 1 && (
+        <p className={cn(pad, "flex justify-end gap-6 text-sm")}>
+          <span className="text-(--dim) tabular-nums">
+            {two(at + 1)} / {two(items.length)}
+          </span>
+          <button className={under} onClick={go} type="button">
+            {next}
+          </button>
+        </p>
+      )}
+      <div
+        className="relative mt-3 ml-12 flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] motion-safe:scroll-smooth lg:ml-[4%]"
+        onScroll={onScroll}
+        ref={track}
+      >
+        {items.map((g, i) => (
+          <figure className="relative shrink-0 snap-start border-(--faint) border-t pt-6 pr-6 lg:pr-8" key={g.video ?? g.image}>
+            <span className={cn("-translate-y-1/2 absolute top-0 left-0 size-2 rounded-full", i === at ? "bg-(--lime)" : "bg-(--dim)/60")} />
+            {g.video ? (
+              <video autoPlay className="w-[78vw] lg:h-[clamp(280px,30vw,440px)] lg:w-auto" loop muted playsInline poster={g.image}>
+                <source src={g.video} type="video/mp4" />
+              </video>
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized
+              <img alt={g.alt ?? ""} className="w-[78vw] lg:h-[clamp(280px,30vw,440px)] lg:w-auto" loading="lazy" src={g.image} />
+            )}
+            {/* As wide as the shot, never wider. */}
+            <figcaption className="mt-3 flex w-0 min-w-full gap-3 text-xs leading-relaxed">
+              <span className="text-(--dim)">{two(i + 1)}</span>
+              <span className="text-(--dim)">{g.caption}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
   );
 }
 
