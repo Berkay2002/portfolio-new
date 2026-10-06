@@ -70,3 +70,12 @@ export const askDocs: AskDoc[] = [
 ];
 
 export const excerpt = (id: string) => excerpts.get(id)?.slice(0, 1200) ?? "";
+
+// Who he is, sent with every question so "Who is Berkay?" has an answer whatever the search finds.
+const en = landingCopy.en;
+export const profile = [
+  `Berkay Orhan: ${en.hero.lede}`,
+  en.about.bio.join(""),
+  `Path: ${moments("en")}`,
+  `Projects on the site: ${projects.map((p) => p.title).join("; ")}.`,
+].join("\n");
