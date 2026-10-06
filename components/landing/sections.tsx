@@ -9,6 +9,7 @@ import { photos as allPhotos } from "@/lib/data/photos";
 import { socialLinks } from "@/lib/data/portfolio-data";
 import type { Commits } from "@/lib/github";
 import { cn } from "@/lib/utils";
+import { HeroAsk } from "./hero-ask";
 import { Prints } from "./prints";
 import { Stack } from "./stack";
 import { A, Wave } from "./trace";
@@ -62,6 +63,7 @@ export function Header() {
     ["/#research", c.nav.research],
     ["/#experience", c.nav.experience],
     ["/#about", c.nav.about],
+    ["/ask", c.nav.ask],
   ];
   const lang = (
     <button
@@ -133,34 +135,14 @@ const heroPeaks: [number, number, number][] = [
 ];
 
 export function Hero() {
-  const { c } = useCopy();
+  // In a conversation (HeroAsk sets data-chat) the portrait steps back: dimmed on desktop, gone on phones.
   return (
-    <section className="relative pt-16 lg:min-h-[max(720px,100svh)] lg:pt-0" id="top">
-      <div className="relative h-[50svh] max-h-[440px] lg:absolute lg:top-[72px] lg:right-[2%] xl:right-[6%] lg:h-[calc(92%-72px)] lg:max-h-none">
+    <section className="group/hero relative pt-16 lg:min-h-[max(780px,100svh)] lg:pt-0" id="top">
+      <div className="relative h-[50svh] max-h-[440px] transition-opacity group-has-[[data-chat]]/hero:max-lg:hidden lg:absolute lg:top-[72px] lg:right-[2%] xl:right-[6%] lg:h-[calc(92%-72px)] lg:max-h-none lg:group-has-[[data-chat]]/hero:opacity-40">
         {/* eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized */}
         <img alt="Berkay Orhan" fetchPriority="high" className="portrait-fade size-full object-cover object-[50%_calc(20px-22.5vw)] lg:object-[50%_45%] lg:h-full lg:w-auto" src="/images/hero-portrait.jpg" />
       </div>
-      <div className="-mt-10 relative z-10 px-6 lg:mt-0 lg:max-w-[66%] lg:px-0 lg:pt-[200px] lg:pl-[4%]">
-        <Index className="tracking-[0.12em]">{c.hero.overline}</Index>
-        <h1 className="font-display mt-3 text-[44px] leading-[0.98] lg:mt-6 lg:text-[clamp(48px,4.3vw,64px)]">
-          <span className="lg:block">{c.hero.headline[0]}</span> <span className="lg:block">{c.hero.headline[1]}</span>
-        </h1>
-        <p className="mt-4 max-w-[38ch] text-(--fg)/70 text-[15px] leading-relaxed lg:mt-6 lg:max-w-[44ch] lg:text-[20px]">{c.hero.lede}</p>
-        <div className="mt-6 flex flex-col gap-3 lg:mt-10 lg:flex-row lg:gap-6">
-          <a
-            className="flex h-12 items-center justify-center rounded-md bg-(--lime) px-10 font-medium text-(--bg) lg:h-14"
-            href="#work"
-          >
-            {c.hero.cta}
-          </a>
-          <a
-            className="flex h-12 items-center justify-center rounded-md border border-(--fg)/40 px-10 hover:border-(--fg) lg:h-14"
-            href={CV}
-          >
-            {c.hero.cv}
-          </a>
-        </div>
-      </div>
+      <HeroAsk />
       <div className="relative mt-10 h-24 lg:absolute lg:inset-x-0 lg:bottom-[3%] lg:mt-0 lg:h-[130px]">
         {/* Phone: the trace leaves the signal's left end and turns down into the 20 px lane. */}
         <Wave className="absolute inset-y-0 left-11 h-full w-[calc(100%-44px)] lg:hidden" live n={60} peaks={heroPeaks} />

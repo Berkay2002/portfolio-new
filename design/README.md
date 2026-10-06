@@ -19,6 +19,17 @@ chart plots the 20 per-run values the data has (10 short, 10 medium questions), 
 A project's media follow `project-media-r1.md` a-reel (`design/approved/project-media-reel.png`): the
 cover runs wide under the lede and the screenshots or videos run as a sideways reel with "01 / 07
 Next". The Stats for Spotify and LiTHePlan screenshots had their browser frame cropped off.
+`/ask` (Ask the site, `components/landing/ask.tsx`) is built from the `pages-r1` parts without a round of
+its own: a page head, the question on a burst, the answer on a burst, and the matches as list rows with a tick
+(`design/screens/ask.*.png`). The hero asks too (`components/landing/hero-ask.tsx`): it keeps main's overline,
+headline, lede and two buttons, and a quiet "Or ask me about my work" line under them, led by a burst, opens the
+composer of `ask-r7.md` (`design/approved/landing-hero-ask.png`) in their place (`ask-r9.md`). The composer's
+bottom edge carries the trace, lime round the corner into a burst that swells while an answer is on its way. The
+first question turns the hero into the conversation of `ask-r8.md` a-bubbles
+(`design/approved/landing-hero-ask-chat.png`): questions in rounded bubbles on
+the right, answers on the left with the pages they name linked, the composer docked one line tall above the
+hero's waveform. While the model is off, a question goes to `/ask?q=`.
+
 How a project works follows `project-arch-r1.md` a-across (`design/approved/project-arch-across.png`):
 under the lede the trace leaves the lane, runs right through the project's stations and drops back into
 the lane (on phones the stations sit on the lane, top to bottom). Each station is a small lime drawing of

@@ -19,8 +19,9 @@ dependency). Screenshots worth keeping go in `design/screens/<name>.<width>[.ful
 
 ## Stack
 
-Next.js 16 App Router, React 19, TypeScript (strict), Tailwind CSS v4, deployed on Vercel at berkay.se. No database
-and no API routes: all content is hardcoded in `lib/data/`.
+Next.js 16 App Router, React 19, TypeScript (strict), Tailwind CSS v4, deployed on Vercel at berkay.se. No database:
+all content is hardcoded in `lib/data/`. The one API route is `app/api/ask/route.ts`, which adds a model's answer to
+`/ask` and the hero's conversation when the gateway on Berkay's Mac mini is up (`deploy/ask/README.md`); the site never calls a paid model API.
 
 ## Design
 
@@ -45,8 +46,8 @@ The site has one look, specified in [`design/README.md`](design/README.md). Read
   Experience, About, Photos, Contact.
 - `app/(site)/layout.tsx`: every other page gets the landing's header and footer and the trace straight down the
   left lane. Pages: `projects`, `projects/[id]`, `papers`, `papers/[id]`, `playground`, `playground/tdde19`
-  (FastTalk benchmark), `photography`. Page bodies live in `components/landing/pages.tsx`, `gallery.tsx`,
-  `thesis.tsx` and `fasttalk.tsx`; shared bits (bursts, ticks, page heads) in `page-parts.tsx`. These are client
+  (FastTalk benchmark), `photography`, `ask`. Page bodies live in `components/landing/pages.tsx`, `gallery.tsx`,
+  `thesis.tsx`, `fasttalk.tsx` and `ask.tsx`; shared bits (bursts, ticks, page heads) in `page-parts.tsx`. These are client
   components; the route files (server) look up `lib/data` and pass in only what the page shows, so client code
   never imports `portfolio-data.ts` or the paper modules (that would ship every project and paper to every page).
 - `app/not-found.tsx`, `app/loading.tsx`, `app/sitemap.ts`. SEO metadata and fonts are in `app/layout.tsx`;
@@ -61,6 +62,9 @@ The site has one look, specified in [`design/README.md`](design/README.md). Read
 - Papers: `lib/data/papers.ts` lists them (thesis first); each paper's content is its own module in `lib/data/`.
   Paper text is rendered to HTML with KaTeX on the server by `renderLatex` (`lib/utils/latex-helpers.ts`), called
   from `app/(site)/papers/[id]/page.tsx`, which also imports the KaTeX CSS.
+- Ask the site: `lib/ask/docs.ts` builds the search index from `lib/data` (projects, paper abstracts, experience,
+  contact) and `lib/ask/search.ts` scores it, in the browser and in the route. Never index the thesis benchmark data
+  or anything else under the Ericsson NDA. `bun lib/ask/check.ts` checks both.
 - Photos: `lib/data/photos.ts`, files in `public/images/photography/<place>-<n>.webp` (1800 px) and `-sm.webp`
   (720 px), metadata stripped.
 - Images are served unoptimized (`next.config.mjs`), so use plain `<img>` with the
