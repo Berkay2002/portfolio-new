@@ -459,3 +459,11 @@
 [data-anim] .wave.vertical:not(.on) rect {
   transform: scaleX(0.12);
 }
+/* The hero's signal fills bar by bar as the page scrolls (the trace sets .on on each bar). */
+.wave.sweep rect {
+  transition-duration: 0.35s;
+  transition-delay: 0s;
+}
+[data-anim] .wave.sweep rect:not(.on) {
+  transform: scaleY(0.12);
+}

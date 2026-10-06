@@ -25,7 +25,7 @@ with `components/landing/`; screenshots of it are in `design/screens/`.
   sections place zero-size anchors (`<A />` in `components/landing/trace.tsx`) and the root joins them
   with curves; an anchor hidden at a breakpoint is skipped, so desktop and phone route differently.
 - Motion: the trace draws itself on scroll down to a pen at 75 % of the viewport, with a lime dot at its
-  tip. Each waveform (`<Wave />`) swells from flat when the line reaches it; the hero's is already on.
+  tip. Each waveform (`<Wave />`) swells from flat when the line reaches it; on desktop the hero's signal fills bar by bar from left to right as the page starts to scroll, and the trace leaves from its right end (on phones it is already on).
   With prefers-reduced-motion the trace is drawn in full and nothing moves.
 - Phone: the trace runs in a lane 20 px from the left edge, text starts at 48 px, drawings run top to
   bottom, tap targets are at least 44 px. The header is "Berkay Orhan", Contact and a menu on every screen.

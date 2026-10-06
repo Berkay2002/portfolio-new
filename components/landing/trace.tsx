@@ -54,6 +54,7 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
     still: false,
     samples: new Map<string, { path: SVGPathElement; s: Sample[] }>(),
     waves: [] as { el: Element; thr: number }[],
+    bars: [] as { el: Element; thr: number }[],
   });
 
   const layout = useCallback(() => {
@@ -110,6 +111,7 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
       }
     }
     for (const w of waves) w.el.classList.toggle("on", w.thr <= pen);
+    for (const b of state.current.bars) b.el.classList.toggle("on", b.thr <= pen);
   }, []);
 
   // After the lines render, sample them and find where each waveform sits on them.
@@ -127,17 +129,29 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
     const box = el.getBoundingClientRect();
     const all = [...samples.values()].flatMap((v) => v.s);
     state.current.samples = samples;
-    state.current.waves = [...el.querySelectorAll("[data-wave]:not(.live)")].map((w) => {
-      const r = w.getBoundingClientRect();
-      const x = r.left - box.left + r.width / 2;
-      const y = r.top - box.top + r.height / 2;
+    const near = (x: number, y: number) => {
       let best = { d: 80 * 80, thr: y };
       for (const p of all) {
         const d = (p.x - x) ** 2 + (p.y - y) ** 2;
         if (d < best.d) best = { d, thr: p.thr };
       }
-      return { el: w, thr: best.thr };
+      return best.thr;
+    };
+    state.current.waves = [...el.querySelectorAll("[data-wave]:not(.live):not(.sweep)")].map((w) => {
+      const r = w.getBoundingClientRect();
+      return { el: w, thr: near(r.left - box.left + r.width / 2, r.top - box.top + r.height / 2) };
     });
+    // A sweep wave fills bar by bar, left to right, from where the pen starts on the first screen
+    // to where the trace leaves its right end.
+    const start = window.innerHeight * PEN - (box.top + window.scrollY);
+    state.current.bars = [...el.querySelectorAll("[data-wave].sweep")]
+      .filter((w) => w.getClientRects().length > 0)
+      .flatMap((w) => {
+        const r = w.getBoundingClientRect();
+        const end = near(r.right - box.left, r.top - box.top + r.height / 2);
+        const rects = [...w.querySelectorAll("rect")];
+        return rects.map((b, i) => ({ el: b, thr: Math.min(start, end) + (i / Math.max(1, rects.length - 1)) * Math.max(0, end - start) }));
+      });
     draw();
   }, [lines, draw]);
 
@@ -205,13 +219,15 @@ export function Wave({
   floor = 0.05,
   vertical = false,
   live = false,
+  sweep = false,
   className,
 }: {
   n: number;
   peaks: Peak[];
   floor?: number;
   vertical?: boolean;
-  live?: boolean; // already swelled when the page opens (the hero)
+  live?: boolean; // already swelled when the page opens
+  sweep?: boolean; // fills left to right as the page scrolls, ahead of the trace (the hero)
   className?: string;
 }) {
   const bars = Array.from({ length: n }, (_, i) => {
@@ -224,7 +240,7 @@ export function Wave({
   return (
     <svg
       aria-hidden
-      className={cn("wave pointer-events-none", vertical && "vertical", live && "live on", className)}
+      className={cn("wave pointer-events-none", vertical && "vertical", live && "live on", sweep && "sweep on", className)}
       data-wave
       preserveAspectRatio="none"
       viewBox={vertical ? `0 0 100 ${n}` : `0 0 ${n} 100`}

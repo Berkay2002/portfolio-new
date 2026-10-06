@@ -160,8 +160,8 @@ export function Hero() {
       </div>
       <div className="relative mt-10 h-24 lg:absolute lg:inset-x-0 lg:bottom-[3%] lg:mt-0 lg:h-[130px]">
         <Wave className="absolute inset-0 size-full lg:hidden" live n={64} peaks={heroPeaks} />
-        <Wave className="absolute inset-y-0 left-0 hidden h-full w-[75%] lg:block" live n={180} peaks={heroPeaks} />
-        <A className="top-1/2 left-5 lg:left-[47%]" />
+        <Wave className="absolute inset-y-0 left-0 hidden h-full w-[75%] lg:block" n={180} peaks={heroPeaks} sweep />
+        <A className="top-1/2 left-5 lg:left-[75%]" />
       </div>
     </section>
   );
