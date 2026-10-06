@@ -43,7 +43,7 @@ export function Ask({ docs, initial = "" }: { docs: AskDoc[]; initial?: string }
 
   async function ask(question: string) {
     const text = question.trim();
-    if (!text || !up) return;
+    if (!text || !up || answer?.state === "wait") return; // one question at a time: each spends the visitor's hourly allowance
     setAnswer({ q: text, state: "wait" });
     const r = await fetch("/api/ask", { method: "POST", body: JSON.stringify({ question: text, locale }) }).catch(() => null);
     if (r?.status === 503) setUp(false);
@@ -80,7 +80,7 @@ export function Ask({ docs, initial = "" }: { docs: AskDoc[]; initial?: string }
               value={q}
             />
             {up && (
-              <button className="h-11 shrink-0 rounded-md bg-(--lime) px-5 font-medium text-(--bg) disabled:opacity-40 lg:h-12 lg:px-8" disabled={!q.trim()} type="submit">
+              <button className="h-11 shrink-0 rounded-md bg-(--lime) px-5 font-medium text-(--bg) disabled:opacity-40 lg:h-12 lg:px-8" disabled={!q.trim() || answer?.state === "wait"} type="submit">
                 {a.submit}
               </button>
             )}

@@ -1,7 +1,7 @@
 import { flows } from "@/lib/data/flows";
 import { landingCopy } from "@/lib/data/landing";
 import { papers } from "@/lib/data/papers";
-import { projects } from "@/lib/data/portfolio-data";
+import { projects, socialLinks } from "@/lib/data/portfolio-data";
 import { type AskDoc, matches, terms, words } from "./search";
 
 // What "Ask the site" can find: only what the site already shows. Each paper is its title and abstract,
@@ -91,7 +91,7 @@ export const askDocs: AskDoc[] = [
     summary: { en: "Email berkayorhan@hotmail.se, or find him on GitHub and LinkedIn.", sv: "Mejla berkayorhan@hotmail.se, eller hitta honom på GitHub och LinkedIn." },
     head: "contact kontakt email mejl hire anställa reach",
     body: "github linkedin cv resume email mail",
-    excerpt: { lead: "Contact: email berkayorhan@hotmail.se. GitHub github.com/Berkay2002, LinkedIn. CV at /Resume.pdf." },
+    excerpt: { lead: `Contact: email berkayorhan@hotmail.se. GitHub ${socialLinks.github}. LinkedIn ${socialLinks.linkedin}. CV at ${socialLinks.cv}.` },
   }),
 ];
 
