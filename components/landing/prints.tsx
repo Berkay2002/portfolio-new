@@ -4,7 +4,7 @@ import { type CSSProperties, useRef } from "react";
 import { type Photo, photoUrl } from "@/lib/data/photos";
 import { useUnfold } from "./use-unfold";
 
-// The photos as prints dealt across the page (design/mockups/photos-r3-b-prints.png). They start as a
+// The photos as prints dealt across the page (design/approved/photos-prints.png). They start as a
 // pile in the middle and spread out as the row scrolls into view, the same way the About plates open;
 // the middle print sits forward, straight and in colour. On phones the row runs off both edges.
 const deal = [

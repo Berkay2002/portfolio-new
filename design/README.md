@@ -4,11 +4,12 @@ Status: approved and built (2026-10-06). The hero is `hero-r2-e4-hoodie` (`desig
 the rest of the page is `landing-r2.md` ("the signal", `design/approved/landing-s*.png`) and the phone
 boards are `landing-mobile-r1.md` (`design/approved/landing-mobile-*.png`). About's "how I build" is
 `stack-r4.md` a-surfaces (`design/approved/landing-s5-stack.png`), and the photo section is
-`photos-r3.md` b-prints (`design/mockups/photos-r3-b-prints.png`). The build is `app/page.tsx`
+`photos-r3.md` b-prints (`design/approved/photos-prints.png`). The build is `app/page.tsx`
 with `components/landing/`; screenshots of it are in `design/screens/`.
 
-The other pages follow `pages-r1.md` (built 2026-10-06): `app/(site)/layout.tsx` gives them the landing's
-header and footer and runs the trace straight down the left lane; sections hang a burst off it
+The other pages follow `pages-r1.md` (`design/approved/pages-*.png`, built 2026-10-06):
+`app/(site)/layout.tsx` gives them the landing's header and footer and runs the trace straight down
+the left lane; sections hang a burst off it
 (`components/landing/page-parts.tsx`), list rows a dot. The pages are `components/landing/pages.tsx`,
 the thesis benchmark `thesis.tsx` and the FastTalk benchmark `fasttalk.tsx`. Departures from the
 mockups: the thesis tradeoff scatter and the FastTalk radar chart are left out, and FastTalk's run
@@ -59,7 +60,8 @@ The pipeline is Genomlyst's, recovered from its scripts on 2026-10-05.
    not appear. Notes for people go above `## Shared`.
 2. Plain `codex exec` renders it: Codex reads the spec, calls its built-in image tool exactly once, and
    passes `## Shared` followed by the variant section verbatim. References go in with `-i`. The render
-   lands in `design/mockups/<spec stem>-<key>.png`.
+   lands in `design/mockups/<spec stem>-<key>.png`. Renders that were not picked are deleted once the
+   round is settled; git history keeps them.
 3. Berkay picks. Edit rounds are the same call with the previous render attached first and "editing the
    first attached image" in the instruction; they pass only their own section.
 4. The approved image moves to `design/approved/` and this file is updated with what it settled.
