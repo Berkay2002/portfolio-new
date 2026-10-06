@@ -1,8 +1,12 @@
-import { Fragment, type ReactNode } from "react";
+import { Fragment, type ReactNode, useEffect, useRef } from "react";
+
+import { cn } from "@/lib/utils";
 
 // "how I build" as an exploded patent drawing (design/approved/landing-s5-stack.png): five plates,
 // interface on top, each machined with a finish that stands for its layer. Each finish is drawn flat
 // (u across 0..300, v deep 0..170) and the plate's matrix lays it into the oblique view.
+// Scrolling pulls the plates apart: they are fully open once the whole drawing is on screen, and close
+// again as it leaves the bottom. While open, each finish runs a small loop (the .stack-anim parts).
 const W = 300;
 const D = 170;
 const EX = [0.96, 0.21] as const; // screen step per unit of u
@@ -29,7 +33,10 @@ const layout = (
     {[[0, 6, 40, 96], [8, 12, 40, 96], [0, 4, 96, 156], [6, 12, 96, 156]].map(([a, b, v0, v1]) => (
       <rect {...line} fill="url(#stack-fine)" key={`${a}-${v0}`} height={v1! - v0!} width={cols[b!]! - cols[a!]!} x={cols[a!]} y={v0} />
     ))}
-    <rect {...line} height={14} stroke="var(--lime)" strokeWidth={1.5} width={cols[5]! - cols[1]!} x={cols[1]} y={20} />
+    <g className="stack-anim stack-focus">
+      <rect {...line} height={14} stroke="var(--lime)" strokeWidth={1.5} width={cols[5]! - cols[1]!} x={cols[1]} y={20} />
+      <line className="stack-anim stack-caret" stroke="var(--lime)" strokeWidth={1.5} vectorEffect="non-scaling-stroke" x1={cols[1]! + 6} x2={cols[1]! + 6} y1={23} y2={31} />
+    </g>
   </>
 );
 
@@ -42,7 +49,9 @@ const loop = (
     {[[24, 120], [112, 120], [140, 55], [160, 88]].map(([u, v]) => (
       <circle {...line} cx={u} cy={v} fill="var(--bg)" key={u} r={7} />
     ))}
+    <path className="stack-anim stack-run" d={groove} fill="none" pathLength={100} stroke="var(--lime)" strokeDasharray="7 93" strokeLinecap="round" strokeWidth={2} vectorEffect="non-scaling-stroke" />
     <circle cx={276} cy={120} fill="var(--lime)" r={7} />
+    <circle {...line} className="stack-anim stack-ping" cx={276} cy={120} r={11} stroke="var(--lime)" />
   </>
 );
 
@@ -62,6 +71,9 @@ const matrix = (
         x={14 + i * 17}
         y={10 + j * 17}
       />
+    ))}
+    {[[3, 2], [5, 6], [7, 1], [9, 7], [12, 3], [13, 5], [2, 5]].map(([i, j], n) => (
+      <rect className="stack-anim stack-blink" fill="var(--lime)" height={17} key={`${i}-${j}`} style={{ animationDelay: `${n * 0.4}s` }} width={17} x={14 + i! * 17} y={10 + j! * 17} />
     ))}
   </>
 );
@@ -83,6 +95,9 @@ const contours = (
   <>
     <g clipPath="url(#stack-face)">
       {rings.map((d, k) => <path {...(k < 3 || (k > 7 && k < 10) ? line : faint)} d={d} key={d} />)}
+      {[0, 1.3].map((delay) => (
+        <circle {...line} className="stack-anim stack-ripple" cx={105} cy={92} key={delay} r={12} stroke="var(--lime)" style={{ animationDelay: `${delay}s` }} />
+      ))}
     </g>
     <circle cx={105} cy={92} fill="var(--lime)" r={4} />
   </>
@@ -93,6 +108,9 @@ const rack = (
   <>
     {Array.from({ length: 9 }, (_, k) => (
       <rect {...line} height={110} key={k} rx={6} stroke={k === 6 ? "var(--lime)" : line.stroke} strokeWidth={k === 6 ? 1.5 : 1} width={12} x={30 + k * 29} y={30} />
+    ))}
+    {Array.from({ length: 9 }, (_, k) => (
+      <rect {...line} className="stack-anim stack-roll" height={110} key={k} rx={6} stroke="var(--lime)" strokeWidth={1.5} style={{ animationDelay: `${k * 0.35}s` }} width={12} x={30 + k * 29} y={30} />
     ))}
   </>
 );
@@ -109,7 +127,7 @@ function Plate({ i, pitch }: { i: number; pitch: number }) {
   const down = (p: readonly [number, number]) => [p[0], p[1] + T] as const;
   // Closed, each plate rests a few units under the one above it.
   return (
-    <g className="stack-plate" style={{ "--shut": `${-i * (pitch - 16)}px`, "--i": i } as React.CSSProperties}>
+    <g className="stack-plate" style={{ "--shut": `${-i * (pitch - 16)}px` } as React.CSSProperties}>
       <polygon {...line} fill="url(#stack-edge)" points={pts([L, F, down(F), down(L)])} />
       <polygon {...line} fill="url(#stack-edge)" points={pts([F, R, down(R), down(F)])} />
       <polygon {...line} fill="var(--bg)" points={pts([L, F, R, B])} />
@@ -123,6 +141,41 @@ function Plate({ i, pitch }: { i: number; pitch: number }) {
 // The plates and their labels, spread `pitch` units apart. Phones spread them wider so the labels fit.
 function Drawing({ layers, tools, pitch, className }: { layers: string[]; tools: string[]; pitch: number; className: string }) {
   const vh = Y0 + 4 * pitch + 80;
+  const root = useRef<HTMLDivElement>(null);
+  const svg = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const el = root.current;
+    const box = svg.current;
+    if (!el || !box || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Closed, the stack is as tall as the top plate plus four small steps.
+    const closed = (93.5 + 63 + T + 4 * 16) / vh;
+    let frame = 0;
+    const update = () => {
+      const { top, height } = box.getBoundingClientRect();
+      if (height === 0) return; // the other breakpoint's drawing
+      const edge = window.innerHeight - Math.min(32, window.innerHeight * 0.04);
+      // 0 while the closed stack is still coming up from the bottom, 1 once the open drawing's bottom is on screen.
+      const t = Math.min(1, Math.max(0, (edge - top - closed * height) / (height * (1 - closed))));
+      const p = t * t * (3 - 2 * t);
+      el.style.setProperty("--p", p.toFixed(3));
+      if (p > 0.995) el.classList.add("open");
+      else if (p < 0.9) el.classList.remove("open");
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [vh]);
+
   // The three visible corners, from the top plate to the bottom one.
   const guides = [
     [0, 0],
@@ -130,8 +183,14 @@ function Drawing({ layers, tools, pitch, className }: { layers: string[]; tools:
     [W, D],
   ].map(([u, v]) => [at(X0, Y0, u!, v!), at(X0, Y0 + 4 * pitch, u!, v!)] as const);
   return (
-    <div className={className} data-wave>
-      <svg aria-hidden className="w-[56%] shrink-0 overflow-visible lg:w-[clamp(380px,40vw,520px)]" viewBox={`0 0 ${VW} ${vh}`}>
+    <div className={cn("stack", className)} ref={root}>
+      {/* On desktop the width also follows the window's height, so the open stack always fits on screen. */}
+      <svg
+        aria-hidden
+        className="w-[56%] shrink-0 overflow-visible lg:w-[min(clamp(380px,40vw,520px),calc((100svh-140px)*0.66))]"
+        ref={svg}
+        viewBox={`0 0 ${VW} ${vh}`}
+      >
         <g className="stack-guides">
           {guides.map(([a, b]) => (
             <line {...faint} key={a[0]} strokeDasharray="3 4" x1={r(a[0])} x2={r(b[0])} y1={r(a[1])} y2={r(b[1]) + T} />

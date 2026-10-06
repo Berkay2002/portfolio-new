@@ -465,20 +465,83 @@
 [data-anim] .wave.vertical:not(.on) rect {
   transform: scaleX(0.12);
 }
-/* The stack's plates sit closed until the trace reaches them, then pull apart and the labels follow. */
+/* The stack opens as it scrolls into view (--p from 0 to 1, set in components/landing/stack.tsx). */
 .stack-plate {
-  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 40ms);
+  transform: translateY(calc(var(--shut) * (1 - var(--p, 1))));
+  transition: transform 0.25s ease-out;
 }
 .stack-guides,
 .stack-label {
-  transition: opacity 0.5s ease 0.6s;
+  opacity: calc((var(--p, 1) - 0.8) * 5);
 }
-[data-anim] [data-wave]:not(.on) .stack-plate {
-  transform: translateY(var(--shut));
+/* Once open, each plate's finish runs a small loop; closed or with reduced motion, it holds still. */
+.stack-anim {
+  transform-box: fill-box;
+  transform-origin: center;
 }
-[data-anim] [data-wave]:not(.on) :is(.stack-guides, .stack-label) {
+.stack:not(.open) .stack-anim {
+  animation-play-state: paused;
+}
+.stack-focus {
+  animation: stack-focus 6s steps(1) infinite;
+}
+.stack-caret {
+  animation: stack-caret 1s steps(1) infinite;
+}
+.stack-run {
+  animation: stack-run 3.2s linear infinite;
+}
+.stack-ping {
   opacity: 0;
-  transition-delay: 0s;
+  animation: stack-ping 3.2s ease-out infinite;
+}
+.stack-blink {
+  opacity: 0;
+  animation: stack-blink 2.8s ease-in-out infinite;
+}
+.stack-ripple {
+  opacity: 0;
+  animation: stack-ripple 2.6s ease-out infinite;
+}
+.stack-roll {
+  opacity: 0;
+  animation: stack-roll 3.15s ease-in-out infinite;
+}
+@keyframes stack-focus {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(90.7px, 0); }
+  66% { transform: translate(158.7px, 0); }
+}
+@keyframes stack-caret {
+  50% { opacity: 0; }
+}
+@keyframes stack-run {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes stack-ping {
+  0%, 90% { opacity: 0; transform: scale(0.6); }
+  94% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes stack-blink {
+  0%, 100% { opacity: 0; }
+  12% { opacity: 0.55; }
+  30% { opacity: 0; }
+}
+@keyframes stack-ripple {
+  0% { opacity: 0; transform: scale(1); }
+  5% { opacity: 0.9; }
+  100% { opacity: 0; transform: scale(5); }
+}
+@keyframes stack-roll {
+  0%, 16%, 100% { opacity: 0; }
+  6% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stack-anim {
+    animation: none;
+  }
 }
 /* A sweep wave fills bar by bar as the line passes (the trace sets .on on each bar). */
 .wave.sweep rect {
