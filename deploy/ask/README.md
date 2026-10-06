@@ -4,7 +4,7 @@
 a free model for a one or two sentence answer:
 
 ```
-browser ──> berkay.se/api/ask (Vercel) ──> ask-api.berkay.se (Cloudflare Tunnel) ──> OmniRoute on the Mac mini ──> Gemini / Groq / Cerebras / OpenRouter free
+browser ──> berkay.se/api/ask (Vercel) ──> ask-api.berkay.se (Cloudflare Tunnel) ──> OmniRoute on the Mac mini ──> Groq / OpenRouter free
 ```
 
 - The route (`app/api/ask/route.ts`) holds the OmniRoute key, so it never reaches the browser. It allows 6 answers
@@ -35,32 +35,29 @@ somewhere safe: `STORAGE_ENCRYPTION_KEY` decrypts the provider keys.
 
 ### 2. Free provider keys
 
-Make each without adding a card:
+Make each without adding a card, then add it in the dashboard under Providers → + Add Provider:
 
 | Provider | Key | Note |
 |---|---|---|
-| Gemini | https://aistudio.google.com/apikey | Use a Google Cloud project with **no billing account**, so only the free tier exists. Free-tier prompts may be used by Google; the questions are about public pages. |
-| Groq | https://console.groq.com/keys | Free plan, daily limits per model. |
-| Cerebras | https://cloud.cerebras.ai | OmniRoute lists its free quota as starting credits, so it goes last but one. |
+| Groq | https://console.groq.com/keys | Free plan, daily limits per model. Enough on its own. |
 | OpenRouter | https://openrouter.ai/settings/keys | Never buy credits. Use only model ids ending in `:free`; without credits it allows 50 requests a day. |
+| Gemini (optional) | https://aistudio.google.com/apikey | A Google Cloud project with **no billing account**, so only the free tier exists. Free-tier prompts may be used by Google; the questions are about public pages. |
 
-In the dashboard, add each key under Providers.
+Not these: the keyless OpenCode provider (OmniRoute marks it "avoid": its terms allow only your own use, and it
+refuses requests that do not come from the OpenCode app), Cerebras (a one-time credit, not a free tier), and the
+Codex/ChatGPT providers (a personal subscription serving the public).
 
-### 3. A combo named `site` and a key for the website
+### 3. A key for the website
 
-Dashboard → Combos → Create New, name `site`, models in this order (pick the exact ids from each provider's list
-if these have moved):
-
-1. `gemini/gemini-2.5-flash-lite` (answers without thinking first, so it is the fastest)
-2. `groq/openai/gpt-oss-120b`
-3. `cerebras/gpt-oss-120b`
-4. an OpenRouter model ending in `:free`
-
-Dashboard → API Keys → create one called `berkay.se` and copy it. Check it works:
+Dashboard → API Manager → create one called `berkay-se` (names allow no dots). Check it works and see the model
+ids:
 
 ```bash
-curl -s http://localhost:20129/v1/chat/completions -H "Authorization: Bearer <the key>" -H "content-type: application/json" -d '{"model":"site","max_tokens":20,"messages":[{"role":"user","content":"Say hi"}]}'
+curl -s http://localhost:20129/v1/models -H "Authorization: Bearer <the key>" | grep -o '"id":"groq/[^"]*"'
 ```
+
+The site tries the models in `ASK_MODEL` in order (step 6), so no combo is needed. Today's order:
+`groq/openai/gpt-oss-120b`, `groq/qwen/qwen3.8-27b`, `openrouter/nvidia/nemotron-3-super-120b-a12b:free`.
 
 ### 4. The tunnel
 
@@ -88,15 +85,15 @@ And a hard cap in front of the Mac: berkay.se → Security → WAF → Rate limi
 
 ### 6. Vercel
 
-Project → Settings → Environment Variables, for Production:
+Project `portfolio-new` → Settings → Environment Variables, for Production and Preview:
 
 | Name | Value |
 |---|---|
 | `ASK_GATEWAY_URL` | `https://ask-api.berkay.se` |
 | `ASK_GATEWAY_KEY` | the OmniRoute key from step 3 |
-| `ASK_MODEL` | `site` |
-| `ASK_ACCESS_ID` | the service token's Client ID (step 5) |
-| `ASK_ACCESS_SECRET` | the service token's Client Secret (step 5) |
+| `ASK_MODEL` | the model ids from step 3, comma separated, in order |
+| `ASK_ACCESS_ID` | only with step 5: the service token's Client ID |
+| `ASK_ACCESS_SECRET` | only with step 5: the service token's Client Secret |
 
 Redeploy, then check `curl https://berkay.se/api/ask` says `{"up":true}`. Stop the containers and within a
 minute it says `{"up":false}` and the page shows "search only".
