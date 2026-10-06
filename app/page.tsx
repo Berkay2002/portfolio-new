@@ -3,16 +3,19 @@ import { TraceRoot } from "@/components/landing/trace";
 
 export default function Home() {
   return (
-    <TraceRoot className="landing min-h-screen overflow-x-clip">
-      <Header />
-      <main>
-        <Hero />
-        <Work />
-        <Research />
-        <Experience />
-        <About />
-        <Contact />
-      </main>
-    </TraceRoot>
+    <div className="landing min-h-screen overflow-x-clip">
+      {/* Capped so the hero's text and portrait stay together on wide screens. */}
+      <TraceRoot className="mx-auto max-w-[1440px]">
+        <Header />
+        <main>
+          <Hero />
+          <Work />
+          <Research />
+          <Experience />
+          <About />
+          <Contact />
+        </main>
+      </TraceRoot>
+    </div>
   );
 }
