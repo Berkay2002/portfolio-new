@@ -1,6 +1,6 @@
 # Ask r8: the hero becomes the conversation
 
-Status: rendering (2026-10-06).
+Status: a-bubbles picked and built with ask-r9; b-bursts rejected (2026-10-06).
 
 Berkay on the built `ask-r7` hero: once a question is sent, the headline and the lede go, the composer
 docks at the bottom of the hero just above the signal, and the messages lay out above it as a

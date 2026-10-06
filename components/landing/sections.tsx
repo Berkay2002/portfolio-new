@@ -134,21 +134,14 @@ const heroPeaks: [number, number, number][] = [
 ];
 
 export function Hero() {
-  const { c } = useCopy();
+  // In a conversation (HeroAsk sets data-chat) the portrait steps back: dimmed on desktop, gone on phones.
   return (
-    <section className="relative pt-16 lg:min-h-[max(860px,100svh)] lg:pt-0" id="top">
-      <div className="relative h-[50svh] max-h-[440px] lg:absolute lg:top-[72px] lg:right-[2%] xl:right-[6%] lg:h-[calc(92%-72px)] lg:max-h-none">
+    <section className="group/hero relative pt-16 lg:min-h-[max(780px,100svh)] lg:pt-0" id="top">
+      <div className="relative h-[50svh] max-h-[440px] transition-opacity group-has-[[data-chat]]/hero:max-lg:hidden lg:absolute lg:top-[72px] lg:right-[2%] xl:right-[6%] lg:h-[calc(92%-72px)] lg:max-h-none lg:group-has-[[data-chat]]/hero:opacity-40">
         {/* eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized */}
         <img alt="Berkay Orhan" fetchPriority="high" className="portrait-fade size-full object-cover object-[50%_calc(20px-22.5vw)] lg:object-[50%_45%] lg:h-full lg:w-auto" src="/images/hero-portrait.jpg" />
       </div>
-      {/* Phones centre the text under the portrait; desktop keeps it on the left, the portrait on the right. */}
-      <div className="-mt-10 relative z-10 px-6 text-center lg:mt-0 lg:max-w-[66%] lg:px-0 lg:pt-[200px] lg:pl-[4%] lg:text-left">
-        <h1 className="font-display text-[40px] leading-[0.98] lg:text-[clamp(48px,4.3vw,64px)]">
-          <span className="lg:block">{c.hero.headline[0]}</span> <span className="lg:block">{c.hero.headline[1]}</span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-[38ch] text-(--fg)/70 text-[14px] leading-relaxed lg:mx-0 lg:mt-6 lg:max-w-[44ch] lg:text-[20px]">{c.hero.lede}</p>
-        <HeroAsk />
-      </div>
+      <HeroAsk />
       <div className="relative mt-10 h-24 lg:absolute lg:inset-x-0 lg:bottom-[3%] lg:mt-0 lg:h-[130px]">
         {/* Phone: the trace leaves the signal's left end and turns down into the 20 px lane. */}
         <Wave className="absolute inset-y-0 left-11 h-full w-[calc(100%-44px)] lg:hidden" live n={60} peaks={heroPeaks} />

@@ -4,7 +4,7 @@ import { photos as allPhotos } from "./photos";
 
 type Copy = {
   nav: { work: string; research: string; experience: string; about: string; ask: string; contact: string };
-  hero: { headline: [string, string]; lede: string; ask: string; failed: string; rate: string; none: string; search: string };
+  hero: { overline: string; headline: [string, string]; lede: string; cta: string; cv: string; open: string; close: string; ask: string; follow: string; reset: string; failed: string; rate: string; none: string; search: string };
   work: {
     index: string;
     title: string;
@@ -83,12 +83,19 @@ export const landingCopy: Record<Locale, Copy> = {
   en: {
     nav: { work: "Work", research: "Research", experience: "Experience", about: "About", ask: "Ask", contact: "Contact" },
     hero: {
+      overline: "SOFTWARE DEVELOPER · LINKÖPING",
       headline: ["I build AI that", "works outside the demo."],
       lede: "Agentic retrieval, voice pipelines and the web apps around them. Now a software developer at Ericsson.",
+      cta: "See my work",
+      cv: "Download CV",
+      open: "Ask me",
+      close: "Close",
       ask: "Ask me anything about my work",
       failed: "The model didn't answer this time.",
       rate: "That's enough questions for a while.",
       none: "Nothing on the site matches that.",
+      follow: "Ask a follow-up",
+      reset: "New question",
       search: "Search the site for it →",
     },
     work: {
@@ -215,12 +222,19 @@ export const landingCopy: Record<Locale, Copy> = {
   sv: {
     nav: { work: "Projekt", research: "Forskning", experience: "Erfarenhet", about: "Om mig", ask: "Fråga", contact: "Kontakt" },
     hero: {
+      overline: "MJUKVARUUTVECKLARE · LINKÖPING",
       headline: ["Jag bygger AI som", "fungerar utanför demon."],
       lede: "Agentisk sökning, röstpipelines och webbapparna runt dem. Nu mjukvaruutvecklare på Ericsson.",
+      cta: "Se mina projekt",
+      cv: "Ladda ner CV",
+      open: "Fråga mig",
+      close: "Stäng",
       ask: "Fråga mig vad som helst om mitt arbete",
       failed: "Modellen svarade inte den här gången.",
       rate: "Det räcker med frågor en stund.",
       none: "Inget på sajten matchar det.",
+      follow: "Ställ en följdfråga",
+      reset: "Ny fråga",
       search: "Sök på sajten efter det →",
     },
     work: {
