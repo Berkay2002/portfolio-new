@@ -100,7 +100,7 @@ export function Ask({ docs, initial = "" }: { docs: AskDoc[]; initial?: string }
                 <span className="flex items-center gap-3" key={x}>
                 {i > 0 && <span className="text-(--dim)">·</span>}
                 <button
-                  className="h-10 text-left text-(--fg)/80 hover:text-(--lime)"
+                  className="min-h-11 text-left text-(--fg)/80 hover:text-(--lime)"
                   onClick={() => {
                     setQ(x);
                     ask(x);

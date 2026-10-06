@@ -28,7 +28,22 @@ export const askDocs: AskDoc[] = [
       title: { en: p.title, sv: p.title },
       summary: { en: p.description, sv: p.descriptionSv ?? p.description },
       head: `${p.title} ${p.technologies.join(" ")}`,
-      body: [p.description, p.descriptionSv, p.detailedDescription, p.detailedDescriptionSv, ...(p.features ?? []), ...(p.featuresSv ?? []), p.solution, p.outcome].join(" "),
+      // Everything the project page shows, in both languages.
+      body: [
+        p.description,
+        p.descriptionSv,
+        p.detailedDescription,
+        p.detailedDescriptionSv,
+        ...(p.features ?? []),
+        ...(p.featuresSv ?? []),
+        ...(p.challenges ?? []),
+        ...(p.challengesSv ?? []),
+        p.solution,
+        p.solutionSv,
+        p.outcome,
+        p.outcomeSv,
+        ...(p.microservices ?? []).flatMap((m) => [m.name, m.description, m.descriptionSv, ...(m.technologies ?? [])]),
+      ].join(" "),
       excerpt: [p.description, p.detailedDescription, p.outcome, `Stack: ${p.technologies.join(", ")}.`].filter(Boolean).join(" "),
     })
   ),
