@@ -111,6 +111,7 @@ export async function POST(req: Request) {
   ];
   // Each model gets up to 10 seconds, and all of them together 20; a free tier that is out of quota fails fast.
   const deadline = Date.now() + 20_000;
+  let spent = 0; // models that said 429: out of their free quota
   for (const model of MODELS) {
     const left = deadline - Date.now();
     if (left < 1000) break;
@@ -128,12 +129,18 @@ export async function POST(req: Request) {
       health = { up: false, at: Date.now() };
       break;
     }
+    if (res?.status === 429) spent++;
     if (!res?.ok) continue;
     const data = (await res.json().catch(() => null)) as { choices?: { message?: { content?: string } }[]; usage?: { total_tokens?: number } } | null;
     day.spent += data?.usage?.total_tokens ?? JSON.stringify(messages).length / 4 + 400; // a rough count if the model gives none
     const answer = data?.choices?.[0]?.message?.content?.replace(/\*\*?|`/g, "").trim().slice(0, 600); // the page shows plain text
     // The pages it drew on, so the hero can link the names in the answer.
     if (answer) return NextResponse.json({ answer, links: hits.map((h) => ({ href: h.doc.href, title: h.doc.title })) }, { headers: noStore });
+  }
+  // Every model out of quota: read as down for ten minutes, so the pages offer search instead of answers that fail.
+  if (spent === MODELS.length) {
+    health = { up: false, at: Date.now() + 9 * 60_000 };
+    return NextResponse.json({ error: "down" }, { status: 503, headers: noStore });
   }
   return NextResponse.json({ error: "model" }, { status: 502, headers: noStore });
 }

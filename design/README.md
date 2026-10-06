@@ -25,7 +25,8 @@ its own: a page head, the question on a burst, the answer on a burst, and the ma
 headline, lede and two buttons, and a quiet "Or ask me about my work" line under them, led by a burst, opens the
 composer of `ask-r7.md` (`design/approved/landing-hero-ask.png`) in their place (`ask-r9.md`). The composer's
 bottom edge carries the trace, lime round the corner into a burst that swells while an answer is on its way. The
-first question turns the hero into the conversation of `ask-r8.md` a-bubbles: questions in rounded bubbles on
+first question turns the hero into the conversation of `ask-r8.md` a-bubbles
+(`design/approved/landing-hero-ask-chat.png`): questions in rounded bubbles on
 the right, answers on the left with the pages they name linked, the composer docked one line tall above the
 hero's waveform. While the model is off, a question goes to `/ask?q=`.
 

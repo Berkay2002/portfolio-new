@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { type FormEvent, useEffect, useMemo, useState } from "react";
 
-import { type AskDoc, search, terms } from "@/lib/ask/search";
+import { type AskDoc, matches, search, terms } from "@/lib/ask/search";
 import { cn } from "@/lib/utils";
 import { Burst, PageHead, Tick, pad, two } from "./page-parts";
 import { useCopy } from "./sections";
@@ -15,12 +15,18 @@ import { Wave } from "./trace";
 
 type Answer = { q: string; state: "wait" | "done" | "rate" | "failed"; text?: string | null };
 
-// Lights the words a question matched, the same prefix match the search uses.
+// Lights the words a question matched, by the search's own rule, so "Go" doesn't light "Google's".
 function Marked({ text, qs }: { text: string; qs: string[] }) {
   if (qs.length === 0) return text;
-  const esc = qs.map((q) => q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const re = new RegExp(`(?<![\\p{L}\\p{N}])((?:${esc.join("|")})[\\p{L}\\p{N}]*)`, "giu");
-  return text.split(re).map((part, i) => (i % 2 ? <span className="text-(--lime)" key={i}>{part}</span> : part));
+  return text.split(/([\p{L}\p{N}]+)/u).map((part, i) =>
+    i % 2 && qs.some((q) => matches(part.toLowerCase(), q)) ? (
+      <span className="text-(--lime)" key={i}>
+        {part}
+      </span>
+    ) : (
+      part
+    )
+  );
 }
 
 // `initial` is ?q= from the hero: its composer while the model is off, or a turn's "Search the site for it" link.
