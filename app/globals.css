@@ -418,3 +418,44 @@
     0 10px 25px -5px rgba(0, 0, 0, 0.3),
     0 10px 10px -5px rgba(0, 0, 0, 0.2);
 }
+
+/* Landing page (design/specs/landing-r2.md): graphite, off-white, one lime. */
+.landing {
+  --bg: #0f1012;
+  --fg: #eceae4;
+  --dim: #8a8c90;
+  --faint: #2a2d31;
+  --lime: #c8f542;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+.font-display {
+  font-family: var(--font-grotesk), ui-sans-serif, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.portrait-fade {
+  mask-image: linear-gradient(to right, transparent, #000 40%), linear-gradient(to bottom, #000 55%, transparent 98%);
+  mask-composite: intersect;
+}
+
+.dot-field {
+  background-image: radial-gradient(circle, #3a3d42 1.2px, transparent 1.6px);
+  background-size: 16px 16px;
+}
+
+/* Bars swell when the trace reaches them; without motion they stay full. */
+.wave rect {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 5ms);
+}
+[data-anim] .wave:not(.on) rect {
+  transform: scaleY(0.12);
+}
+[data-anim] .wave.vertical:not(.on) rect {
+  transform: scaleX(0.12);
+}

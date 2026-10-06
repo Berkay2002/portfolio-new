@@ -34,11 +34,11 @@ export function Header() {
   // Navigation items with translations
   const navItems = [
     { name: t("nav.home"), href: "/" },
-    { name: t("nav.about"), href: "/?section=about" },
-    { name: t("nav.experience"), href: "/?section=timeline" },
-    { name: t("nav.projects"), href: "/?section=projects" },
-    { name: t("nav.papers"), href: "/?section=papers" },
-    { name: t("nav.contact"), href: "/?section=contact" },
+    { name: t("nav.about"), href: "/#about" },
+    { name: t("nav.experience"), href: "/#experience" },
+    { name: t("nav.projects"), href: "/#work" },
+    { name: t("nav.papers"), href: "/#research" },
+    { name: t("nav.contact"), href: "/#contact" },
   ];
 
   // Monitor scroll position and active section

@@ -114,7 +114,7 @@ export default function ProjectPageContent({
       {/* Back button */}
       <Link
         className="mb-3 inline-flex items-center text-muted-foreground text-sm transition-colors hover:text-foreground"
-        href="/?section=projects"
+        href="/#work"
       >
         <ChevronLeft className="mr-1 h-4 w-4" />
         {t("projectPage.backToProjects")}

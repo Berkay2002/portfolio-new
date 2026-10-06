@@ -1,20 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
 import { HtmlLangSetter } from "@/components/layout/html-lang-setter";
 import { JsonLd } from "@/components/layout/json-ld";
 import { LanguageProvider } from "@/components/layout/language-provider";
-import { ScrollToTop } from "@/components/layout/scroll-to-top";
 import { ThemeProvider } from "@/components/layout/theme-provider";
-import { ScrollProgress } from "@/components/ui/scroll-progress";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
+});
+
+const grotesk = Space_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-grotesk",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
 });
 
 export const viewport: Viewport = {
@@ -128,7 +136,7 @@ export default function RootLayout({
     <html className="scroll-smooth" lang="en" suppressHydrationWarning>
       <head>
         {/* Preload critical resources */}
-        <link as="image" href="/images/profile.png" rel="preload" />
+        <link as="image" href="/images/hero-portrait.jpg" rel="preload" />
 
         {/* KaTeX CSS for LaTeX rendering */}
         <link
@@ -151,17 +159,13 @@ export default function RootLayout({
 
         <JsonLd />
       </head>
-      <body className={`${inter.className} light antialiased`}>
+      <body
+        className={`${inter.className} ${grotesk.variable} ${mono.variable} light antialiased`}
+      >
         <ThemeProvider>
           <LanguageProvider>
             <HtmlLangSetter />
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <ScrollProgress />
-              <main className="flex-1">{children}</main>
-              <Footer />
-              <ScrollToTop />
-            </div>
+            {children}
           </LanguageProvider>
         </ThemeProvider>
       </body>

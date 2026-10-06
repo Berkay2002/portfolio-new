@@ -356,10 +356,27 @@ export const projects: Project[] = [
 export const socialLinks: SocialLinks = {
   github: "https://github.com/Berkay2002",
   linkedin: "https://linkedin.com/in/berkay-orhan-b71256204",
-  cv: "/resume.pdf",
+  cv: "/Resume.pdf",
 };
 
 export const timelineEvents: TimelineEvent[] = [
+  {
+    id: "ericsson-software-developer",
+    title: "Software Developer",
+    titleSv: "Mjukvaruutvecklare",
+    location: "Ericsson",
+    locationSv: "Ericsson",
+    description: "Full-time software developer at Ericsson in Linköping.",
+    descriptionSv: "Mjukvaruutvecklare på heltid på Ericsson i Linköping.",
+    detailedDescription:
+      "Full-time software developer at Ericsson in Linköping since October 2026, after the R&D internship.",
+    detailedDescriptionSv:
+      "Mjukvaruutvecklare på heltid på Ericsson i Linköping sedan oktober 2026, efter R&D-praktiken.",
+    date: "Oct 2026 - Present",
+    type: "work",
+    iconLight: "/images/timeline/ericsson-light.svg",
+    iconDark: "/images/timeline/ericsson-dark.svg",
+  },
   {
     id: "ericsson-rd-internship",
     title: "R&D Internship",
@@ -374,7 +391,7 @@ export const timelineEvents: TimelineEvent[] = [
       "Full-time, on-site R&D internship at Ericsson in Linköping, continuing applied AI engineering work after the master's thesis project conducted with Ericsson.",
     detailedDescriptionSv:
       "Heltidspraktik på plats inom R&D på Ericsson i Linköping, med fortsatt tillämpat AI-engineeringarbete efter examensarbetet som genomfördes tillsammans med Ericsson.",
-    date: "Jun 2026 - Present",
+    date: "Jun 2026 - Sep 2026",
     type: "work",
     iconLight: "/images/timeline/ericsson-light.svg",
     iconDark: "/images/timeline/ericsson-dark.svg",
