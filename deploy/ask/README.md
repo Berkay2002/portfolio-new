@@ -7,8 +7,8 @@ a free model for a one or two sentence answer:
 browser ──> berkay.se/api/ask (Vercel) ──> ask-api.berkay.se (Cloudflare Tunnel) ──> OmniRoute on the Mac mini ──> Groq / OpenRouter free
 ```
 
-- The route (`app/api/ask/route.ts`) holds the OmniRoute key, so it never reaches the browser. It allows 6 answers
-  per IP per 10 minutes and 300 a day, takes questions up to 200 characters and asks for at most 400 tokens (some free models think first). It
+- The route (`app/api/ask/route.ts`) holds the OmniRoute key, so it never reaches the browser. It allows 30 answers
+  per IP an hour and 500K tokens a day (what the free tiers give), takes questions up to 200 characters and asks for at most 400 tokens (some free models think first). It
   sends the model only the excerpts the search picked, from what the site already shows, and never the thesis
   benchmark data.
 - `GET /api/ask` says whether the gateway answers. When the Mac or the tunnel is off, Cloudflare answers 502 or

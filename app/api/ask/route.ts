@@ -24,8 +24,11 @@ function headers(): Record<string, string> {
 
 // ponytail: in-memory windows, per server instance; a visitor spread over instances gets a few more.
 // Cloudflare's rate-limit rule on the tunnel hostname is the hard cap (deploy/ask/README.md).
-const PER_IP = { max: 6, ms: 10 * 60_000 };
-const PER_DAY = { max: 300, ms: 24 * 60 * 60_000 };
+const PER_IP = { max: 30, ms: 60 * 60_000 };
+// The day's budget is what the free tiers give: 200K tokens on each of the two Groq models, and OpenRouter's
+// 50 requests at about 2.5K tokens each. Counted from what the models report using.
+const DAY_TOKENS = 500_000;
+let day = { spent: 0, reset: 0 };
 const windows = new Map<string, { n: number; reset: number }>();
 function allow(key: string, { max, ms }: { max: number; ms: number }) {
   const now = Date.now();
@@ -69,7 +72,8 @@ export async function POST(req: Request) {
   if (!question) return NextResponse.json({ error: "empty" }, { status: 400, headers: noStore });
 
   const ip = req.headers.get("x-real-ip") ?? req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  if (!allow(`ip:${ip}`, PER_IP) || !allow("day", PER_DAY)) {
+  if (Date.now() > day.reset) day = { spent: 0, reset: Date.now() + 24 * 60 * 60_000 };
+  if (day.spent >= DAY_TOKENS || !allow(`ip:${ip}`, PER_IP)) {
     return NextResponse.json({ error: "rate" }, { status: 429, headers: noStore });
   }
   if (!(await up())) return NextResponse.json({ error: "down" }, { status: 503, headers: noStore });
@@ -108,7 +112,8 @@ export async function POST(req: Request) {
       break;
     }
     if (!res?.ok) continue;
-    const data = (await res.json().catch(() => null)) as { choices?: { message?: { content?: string } }[] } | null;
+    const data = (await res.json().catch(() => null)) as { choices?: { message?: { content?: string } }[]; usage?: { total_tokens?: number } } | null;
+    day.spent += data?.usage?.total_tokens ?? JSON.stringify(messages).length / 4 + 400; // a rough count if the model gives none
     const answer = data?.choices?.[0]?.message?.content?.replace(/\*\*?|`/g, "").trim().slice(0, 600); // the page shows plain text
     // The pages it drew on, so the hero can link the names in the answer.
     if (answer) return NextResponse.json({ answer, links: hits.map((h) => ({ href: h.doc.href, title: h.doc.title })) }, { headers: noStore });
