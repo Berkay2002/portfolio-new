@@ -272,6 +272,7 @@ type Peak = [at: number, width: number, height: number]; // all in 0..1
 export function Wave({
   n,
   peaks,
+  values,
   floor = 0.05,
   vertical = false,
   live = false,
@@ -280,13 +281,14 @@ export function Wave({
 }: {
   n: number;
   peaks: Peak[];
+  values?: number[]; // real bar heights, 0 to 1, in place of the drawn peaks
   floor?: number;
   vertical?: boolean;
   live?: boolean; // already swelled when the page opens
   sweep?: boolean; // fills bar by bar as the line passes (or, if the line only leaves it, as the page starts to scroll)
   className?: string;
 }) {
-  const bars = Array.from({ length: n }, (_, i) => {
+  const bars = values ?? Array.from({ length: n }, (_, i) => {
     const t = n === 1 ? 0.5 : i / (n - 1);
     const jitter = 0.5 + 0.5 * Math.abs(Math.sin(i * 12.9898 + n * 78.233));
     const a = peaks.reduce((sum, [at, w, h]) => sum + h * Math.exp(-(((t - at) / w) ** 2)), 0);
@@ -299,7 +301,7 @@ export function Wave({
       className={cn("wave pointer-events-none", vertical && "vertical", live && "live on", sweep && "sweep on", className)}
       data-wave
       preserveAspectRatio="none"
-      viewBox={vertical ? `0 0 100 ${n}` : `0 0 ${n} 100`}
+      viewBox={vertical ? `0 0 100 ${bars.length}` : `0 0 ${bars.length} 100`}
     >
       {bars.map((a, i) =>
         vertical ? (

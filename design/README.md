@@ -21,13 +21,19 @@ cover runs wide under the lede and the screenshots or videos run as a sideways r
 Next". The Stats for Spotify and LiTHePlan screenshots had their browser frame cropped off.
 `/ask` (Ask the site, `components/landing/ask.tsx`) is built from the `pages-r1` parts without a round of
 its own: a page head, the question on a burst, the answer on a burst, and the matches as list rows with a tick
-(`design/screens/ask.*.png`). Its question also sits in the hero, from `ask-r7.md`
-(`design/approved/landing-hero-ask.png`, `components/landing/hero-ask.tsx`): the hero is now only the
-headline, the lede and a rounded composer, with no overline and no buttons (the CV stays in About). The
-composer's bottom edge carries the trace, lime round the corner into a burst that swells while an answer
-is on its way; the answer shows under it with the pages it names linked. While the model is off, a
-question goes to `/ask?q=`. Departure from the board: the hero's wide waveform stays, since the page's
-trace starts from it.
+(`design/screens/ask.*.png`). The hero asks too (`components/landing/hero-ask.tsx`): it keeps main's overline,
+headline, lede and two buttons, and a quiet "Or ask me about my work" line under them, led by a burst, opens the
+composer of `ask-r7.md` (`design/approved/landing-hero-ask.png`) in their place (`ask-r9.md`). The composer's
+bottom edge carries the trace, lime round the corner into a burst that swells while an answer is on its way. The
+first question turns the hero into the conversation of `ask-r8.md` a-bubbles: questions in rounded bubbles on
+the right, answers on the left with the pages they name linked, the composer docked one line tall above the
+hero's waveform. While the model is off, a question goes to `/ask?q=`.
+
+How a project works follows `project-arch-r1.md` a-across (`design/approved/project-arch-across.png`):
+under the lede the trace leaves the lane, runs right through the project's stations and drops back into
+the lane (on phones the stations sit on the lane, top to bottom). Each station is a small lime drawing of
+what kind of step it is (what comes in, a model, a stream, stored data, a split) with a two-line label;
+the stations are in `lib/data/flows.ts` and the drawing is `components/landing/flow.tsx`.
 
 ## The system
 
@@ -55,7 +61,7 @@ trace starts from it.
   sections place zero-size anchors (`<A />` in `components/landing/trace.tsx`) and the root joins them
   with curves; an anchor hidden at a breakpoint is skipped, so desktop and phone route differently.
 - Motion: the trace draws itself on scroll down to a pen at 75 % of the viewport, with a lime dot at its
-  tip. Each waveform (`<Wave />`) swells from flat when the line reaches it; the career axis and the contact waveform fill bar by bar as the line runs through them, and the line always joins a waveform at its end, never inside it. The stack's plates open with the scroll: closed as the drawing comes up, fully open once the whole drawing is on screen, and closing again on the way back up, with the guides and labels fading in last. While open each plate's finish loops (the focus field steps across the layout, a dash runs the groove, matrix cells blink, contour rings ripple, slots light in turn); with reduced motion the stack is open and still. The photo prints work the same way: piled in the middle as the row comes up, dealt out once the whole row is on screen, piled again on the way back up. On desktop the hero's signal fills from left to right as the page starts to scroll and the trace leaves from its right end (on phones it is already on). Experience runs from 2021 on the left to now on the right, the wave growing with the years.
+  tip. Each waveform (`<Wave />`) swells from flat when the line reaches it; the career axis and the contact waveform fill bar by bar as the line runs through them, and the line always joins a waveform at its end, never inside it. The stack's plates open with the scroll: closed as the drawing comes up, fully open once the whole drawing is on screen, and closing again on the way back up, with the guides and labels fading in last. While open each plate's finish loops (the focus field steps across the layout, a dash runs the groove, matrix cells blink, contour rings ripple, slots light in turn); with reduced motion the stack is open and still. The photo prints work the same way: piled in the middle as the row comes up, dealt out once the whole row is on screen, piled again on the way back up. On desktop the hero's signal fills from left to right as the page starts to scroll and the trace leaves from its right end (on phones it is already on). Experience runs from 2021 on the left to now on the right, a bar per week of GitHub contributions read at build time and refreshed hourly (`lib/github.ts`, `experience-r1.md`), each as tall as the square root of its count, with year totals under the years and the busiest week called out; the years before 2024 barely show on GitHub, so they get a third of the width of the later ones; on phones the axis runs down 96 px in with the early years squeezed tighter still, only the years at its left, the moments at its right and the busiest week as one line; without a GITHUB_TOKEN the drawn wave stands in.
   With prefers-reduced-motion the trace is drawn in full and nothing moves.
 - Phone: the trace runs in a lane 20 px from the left edge, text starts at 48 px, drawings run top to
   bottom, tap targets are at least 44 px. The header is "Berkay Orhan", Contact and a menu on every screen.
