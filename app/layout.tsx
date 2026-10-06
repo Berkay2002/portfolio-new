@@ -1,17 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 import { HtmlLangSetter } from "@/components/layout/html-lang-setter";
 import { JsonLd } from "@/components/layout/json-ld";
 import { LanguageProvider } from "@/components/layout/language-provider";
-import { ThemeProvider } from "@/components/layout/theme-provider";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
 
 const grotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -78,18 +71,16 @@ export const metadata: Metadata = {
       url: "/safari-pinned-tab.svg",
     },
   },
+  // "./" resolves to each page's own path, so every page is its own canonical URL. Both languages share
+  // one URL (the language is picked in the browser), so there are no hreflang alternates.
   alternates: {
-    canonical: "https://berkay.se",
-    languages: {
-      "en-US": "https://berkay.se?lang=en",
-      "sv-SE": "https://berkay.se?lang=sv",
-    },
+    canonical: "./",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
     alternateLocale: "sv_SE",
-    url: "https://berkay.se",
+    url: "./",
     title: "Berkay Orhan | Software Developer",
     description:
       "Berkay is a software developer at Ericsson in Linköping, building AI systems: agentic retrieval, voice pipelines and the web apps around them.",
@@ -131,7 +122,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="motion-safe:scroll-smooth" data-scroll-behavior="smooth" lang="en" suppressHydrationWarning>
+    <html className="motion-safe:scroll-smooth" data-scroll-behavior="smooth" lang="en">
       <head>
         {/* Web app manifest */}
         <link href="/site.webmanifest" rel="manifest" />
@@ -139,14 +130,12 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body
-        className={`${inter.className} ${grotesk.variable} ${mono.variable} light antialiased`}
+        className={`${grotesk.variable} ${mono.variable} antialiased`}
       >
-        <ThemeProvider>
-          <LanguageProvider>
-            <HtmlLangSetter />
-            {children}
-          </LanguageProvider>
-        </ThemeProvider>
+        <LanguageProvider>
+          <HtmlLangSetter />
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

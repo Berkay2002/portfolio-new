@@ -128,31 +128,6 @@ export function preprocessLatex(latexContent: string): string {
   return content;
 }
 
-/**
- * Converts inline LaTeX commands to markdown
- * Used for titles, headings, etc.
- */
-export function inlineLatexToMarkdown(latexText: string): string {
-  let result = latexText;
-
-  // Convert \textbf{text} to markdown bold
-  result = result.replace(/\\textbf\{([^}]+)\}/g, "**$1**");
-
-  // Convert \textit{text} to markdown italic
-  result = result.replace(/\\textit\{([^}]+)\}/g, "*$1*");
-
-  // Convert \emph{text} to markdown emphasis
-  result = result.replace(/\\emph\{([^}]+)\}/g, "*$1*");
-
-  // Convert \texttt{text} to markdown code
-  result = result.replace(/\\texttt\{([^}]+)\}/g, "`$1`");
-
-  // Remove other LaTeX commands
-  result = result.replace(/\\[a-zA-Z]+\{([^}]+)\}/g, "$1");
-
-  return result;
-}
-
 // Paper text (LaTeX-flavoured markdown) to HTML with KaTeX math. Runs on the server when a paper page is
 // built, so the text is in the HTML and none of this ships to the browser.
 export async function renderLatex(content: string): Promise<string> {
