@@ -134,7 +134,7 @@ export function Hero() {
   const { c } = useCopy();
   return (
     <section className="relative pt-16 lg:min-h-[max(720px,100svh)] lg:pt-0" id="top">
-      <div className="relative h-[50svh] max-h-[440px] lg:absolute lg:top-[72px] lg:right-[2%] lg:h-[calc(92%-72px)] lg:max-h-none">
+      <div className="relative h-[50svh] max-h-[440px] lg:absolute lg:top-[72px] lg:right-[2%] xl:right-[6%] lg:h-[calc(92%-72px)] lg:max-h-none">
         {/* eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized */}
         <img alt="Berkay Orhan" className="portrait-fade size-full object-cover object-[50%_45%] lg:h-full lg:w-auto" src="/images/hero-portrait.jpg" />
       </div>
@@ -160,9 +160,11 @@ export function Hero() {
         </div>
       </div>
       <div className="relative mt-10 h-24 lg:absolute lg:inset-x-0 lg:bottom-[3%] lg:mt-0 lg:h-[130px]">
-        <Wave className="absolute inset-0 size-full lg:hidden" live n={64} peaks={heroPeaks} />
+        {/* Phone: the trace leaves the signal's left end and turns down into the 20 px lane. */}
+        <Wave className="absolute inset-y-0 left-11 h-full w-[calc(100%-44px)] lg:hidden" live n={60} peaks={heroPeaks} />
         <Wave className="absolute inset-y-0 left-0 hidden h-full w-[75%] lg:block" n={180} peaks={heroPeaks} sweep />
-        <A className="top-1/2 left-5 lg:left-[75%] lg:[--dir:h]" />
+        <A className="top-1/2 left-11 [--dir:h] lg:left-[75%]" />
+        <A className="top-[calc(50%+40px)] left-5 lg:hidden" />
         <A className="top-[calc(50%+40px)] left-[calc(75%+40px)] hidden lg:block" />
       </div>
     </section>

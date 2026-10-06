@@ -437,9 +437,15 @@
   letter-spacing: -0.03em;
 }
 
+/* Phones fade only the bottom, so the left of his face is not faded out. */
 .portrait-fade {
-  mask-image: linear-gradient(to right, transparent, #000 40%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 15%, #000 65%, transparent 98%);
-  mask-composite: intersect;
+  mask-image: linear-gradient(to bottom, #000 60%, transparent 98%);
+}
+@media (width >= 64rem) {
+  .portrait-fade {
+    mask-image: linear-gradient(to right, transparent, #000 40%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 15%, #000 65%, transparent 98%);
+    mask-composite: intersect;
+  }
 }
 
 .dot-field {

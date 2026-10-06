@@ -20,7 +20,8 @@ const STEP = 6; // px between samples along a line
 const R = 40; // corner radius in px
 
 // Joins the anchors. Where the line turns from sideways to down (or back), it runs straight and
-// takes a rounded corner of up to R px; two anchors in the same direction are joined by an S curve.
+// takes a rounded corner of up to R px. Two downward anchors side by side are joined by a sideways
+// step with two such corners; two sideways anchors by an S curve.
 function curve(pts: Pt[]) {
   return pts
     .map((q, i) => {
@@ -34,6 +35,12 @@ function curve(pts: Pt[]) {
       if (p.h && !q.h) {
         const x = q.x - sx * r;
         return `L${x} ${p.y}C${x + (sx * r) / 2} ${p.y} ${q.x} ${p.y + (sy * r) / 2} ${q.x} ${p.y + sy * r}L${q.x} ${q.y}`;
+      }
+      if (!p.h && !q.h && Math.abs(dx) >= 1) {
+        // Down, then sideways halfway, then down again: two rounded corners instead of a diagonal.
+        const k = Math.min(R, Math.abs(dx) / 2, Math.abs(dy) / 2);
+        const m = p.y + dy / 2;
+        return `L${p.x} ${m - sy * k}C${p.x} ${m - (sy * k) / 2} ${p.x + (sx * k) / 2} ${m} ${p.x + sx * k} ${m}L${q.x - sx * k} ${m}C${q.x - (sx * k) / 2} ${m} ${q.x} ${m + (sy * k) / 2} ${q.x} ${m + sy * k}L${q.x} ${q.y}`;
       }
       if (!p.h && q.h) {
         const y = q.y - sy * r;
