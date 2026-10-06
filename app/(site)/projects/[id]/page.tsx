@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ProjectDetail } from "@/components/landing/pages";
-import { projects } from "@/lib/data/portfolio-data";
+import { papers } from "@/lib/data/papers";
+import { projectMeta, projects } from "@/lib/data/portfolio-data";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -27,6 +28,8 @@ export function generateStaticParams() {
 
 export default async function ProjectPage(props: Props) {
   const { id } = await props.params;
-  if (!projects.some((p) => p.id === id)) notFound();
-  return <ProjectDetail id={id} />;
+  const project = projects.find((p) => p.id === id);
+  if (!project) notFound();
+  const paper = papers.find((p) => "project" in p && p.project === id)?.id;
+  return <ProjectDetail paper={paper} project={project} year={projectMeta[id]?.year} />;
 }

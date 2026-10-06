@@ -1,3 +1,11 @@
+import rehypeKatex from "rehype-katex";
+import rehypeRaw from "rehype-raw";
+import rehypeStringify from "rehype-stringify";
+import remarkMath from "remark-math";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import { unified } from "unified";
+
 /**
  * Converts basic LaTeX environments to Markdown equivalents with KaTeX math
  *
@@ -143,4 +151,18 @@ export function inlineLatexToMarkdown(latexText: string): string {
   result = result.replace(/\\[a-zA-Z]+\{([^}]+)\}/g, "$1");
 
   return result;
+}
+
+// Paper text (LaTeX-flavoured markdown) to HTML with KaTeX math. Runs on the server when a paper page is
+// built, so the text is in the HTML and none of this ships to the browser.
+export async function renderLatex(content: string): Promise<string> {
+  const html = await unified()
+    .use(remarkParse)
+    .use(remarkMath)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeKatex, { strict: false, trust: true })
+    .use(rehypeRaw)
+    .use(rehypeStringify)
+    .process(preprocessLatex(content));
+  return String(html);
 }

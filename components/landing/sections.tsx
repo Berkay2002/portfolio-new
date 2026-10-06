@@ -6,8 +6,7 @@ import { type ReactNode, useState } from "react";
 import { useLanguage } from "@/components/layout/language-provider";
 import { landingCopy, photos, shipped, stack } from "@/lib/data/landing";
 import { photos as allPhotos } from "@/lib/data/photos";
-import { projects, socialLinks } from "@/lib/data/portfolio-data";
-import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
+import { socialLinks } from "@/lib/data/portfolio-data";
 import { cn } from "@/lib/utils";
 import { Prints } from "./prints";
 import { Stack } from "./stack";
@@ -180,7 +179,8 @@ const featured = [
   ["litheplan", "LiTHePlan"],
 ];
 
-export function Work() {
+// The page passes in what it needs from the project and paper data, so that data stays on the server.
+export function Work({ count }: { count: number }) {
   const { c } = useCopy();
   return (
     <section className="relative scroll-mt-16 pt-24 lg:grid lg:grid-cols-[43%_1fr] lg:pt-40" id="work">
@@ -210,7 +210,7 @@ export function Work() {
           ))}
         </ol>
         <Link className="mt-8 inline-block text-(--dim) hover:text-(--fg)" href="/projects">
-          {c.work.all(projects.length)}
+          {c.work.all(count)}
         </Link>
       </div>
       <div className="mt-20 pr-6 pl-12 lg:relative lg:mt-0 lg:pt-[110px] lg:pr-[6%] lg:pl-[5%]">
@@ -271,9 +271,8 @@ const strandsMobile = [
   { id: "main", x: 84, end: 430 },
 ];
 
-export function Research() {
+export function Research({ thesis }: { thesis: string }) {
   const { c } = useCopy();
-  const thesis = whenAgenticWorkflowsPaper.pdfUrl;
   return (
     <section className="relative scroll-mt-16 pt-24 lg:pt-10" id="research">
       <div className="pr-6 pl-12 lg:pl-[6%]">
