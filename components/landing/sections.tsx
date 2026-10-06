@@ -383,10 +383,15 @@ export function Research() {
   );
 }
 
-// Year to % along the time axis (desktop: from the left, phone: from the top), and px down the phone's axis.
-const X = (year: number) => 5 + (year - 2021) * 15.6;
-const Y = (year: number) => (40 + (year - 2021) * 92) / 6.4;
-const Ypx = (year: number) => 40 + (year - 2021) * 92;
+// Year to % along the time axis (desktop, from the left) and px down the phone's axis. The years before
+// 2024 barely show on GitHub, so they get a third of the room the later ones do.
+const axis = (stops: number[]) => (year: number) => {
+  const i = Math.min(stops.length - 2, Math.max(0, Math.floor(year - 2021)));
+  return stops[i]! + (year - 2021 - i) * (stops[i + 1]! - stops[i]!);
+};
+const X = axis([5, 12, 19, 26, 48, 70, 102]);
+const Ypx = axis([40, 90, 140, 190, 330, 470, 620]);
+const Y = (year: number) => Ypx(year) / 6.4;
 const years = [2021, 2022, 2023, 2024, 2025, 2026];
 // Where each moment sits on the axis, and on desktop whether it hangs above it.
 const moments = [
@@ -431,7 +436,15 @@ export function Experience({ commits }: { commits: Commits | null }) {
     c.experience.peak(num(peak.count)),
     c.experience.week(new Intl.DateTimeFormat(tag, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(peak.start))),
   ];
-  const wave = { floor: 0.02, peaks: careerPeaks, sweep: true, values };
+  const wave = { floor: 0.02, peaks: careerPeaks, sweep: true };
+  // One stretch of bars per year, since the years are drawn at different widths.
+  const stretches = weeks
+    ? years.map((y) => ({
+        from: y === 2021 ? from : y,
+        to: y === years.at(-1) ? to : y + 1,
+        values: values!.filter((_, i) => Math.max(2021, Math.floor(yearOf(weeks[i]!.start))) === y),
+      }))
+    : [{ from, to, values: undefined }];
   return (
     <section className="relative scroll-mt-16 pt-24 lg:pt-20" id="experience">
       <div className="pr-6 pl-12 lg:pl-[4%]">
@@ -449,12 +462,14 @@ export function Experience({ commits }: { commits: Commits | null }) {
       </div>
 
       {/* Desktop: the trace comes in on the left and runs the axis from 2021 to now, a bar a week. */}
-      <div className="relative mt-10 hidden h-[600px] lg:block">
+      <div className="relative mt-6 hidden h-[500px] lg:block">
         <A className="top-[calc(50%-40px)] left-[2%]" />
         <A className="top-1/2 [--dir:h]" style={{ left: `${X(from)}%` }} />
-        <div className="-translate-y-1/2 absolute top-1/2 h-[170px]" style={{ left: `${X(from)}%`, width: `${X(to) - X(from)}%` }}>
-          <Wave className="size-full" n={values?.length ?? 240} {...wave} />
-        </div>
+        {stretches.map((st) => (
+          <div className="-translate-y-1/2 absolute top-1/2 h-[170px]" key={st.from} style={{ left: `${X(st.from)}%`, width: `${X(st.to) - X(st.from)}%` }}>
+            <Wave className="size-full" n={st.values?.length ?? 240} values={st.values} {...wave} />
+          </div>
+        ))}
         {years.map((y) => (
           <div key={y}>
             <span className="-translate-x-1/2 absolute top-[calc(50%-136px)] whitespace-nowrap text-center text-(--dim) text-sm" style={{ left: `${X(y)}%` }}>
@@ -507,9 +522,11 @@ export function Experience({ commits }: { commits: Commits | null }) {
       <div className="relative mt-10 h-[640px] lg:hidden">
         <A className="top-0 left-5" />
         <A className="left-[88px]" style={{ top: Ypx(from) }} />
-        <div className="-translate-x-1/2 absolute left-[88px] w-10" style={{ top: Ypx(from), height: Ypx(to) - Ypx(from) }}>
-          <Wave className="size-full" n={values?.length ?? 90} vertical {...wave} />
-        </div>
+        {stretches.map((st) => (
+          <div className="-translate-x-1/2 absolute left-[88px] w-10" key={st.from} style={{ top: Ypx(st.from), height: Ypx(st.to) - Ypx(st.from) }}>
+            <Wave className="size-full" n={st.values?.length ?? 90} values={st.values} vertical {...wave} />
+          </div>
+        ))}
         {years.map((y) => (
           <span className="-translate-y-1/2 absolute left-6 text-(--dim) text-xs" key={y} style={{ top: `${Y(y)}%` }}>
             {y}
