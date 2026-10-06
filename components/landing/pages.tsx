@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { type ReactNode, useRef, useState } from "react";
 
+import type { Station } from "@/lib/data/flows";
 import type { ProjectTag } from "@/lib/data/portfolio-data";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types";
+import { Flow } from "./flow";
 import { Burst, Dashes, PageHead, Part, Tick, pad, two, under } from "./page-parts";
 import { Header, Index, useCopy } from "./sections";
 import { Thesis } from "./thesis";
@@ -78,8 +80,8 @@ export function ProjectList({ projects }: { projects: ProjectRow[] }) {
   );
 }
 
-// `paper` is the id of the project's page under /papers, if it has one.
-export function ProjectDetail({ project: x, year, paper }: { project: Project; year?: number; paper?: string }) {
+// `paper` is the id of the project's page under /papers, if it has one; `flow` is its drawn architecture.
+export function ProjectDetail({ project: x, year, paper, flow }: { project: Project; year?: number; paper?: string; flow?: Station[] }) {
   const { c, locale } = useCopy();
   const p = c.pages.project;
   const t = (en?: string, sv?: string) => (locale === "sv" && sv) || en;
@@ -172,6 +174,9 @@ export function ProjectDetail({ project: x, year, paper }: { project: Project; y
         {sub && <p className="mt-3 text-(--dim) text-xl lg:text-[28px]">{sub}</p>}
         <p className="mt-6 max-w-[60ch] text-(--fg)/80 text-sm leading-relaxed lg:text-base">{t(x.description, x.descriptionSv)}</p>
       </PageHead>
+      {flow && (
+        <Flow label={p.flow} stations={flow.map((s) => ({ glyph: s.glyph, name: t(s.name, s.nameSv)!, what: t(s.what, s.whatSv)! }))} />
+      )}
       {(x.video || x.image) && (
         // The cover runs from the text column to the page's right edge, hung off the trace by a faint rule.
         <figure className="relative mt-14 pl-12 lg:mt-20 lg:pl-[4%]">

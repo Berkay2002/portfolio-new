@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ProjectDetail } from "@/components/landing/pages";
+import { flows } from "@/lib/data/flows";
 import { papers } from "@/lib/data/papers";
 import { projectMeta, projects } from "@/lib/data/portfolio-data";
 
@@ -31,5 +32,5 @@ export default async function ProjectPage(props: Props) {
   const project = projects.find((p) => p.id === id);
   if (!project) notFound();
   const paper = papers.find((p) => "project" in p && p.project === id)?.id;
-  return <ProjectDetail paper={paper} project={project} year={projectMeta[id]?.year} />;
+  return <ProjectDetail flow={flows[id]} paper={paper} project={project} year={projectMeta[id]?.year} />;
 }

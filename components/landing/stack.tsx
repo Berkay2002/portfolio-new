@@ -159,7 +159,8 @@ function Projects({ list }: { list: [string, string][] }) {
   return <Joined items={list.map(([name, id]) => <Link className="hover:text-(--lime) hover:underline" href={`/projects/${id}`} key={id}>{name}</Link>)} />;
 }
 
-// The plates and their labels, spread `pitch` units apart. Phones spread them wider so the labels fit.
+// The plates and their labels, spread `pitch` units apart. Phones spread them wider and centre each label
+// on its leader so the labels fit.
 // On wide screens each leader line runs on past its label to the projects built on that layer
 // (design/approved/about-used-in.png); narrower, the projects sit under the tools.
 function Drawing({ layers, tools, shipped, heading, pitch, className }: Props & { pitch: number; className: string }) {
@@ -195,7 +196,7 @@ function Drawing({ layers, tools, shipped, heading, pitch, className }: Props & 
       <ul className="relative flex-1">
         {layers.map((layer, i) => (
           <li
-            className="stack-label -translate-y-[9px] group absolute inset-x-0 flex items-start pl-2 lg:-translate-y-[11px] lg:pl-4"
+            className="stack-label -translate-y-1/2 group absolute inset-x-0 flex items-start pl-2 lg:-translate-y-[11px] lg:pl-4"
             key={layer}
             style={{ top: `${((Y0 + i * pitch + W * EX[1] + D * EY[1]) / vh) * 100}%` }}
           >
@@ -242,7 +243,7 @@ export function Stack(props: Props) {
           </clipPath>
         </defs>
       </svg>
-      <Drawing {...props} className="flex lg:hidden" pitch={350} />
+      <Drawing {...props} className="flex lg:hidden" pitch={265} />
       <Drawing {...props} className="hidden lg:flex" pitch={132} />
     </>
   );
