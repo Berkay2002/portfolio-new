@@ -86,10 +86,12 @@ export async function POST(req: Request) {
   if (!allow(`ip:${ip}`, PER_IP)) return NextResponse.json({ error: "rate" }, { status: 429, headers: noStore });
   if (!budgetLeft() || !(await up())) return NextResponse.json({ error: "down" }, { status: 503, headers: noStore });
 
-  // A follow-up like "what does it search?" names nothing, so it borrows the last question's words.
-  let query = question;
-  let hits = search(askDocs, query, 4);
-  if (hits.length < 2 && history.length) hits = search(askDocs, (query = `${history.at(-1)!.q} ${question}`), 4);
+  // A follow-up like "what language is it in?" names nothing, so in a conversation the pages the last question
+  // and this one find together come first, then this one's own.
+  const query = history.length ? `${history.at(-1)!.q} ${question}` : question;
+  const hits = [...(history.length ? search(askDocs, query, 2) : []), ...search(askDocs, question, 4)]
+    .filter((h, i, all) => all.findIndex((o) => o.doc.id === h.doc.id) === i)
+    .slice(0, 4);
   // No matches still goes to the model, so a greeting gets a greeting back.
   const context = hits.map((h) => `[${h.doc.id}] ${h.doc.title.en}\n${excerpt(h.doc.id, query)}`).join("\n\n") || "(none)";
 

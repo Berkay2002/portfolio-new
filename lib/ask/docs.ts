@@ -21,11 +21,17 @@ function doc({ excerpt, ...d }: AskDoc & { excerpt: Excerpt }): AskDoc {
   return { ...d, head, body: unique(d.body, new Set(head.split(" "))) };
 }
 
-// A project page below its description: the long description, features, challenges, solution, outcome,
-// services and the trace's stations.
+// A project page below its description: its facts and links, the long description, features, challenges,
+// solution, outcome, services, the trace's stations and the picture captions.
 function pageText(p: (typeof projects)[number], l: "en" | "sv") {
   const sv = l === "sv";
+  const t = (en?: string, s?: string) => (sv ? (s ?? en) : en);
   return [
+    p.institution,
+    ...(p.projectInfo ?? []).map((f) => `${t(f.label, f.labelSv)}: ${t(f.value, f.valueSv)}.`),
+    ...(p.projectLinks ?? []).map((k) => `${t(k.label, k.labelSv)}.`),
+    p.imageAlt,
+    ...(p.gallery ?? []).map((g) => t(g.caption, g.captionSv)),
     sv ? p.detailedDescriptionSv : p.detailedDescription,
     ...((sv ? p.featuresSv : p.features) ?? []),
     ...((sv ? p.challengesSv : p.challenges) ?? []),

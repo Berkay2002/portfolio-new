@@ -141,7 +141,7 @@ export function HeroAsk() {
         data-chat
       >
         <button
-          className="self-start text-(--dim) text-sm underline underline-offset-4 hover:text-(--fg)"
+          className="flex min-h-11 items-center self-start text-(--dim) text-sm underline underline-offset-4 hover:text-(--fg)"
           onClick={() => {
             conversation.current++;
             shift(() => setTurns([]));
@@ -187,7 +187,7 @@ export function HeroAsk() {
       {open ? (
         <div className="mt-6 lg:mt-10 lg:w-[min(760px,52vw)]">
           {composer}
-          <button className="mt-4 text-(--dim) text-sm underline underline-offset-4 hover:text-(--fg)" onClick={() => shift(() => setOpen(false))} type="button">
+          <button className="mt-2 flex min-h-11 items-center text-(--dim) text-sm underline underline-offset-4 hover:text-(--fg)" onClick={() => shift(() => setOpen(false))} type="button">
             {c.hero.close}
           </button>
         </div>
