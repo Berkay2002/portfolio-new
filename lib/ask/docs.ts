@@ -30,7 +30,7 @@ function pageText(p: (typeof projects)[number], l: "en" | "sv") {
     projectMeta[p.id] && `${sv ? "Startat" : "Started"} ${projectMeta[p.id]!.year}.`,
     p.institution,
     ...(p.projectInfo ?? []).map((f) => `${t(f.label, f.labelSv)}: ${t(f.value, f.valueSv)}.`),
-    ...(p.projectLinks ?? []).flatMap((k) => [`${t(k.label, k.labelSv)}.`, ...(k.items ?? []).map((i) => `${t(i.label, i.labelSv)}${i.command ? `: ${i.command}` : ""}.`)]),
+    ...(p.projectLinks ?? []).flatMap((k) => [`${t(k.label, k.labelSv)}${k.href ? `: ${k.href}` : ""}.`, ...(k.items ?? []).map((i) => `${t(i.label, i.labelSv)}${i.command ? `: ${i.command}` : ""}.`)]),
     p.imageAlt,
     ...(p.gallery ?? []).map((g) => t(g.caption, g.captionSv)),
     sv ? p.detailedDescriptionSv : p.detailedDescription,
@@ -62,6 +62,7 @@ export const askDocs: AskDoc[] = [
           `${p.description} Stack: ${p.technologies.join(", ")}.`,
           projectMeta[p.id] && `Started ${projectMeta[p.id]!.year}.`,
           ...Object.entries({ Live: p.link, Frontend: p.frontendLink, Source: p.githubLink, Playground: p.playgroundLink, Paper: p.paperLink }).flatMap(([k, v]) => (v ? [`${k}: ${v}.`] : [])),
+          ...(p.projectLinks ?? []).flatMap((k) => (k.href ? [`${k.label}: ${k.href}.`] : [])),
         ]
           .filter(Boolean)
           .join(" "),

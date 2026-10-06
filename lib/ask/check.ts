@@ -23,6 +23,7 @@ assert.ok(profile.includes("(2025)")); // every project's year, for list questio
 assert.deepEqual(ids("Which projects use Go?"), []); // "go" is a whole word, not "Google"
 assert.ok(ids("Which projects are from 2025?").length > 0); // the year a project started
 assert.ok(excerpt("statsforspotify").includes("github.com/Berkay2002/statsforspotify")); // the source link, always
+assert.ok(excerpt("wikillm").includes("npmjs.com/package/wikillm")); // a project link's address, not just its label
 assert.ok(excerpt("contact").includes("linkedin.com/in/")); // the address, not just the word
 assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched
 

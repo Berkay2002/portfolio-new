@@ -36,7 +36,7 @@ export function Ask({ docs, initial = "" }: { docs: AskDoc[]; initial?: string }
   const [q, setQ] = useState(initial);
   const [up, setUp] = useState<boolean | null>(null);
   const [answer, setAnswer] = useState<Answer | null>(null);
-  const hits = useMemo(() => search(docs, q), [docs, q]);
+  const hits = useMemo(() => search(docs, q, docs.length), [docs, q]); // every match, so the count is the real one
   const qs = useMemo(() => terms(q), [q]);
   const asked = answer?.q === q.trim() ? answer : null;
 
