@@ -19,7 +19,7 @@ assert.ok(ids("KPIs").includes("oversee")); // a word only in a cover's caption
 assert.ok(ids("reload-plugins").includes("wikillm")); // an install command under a project link
 assert.deepEqual(ids("Which projects use Java?"), []); // "java" is not "javascript"
 assert.ok(ids("berkayorhan@hotmail.se").includes("contact")); // the address itself finds the contact page
-assert.ok(profile.includes("(2025)")); // every project's year, for list questions
+assert.ok(profile.includes("(2025;")); // every project's year, for list questions
 assert.deepEqual(ids("Which projects use Go?"), []); // "go" is a whole word, not "Google"
 assert.ok(ids("Which projects are from 2025?").length > 0); // the year a project started
 assert.ok(excerpt("statsforspotify").includes("github.com/Berkay2002/statsforspotify")); // the source link, always
@@ -34,6 +34,9 @@ assert.ok(ids("Var har han jobbat?").includes("experience"));
 assert.equal(ids("https://github.com/Berkay2002/statsforspotify")[0], "statsforspotify"); // a page's own address finds it
 assert.ok(ids("Graph Theory metadata").includes("litheplan")); // a screenshot's alt text
 assert.ok(ids("download add-on").includes("solar-system")); // the main link's own label
+assert.ok(!ids("Vilka projekt använder LangGraph?").includes("statsforspotify")); // "använder" is a stop word
+assert.ok(!ids("Which projects use Bun?").includes("wikillm")); // "Bun" is not "bundle"
+assert.ok(profile.includes("Next.js")); // every project's stack, for list questions
 assert.ok(excerpt("contact").includes("linkedin.com/in/")); // the address, not just the word
 assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched
 

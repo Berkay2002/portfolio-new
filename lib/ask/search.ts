@@ -16,7 +16,7 @@ export type AskHit = { doc: AskDoc; score: number };
 // Words that say nothing about which document a question is after, in both languages. "work" and "jobbat" stay:
 // they point at Experience.
 const STOP = new Set(
-  "is in on at to he it do of an my me be or as by if so up we us no am a i the and for with has have had does did his him what which who where when how any anything are was were that this from into about there their them than then can could would should built build made make use used using project projects berkay orhan är på en av om de du ja vi så nu ut ha och med har hade vad vilka vilken vem var när hur som det den att för från till han hans honom ett några något projekt byggt gjort använt"
+  "is in on at to he it do of an my me be or as by if so up we us no am a i the and for with has have had does did his him what which who where when how any anything are was were that this from into about there their them than then can could would should built build made make use used using project projects berkay orhan är på en av om de du ja vi så nu ut ha och med har hade vad vilka vilken vem var när hur som det den att för från till han hans honom ett några något projekt byggt gjort använt använder använda används använde användes"
     .split(" ")
 );
 
@@ -28,9 +28,12 @@ export function terms(question: string) {
   return [...new Set(words(question).filter((w) => w.length > 1 && !STOP.has(w)))]; // two letters keep "AI", "UI", "Go"
 }
 
-// A term matches a word that starts with it and runs on at most three letters ("voice" finds "voices", "Java"
-// not "JavaScript"); a two-letter one only itself, so "Go" doesn't find "Google".
-export const matches = (word: string, term: string) => (term.length > 2 ? word.startsWith(term) && word.length - term.length <= 3 : word === term);
+// A term matches itself or itself plus an English or Swedish ending ("voice" finds "voices", "modell" finds
+// "modeller"), never a longer word: "Java" not "JavaScript", "Bun" not "bundle". A two-letter term matches only
+// itself, so "Go" doesn't find "Google".
+const ENDINGS = new Set("s es ed d er ers ing ings ar arna en ens et na or n r e".split(" "));
+export const matches = (word: string, term: string) =>
+  word === term || (term.length > 2 && word.startsWith(term) && ENDINGS.has(word.slice(term.length)));
 
 // A head word counts three times.
 export function search(docs: AskDoc[], question: string, limit = 5): AskHit[] {

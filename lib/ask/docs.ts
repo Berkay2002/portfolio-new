@@ -130,6 +130,7 @@ export const profile = [
   `Berkay Orhan: ${en.hero.lede}`,
   en.about.bio.join(""),
   `Path: ${moments("en")}`,
-  // Each with its year, so "which are from 2025?" gets the whole list, not just the pages the search sends.
-  `Projects on the site: ${projects.map((p) => `${p.title}${projectMeta[p.id] ? ` (${projectMeta[p.id]!.year})` : ""}`).join("; ")}.`,
+  // Each with its year and stack, so "which are from 2025?" or "which use Next.js?" gets the whole list, not just
+  // the pages the search sends.
+  `Projects on the site: ${projects.map((p) => `${p.title} (${[projectMeta[p.id]?.year, (p.technologies ?? []).join(", ")].filter(Boolean).join("; ")})`).join(". ")}.`,
 ].join("\n");
