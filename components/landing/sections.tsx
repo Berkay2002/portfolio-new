@@ -422,7 +422,8 @@ export function Experience({ commits }: { commits: Commits | null }) {
   const { c, locale } = useCopy();
   const weeks = commits?.weeks.some((w) => w.count) ? commits.weeks : undefined;
   const from = weeks ? yearOf(weeks[0]!.start) : 2021;
-  const to = weeks ? yearOf(weeks.at(-1)!.start) : 2026.77;
+  // At least into the newest fetched year, so 1 January brings in the new year before its first full week.
+  const to = weeks ? Math.max(yearOf(weeks.at(-1)!.start), +Object.keys(commits!.years).at(-1)! + 0.01) : 2026.77;
   const peak = weeks?.reduce((a, b) => (b.count > a.count ? b : a));
   const values = weeks?.map((w) => Math.round(Math.max(0.02, Math.sqrt(w.count / peak!.count)) * 1000) / 1000);
   const tag = locale === "sv" ? "sv-SE" : "en-GB";
