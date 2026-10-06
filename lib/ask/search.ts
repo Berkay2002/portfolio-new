@@ -15,7 +15,7 @@ export type AskHit = { doc: AskDoc; score: number };
 
 // Words that say nothing about which document a question is after, in both languages.
 const STOP = new Set(
-  "the and for with has have had does did his him what which who where when how any anything are was were that this from into about there their them than then can could would should built build made make work worked use used using project projects berkay orhan och med har hade vad vilka vilken vem var när hur som det den att för från till han hans honom ett några något projekt jobbat byggt gjort använt"
+  "is in on at to he it do of an my me be or as by if so up we us no am a i the and for with has have had does did his him what which who where when how any anything are was were that this from into about there their them than then can could would should built build made make work worked use used using project projects berkay orhan är på en av om de du ja vi så nu ut ha och med har hade vad vilka vilken vem var när hur som det den att för från till han hans honom ett några något projekt jobbat byggt gjort använt"
     .split(" ")
 );
 
@@ -24,7 +24,7 @@ export function words(text: string) {
 }
 
 export function terms(question: string) {
-  return [...new Set(words(question).filter((w) => w.length > 2 && !STOP.has(w)))];
+  return [...new Set(words(question).filter((w) => w.length > 1 && !STOP.has(w)))]; // two letters keep "AI", "UI", "Go"
 }
 
 // A term matches a word that starts with it ("voice" finds "voices"), and a head word counts three times.

@@ -11,6 +11,7 @@ assert.ok(ids("Has he shipped anything with voice?").includes("fasttalk"));
 assert.ok(ids("What did he do at Ericsson?").includes("experience"));
 assert.ok(ids("Vad gjorde han på Ericsson?").includes("experience"));
 assert.ok(ids("Which projects use LangGraph?").includes("researcher"));
+assert.ok(ids("What has he built with AI?").length > 0); // two-letter terms count
 assert.deepEqual(ids("has he the and"), []);
 
 const index = JSON.stringify(askDocs);
