@@ -203,7 +203,7 @@ export function HeroAsk() {
           </div>
           {/* Not a third button: a quiet line under the two, led by a burst of the trace. */}
           <button
-            className="group mt-5 flex items-center gap-3 text-(--fg)/70 text-sm [view-transition-name:hero-ask] hover:text-(--fg) lg:mt-7 lg:text-[15px]"
+            className="group mt-3 flex min-h-11 items-center gap-3 text-(--fg)/70 text-sm [view-transition-name:hero-ask] hover:text-(--fg) lg:mt-5 lg:text-[15px]"
             onClick={() => shift(() => setOpen(true))}
             type="button"
           >

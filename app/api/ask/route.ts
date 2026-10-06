@@ -67,8 +67,11 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  // Only this site's pages ask: another site's page can't spend the day's budget through its visitors' browsers.
-  if (req.headers.get("sec-fetch-site") === "cross-site") return NextResponse.json({ error: "origin" }, { status: 403, headers: noStore });
+  // Only this site's pages ask: a browser says where a POST comes from, so another site's page can't spend the
+  // day's budget through its visitors, and a bare script has to pretend to be the site.
+  const origin = req.headers.get("origin");
+  const same = req.headers.get("sec-fetch-site") === "same-origin" || (!!origin && URL.canParse(origin) && new URL(origin).host === new URL(req.url).host);
+  if (!same) return NextResponse.json({ error: "origin" }, { status: 403, headers: noStore });
   const body = (await req.json().catch(() => null)) as { question?: unknown; locale?: unknown; history?: unknown } | null;
   const question = typeof body?.question === "string" ? body.question.trim().slice(0, 200) : "";
   // The hero's last few turns, so a follow-up can refer back. Visitor-written, so only short strings get in.
