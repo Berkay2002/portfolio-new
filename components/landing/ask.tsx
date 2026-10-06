@@ -23,7 +23,7 @@ function Marked({ text, qs }: { text: string; qs: string[] }) {
   return text.split(re).map((part, i) => (i % 2 ? <span className="text-(--lime)" key={i}>{part}</span> : part));
 }
 
-// `initial` is ?q=, from the hero's composer while the model is off.
+// `initial` is ?q= from the hero: its composer while the model is off, or a turn's "Search the site for it" link.
 export function Ask({ docs, initial = "" }: { docs: AskDoc[]; initial?: string }) {
   const { c, locale } = useCopy();
   const a = c.pages.ask;

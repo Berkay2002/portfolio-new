@@ -21,7 +21,7 @@ dependency). Screenshots worth keeping go in `design/screens/<name>.<width>[.ful
 
 Next.js 16 App Router, React 19, TypeScript (strict), Tailwind CSS v4, deployed on Vercel at berkay.se. No database:
 all content is hardcoded in `lib/data/`. The one API route is `app/api/ask/route.ts`, which adds a model's answer to
-`/ask` when the gateway on Berkay's Mac mini is up (`deploy/ask/README.md`); the site never calls a paid model API.
+`/ask` and the hero's conversation when the gateway on Berkay's Mac mini is up (`deploy/ask/README.md`); the site never calls a paid model API.
 
 ## Design
 

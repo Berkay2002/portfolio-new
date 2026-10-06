@@ -3,14 +3,14 @@ import { NextResponse } from "next/server";
 import { askDocs, excerpt, profile } from "@/lib/ask/docs";
 import { search } from "@/lib/ask/search";
 
-// "Ask the site": the browser searches on its own; this route only adds a one-line answer from a free
-// model. The model sits behind OmniRoute on Berkay's Mac mini, reached through a Cloudflare Tunnel
+// "Ask the site": /ask searches in the browser and the hero holds a conversation; this route adds a one to
+// three sentence answer from a free model, with the last few turns as context. The model sits behind OmniRoute on Berkay's Mac mini, reached through a Cloudflare Tunnel
 // (deploy/ask/README.md). The key stays here. GET says whether the gateway is up, so the page can fall
 // back to search alone; POST answers.
 
-const GATEWAY = process.env.ASK_GATEWAY_URL?.replace(/\/+$/, ""); // e.g. https://ask.berkay.se
-// One OmniRoute model or combo, or several separated by commas, tried in order until one answers.
-const MODELS = (process.env.ASK_MODEL ?? "site").split(",").map((m) => m.trim()).filter(Boolean);
+const GATEWAY = process.env.ASK_GATEWAY_URL?.replace(/\/+$/, ""); // e.g. https://ask-api.berkay.se
+// One OmniRoute model or combo, or several separated by commas, tried in order until one answers. None set reads as down.
+const MODELS = (process.env.ASK_MODEL ?? "").split(",").map((m) => m.trim()).filter(Boolean);
 
 function headers(): Record<string, string> {
   const h: Record<string, string> = { "content-type": "application/json", authorization: `Bearer ${process.env.ASK_GATEWAY_KEY ?? ""}` };
@@ -22,13 +22,18 @@ function headers(): Record<string, string> {
   return h;
 }
 
-// ponytail: in-memory windows, per server instance; a visitor spread over instances gets a few more.
+// ponytail: in-memory windows and day budget, per server instance; spread over instances, a visitor gets a few
+// more answers and the day a few more tokens.
 // Cloudflare's rate-limit rule on the tunnel hostname is the hard cap (deploy/ask/README.md).
 const PER_IP = { max: 30, ms: 60 * 60_000 };
 // The day's budget is what the free tiers give: 200K tokens on each of the two Groq models, and OpenRouter's
 // 50 requests at about 2.5K tokens each. Counted from what the models report using.
 const DAY_TOKENS = 500_000;
 let day = { spent: 0, reset: 0 };
+function budgetLeft() {
+  if (Date.now() > day.reset) day = { spent: 0, reset: Date.now() + 24 * 60 * 60_000 };
+  return day.spent < DAY_TOKENS;
+}
 const windows = new Map<string, { n: number; reset: number }>();
 function allow(key: string, { max, ms }: { max: number; ms: number }) {
   const now = Date.now();
@@ -43,13 +48,13 @@ function allow(key: string, { max, ms }: { max: number; ms: number }) {
 
 let health = { up: false, at: 0 };
 async function up() {
-  if (!GATEWAY) return false;
+  if (!GATEWAY || !MODELS.length) return false;
   if (Date.now() - health.at < 60_000) return health.up;
   // Cloudflare says 502 or 530 when the Mac or the tunnel is off, and OmniRoute 401 when the key is missing
   // or wrong; either way no model will answer, so the page falls back to search.
   const ok = await fetch(`${GATEWAY}/v1/models`, { headers: headers(), signal: AbortSignal.timeout(2500), cache: "no-store" })
-    .then((r) => r.ok)
-    .catch(() => false);
+    .then((r) => r.ok || (console.error(`ask: gateway health ${r.status}`), false)) // 401 means the key is wrong, not that the Mac is off
+    .catch((e) => (console.error("ask: gateway unreachable", e), false));
   health = { up: ok, at: Date.now() };
   return ok;
 }
@@ -57,7 +62,8 @@ async function up() {
 const noStore = { "cache-control": "no-store" };
 
 export async function GET() {
-  return NextResponse.json({ up: await up() }, { headers: noStore });
+  // A spent day reads as down too, so /ask says "search only" instead of offering answers it can't give.
+  return NextResponse.json({ up: budgetLeft() && (await up()) }, { headers: noStore });
 }
 
 export async function POST(req: Request) {
@@ -74,11 +80,8 @@ export async function POST(req: Request) {
   if (!question) return NextResponse.json({ error: "empty" }, { status: 400, headers: noStore });
 
   const ip = req.headers.get("x-real-ip") ?? req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  if (Date.now() > day.reset) day = { spent: 0, reset: Date.now() + 24 * 60 * 60_000 };
-  if (day.spent >= DAY_TOKENS || !allow(`ip:${ip}`, PER_IP)) {
-    return NextResponse.json({ error: "rate" }, { status: 429, headers: noStore });
-  }
-  if (!(await up())) return NextResponse.json({ error: "down" }, { status: 503, headers: noStore });
+  if (!allow(`ip:${ip}`, PER_IP)) return NextResponse.json({ error: "rate" }, { status: 429, headers: noStore });
+  if (!budgetLeft() || !(await up())) return NextResponse.json({ error: "down" }, { status: 503, headers: noStore });
 
   // A follow-up like "what does it search?" names nothing, so it borrows the last question's words.
   let hits = search(askDocs, question, 4);
@@ -108,7 +111,8 @@ export async function POST(req: Request) {
       signal: AbortSignal.timeout(Math.min(10_000, left)),
       // max_tokens leaves room for models that think before answering; the prompt keeps the answer short.
       body: JSON.stringify({ model, temperature: 0.2, max_tokens: 400, messages }),
-    }).catch(() => null);
+    }).catch((e) => (console.error(`ask: ${model} failed`, e), null));
+    if (res && !res.ok) console.error(`ask: ${model} answered ${res.status}`);
     if (res && [502, 530].includes(res.status)) {
       health = { up: false, at: Date.now() }; // Cloudflare: the Mac or the tunnel is off, so no model will answer
       break;

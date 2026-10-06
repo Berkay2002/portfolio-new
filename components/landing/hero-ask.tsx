@@ -11,8 +11,8 @@ import { Index, useCopy } from "./sections";
 import { Wave } from "./trace";
 
 // The hero's text and its Ask flow (design/specs/ask-r9.md, then ask-r8 a-bubbles): at rest the hero is
-// the headline with "See my work", "Download CV" and "Ask me". "Ask me" swaps the buttons for the
-// composer; the first question turns the hero into a conversation, the composer docked above the signal.
+// main's overline, headline, lede, "See my work" and "Download CV", with a quiet "Or ask me about my work"
+// line under them that swaps the buttons for the composer; the first question turns the hero into a conversation, the composer docked above the signal.
 // A question goes to /api/ask with the last few turns; while the model is off it goes to /ask instead.
 
 type Ref = { href: string; title: { en: string; sv: string } };
@@ -34,7 +34,7 @@ function Linked({ text, links, locale }: { text: string; links: Ref[]; locale: "
   );
 }
 
-// The swaps run as a view transition where the browser has one: the Ask button grows into the composer,
+// The swaps run as a view transition where the browser has one: the "Or ask me" line grows into the composer,
 // and the composer glides down to its dock. Reduced motion, or no support, swaps at once.
 function shift(update: () => void) {
   if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) return update();
@@ -50,6 +50,7 @@ export function HeroAsk() {
   const [q, setQ] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const list = useRef<HTMLOListElement>(null);
+  const conversation = useRef(0); // "New question" starts another, so a late answer to the old one is dropped
   const chat = turns.length > 0;
   const waiting = turns.at(-1)?.state === "wait";
 
@@ -67,7 +68,9 @@ export function HeroAsk() {
       setQ("");
     });
     if (!chat) scrollTo(0, 0); // the conversation fills the first screen, so it starts at the top of the page
+    const at = conversation.current;
     const r = await fetch("/api/ask", { method: "POST", body: JSON.stringify({ question, locale, history }) }).catch(() => null);
+    if (at !== conversation.current) return;
     if (r?.status === 503) return router.push(askHref(question)); // the model is off: search instead
     const d = r?.ok ? ((await r.json().catch(() => null)) as { answer?: string | null; links?: Ref[] } | null) : null;
     const turn: Turn =
@@ -139,7 +142,10 @@ export function HeroAsk() {
       >
         <button
           className="self-start text-(--dim) text-sm underline underline-offset-4 hover:text-(--fg)"
-          onClick={() => shift(() => setTurns([]))}
+          onClick={() => {
+            conversation.current++;
+            shift(() => setTurns([]));
+          }}
           type="button"
         >
           {c.hero.reset}

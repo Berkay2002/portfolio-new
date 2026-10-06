@@ -1,16 +1,17 @@
 # Ask the site: the answer model
 
 `/ask` searches the site in the visitor's browser and works on its own. When the Mac mini is on, the site also asks
-a free model for a one or two sentence answer:
+a free model for a one to three sentence answer, on `/ask` and in the hero's conversation:
 
 ```
 browser ──> berkay.se/api/ask (Vercel) ──> ask-api.berkay.se (Cloudflare Tunnel) ──> OmniRoute on the Mac mini ──> Groq / OpenRouter free
 ```
 
-- The route (`app/api/ask/route.ts`) holds the OmniRoute key, so it never reaches the browser. It allows 30 answers
+- The route (`app/api/ask/route.ts`) holds the OmniRoute key, so it never reaches the browser. It allows 30 questions
   per IP an hour and 500K tokens a day (what the free tiers give), takes questions up to 200 characters and asks for at most 400 tokens (some free models think first). It
-  sends the model only the excerpts the search picked, from what the site already shows, and never the thesis
-  benchmark data.
+  sends the model a short profile (hero lede, bio, path, project titles), the last three turns and the excerpts the
+  search picked, all from what the site already shows, and never the thesis benchmark data. Other sites' pages
+  can't call it.
 - `GET /api/ask` says whether the gateway answers. When the Mac or the tunnel is off, Cloudflare answers 502 or
   530 and the page switches to search only within a minute.
 - OmniRoute serves its dashboard on port 20128 and only the OpenAI-style `/v1` API on 20129. The tunnel points at
@@ -103,4 +104,4 @@ Without these variables the site runs search only, which is also how `bun dev` b
 ## Upkeep
 
 To update OmniRoute, change the image tag in `docker-compose.yml`, then `docker compose pull && docker compose up -d`.
-The database (providers, combo, keys) lives in `deploy/ask/data/`.
+The database (providers, keys) lives in `deploy/ask/data/`.
