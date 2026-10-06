@@ -9,6 +9,7 @@ export type AskDoc = {
   summary: { en: string; sv: string };
   head: string; // title and stack words, space separated, unique
   body: string; // every other word, unique
+  stack: string[]; // a project's technologies, each as its words, so "React Query" is a phrase and not two words
 };
 
 export type AskHit = { doc: AskDoc; score: number };
@@ -16,7 +17,7 @@ export type AskHit = { doc: AskDoc; score: number };
 // Words that say nothing about which document a question is after, in both languages. "work" and "jobbat" stay:
 // they point at Experience.
 const STOP = new Set(
-  "is in on at to he it do of an my me be or as by if so up we us no am a i the and for with has have had does did his him what which who where when how any anything are was were that this from into about there their them than then can could would should built build made make use uses used using project projects berkay orhan är på en av om de du ja vi så nu ut ha och med har hade vad vilka vilken vem var när hur som det den att för från till han hans honom ett några något projekt byggt gjort använt använder använda används använde användes"
+  "hi hey hello hej hejsan tja is in on at to he it do of an my me be or as by if so up we us no am a i the and for with has have had does did his him what which who where when how any anything are was were that this from into about there their them than then can could would should built build made make use uses used using project projects berkay orhan är på en av om de du ja vi så nu ut ha och med har hade vad vilka vilken vem var när hur som det den att för från till han hans honom ett några något projekt byggt gjort använt använder använda används använde användes"
     .split(" ")
 );
 
@@ -44,10 +45,26 @@ export const matches = (word: string, term: string) => {
 // page in on its own when the question has a rarer word too: "AudioWorklet API" finds FastTalk, not every API. The
 // pages with every rarer word come first and alone ("Web Audio API" is the page with both "web" and "audio"); only
 // when no page has them all does any one of them let a page in.
+//
+// A run of two or more question words that names a technology ("React Query", "Edge Functions", "Google Gemini")
+// lets in only the projects built with it, longest run first, so "React Query" isn't every React project.
 export function search(docs: AskDoc[], question: string, limit = 5): AskHit[] {
   const qs = terms(question);
   if (qs.length === 0) return [];
-  const split = docs.map((d) => ({ doc: d, head: d.head.split(" "), body: d.body.split(" ") }));
+  const ws = words(question);
+  const uses = (d: AskDoc, run: string) => d.stack.some((s) => ` ${s} `.includes(` ${run} `));
+  const runs: string[] = [];
+  for (let i = 0; i < ws.length - 1; i++)
+    for (let j = ws.length; j > i + 1; j--) {
+      const run = ws.slice(i, j).join(" ");
+      if (docs.some((d) => uses(d, run))) {
+        runs.push(run);
+        i = j - 1;
+        break;
+      }
+    }
+  const built = runs.length ? docs.filter((d) => runs.every((r) => uses(d, r))) : [];
+  const split = (built.length ? built : docs).map((d) => ({ doc: d, head: d.head.split(" "), body: d.body.split(" ") }));
   const has = (ws: string[], q: string) => ws.some((w) => matches(w, q));
   const df = qs.map((q) => split.filter((d) => has(d.head, q) || has(d.body, q)).length);
   const idf = df.map((n) => (n ? Math.log(1 + docs.length / n) : 0));

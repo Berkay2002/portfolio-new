@@ -58,6 +58,7 @@ export const askDocs: AskDoc[] = [
       title: { en: p.title, sv: p.title },
       summary: { en: p.description, sv: p.descriptionSv ?? p.description },
       head: `${p.title} ${p.technologies.join(" ")}`,
+      stack: p.technologies.map((t) => words(t).join(" ")),
       // Everything the project page shows, in both languages.
       body: [p.description, p.descriptionSv, p.link, p.frontendLink, p.githubLink, p.playgroundLink, p.paperLink, ...pageText(p, "en"), ...pageText(p, "sv")].join(" "),
       // The year and the page's links always reach the model, so "where's the code?" gets the address.
@@ -86,9 +87,11 @@ export const askDocs: AskDoc[] = [
         en: kind === "thesis" ? "Master's thesis at Ericsson, 2026." : "Project paper.",
         sv: kind === "thesis" ? "Masteruppsats på Ericsson, 2026." : "Projektrapport.",
       },
-      head: `${paper.title} ${kind === "thesis" ? "thesis ericsson uppsats" : "paper rapport"}`,
+      head: `${paper.title} paper rapport ${kind === "thesis" ? "thesis ericsson uppsats masteruppsats exjobb examensarbete" : ""}`,
       // The authors and year /papers shows, so a coauthor's name or "2024" finds it.
-      body: `${paper.authors.join(" ")} ${year} ${paper.pdfUrl ?? ""} ${paper.abstractContent}`,
+      // "ReAct" (the agent loop) is not React, so it is indexed as "re-act".
+      body: `${paper.authors.join(" ")} ${year} ${paper.pdfUrl ?? ""} ${paper.abstractContent.replace(/ReAct/g, "re-act")}`,
+      stack: [],
       excerpt: { lead: `${kind === "thesis" ? "Master's thesis at Ericsson." : "Project paper."} ${year}. Authors: ${paper.authors.join(", ")}.${paper.pdfUrl ? ` PDF: ${paper.pdfUrl}.` : ""} ${paper.abstractContent}` },
     })
   ),
@@ -98,8 +101,9 @@ export const askDocs: AskDoc[] = [
     kind: "page",
     title: { en: "Experience", sv: "Erfarenhet" },
     summary: { en: moments("en"), sv: moments("sv") },
-    head: "experience erfarenhet education utbildning job jobb jobbat work worked arbete arbetat career",
-    body: `${moments("en")} ${moments("sv")} university universitet studied studerade`,
+    head: "experience erfarenhet education utbildning job jobb jobbat work worked arbete arbetat career study studied studerade plugga pluggade university universitet",
+    body: `${moments("en")} ${moments("sv")}`,
+    stack: [],
     excerpt: { lead: `Berkay's path: ${moments("en")}` },
   }),
   doc({
@@ -108,8 +112,9 @@ export const askDocs: AskDoc[] = [
     kind: "page",
     title: { en: "Contact", sv: "Kontakt" },
     summary: { en: "Email berkayorhan@hotmail.se, or find him on GitHub and LinkedIn.", sv: "Mejla berkayorhan@hotmail.se, eller hitta honom på GitHub och LinkedIn." },
-    head: "contact kontakt email mejl hire anställa reach",
-    body: `github linkedin cv resume email mail berkayorhan@hotmail.se ${socialLinks.github} ${socialLinks.linkedin} ${socialLinks.cv}`,
+    head: "contact kontakt email mejl hire anställa reach cv resume",
+    body: `github linkedin email mail berkayorhan@hotmail.se ${socialLinks.github} ${socialLinks.linkedin} ${socialLinks.cv}`,
+    stack: [],
     excerpt: { lead: `Contact: email berkayorhan@hotmail.se. GitHub ${socialLinks.github}. LinkedIn ${socialLinks.linkedin}. CV at ${socialLinks.cv}.` },
   }),
 ];

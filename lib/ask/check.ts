@@ -43,7 +43,14 @@ assert.ok(!ids("Which project uses LangGraph?").includes("statsforspotify")); //
 assert.deepEqual(ids("Which projects use AudioWorklet API?"), ["fasttalk"]);
 assert.ok(!ids("Which projects use Web Audio API?").includes("statsforspotify")); // every rarer word, when a page has them all // "API" alone doesn't let a page in
 assert.ok(excerpt("voxel-project", "What challenges did VoxelCraft face?").includes("Challenge: ")); // the section asked about
-assert.ok(excerpt("contact").includes("linkedin.com/in/")); // the address, not just the word
+assert.ok(excerpt("contact").includes("linkedin.com/in/"));
+assert.ok(!ids("Which projects use React?").includes("paper-when-agentic-workflows-help")); // "ReAct" is not React
+assert.equal(ids("Where can I download his CV?")[0], "contact");
+assert.deepEqual(ids("Which projects use React Query?").sort(), ["animatch", "statsforspotify"]); // a tech's name is one phrase, not every React project
+assert.equal(ids("Vad handlar hans exjobb om?")[0], "paper-when-agentic-workflows-help");
+assert.equal(ids("Var pluggade han?")[0], "experience");
+assert.ok(ids("What papers has he written?").includes("paper-when-agentic-workflows-help"));
+assert.deepEqual(ids("Hej!"), []); // a greeting finds no page // the address, not just the word
 assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched
 
 // Everything that leaves the server: the browser's index, and the profile and excerpts the model reads. None of

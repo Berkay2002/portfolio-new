@@ -127,7 +127,7 @@ export async function POST(req: Request) {
     // 502 is a provider's bad gateway relayed by OmniRoute, so the next model gets its turn.
     if (res && (res.status === 530 || (res.status === 502 && !res.headers.get("content-type")?.includes("json")))) {
       health = { up: false, at: Date.now() };
-      break;
+      return NextResponse.json({ error: "down" }, { status: 503, headers: noStore }); // the pages offer search instead
     }
     if (res?.status === 429) spent++;
     if (!res?.ok) continue;
