@@ -1,15 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
 import { HtmlLangSetter } from "@/components/layout/html-lang-setter";
 import { JsonLd } from "@/components/layout/json-ld";
 import { LanguageProvider } from "@/components/layout/language-provider";
-import { ScrollToTop } from "@/components/layout/scroll-to-top";
 import { ThemeProvider } from "@/components/layout/theme-provider";
-import { ScrollProgress } from "@/components/ui/scroll-progress";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,11 +13,20 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const grotesk = Space_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-grotesk",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+});
+
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "#111" },
-  ],
+  themeColor: "#0f1012",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -33,15 +38,16 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://berkay.se"),
   title: {
-    default: "Berkay Orhan | Machine Learning Engineer",
+    default: "Berkay Orhan | Software Developer",
     template: "%s | Berkay Orhan",
   },
   description:
-    "Berkay is a Machine Learning Engineer based in Sweden, showcasing projects and research in AI, data science, and full-stack engineering.",
+    "Berkay is a software developer at Ericsson in Linköping, building AI systems: agentic retrieval, voice pipelines and the web apps around them.",
   keywords: [
     "Berkay",
     "Berkay Orhan",
     "Machine Learning",
+    "Software Developer",
     "Machine Learning Engineer",
     "AI Engineer",
     "Control Systems",
@@ -84,24 +90,24 @@ export const metadata: Metadata = {
     locale: "en_US",
     alternateLocale: "sv_SE",
     url: "https://berkay.se",
-    title: "Berkay Orhan | Machine Learning Engineer",
+    title: "Berkay Orhan | Software Developer",
     description:
-      "Berkay is a Machine Learning Engineer based in Sweden, showcasing projects and research in AI, data science, and full-stack engineering.",
+      "Berkay is a software developer at Ericsson in Linköping, building AI systems: agentic retrieval, voice pipelines and the web apps around them.",
     siteName: "Berkay Orhan Portfolio",
     images: [
       {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Berkay Orhan - Machine Learning Engineer",
+        alt: "Berkay Orhan - Software Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Berkay Orhan | Machine Learning Engineer",
+    title: "Berkay Orhan | Software Developer",
     description:
-      "Berkay is a Machine Learning Engineer based in Sweden, showcasing projects and research in AI, data science, and full-stack engineering.",
+      "Berkay is a software developer at Ericsson in Linköping, building AI systems: agentic retrieval, voice pipelines and the web apps around them.",
     site: "@berkayorhan",
     creator: "@berkayorhan",
     images: ["/images/og-image.jpg"],
@@ -125,11 +131,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="scroll-smooth" lang="en" suppressHydrationWarning>
+    <html className="motion-safe:scroll-smooth" data-scroll-behavior="smooth" lang="en" suppressHydrationWarning>
       <head>
-        {/* Preload critical resources */}
-        <link as="image" href="/images/profile.png" rel="preload" />
-
         {/* KaTeX CSS for LaTeX rendering */}
         <link
           crossOrigin="anonymous"
@@ -151,17 +154,13 @@ export default function RootLayout({
 
         <JsonLd />
       </head>
-      <body className={`${inter.className} light antialiased`}>
+      <body
+        className={`${inter.className} ${grotesk.variable} ${mono.variable} light antialiased`}
+      >
         <ThemeProvider>
           <LanguageProvider>
             <HtmlLangSetter />
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <ScrollProgress />
-              <main className="flex-1">{children}</main>
-              <Footer />
-              <ScrollToTop />
-            </div>
+            {children}
           </LanguageProvider>
         </ThemeProvider>
       </body>

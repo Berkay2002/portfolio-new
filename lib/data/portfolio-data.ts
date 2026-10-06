@@ -353,13 +353,54 @@ export const projects: Project[] = [
   solarSystem,
 ];
 
+// The year each project started (its repository's creation date) and its groups on /projects.
+export type ProjectTag = "ai" | "web" | "graphics" | "mobile";
+export const projectMeta: Record<string, { year: number; tags: ProjectTag[] }> = {
+  wikillm: { year: 2026, tags: ["ai"] },
+  "fractured-crown": { year: 2026, tags: ["web"] },
+  "voxel-project": { year: 2026, tags: ["graphics"] },
+  statsforspotify: { year: 2026, tags: ["web"] },
+  "municipality-chatbot": { year: 2025, tags: ["ai", "web"] },
+  alertz: { year: 2026, tags: ["web"] },
+  fasttalk: { year: 2025, tags: ["ai"] },
+  researcher: { year: 2025, tags: ["ai"] },
+  oversee: { year: 2025, tags: ["web", "ai"] },
+  "primitive-ui": { year: 2025, tags: ["mobile", "graphics"] },
+  snapgredient: { year: 2025, tags: ["mobile", "ai"] },
+  retrofy: { year: 2025, tags: ["ai", "web"] },
+  albyradet: { year: 2024, tags: ["web"] },
+  animatch: { year: 2024, tags: ["ai", "web"] },
+  clairvoyant: { year: 2025, tags: ["ai"] },
+  kliv: { year: 2025, tags: ["web"] },
+  litheplan: { year: 2025, tags: ["web"] },
+  medieteknik: { year: 2022, tags: ["web"] },
+  "solar-system": { year: 2025, tags: ["graphics"] },
+};
+
 export const socialLinks: SocialLinks = {
   github: "https://github.com/Berkay2002",
   linkedin: "https://linkedin.com/in/berkay-orhan-b71256204",
-  cv: "/resume.pdf",
+  cv: "/Resume.pdf",
 };
 
 export const timelineEvents: TimelineEvent[] = [
+  {
+    id: "ericsson-software-developer",
+    title: "Software Developer",
+    titleSv: "Mjukvaruutvecklare",
+    location: "Ericsson",
+    locationSv: "Ericsson",
+    description: "Full-time software developer at Ericsson in Linköping.",
+    descriptionSv: "Mjukvaruutvecklare på heltid på Ericsson i Linköping.",
+    detailedDescription:
+      "Full-time software developer at Ericsson in Linköping since October 2026, after the R&D internship.",
+    detailedDescriptionSv:
+      "Mjukvaruutvecklare på heltid på Ericsson i Linköping sedan oktober 2026, efter R&D-praktiken.",
+    date: "Oct 2026 - Present",
+    type: "work",
+    iconLight: "/images/timeline/ericsson-light.svg",
+    iconDark: "/images/timeline/ericsson-dark.svg",
+  },
   {
     id: "ericsson-rd-internship",
     title: "R&D Internship",
@@ -367,14 +408,14 @@ export const timelineEvents: TimelineEvent[] = [
     location: "Ericsson",
     locationSv: "Ericsson",
     description:
-      "AI Engineer internship in Ericsson R&D, working on applied AI systems in Linköping.",
+      "R&D internship at Ericsson in Linköping, working on applied AI systems.",
     descriptionSv:
-      "R&D-praktik som AI Engineer på Ericsson, med arbete på tillämpade AI-system i Linköping.",
+      "R&D-praktik på Ericsson i Linköping, med arbete på tillämpade AI-system.",
     detailedDescription:
-      "Full-time, on-site R&D internship at Ericsson in Linköping, continuing applied AI engineering work after the master's thesis project conducted with Ericsson.",
+      "Full-time, on-site R&D internship at Ericsson in Linköping, continuing applied AI work after the master's thesis project conducted with Ericsson.",
     detailedDescriptionSv:
-      "Heltidspraktik på plats inom R&D på Ericsson i Linköping, med fortsatt tillämpat AI-engineeringarbete efter examensarbetet som genomfördes tillsammans med Ericsson.",
-    date: "Jun 2026 - Present",
+      "Heltidspraktik på plats inom R&D på Ericsson i Linköping, med fortsatt tillämpat AI-arbete efter examensarbetet som genomfördes tillsammans med Ericsson.",
+    date: "Jun 2026 - Sep 2026",
     type: "work",
     iconLight: "/images/timeline/ericsson-light.svg",
     iconDark: "/images/timeline/ericsson-dark.svg",

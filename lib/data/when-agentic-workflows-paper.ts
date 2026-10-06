@@ -1,4 +1,4 @@
-import type { ThesisBenchmarkData } from "@/components/ui/thesis-benchmark";
+import type { ThesisBenchmarkData } from "@/components/landing/thesis";
 
 export const whenAgenticWorkflowsPaper = {
   title:

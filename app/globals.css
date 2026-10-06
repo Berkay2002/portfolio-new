@@ -418,3 +418,256 @@
     0 10px 25px -5px rgba(0, 0, 0, 0.3),
     0 10px 10px -5px rgba(0, 0, 0, 0.2);
 }
+
+/* Landing page (design/specs/landing-r2.md): graphite, off-white, one lime. */
+.landing {
+  --bg: #0f1012;
+  --fg: #eceae4;
+  --dim: #8a8c90;
+  --faint: #2a2d31;
+  --lime: #c8f542;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+.font-display {
+  font-family: var(--font-grotesk), ui-sans-serif, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+/* Phones fade only the bottom, so the left of his face is not faded out. */
+.portrait-fade {
+  mask-image: linear-gradient(to bottom, #000 60%, transparent 98%);
+}
+@media (width >= 64rem) {
+  .portrait-fade {
+    mask-image: linear-gradient(to right, transparent, #000 40%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 15%, #000 65%, transparent 98%);
+    mask-composite: intersect;
+  }
+}
+
+.dot-field {
+  background-image: radial-gradient(circle, #3a3d42 1.2px, transparent 1.6px);
+  background-size: 16px 16px;
+}
+
+/* Bars swell when the trace reaches them; without motion they stay full. */
+.wave rect {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 5ms);
+}
+/* A media query, not a class set by script, so the bars are already low in the first paint. */
+@media (prefers-reduced-motion: no-preference) {
+  .wave:not(.on) rect {
+    transform: scaleY(0.12);
+  }
+  .wave.vertical:not(.on) rect {
+    transform: scaleX(0.12);
+  }
+}
+/* The stack opens as it scrolls into view (--p from 0 to 1, set by components/landing/use-unfold.ts). */
+.stack-plate {
+  transform: translateY(calc(var(--shut) * (1 - var(--p, 1))));
+  transition: transform 0.25s ease-out;
+}
+.stack-guides,
+.stack-label {
+  opacity: calc((var(--p, 1) - 0.8) * 5);
+}
+/* Once open, each plate's finish runs a small loop; closed or with reduced motion, it holds still. */
+.stack-anim {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.stack:not(.open) .stack-anim {
+  animation-play-state: paused;
+}
+.stack-focus {
+  animation: stack-focus 6s steps(1) infinite;
+}
+.stack-caret {
+  animation: stack-caret 1s steps(1) infinite;
+}
+.stack-run {
+  animation: stack-run 3.2s linear infinite;
+}
+.stack-ping {
+  opacity: 0;
+  animation: stack-ping 3.2s ease-out infinite;
+}
+.stack-blink {
+  opacity: 0;
+  animation: stack-blink 2.8s ease-in-out infinite;
+}
+.stack-ripple {
+  opacity: 0;
+  animation: stack-ripple 2.6s ease-out infinite;
+}
+.stack-roll {
+  opacity: 0;
+  animation: stack-roll 3.15s ease-in-out infinite;
+}
+@keyframes stack-focus {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(90.7px, 0); }
+  66% { transform: translate(158.7px, 0); }
+}
+@keyframes stack-caret {
+  50% { opacity: 0; }
+}
+@keyframes stack-run {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes stack-ping {
+  0%, 90% { opacity: 0; transform: scale(0.6); }
+  94% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes stack-blink {
+  0%, 100% { opacity: 0; }
+  12% { opacity: 0.55; }
+  30% { opacity: 0; }
+}
+@keyframes stack-ripple {
+  0% { opacity: 0; transform: scale(1); }
+  5% { opacity: 0.9; }
+  100% { opacity: 0; transform: scale(5); }
+}
+@keyframes stack-roll {
+  0%, 16%, 100% { opacity: 0; }
+  6% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stack-anim {
+    animation: none;
+  }
+}
+/* The photo prints start as a pile in the middle and are dealt out as the row scrolls into view
+   (--p from use-unfold.ts; --i is the print's place from the middle, --r and --y its tilt and drop). */
+.prints {
+  --w: 40vw;
+  --step: calc(var(--w) * 0.84);
+  height: calc(var(--w) * 0.75 + 64px);
+}
+@media (min-width: 1024px) {
+  .prints {
+    --w: clamp(180px, 18vw, 250px);
+  }
+}
+.print {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: var(--w);
+  transform: translateX(calc(-50% + var(--i) * var(--step) * var(--p, 1))) translateY(calc(var(--y) * var(--p, 1)))
+    rotate(var(--r));
+  transition: transform 0.25s ease-out;
+}
+.print-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 5px solid var(--fg);
+  filter: grayscale(1);
+  transition: filter 0.5s;
+}
+.print[data-side="mid"] .print-photo,
+.print:hover .print-photo {
+  filter: none;
+}
+.print-place {
+  display: block;
+  margin-top: 10px;
+  color: var(--dim);
+  font-size: 12px;
+  opacity: calc((var(--p, 1) - 0.8) * 5);
+}
+/* Captions sit on the side the next print toward the middle does not cover. */
+.print[data-side="mid"] .print-place {
+  text-align: center;
+}
+.print[data-side="r"] .print-place {
+  text-align: right;
+}
+/* A dashed alignment line behind each print, turned back upright. */
+.print-guide {
+  position: absolute;
+  top: -40px;
+  bottom: -40px;
+  left: 50%;
+  z-index: -1;
+  border-left: 1px dashed var(--dim);
+  transform: rotate(calc(var(--r) * -1));
+  opacity: calc((var(--p, 1) - 0.8) * 2.5);
+}
+/* A sweep wave fills bar by bar as the line passes (the trace sets .on on each bar). */
+.wave.sweep rect {
+  transition-duration: 0.35s;
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wave.sweep rect:not(.on) {
+    transform: scaleY(0.12);
+  }
+  .wave.sweep.vertical rect:not(.on) {
+    transform: scaleX(0.12);
+  }
+}
+
+/* Every signal breathes like live audio: each bar's height eases in and out, a little later than the bar
+   before it, so a slow swell travels along the line (left to right, top to bottom). The delay stays
+   negative so every bar is already moving when the page opens. `scale` composes with the swell's `transform`. */
+@keyframes breathe {
+  50% {
+    scale: 1 0.6;
+  }
+}
+@keyframes breathe-x {
+  50% {
+    scale: 0.6 1;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wave rect {
+    animation: breathe 2.6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 45ms - 30s);
+  }
+  .wave.vertical rect {
+    animation-name: breathe-x;
+  }
+}
+
+/* Paper text on the graphite pages: lime links, faint row rules instead of cell borders. */
+.landing .latex-content {
+  color: color-mix(in srgb, var(--fg) 80%, transparent);
+  font-size: 0.875rem;
+}
+.landing .latex-content h2,
+.landing .latex-content h3 {
+  color: var(--fg);
+  font-weight: 400;
+}
+.landing .latex-content a {
+  color: var(--lime);
+}
+.landing .latex-content code {
+  background-color: var(--faint);
+}
+.landing .latex-content table th,
+.landing .latex-content table td {
+  border: 0;
+  border-bottom: 1px solid var(--faint);
+}
+.landing .latex-content table th {
+  background: none;
+  color: var(--dim);
+  font-weight: 400;
+}
+.landing .latex-content table tr:nth-child(even) {
+  background: none;
+}
