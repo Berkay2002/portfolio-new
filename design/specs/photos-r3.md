@@ -24,7 +24,7 @@ with a lime underline. The thin lime vertical line runs down the far left of the
 lime waveform mark where the new section starts.
 
 The new section's text, top left: the index "06 / OFF THE CLOCK" in small lime monospace; the headline
-"Photography from Japan and Portugal." in the site's rounded grotesk, off-white; "All 67 photos →" in
+"Photography." (Berkay: just a hobby, no places in the title) in the site's rounded grotesk, off-white; "All 67 photos →" in
 off-white monospace with a thin lime underline.
 
 The photos are real photographs: a temple roof, Mount Fuji, a lighthouse on a pier, an old tram, a red
