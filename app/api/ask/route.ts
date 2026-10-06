@@ -82,7 +82,8 @@ export async function POST(req: Request) {
   const sv = body?.locale === "sv";
   if (!question) return NextResponse.json({ error: "empty" }, { status: 400, headers: noStore });
 
-  const ip = req.headers.get("x-real-ip") ?? req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  // Vercel sets x-real-ip itself; the first x-forwarded-for entry is the client's to write, so it never keys the limit.
+  const ip = req.headers.get("x-real-ip") ?? "unknown";
   if (!allow(`ip:${ip}`, PER_IP)) return NextResponse.json({ error: "rate" }, { status: 429, headers: noStore });
   if (!budgetLeft() || !(await up())) return NextResponse.json({ error: "down" }, { status: 503, headers: noStore });
 

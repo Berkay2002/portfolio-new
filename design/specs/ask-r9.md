@@ -44,6 +44,9 @@ button "Ask me" with a tiny lime waveform burst (five short bars) before its lab
 outline is the faint one, but its burst is lime, so it reads as the trace's invitation. On the phone,
 the three buttons stack full width under the lede in the same order.
 
+Built differently, at Berkay's call ("not three buttons"): the row keeps its two buttons, and under them a
+quiet "Or ask me about my work" line, led by the same lime burst, opens the composer.
+
 ## b-open
 
 The hero just after "Ask me" is pressed. The overline, headline, lede and portrait stay exactly where
