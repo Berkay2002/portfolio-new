@@ -90,7 +90,7 @@ export const askDocs: AskDoc[] = [
       head: `${paper.title} paper rapport ${kind === "thesis" ? "thesis ericsson uppsats masteruppsats exjobb examensarbete" : ""}`,
       // The authors and year /papers shows, so a coauthor's name or "2024" finds it.
       // "ReAct" (the agent loop) is not React, so it is indexed as "re-act".
-      body: `${paper.authors.join(" ")} ${year} ${paper.pdfUrl ?? ""} ${paper.abstractContent.replace(/ReAct/g, "re-act")}`,
+      body: `${paper.authors.join(" ")} ${year} ${paper.pdfUrl ?? ""} ${paper.abstractContent.replace(/\bReAct\b/g, "re-act")}`,
       stack: [],
       excerpt: { lead: `${kind === "thesis" ? "Master's thesis at Ericsson." : "Project paper."} ${year}. Authors: ${paper.authors.join(", ")}.${paper.pdfUrl ? ` PDF: ${paper.pdfUrl}.` : ""} ${paper.abstractContent}` },
     })

@@ -63,8 +63,10 @@ export function search(docs: AskDoc[], question: string, limit = 5): AskHit[] {
         break;
       }
     }
-  const built = runs.length ? docs.filter((d) => runs.every((r) => uses(d, r))) : [];
-  const split = (built.length ? built : docs).map((d) => ({ doc: d, head: d.head.split(" "), body: d.body.split(" ") }));
+  // "Which projects are from 2025?" asks for projects, so papers and pages stay out.
+  const kind = ws.some((w) => /^projekt(en)?$|^projects?$/.test(w)) ? docs.filter((d) => d.kind === "project") : docs;
+  const built = runs.length ? kind.filter((d) => runs.every((r) => uses(d, r))) : [];
+  const split = (built.length ? built : kind).map((d) => ({ doc: d, head: d.head.split(" "), body: d.body.split(" ") }));
   const has = (ws: string[], q: string) => ws.some((w) => matches(w, q));
   const df = qs.map((q) => split.filter((d) => has(d.head, q) || has(d.body, q)).length);
   const idf = df.map((n) => (n ? Math.log(1 + docs.length / n) : 0));

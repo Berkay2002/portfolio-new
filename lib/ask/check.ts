@@ -6,7 +6,7 @@ import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-pap
 import { askDocs, excerpt, profile } from "./docs";
 import { search } from "./search";
 
-const ids = (q: string) => search(askDocs, q).map((h) => h.doc.id);
+const ids = (q: string) => search(askDocs, q, askDocs.length).map((h) => h.doc.id); // every match, as /ask lists them
 assert.ok(ids("Has he shipped anything with voice?").includes("fasttalk"));
 assert.ok(ids("What did he do at Ericsson?").includes("experience"));
 assert.ok(ids("Vad gjorde han på Ericsson?").includes("experience"));
@@ -22,6 +22,7 @@ assert.ok(ids("berkayorhan@hotmail.se").includes("contact")); // the address its
 assert.ok(profile.includes("(2025;")); // every project's year, for list questions
 assert.deepEqual(ids("Which projects use Go?"), []); // "go" is a whole word, not "Google"
 assert.ok(ids("Which projects are from 2025?").length > 0); // the year a project started
+assert.ok(ids("Which projects are from 2025?").every((id) => askDocs.find((d) => d.id === id)!.kind === "project")); // "projects" asks for projects
 assert.ok(excerpt("statsforspotify").includes("github.com/Berkay2002/statsforspotify")); // the source link, always
 assert.ok(excerpt("wikillm").includes("npmjs.com/package/wikillm")); // a project link's address, not just its label
 assert.ok(excerpt("fasttalk").includes("github.com/Berkay2002/fasttalk-stt-microservice")); // a service's repository

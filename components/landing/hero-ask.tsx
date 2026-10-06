@@ -43,8 +43,9 @@ function shift(update: () => void) {
 }
 
 // /ask searches with the conversation's earlier questions too, so a follow-up like "what does it use?" keeps its topic.
+// Four questions of up to 200 characters each fit whole, so a long follow-up never cuts the one that named the topic.
 const askHref = (turns: Turn[], q: string) =>
-  `/ask?q=${encodeURIComponent([...turns.flatMap((t) => (t.state === "done" ? [t.q] : [])).slice(-3), q].join(" ").slice(-200))}`;
+  `/ask?q=${encodeURIComponent([...turns.flatMap((t) => (t.state === "done" ? [t.q] : [])).slice(-3), q].join(" "))}`;
 
 export function HeroAsk() {
   const { c, locale } = useCopy();

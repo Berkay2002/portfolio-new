@@ -112,6 +112,7 @@ export async function POST(req: Request) {
   // Each model gets up to 10 seconds, and all of them together 20; a free tier that is out of quota fails fast.
   const deadline = Date.now() + 20_000;
   let spent = 0; // models that said 429: out of their free quota
+  let reached = false; // any answer at all from the gateway; none means the Mac or the tunnel is off
   for (const model of MODELS) {
     const left = deadline - Date.now();
     if (left < 1000) break;
@@ -122,6 +123,7 @@ export async function POST(req: Request) {
       // max_tokens leaves room for models that think before answering; the prompt keeps the answer short.
       body: JSON.stringify({ model, temperature: 0.2, max_tokens: 400, messages }),
     }).catch((e) => (console.error(`ask: ${model} failed`, e), null));
+    if (res) reached = true;
     if (res && !res.ok) console.error(`ask: ${model} answered ${res.status}`);
     // Cloudflare's own 530, or its HTML 502, means the Mac or the tunnel is off, so no model will answer. A JSON
     // 502 is a provider's bad gateway relayed by OmniRoute, so the next model gets its turn.
@@ -136,6 +138,11 @@ export async function POST(req: Request) {
     const answer = data?.choices?.[0]?.message?.content?.replace(/\*\*?|`/g, "").trim().slice(0, 600); // the page shows plain text
     // The pages it drew on, so the hero can link the names in the answer.
     if (answer) return NextResponse.json({ answer, links: hits.map((h) => ({ href: h.doc.href, title: h.doc.title })) }, { headers: noStore });
+  }
+  // No model reached at all (DNS, connection or timeout): the gateway is down, so the pages offer search.
+  if (!reached) {
+    health = { up: false, at: Date.now() };
+    return NextResponse.json({ error: "down" }, { status: 503, headers: noStore });
   }
   // Every model out of quota: read as down for ten minutes, so the pages offer search instead of answers that fail.
   if (spent === MODELS.length) {

@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 
 export default async function AskPage({ searchParams }: { searchParams: Promise<{ q?: string | string[] }> }) {
   const { q } = await searchParams;
-  return <Ask docs={askDocs} initial={typeof q === "string" ? q.slice(0, 200) : ""} />;
+  return <Ask docs={askDocs} initial={typeof q === "string" ? q.slice(0, 800) : ""} />;
 }
