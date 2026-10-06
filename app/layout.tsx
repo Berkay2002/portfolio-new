@@ -26,10 +26,7 @@ const mono = JetBrains_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "#111" },
-  ],
+  themeColor: "#0f1012",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -134,11 +131,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="motion-safe:scroll-smooth" lang="en" suppressHydrationWarning>
+    <html className="motion-safe:scroll-smooth" data-scroll-behavior="smooth" lang="en" suppressHydrationWarning>
       <head>
-        {/* Preload critical resources */}
-        <link as="image" href="/images/hero-portrait.jpg" rel="preload" />
-
         {/* KaTeX CSS for LaTeX rendering */}
         <link
           crossOrigin="anonymous"

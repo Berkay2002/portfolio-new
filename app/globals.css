@@ -620,7 +620,8 @@
 }
 
 /* Every signal breathes like live audio: each bar's height eases in and out, a little later than the bar
-   before it, so a slow swell travels along the line. `scale` composes with the swell's `transform`. */
+   before it, so a slow swell travels along the line (left to right, top to bottom). The delay stays
+   negative so every bar is already moving when the page opens. `scale` composes with the swell's `transform`. */
 @keyframes breathe {
   50% {
     scale: 1 0.6;
@@ -634,7 +635,7 @@
 @media (prefers-reduced-motion: no-preference) {
   .wave rect {
     animation: breathe 2.6s ease-in-out infinite;
-    animation-delay: calc(var(--i) * -45ms);
+    animation-delay: calc(var(--i) * 45ms - 30s);
   }
   .wave.vertical rect {
     animation-name: breathe-x;

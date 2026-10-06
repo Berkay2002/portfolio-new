@@ -14,8 +14,8 @@ import { Stack } from "./stack";
 import { A, Wave } from "./trace";
 
 // The landing page sections (design/specs/landing-r2.md, mobile in landing-mobile-r1.md).
-// On phones the trace runs in a lane 20 px from the left edge and text starts at 48 px; on desktop
-// the lane is at 2 % and text at 4 %. Below lg the drawings turn from left-to-right to top-to-bottom.
+// On phones the trace runs in a lane 20 px from the left edge and most text starts at 48 px; on
+// desktop the lane is at 2 % and text starts between 4 and 9 %, per section. Below lg the drawings turn from left-to-right to top-to-bottom.
 
 const EMAIL = "berkayorhan@hotmail.se";
 const CV = socialLinks.cv;
@@ -138,7 +138,7 @@ export function Hero() {
     <section className="relative pt-16 lg:min-h-[max(720px,100svh)] lg:pt-0" id="top">
       <div className="relative h-[50svh] max-h-[440px] lg:absolute lg:top-[72px] lg:right-[2%] xl:right-[6%] lg:h-[calc(92%-72px)] lg:max-h-none">
         {/* eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized */}
-        <img alt="Berkay Orhan" className="portrait-fade size-full object-cover object-[50%_calc(20px-22.5vw)] lg:object-[50%_45%] lg:h-full lg:w-auto" src="/images/hero-portrait.jpg" />
+        <img alt="Berkay Orhan" fetchPriority="high" className="portrait-fade size-full object-cover object-[50%_calc(20px-22.5vw)] lg:object-[50%_45%] lg:h-full lg:w-auto" src="/images/hero-portrait.jpg" />
       </div>
       <div className="-mt-10 relative z-10 px-6 lg:mt-0 lg:max-w-[66%] lg:px-0 lg:pt-[200px] lg:pl-[4%]">
         <Index className="tracking-[0.12em]">{c.hero.overline}</Index>
@@ -394,7 +394,7 @@ const moments = [
   { at: 2026.75, above: true },
 ];
 // Grows with the years: small at the BSc, more through the MSc, most at Ericsson (t along the axis,
-// 2021 to 2027; the moments sit near 0, 0.52, 0.87 and 0.99).
+// 2021 to 2027; the moments sit near 0, 0.52, 0.87 and 0.99 on desktop, 0, 0.49, 0.82 and 0.94 on phones).
 const careerPeaks: [number, number, number][] = [
   [0.04, 0.06, 0.05],
   [0.2, 0.08, 0.08],

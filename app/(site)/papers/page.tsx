@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { PaperList } from "@/components/landing/pages";
 
 export const metadata: Metadata = {
-  title: "Papers | Berkay Orhan",
+  title: "Papers",
   description: "Berkay Orhan's master's thesis and the papers from his projects.",
 };
 

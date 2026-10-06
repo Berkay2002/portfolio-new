@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Playground } from "@/components/landing/pages";
 
 export const metadata: Metadata = {
-  title: "Playground | Berkay Orhan",
+  title: "Playground",
   description: "Interactive demonstrations and experiments by Berkay Orhan.",
 };
 

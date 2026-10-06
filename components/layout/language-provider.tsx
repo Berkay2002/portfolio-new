@@ -4,7 +4,7 @@ import {
   createContext,
   type ReactNode,
   useContext,
-  useState,
+  useSyncExternalStore,
 } from "react";
 import translations from "@/lib/translations";
 import type { Locale } from "@/types";
@@ -43,29 +43,33 @@ type LanguageProviderProps = {
   children: ReactNode;
 };
 
-const getInitialLocale = (): Locale => {
-  if (typeof window === "undefined") {
+// The saved language lives in localStorage. The server and the hydrating client both render English,
+// then the client switches to the saved language, so a Swedish visitor gets no hydration mismatch.
+const listeners = new Set<() => void>();
+const subscribe = (listener: () => void) => {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+};
+// localStorage throws when site data is blocked; the page then stays in English.
+const savedLocale = (): Locale => {
+  try {
+    return localStorage.getItem("language") === "sv" ? "sv" : "en";
+  } catch {
     return "en";
   }
-
-  const savedLocale = localStorage.getItem("language") as Locale;
-  if (savedLocale === "en" || savedLocale === "sv") {
-    return savedLocale;
-  }
-
-  return "en";
 };
+const serverLocale = (): Locale => "en";
 
 export function LanguageProvider({ children }: LanguageProviderProps) {
-  // Get saved language or default to English; compute once to avoid client-only setState in effects
-  const [locale, setLocaleState] = useState<Locale>(getInitialLocale);
+  const locale = useSyncExternalStore(subscribe, savedLocale, serverLocale);
 
-  // Save language preference
   const setLocale = (newLocale: Locale) => {
-    setLocaleState(newLocale);
-    if (typeof window !== "undefined") {
+    try {
       localStorage.setItem("language", newLocale);
+    } catch {
+      return;
     }
+    for (const listener of listeners) listener();
   };
 
   // Translation function

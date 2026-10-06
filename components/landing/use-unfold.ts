@@ -1,7 +1,7 @@
 import { type RefObject, useEffect } from "react";
 
 // Sets --p on `root` from 0 to 1 as `box` scrolls up into view: 0 while its first `closed` share is
-// still coming up from the bottom of the screen, 1 once its bottom is on screen. Adds .open at 1.
+// still coming up from the bottom of the screen, 1 once its bottom is on screen. Adds .open near 1 and removes it below 0.9.
 // Skipped with reduced motion, so the CSS default (--p: 1) applies.
 export function useUnfold(root: RefObject<HTMLElement | null>, box: RefObject<Element | null>, closed: number) {
   useEffect(() => {

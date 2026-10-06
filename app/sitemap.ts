@@ -31,6 +31,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  const pageSitemapEntries = ["/projects", "/papers", "/playground", "/playground/tdde19", "/photography"].map((path) => ({
+    url: `${baseUrl}${path}`,
+    lastModified: currentDate,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   return [
     {
       url: baseUrl,
@@ -38,6 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
+    ...pageSitemapEntries,
     // Add project detail pages
     ...projectSitemapEntries,
     // Add paper pages

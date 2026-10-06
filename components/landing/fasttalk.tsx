@@ -93,7 +93,8 @@ const byLength: [string, string, string[]][] = [
   ["Long, about 16.8 s", "How would this reshape education, careers...", ["~650 ms", "none, audio started before speech ended", "~652 ms"]],
 ];
 
-// Runs per UPL range, all measured runs.
+// Runs per UPL range as the original dashboard counted them. They add up to 13, 20 and 22 runs, not
+// the 30 per model, so the note under the chart does not claim all runs.
 const histogram: [string, number[]][] = [
   ["250–270", [3, 0, 2]],
   ["270–290", [5, 1, 2]],
@@ -363,7 +364,7 @@ export function FastTalk() {
           )}
           {tab === "Distribution" && (
             <>
-              <Title note="Runs per range of user-perceived latency, all measured runs.">Distribution</Title>
+              <Title note="Runs per range of user-perceived latency, as the benchmark summary counted them.">Distribution</Title>
               <Bars rows={histogram.map(([range, counts]) => [`${range} ms`, counts] as [string, number[]])} unit="" />
               <div className="mt-10 grid gap-8 text-sm lg:grid-cols-3">
                 {models.map((m) => (

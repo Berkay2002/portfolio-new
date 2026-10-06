@@ -300,7 +300,7 @@ export const stack = [
   "Docker · Kubernetes",
 ];
 
-// The projects built on each layer, as [name, project id]: the ones whose stack uses that layer's tools.
+// The projects built on each layer, as [name, project id]: a selection of the ones whose stack uses that layer's tools.
 export const shipped: [string, string][][] = [
   [["Stats for Spotify", "statsforspotify"], ["Oversee", "oversee"], ["Alertz", "alertz"], ["LiTHePlan", "litheplan"], ["Fractured Crown", "fractured-crown"]],
   [["Municipality Chatbot", "municipality-chatbot"], ["SynGraph", "researcher"], ["FastTalk", "fasttalk"]],

@@ -10,7 +10,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const { id } = await props.params;
   const entry = papers.find((p) => p.id === id);
   if (!entry) return { title: "Paper Not Found" };
-  return { title: `${entry.paper.title} | Paper | Berkay Orhan`, description: entry.paper.abstractContent };
+  return { title: `${entry.paper.title} | Paper`, description: entry.paper.abstractContent };
 }
 
 export function generateStaticParams() {

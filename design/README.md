@@ -87,7 +87,7 @@ foreach ($k in "d-grid", "e-console", "f-poster") {
 }
 ```
 
-An edit round passes the previous render with `-Edit`, e.g. `-Key a2-blue -Refs design\mockups\hero-r1-a-workbench.png -Edit`.
+An edit round passes the previous render with `-Edit`, e.g. `-Key a2-blue -Refs design\mockups\<spec stem>-<key>.png -Edit`.
 
 Add `-Model gpt-6-luna` to pin the model, as Genomlyst did. The underlying call, if you run it by hand:
 
@@ -98,20 +98,7 @@ codex exec -s workspace-write "Read design/specs/hero-r2.md. Use your built-in i
 The prompt goes before `-i`: `-i` takes several values, so a prompt after it is read as an image path.
 Closing stdin (`< /dev/null`, or piping `$null` in PowerShell) keeps codex from waiting on it.
 
-### Illustration assets (after the hero is approved)
-
-Each illustration renders at 1024x1024 on flat pure white `#FFFFFF`, at least 60 px margin, no floor, no
-shadow, with the approved character attached as the style reference. The raw render stays in
-`design/assets/<name>-raw.png`, and `design/scripts/cutout.py` (numpy, pillow, scipy) cuts it out:
-
-```
-python design/scripts/cutout.py design/assets/<name>-raw.png public/images/site/<name>.webp preview.png
-```
-
-It makes the near-white region connected to the image border transparent (min channel >= 232) with a
-soft one-pixel edge, crops to the content plus 8 px and saves webp at quality 88. White inside the
-drawing stays because it does not touch the border. Layers that animate separately (a stamp, a chip)
-are split with small PIL scripts kept next to the raw files.
+`design/scripts/cutout.py` (from Genomlyst, unused so far) cuts a render on white out to a transparent webp.
 
 ## Files
 

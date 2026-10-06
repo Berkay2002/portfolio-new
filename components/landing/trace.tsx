@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -55,7 +56,7 @@ function curve(pts: Pt[]) {
 }
 
 // thr is the pen height at which a point is drawn: its own height, except that a sideways run is
-// drawn while the pen moves on by a sixth of its length, and the line catches up after it.
+// drawn while the pen moves on by 0.15 of its length, and the line catches up after it.
 function sample(path: SVGPathElement): Sample[] {
   const total = path.getTotalLength();
   const out: Sample[] = [];
@@ -205,6 +206,10 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
       });
     step();
   }, [lines, step]);
+
+  // The other pages share one TraceRoot, so a new page of the same height re-measures too.
+  const pathname = usePathname();
+  useEffect(() => layout(), [pathname, layout]);
 
   useEffect(() => {
     const el = root.current;
