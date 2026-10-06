@@ -9,6 +9,7 @@ import { photos as allPhotos, photoUrl } from "@/lib/data/photos";
 import { projects, socialLinks } from "@/lib/data/portfolio-data";
 import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
 import { cn } from "@/lib/utils";
+import { Stack } from "./stack";
 import { A, Wave } from "./trace";
 
 // The landing page sections (design/specs/landing-r2.md, mobile in landing-mobile-r1.md).
@@ -501,21 +502,9 @@ export function About() {
               {after}
             </p>
           </div>
-          <div className="relative mt-16 lg:mt-20">
-            <A className="top-[-10px] left-[2vw] hidden lg:block" on="stack" />
-            <A className="top-[30px] left-[calc(2vw+40px)] hidden [--dir:h] lg:block" on="stack" />
-            <p className="mb-6 pl-12 text-(--dim) text-xs lg:absolute lg:top-0 lg:mb-0 lg:pl-[3.5%]">{c.about.how}</p>
-            <ul className="flex flex-col gap-6 lg:flex-row lg:justify-around lg:pl-[8%]">
-              {c.about.layers.map((layer, i) => (
-                <li className="relative pl-12 lg:pl-0 lg:text-center" key={layer}>
-                  <span className="absolute top-[22px] left-5 h-px w-4 -translate-x-1/2 bg-(--lime) lg:hidden" />
-                  <p className="text-(--dim) text-xs lg:h-6">{layer}</p>
-                  <span className="mx-auto hidden h-3 w-px bg-(--lime) lg:block" />
-                  <p className="mt-1 text-sm lg:mt-3">{stack[i]}</p>
-                </li>
-              ))}
-            </ul>
-            <A className="top-[30px] right-0 hidden [--dir:h] lg:block" on="stack" />
+          <div className="mt-16 pr-6 pl-12 lg:mt-20 lg:pr-0 lg:pl-[5%]">
+            <p className="mb-4 text-(--dim) text-xs">{c.about.how}</p>
+            <Stack layers={c.about.layers} tools={stack} />
           </div>
           <a className="mt-14 ml-12 inline-block border-(--lime) border-b pb-1 lg:ml-[5%]" href={CV}>
             {c.about.cv}

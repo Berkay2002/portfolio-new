@@ -465,6 +465,21 @@
 [data-anim] .wave.vertical:not(.on) rect {
   transform: scaleX(0.12);
 }
+/* The stack's plates sit closed until the trace reaches them, then pull apart and the labels follow. */
+.stack-plate {
+  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 40ms);
+}
+.stack-guides,
+.stack-label {
+  transition: opacity 0.5s ease 0.6s;
+}
+[data-anim] [data-wave]:not(.on) .stack-plate {
+  transform: translateY(var(--shut));
+}
+[data-anim] [data-wave]:not(.on) :is(.stack-guides, .stack-label) {
+  opacity: 0;
+  transition-delay: 0s;
+}
 /* A sweep wave fills bar by bar as the line passes (the trace sets .on on each bar). */
 .wave.sweep rect {
   transition-duration: 0.35s;

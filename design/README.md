@@ -2,7 +2,8 @@
 
 Status: approved and built (2026-10-06). The hero is `hero-r2-e4-hoodie` (`design/approved/landing-desktop.png`),
 the rest of the page is `landing-r2.md` ("the signal", `design/approved/landing-s*.png`) and the phone
-boards are `landing-mobile-r1.md` (`design/approved/landing-mobile-*.png`). The build is `app/page.tsx`
+boards are `landing-mobile-r1.md` (`design/approved/landing-mobile-*.png`). About's "how I build" is
+`stack-r4.md` a-surfaces (`design/approved/landing-s5-stack.png`). The build is `app/page.tsx`
 with `components/landing/`; screenshots of it are in `design/screens/`.
 
 ## The system
@@ -15,17 +16,21 @@ with `components/landing/`; screenshots of it are in `design/screens/`.
   (`design/specs/portrait-r1.md`, variant b-plain, with dark headroom added) and faded into the
   background. It appears only in the hero. It must stay a faithful photo of him: never a drawn
   character, never an invented body, and Berkay sees any new render before it is used.
-- No cards, boxes, tables, tag pills, skill bars or icons. Information is drawn on the trace.
+- No cards, boxes, tables, tag pills, skill bars or icons. Information is drawn on the trace, except "how
+  I build": an exploded patent drawing of five plates (`components/landing/stack.tsx`), each machined
+  with a finish for its layer (a layout grid, a looping groove, a weight matrix, contour lines, a rack
+  of slots) and one lime element. Rounds 1 to 3 (waveforms on the trace, generic diagrams, slabs and
+  glass) were rejected as not saying what each layer is or as looking AI-made.
 - Photos are Berkay's own from Japan and Portugal (`public/images/photography/<place>-<n>.webp`, 1800 px,
   and `-sm.webp`, 720 px, metadata stripped; listed in `lib/data/photos.ts`). About shows four in
   greyscale with colour on hover; `/photography` shows all of them in colour, in columns that keep
   each photo's shape, with a click opening the large one.
 - The trace: one thin lime line down the whole page. It becomes each section's drawing (the FastTalk
-  pipeline, the retrieval fan-out, the career axis, the stack line, the contact waveform). In code,
+  pipeline, the retrieval fan-out, the career axis, the contact waveform). In code,
   sections place zero-size anchors (`<A />` in `components/landing/trace.tsx`) and the root joins them
   with curves; an anchor hidden at a breakpoint is skipped, so desktop and phone route differently.
 - Motion: the trace draws itself on scroll down to a pen at 75 % of the viewport, with a lime dot at its
-  tip. Each waveform (`<Wave />`) swells from flat when the line reaches it; the career axis and the contact waveform fill bar by bar as the line runs through them, and the line always joins a waveform at its end, never inside it. On desktop the hero's signal fills from left to right as the page starts to scroll and the trace leaves from its right end (on phones it is already on). Experience runs from 2021 on the left to now on the right, the wave growing with the years.
+  tip. Each waveform (`<Wave />`) swells from flat when the line reaches it; the career axis and the contact waveform fill bar by bar as the line runs through them, and the line always joins a waveform at its end, never inside it. The stack's plates sit closed and pull apart, labels following, when the pen reaches them. On desktop the hero's signal fills from left to right as the page starts to scroll and the trace leaves from its right end (on phones it is already on). Experience runs from 2021 on the left to now on the right, the wave growing with the years.
   With prefers-reduced-motion the trace is drawn in full and nothing moves.
 - Phone: the trace runs in a lane 20 px from the left edge, text starts at 48 px, drawings run top to
   bottom, tap targets are at least 44 px. The header is "Berkay Orhan", Contact and a menu on every screen.
