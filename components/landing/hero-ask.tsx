@@ -186,22 +186,25 @@ export function HeroAsk() {
           </button>
         </div>
       ) : (
-        <div className="mt-6 flex flex-col gap-3 lg:mt-10 lg:flex-row lg:gap-6">
-          <a className="flex h-12 items-center justify-center rounded-md bg-(--lime) px-10 font-medium text-(--bg) lg:h-14" href="#work">
-            {c.hero.cta}
-          </a>
-          <a className="flex h-12 items-center justify-center rounded-md border border-(--fg)/40 px-10 hover:border-(--fg) lg:h-14" href={socialLinks.cv}>
-            {c.hero.cv}
-          </a>
+        <>
+          <div className="mt-6 flex flex-col gap-3 lg:mt-10 lg:flex-row lg:gap-6">
+            <a className="flex h-12 items-center justify-center rounded-md bg-(--lime) px-10 font-medium text-(--bg) lg:h-14" href="#work">
+              {c.hero.cta}
+            </a>
+            <a className="flex h-12 items-center justify-center rounded-md border border-(--fg)/40 px-10 hover:border-(--fg) lg:h-14" href={socialLinks.cv}>
+              {c.hero.cv}
+            </a>
+          </div>
+          {/* Not a third button: a quiet line under the two, led by a burst of the trace. */}
           <button
-            className="flex h-12 items-center justify-center gap-3 rounded-md border border-(--fg)/40 px-10 [view-transition-name:hero-ask] hover:border-(--fg) lg:h-14"
+            className="group mt-5 flex items-center gap-3 text-(--fg)/70 text-sm [view-transition-name:hero-ask] hover:text-(--fg) lg:mt-7 lg:text-[15px]"
             onClick={() => shift(() => setOpen(true))}
             type="button"
           >
             <Wave className="h-5 w-6" live n={5} peaks={[[0.5, 0.4, 1]]} />
-            {c.hero.open}
+            <span className="underline decoration-(--faint) underline-offset-4 group-hover:decoration-(--lime)">{c.hero.open}</span>
           </button>
-        </div>
+        </>
       )}
     </div>
   );
