@@ -40,17 +40,19 @@ export const matches = (word: string, term: string) => {
   return grows(w, t) || grows(t, w);
 };
 
-// A head word counts three times.
+// A head word counts three times. A word on more than half the pages ("API", "challenges") ranks but doesn't let a
+// page in on its own when the question has a rarer word too: "AudioWorklet API" finds FastTalk, not every API.
 export function search(docs: AskDoc[], question: string, limit = 5): AskHit[] {
   const qs = terms(question);
   if (qs.length === 0) return [];
   const split = docs.map((d) => ({ doc: d, head: d.head.split(" "), body: d.body.split(" ") }));
   const has = (ws: string[], q: string) => ws.some((w) => matches(w, q));
-  const idf = qs.map((q) => {
-    const df = split.filter((d) => has(d.head, q) || has(d.body, q)).length;
-    return Math.log(1 + docs.length / (df || 1)) * (df ? 1 : 0);
-  });
+  const df = qs.map((q) => split.filter((d) => has(d.head, q) || has(d.body, q)).length);
+  const idf = df.map((n) => (n ? Math.log(1 + docs.length / n) : 0));
+  const rare = df.map((n) => n > 0 && n <= docs.length / 2);
+  const needRare = rare.some(Boolean);
   return split
+    .filter((d) => !needRare || qs.some((q, i) => rare[i] && (has(d.head, q) || has(d.body, q))))
     .map((d) => ({
       doc: d.doc,
       score: qs.reduce((sum, q, i) => sum + idf[i]! * (has(d.head, q) ? 3 : has(d.body, q) ? 1 : 0), 0),

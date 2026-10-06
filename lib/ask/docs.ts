@@ -27,6 +27,8 @@ function doc({ excerpt, ...d }: AskDoc & { excerpt: Excerpt }): AskDoc {
 function pageText(p: (typeof projects)[number], l: "en" | "sv") {
   const sv = l === "sv";
   const t = (en?: string, s?: string) => (sv ? (s ?? en) : en);
+  // Labelled, so "What challenges did VoxelCraft face?" picks the challenges out of the excerpt.
+  const label = (en: string, s: string, texts?: (string | undefined)[]) => (texts ?? []).flatMap((x) => (x ? [`${t(en, s)}: ${x}`] : []));
   return [
     projectMeta[p.id] && `${sv ? "Startat" : "Started"} ${projectMeta[p.id]!.year}.`,
     p.institution,
@@ -36,10 +38,10 @@ function pageText(p: (typeof projects)[number], l: "en" | "sv") {
     p.imageAlt,
     ...(p.gallery ?? []).flatMap((g) => [t(g.caption, g.captionSv), g.alt]),
     sv ? p.detailedDescriptionSv : p.detailedDescription,
-    ...((sv ? p.featuresSv : p.features) ?? []),
-    ...((sv ? p.challengesSv : p.challenges) ?? []),
-    sv ? p.solutionSv : p.solution,
-    sv ? p.outcomeSv : p.outcome,
+    ...label("Feature", "Funktion", sv ? p.featuresSv : p.features),
+    ...label("Challenge", "Utmaning", sv ? p.challengesSv : p.challenges),
+    ...label("Solution", "Lösning", [sv ? p.solutionSv : p.solution]),
+    ...label("Outcome", "Resultat", [sv ? p.outcomeSv : p.outcome]),
     ...(p.microservices ?? []).map((m) => `${m.name}: ${sv ? m.descriptionSv : m.description} ${(m.technologies ?? []).join(", ")}${m.link ? ` ${m.link}` : ""}`),
     ...(flows[p.id] ?? []).map((st) => `${sv ? (st.nameSv ?? st.name) : st.name}: ${sv ? st.whatSv : st.what}.`),
   ];
