@@ -11,11 +11,15 @@ with `components/landing/`; screenshots of it are in `design/screens/`.
   faint `#2A2D31`, one accent acid lime `#C8F542`. No other hues, no gradients, no glow.
 - Type: Space Grotesk 600 with tight tracking for headlines (`.font-display`), JetBrains Mono for
   everything else.
-- The portrait is Berkay's own photo, cropped from the approved hero (`public/images/hero-portrait.jpg`)
-  and faded into the background. It appears only in the hero. Never generate his body or face.
+- The portrait (`public/images/hero-portrait.jpg`) is rendered with Codex from his real profile photo
+  (`design/specs/portrait-r1.md`, variant b-plain, with dark headroom added) and faded into the
+  background. It appears only in the hero. It must stay a faithful photo of him: never a drawn
+  character, never an invented body, and Berkay sees any new render before it is used.
 - No cards, boxes, tables, tag pills, skill bars or icons. Information is drawn on the trace.
-- Photos in About are Berkay's own from Japan and Portugal (`public/images/photography/`, 800x600 webp
-  with metadata stripped), shown in greyscale with colour on hover.
+- Photos are Berkay's own from Japan and Portugal (`public/images/photography/<place>-<n>.webp`, 1800 px,
+  and `-sm.webp`, 720 px, metadata stripped; listed in `lib/data/photos.ts`). About shows four in
+  greyscale with colour on hover; `/photography` shows all of them in colour, in columns that keep
+  each photo's shape, with a click opening the large one.
 - The trace: one thin lime line down the whole page. It becomes each section's drawing (the FastTalk
   pipeline, the retrieval fan-out, the career axis, the stack line, the contact waveform). In code,
   sections place zero-size anchors (`<A />` in `components/landing/trace.tsx`) and the root joins them

@@ -1,5 +1,6 @@
 // Copy for the landing page (design/specs/landing-r2.md), English and Swedish.
 import type { Locale } from "@/types";
+import { photos as allPhotos } from "./photos";
 
 type Copy = {
   nav: { work: string; research: string; experience: string; about: string; contact: string };
@@ -35,8 +36,10 @@ type Copy = {
     how: string;
     layers: string[];
     photos: string;
+    allPhotos: (n: number) => string;
     cv: string;
   };
+  gallery: { index: string; title: string; back: string; japan: string; portugal: string; close: string };
   contact: { index: string; title: [string, string]; top: string };
 };
 
@@ -95,8 +98,10 @@ export const landingCopy: Record<Locale, Copy> = {
       how: "how I build",
       layers: ["interface", "agents", "models", "data", "infra"],
       photos: "off the clock: photography, Japan and Portugal",
+      allPhotos: (n) => `All ${n} photos →`,
       cv: "Download CV →",
     },
+    gallery: { index: "PHOTOGRAPHY", title: "Off the clock.", back: "← Back", japan: "Japan", portugal: "Portugal", close: "Close" },
     contact: {
       index: "06 / CONTACT",
       title: ["Building something", "that has to work?"],
@@ -157,8 +162,10 @@ export const landingCopy: Record<Locale, Copy> = {
       how: "hur jag bygger",
       layers: ["gränssnitt", "agenter", "modeller", "data", "infra"],
       photos: "på fritiden: fotografi, Japan och Portugal",
+      allPhotos: (n) => `Alla ${n} foton →`,
       cv: "Ladda ner CV →",
     },
+    gallery: { index: "FOTOGRAFI", title: "På fritiden.", back: "← Tillbaka", japan: "Japan", portugal: "Portugal", close: "Stäng" },
     contact: {
       index: "06 / KONTAKT",
       title: ["Bygger du något", "som måste fungera?"],
@@ -176,10 +183,6 @@ export const stack = [
   "Docker · Kubernetes",
 ];
 
-// Berkay's own photos in public/images/photography/ (800x600 webp, metadata stripped). Empty hides the column.
-export const photos: { src: string; alt: string }[] = [
-  { src: "/images/photography/japan-fushimi-inari.webp", alt: "Gate at Fushimi Inari, Kyoto, at dusk" },
-  { src: "/images/photography/japan-fuji.webp", alt: "Mount Fuji under a pale sky" },
-  { src: "/images/photography/porto-lighthouse.webp", alt: "Felgueiras lighthouse in Porto at sunset" },
-  { src: "/images/photography/porto-tram.webp", alt: "Tram 18 to Clérigos in Porto" },
-];
+// The four photos shown beside About; the rest are on /photography. Empty hides the column.
+const picks = ["japan-1044", "japan-1766", "portugal-3825", "portugal-8416"];
+export const photos = picks.map((id) => allPhotos.find((p) => p.id === id)!);

@@ -5,6 +5,7 @@ import { type ReactNode, useState } from "react";
 
 import { useLanguage } from "@/components/layout/language-provider";
 import { landingCopy, photos, stack } from "@/lib/data/landing";
+import { photos as allPhotos, photoUrl } from "@/lib/data/photos";
 import { projects, socialLinks } from "@/lib/data/portfolio-data";
 import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
 import { cn } from "@/lib/utils";
@@ -17,7 +18,7 @@ import { A, Wave } from "./trace";
 const EMAIL = "berkayorhan@hotmail.se";
 const CV = socialLinks.cv;
 
-function useCopy() {
+export function useCopy() {
   const { locale, setLocale } = useLanguage();
   return { c: landingCopy[locale], locale, setLocale };
 }
@@ -54,10 +55,10 @@ export function Header() {
   const { c, locale, setLocale } = useCopy();
   const [open, setOpen] = useState(false);
   const links: [string, string][] = [
-    ["#work", c.nav.work],
-    ["#research", c.nav.research],
-    ["#experience", c.nav.experience],
-    ["#about", c.nav.about],
+    ["/#work", c.nav.work],
+    ["/#research", c.nav.research],
+    ["/#experience", c.nav.experience],
+    ["/#about", c.nav.about],
   ];
   const lang = (
     <button
@@ -74,24 +75,24 @@ export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-30 bg-(--bg)/90 backdrop-blur lg:absolute lg:bg-transparent lg:backdrop-blur-none">
       <div className="flex h-16 items-center justify-between pr-3 pl-6 lg:h-[124px] lg:px-[4%]">
-        <a className="font-display text-xl lg:text-[28px]" href="#top">
+        <Link className="font-display text-xl lg:text-[28px]" href="/#top">
           Berkay Orhan
-        </a>
+        </Link>
         <nav className="hidden items-center gap-10 text-[15px] lg:flex">
           {links.map(([href, label]) => (
-            <a className="hover:text-(--lime)" href={href} key={href}>
+            <Link className="hover:text-(--lime)" href={href} key={href}>
               {label}
-            </a>
+            </Link>
           ))}
           {lang}
-          <a className="rounded-md bg-(--lime) px-7 py-3 font-medium text-(--bg)" href="#contact">
+          <Link className="rounded-md bg-(--lime) px-7 py-3 font-medium text-(--bg)" href="/#contact">
             {c.nav.contact}
-          </a>
+          </Link>
         </nav>
         <div className="flex items-center gap-2 lg:hidden">
-          <a className="rounded-md bg-(--lime) px-4 py-2 font-medium text-(--bg) text-sm" href="#contact">
+          <Link className="rounded-md bg-(--lime) px-4 py-2 font-medium text-(--bg) text-sm" href="/#contact">
             {c.nav.contact}
-          </a>
+          </Link>
           <button
             aria-expanded={open}
             aria-label="Menu"
@@ -108,9 +109,9 @@ export function Header() {
       {open && (
         <nav className="flex flex-col border-(--faint) border-t px-6 pb-4 lg:hidden">
           {links.map(([href, label]) => (
-            <a className="flex h-12 items-center" href={href} key={href} onClick={() => setOpen(false)}>
+            <Link className="flex h-12 items-center" href={href} key={href} onClick={() => setOpen(false)}>
               {label}
-            </a>
+            </Link>
           ))}
           <div className="flex h-12 items-center">{lang}</div>
         </nav>
@@ -134,7 +135,7 @@ export function Hero() {
     <section className="relative pt-16 lg:min-h-[max(720px,100svh)] lg:pt-0" id="top">
       <div className="relative h-[50svh] max-h-[440px] lg:absolute lg:top-0 lg:right-0 lg:h-[92%] lg:max-h-none lg:w-[46%]">
         {/* eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized */}
-        <img alt="Berkay Orhan" className="portrait-fade size-full object-cover object-top" src="/images/hero-portrait.jpg" />
+        <img alt="Berkay Orhan" className="portrait-fade size-full object-cover object-[50%_45%] lg:object-top" src="/images/hero-portrait.jpg" />
       </div>
       <div className="-mt-20 relative z-10 px-6 lg:mt-0 lg:max-w-[66%] lg:px-0 lg:pt-[200px] lg:pl-[4%]">
         <Index className="tracking-[0.12em]">{c.hero.overline}</Index>
@@ -506,12 +507,17 @@ export function About() {
           <figure className="mt-14 pl-12 lg:mt-0 lg:w-[190px] lg:pl-0">
             <div className="flex gap-3 overflow-x-auto lg:flex-col lg:gap-4 lg:overflow-visible">
               {photos.map((p) => (
-                // eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized
-                <img alt={p.alt} className="aspect-[4/3] h-40 w-auto shrink-0 object-cover grayscale transition-[filter] duration-500 hover:grayscale-0 lg:h-auto lg:w-full"
-                  loading="lazy" key={p.src} src={p.src} />
+                <Link className="shrink-0" href="/photography" key={p.id}>
+                  {/* eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized */}
+                  <img alt={p.alt} className="aspect-[4/3] h-40 w-auto object-cover grayscale transition-[filter] duration-500 hover:grayscale-0 lg:h-auto lg:w-full"
+                    loading="lazy" src={photoUrl(p, true)} />
+                </Link>
               ))}
             </div>
             <figcaption className="mt-3 text-(--dim) text-xs">{c.about.photos}</figcaption>
+            <Link className="mt-2 inline-block border-(--lime) border-b pb-0.5 text-sm" href="/photography">
+              {c.about.allPhotos(allPhotos.length)}
+            </Link>
           </figure>
         )}
       </div>
