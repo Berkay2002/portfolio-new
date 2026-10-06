@@ -86,9 +86,9 @@ export async function POST(req: Request) {
   if (!allow(`ip:${ip}`, PER_IP)) return NextResponse.json({ error: "rate" }, { status: 429, headers: noStore });
   if (!budgetLeft() || !(await up())) return NextResponse.json({ error: "down" }, { status: 503, headers: noStore });
 
-  // A follow-up like "what language is it in?" names nothing, so in a conversation the pages the last question
-  // and this one find together come first, then this one's own.
-  const query = history.length ? `${history.at(-1)!.q} ${question}` : question;
+  // A follow-up like "what language is it in?" names nothing, so in a conversation the pages the questions so far
+  // find together come first, then this one's own.
+  const query = [...history.map((t) => t.q), question].join(" ");
   const hits = [...(history.length ? search(askDocs, query, 2) : []), ...search(askDocs, question, 4)]
     .filter((h, i, all) => all.findIndex((o) => o.doc.id === h.doc.id) === i)
     .slice(0, 4);

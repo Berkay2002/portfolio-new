@@ -2,7 +2,7 @@ import { flows } from "@/lib/data/flows";
 import { landingCopy } from "@/lib/data/landing";
 import { papers } from "@/lib/data/papers";
 import { projects } from "@/lib/data/portfolio-data";
-import { type AskDoc, terms, words } from "./search";
+import { type AskDoc, matches, terms, words } from "./search";
 
 // What "Ask the site" can find: only what the site already shows. Each paper is its title and abstract,
 // never the thesis benchmark data (the Ericsson logs behind it are under NDA). Server only: the page
@@ -29,7 +29,7 @@ function pageText(p: (typeof projects)[number], l: "en" | "sv") {
   return [
     p.institution,
     ...(p.projectInfo ?? []).map((f) => `${t(f.label, f.labelSv)}: ${t(f.value, f.valueSv)}.`),
-    ...(p.projectLinks ?? []).map((k) => `${t(k.label, k.labelSv)}.`),
+    ...(p.projectLinks ?? []).flatMap((k) => [`${t(k.label, k.labelSv)}.`, ...(k.items ?? []).map((i) => `${t(i.label, i.labelSv)}${i.command ? `: ${i.command}` : ""}.`)]),
     p.imageAlt,
     ...(p.gallery ?? []).map((g) => t(g.caption, g.captionSv)),
     sv ? p.detailedDescriptionSv : p.detailedDescription,
@@ -101,9 +101,9 @@ export function excerpt(id: string, question = "") {
   const e = excerpts.get(id);
   if (!e) return "";
   const qs = terms(question);
-  const matches = (sentence: string) => qs.length > 0 && words(sentence).some((w) => qs.some((q) => w.startsWith(q)));
+  const hit = (sentence: string) => qs.length > 0 && words(sentence).some((w) => qs.some((q) => matches(w, q)));
   const en = sentences(e.en);
-  const picked = [...en, ...sentences(e.sv)].filter(matches);
+  const picked = [...en, ...sentences(e.sv)].filter(hit);
   return [e.lead, ...picked, ...en.filter((s) => !picked.includes(s))].join(" ").slice(0, 1200);
 }
 

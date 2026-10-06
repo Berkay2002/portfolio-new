@@ -27,12 +27,16 @@ export function terms(question: string) {
   return [...new Set(words(question).filter((w) => w.length > 1 && !STOP.has(w)))]; // two letters keep "AI", "UI", "Go"
 }
 
-// A term matches a word that starts with it ("voice" finds "voices"), and a head word counts three times.
+// A term matches a word that starts with it ("voice" finds "voices"); a two-letter one only itself, so "Go"
+// doesn't find "Google".
+export const matches = (word: string, term: string) => (term.length > 2 ? word.startsWith(term) : word === term);
+
+// A head word counts three times.
 export function search(docs: AskDoc[], question: string, limit = 5): AskHit[] {
   const qs = terms(question);
   if (qs.length === 0) return [];
   const split = docs.map((d) => ({ doc: d, head: d.head.split(" "), body: d.body.split(" ") }));
-  const has = (ws: string[], q: string) => ws.some((w) => w.startsWith(q));
+  const has = (ws: string[], q: string) => ws.some((w) => matches(w, q));
   const idf = qs.map((q) => {
     const df = split.filter((d) => has(d.head, q) || has(d.body, q)).length;
     return Math.log(1 + docs.length / (df || 1)) * (df ? 1 : 0);

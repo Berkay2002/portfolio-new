@@ -16,6 +16,8 @@ assert.deepEqual(ids("has he the and"), []);
 assert.ok(ids("trådsäker").includes("voxel-project")); // a word only in a project's Swedish challenges
 assert.ok(ids("renderingspass").includes("voxel-project")); // a station on the project's trace
 assert.ok(ids("KPIs").includes("oversee")); // a word only in a cover's caption
+assert.ok(ids("reload-plugins").includes("wikillm")); // an install command under a project link
+assert.deepEqual(ids("Which projects use Go?"), []); // "go" is a whole word, not "Google"
 assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched
 
 // Everything that leaves the server: the browser's index, and the profile and excerpts the model reads. None of
