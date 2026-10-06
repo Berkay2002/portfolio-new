@@ -134,7 +134,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="scroll-smooth" lang="en" suppressHydrationWarning>
+    <html className="motion-safe:scroll-smooth" lang="en" suppressHydrationWarning>
       <head>
         {/* Preload critical resources */}
         <link as="image" href="/images/hero-portrait.jpg" rel="preload" />
