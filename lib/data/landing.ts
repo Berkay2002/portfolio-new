@@ -47,7 +47,7 @@ export const landingCopy: Record<Locale, Copy> = {
   en: {
     nav: { work: "Work", research: "Research", experience: "Experience", about: "About", contact: "Contact" },
     hero: {
-      overline: "AI ENGINEER · LINKÖPING",
+      overline: "SOFTWARE DEVELOPER · LINKÖPING",
       headline: ["I build AI that", "works outside the demo."],
       lede: "Agentic retrieval, voice pipelines and the web apps around them. Now a software developer at Ericsson.",
       cta: "See my work",
@@ -111,7 +111,7 @@ export const landingCopy: Record<Locale, Copy> = {
   sv: {
     nav: { work: "Projekt", research: "Forskning", experience: "Erfarenhet", about: "Om mig", contact: "Kontakt" },
     hero: {
-      overline: "AI-INGENJÖR · LINKÖPING",
+      overline: "MJUKVARUUTVECKLARE · LINKÖPING",
       headline: ["Jag bygger AI som", "fungerar utanför demon."],
       lede: "Agentisk sökning, röstpipelines och webbapparna runt dem. Nu mjukvaruutvecklare på Ericsson.",
       cta: "Se mina projekt",

@@ -41,15 +41,16 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://berkay.se"),
   title: {
-    default: "Berkay Orhan | Machine Learning Engineer",
+    default: "Berkay Orhan | Software Developer",
     template: "%s | Berkay Orhan",
   },
   description:
-    "Berkay is a Machine Learning Engineer based in Sweden, showcasing projects and research in AI, data science, and full-stack engineering.",
+    "Berkay is a software developer at Ericsson in Linköping, building AI systems: agentic retrieval, voice pipelines and the web apps around them.",
   keywords: [
     "Berkay",
     "Berkay Orhan",
     "Machine Learning",
+    "Software Developer",
     "Machine Learning Engineer",
     "AI Engineer",
     "Control Systems",
@@ -92,24 +93,24 @@ export const metadata: Metadata = {
     locale: "en_US",
     alternateLocale: "sv_SE",
     url: "https://berkay.se",
-    title: "Berkay Orhan | Machine Learning Engineer",
+    title: "Berkay Orhan | Software Developer",
     description:
-      "Berkay is a Machine Learning Engineer based in Sweden, showcasing projects and research in AI, data science, and full-stack engineering.",
+      "Berkay is a software developer at Ericsson in Linköping, building AI systems: agentic retrieval, voice pipelines and the web apps around them.",
     siteName: "Berkay Orhan Portfolio",
     images: [
       {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Berkay Orhan - Machine Learning Engineer",
+        alt: "Berkay Orhan - Software Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Berkay Orhan | Machine Learning Engineer",
+    title: "Berkay Orhan | Software Developer",
     description:
-      "Berkay is a Machine Learning Engineer based in Sweden, showcasing projects and research in AI, data science, and full-stack engineering.",
+      "Berkay is a software developer at Ericsson in Linköping, building AI systems: agentic retrieval, voice pipelines and the web apps around them.",
     site: "@berkayorhan",
     creator: "@berkayorhan",
     images: ["/images/og-image.jpg"],
