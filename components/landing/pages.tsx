@@ -4,9 +4,11 @@ import Link from "next/link";
 import { type ReactNode, useRef, useState } from "react";
 
 import { MarkdownLatexRenderer } from "@/components/ui/markdown-latex-renderer";
+import { flows } from "@/lib/data/flows";
 import { papers } from "@/lib/data/papers";
 import { type ProjectTag, projectMeta, projects } from "@/lib/data/portfolio-data";
 import { cn } from "@/lib/utils";
+import { Flow } from "./flow";
 import { Burst, Dashes, PageHead, Part, Tick, pad, two, under } from "./page-parts";
 import { Header, Index, useCopy } from "./sections";
 import { Thesis } from "./thesis";
@@ -168,6 +170,9 @@ export function ProjectDetail({ id }: { id: string }) {
         {sub && <p className="mt-3 text-(--dim) text-xl lg:text-[28px]">{sub}</p>}
         <p className="mt-6 max-w-[60ch] text-(--fg)/80 text-sm leading-relaxed lg:text-base">{t(x.description, x.descriptionSv)}</p>
       </PageHead>
+      {flows[id] && (
+        <Flow label={p.flow} stations={flows[id].map((s) => ({ glyph: s.glyph, name: t(s.name, s.nameSv)!, what: t(s.what, s.whatSv)! }))} />
+      )}
       {(x.video || x.image) && (
         // The cover runs from the text column to the page's right edge, hung off the trace by a faint rule.
         <figure className="relative mt-14 pl-12 lg:mt-20 lg:pl-[4%]">

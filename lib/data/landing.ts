@@ -55,6 +55,7 @@ type Copy = {
       source: string;
       paper: string;
       benchmark: string;
+      flow: string;
     };
     papers: { index: string; title: string; lede: string; back: string; abstract: string; read: string; benchmark: string; pdf: string; project: string; kinds: { thesis: string; project: string } };
     playground: { index: string; title: string; lede: string; back: string; item: [string, string]; open: string; soon: string };
@@ -151,6 +152,7 @@ export const landingCopy: Record<Locale, Copy> = {
         source: "Source ↗",
         paper: "Paper →",
         benchmark: "Benchmark →",
+        flow: "How it works",
       },
       papers: {
         index: "RESEARCH",
@@ -264,6 +266,7 @@ export const landingCopy: Record<Locale, Copy> = {
         source: "Källkod ↗",
         paper: "Rapport →",
         benchmark: "Benchmark →",
+        flow: "Så fungerar det",
       },
       papers: {
         index: "FORSKNING",

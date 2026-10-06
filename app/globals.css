@@ -468,6 +468,15 @@
     transform: scaleX(0.12);
   }
 }
+/* A project's flow drawings (components/landing/flow.tsx) fade in when the trace reaches them. */
+.glyph > * {
+  transition: opacity 0.7s ease-out;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glyph:not(.on) > * {
+    opacity: 0.15;
+  }
+}
 /* The stack opens as it scrolls into view (--p from 0 to 1, set by components/landing/use-unfold.ts). */
 .stack-plate {
   transform: translateY(calc(var(--shut) * (1 - var(--p, 1))));

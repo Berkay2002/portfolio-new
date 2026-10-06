@@ -19,6 +19,11 @@ chart plots the 20 per-run values the data has (10 short, 10 medium questions), 
 A project's media follow `project-media-r1.md` a-reel (`design/approved/project-media-reel.png`): the
 cover runs wide under the lede and the screenshots or videos run as a sideways reel with "01 / 07
 Next". The Stats for Spotify and LiTHePlan screenshots had their browser frame cropped off.
+How a project works follows `project-arch-r1.md` a-across (`design/approved/project-arch-across.png`):
+under the lede the trace leaves the lane, runs right through the project's stations and drops back into
+the lane (on phones the stations sit on the lane, top to bottom). Each station is a small lime drawing of
+what kind of step it is (what comes in, a model, a stream, stored data, a split) with a two-line label;
+the stations are in `lib/data/flows.ts` and the drawing is `components/landing/flow.tsx`.
 
 ## The system
 

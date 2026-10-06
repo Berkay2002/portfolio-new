@@ -1,6 +1,8 @@
 # Project arch r1: each project's architecture drawn on its trace
 
-Status: rendering (2026-10-06).
+Status: a-across approved and built (2026-10-06, `design/approved/project-arch-across.png`). b and c
+were not picked and are deleted; git history keeps them. The stations live in `lib/data/flows.ts`, the
+drawing in `components/landing/flow.tsx`.
 
 A project page (`/projects/<id>`, from `pages-r1.md` b-project) is a lede, a facts column and five
 sections of text. The trace only runs straight down the left lane with a burst per section, so nothing
