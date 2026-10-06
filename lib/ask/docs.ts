@@ -72,7 +72,7 @@ export const askDocs: AskDoc[] = [
       },
     })
   ),
-  ...papers.map(({ id, paper, kind }) =>
+  ...papers.map(({ id, paper, kind, year }) =>
     doc({
       id: `paper-${id}`,
       href: `/papers/${id}`,
@@ -83,8 +83,9 @@ export const askDocs: AskDoc[] = [
         sv: kind === "thesis" ? "Masteruppsats på Ericsson, 2026." : "Projektrapport.",
       },
       head: `${paper.title} ${kind === "thesis" ? "thesis ericsson uppsats" : "paper rapport"}`,
-      body: paper.abstractContent,
-      excerpt: { lead: `${kind === "thesis" ? "Master's thesis at Ericsson." : "Project paper."} Authors: ${paper.authors.join(", ")}.${paper.pdfUrl ? ` PDF: ${paper.pdfUrl}.` : ""} ${paper.abstractContent}` },
+      // The authors and year /papers shows, so a coauthor's name or "2024" finds it.
+      body: `${paper.authors.join(" ")} ${year} ${paper.abstractContent}`,
+      excerpt: { lead: `${kind === "thesis" ? "Master's thesis at Ericsson." : "Project paper."} ${year}. Authors: ${paper.authors.join(", ")}.${paper.pdfUrl ? ` PDF: ${paper.pdfUrl}.` : ""} ${paper.abstractContent}` },
     })
   ),
   doc({

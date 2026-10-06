@@ -26,6 +26,7 @@ assert.ok(excerpt("statsforspotify").includes("github.com/Berkay2002/statsforspo
 assert.ok(excerpt("wikillm").includes("npmjs.com/package/wikillm")); // a project link's address, not just its label
 assert.ok(excerpt("fasttalk").includes("github.com/Berkay2002/fasttalk-stt-microservice")); // a service's repository
 assert.ok(askDocs.filter((d) => d.kind === "paper").every((d) => excerpt(d.id).includes("PDF: "))); // where to download it
+assert.ok(ids("Jonatan Ebenholm").length > 0); // a coauthor, as /papers lists them
 assert.ok(excerpt("contact").includes("linkedin.com/in/")); // the address, not just the word
 assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched
 

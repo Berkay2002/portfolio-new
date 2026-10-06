@@ -167,7 +167,7 @@ export function HeroAsk() {
               ) : (
                 <p className="text-(--fg)/70 text-sm">
                   {c.hero[t.state]}{" "}
-                  <Link className="text-(--lime) hover:underline" href={askHref(t.q)}>
+                  <Link className="relative text-(--lime) after:absolute after:inset-x-0 after:-inset-y-3 hover:underline" href={askHref(t.q)}>
                     {c.hero.search}
                   </Link>
                 </p>
