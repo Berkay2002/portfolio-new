@@ -42,7 +42,9 @@ function shift(update: () => void) {
   document.startViewTransition(() => flushSync(update));
 }
 
-const askHref = (q: string) => `/ask?q=${encodeURIComponent(q)}`;
+// /ask searches with the conversation's earlier questions too, so a follow-up like "what does it use?" keeps its topic.
+const askHref = (turns: Turn[], q: string) =>
+  `/ask?q=${encodeURIComponent([...turns.flatMap((t) => (t.state === "done" ? [t.q] : [])).slice(-3), q].join(" ").slice(-200))}`;
 
 export function HeroAsk() {
   const { c, locale } = useCopy();
@@ -72,7 +74,7 @@ export function HeroAsk() {
     const at = conversation.current;
     const r = await fetch("/api/ask", { method: "POST", body: JSON.stringify({ question, locale, history }) }).catch(() => null);
     if (at !== conversation.current) return;
-    if (r?.status === 503) return router.push(askHref(question)); // the model is off: search instead
+    if (r?.status === 503) return router.push(askHref(turns, question)); // the model is off: search instead
     const d = r?.ok ? ((await r.json().catch(() => null)) as { answer?: string | null; links?: Ref[] } | null) : null;
     const turn: Turn =
       r?.status === 429
@@ -167,7 +169,7 @@ export function HeroAsk() {
               ) : (
                 <p className="text-(--fg)/70 text-sm">
                   {c.hero[t.state]}{" "}
-                  <Link className="relative text-(--lime) after:absolute after:inset-x-0 after:-inset-y-3 hover:underline" href={askHref(t.q)}>
+                  <Link className="relative text-(--lime) after:absolute after:inset-x-0 after:-inset-y-3 hover:underline" href={askHref(turns.slice(0, i), t.q)}>
                     {c.hero.search}
                   </Link>
                 </p>

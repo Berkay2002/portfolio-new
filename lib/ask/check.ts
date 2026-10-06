@@ -37,6 +37,9 @@ assert.ok(ids("download add-on").includes("solar-system")); // the main link's o
 assert.ok(!ids("Vilka projekt använder LangGraph?").includes("statsforspotify")); // "använder" is a stop word
 assert.ok(!ids("Which projects use Bun?").includes("wikillm")); // "Bun" is not "bundle"
 assert.ok(profile.includes("Next.js")); // every project's stack, for list questions
+assert.ok(ids("Where is he working?").includes("experience")); // an inflected question finds the base word
+assert.ok(ids("What did he study?").includes("experience")); // "study" finds "studied"
+assert.ok(!ids("Which project uses LangGraph?").includes("statsforspotify")); // "uses" is a stop word
 assert.ok(excerpt("contact").includes("linkedin.com/in/")); // the address, not just the word
 assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched
 
