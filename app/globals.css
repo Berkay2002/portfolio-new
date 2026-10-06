@@ -306,6 +306,7 @@ html {
   flex: none;
   width: var(--w);
   scroll-snap-align: center;
+  scroll-snap-stop: always;
   transform: translateX(calc(var(--i) * var(--step) * (var(--p, 1) - 1))) translateY(calc(var(--y) * var(--p, 1)))
     rotate(var(--r));
   transition: transform 0.5s ease-out;

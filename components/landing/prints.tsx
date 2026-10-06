@@ -19,10 +19,26 @@ const deal = [
 export function Prints({ photos, places }: { photos: Photo[]; places: Record<Photo["place"], string> }) {
   const root = useRef<HTMLDivElement>(null);
   useUnfold(root, root, 0, 0.5);
-  // On phones the row scrolls sideways: start it on the middle print.
+  // On phones the row scrolls sideways: start it on the middle print, again whenever the screen narrows to a phone's.
   useEffect(() => {
     const el = root.current;
-    if (el) el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+    if (!el) return;
+    const phone = window.matchMedia("(max-width: 1023.98px)");
+    const centre = () => {
+      el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+    };
+    // After a resize the new layout and the snap settle first, so centre on the next frame.
+    let frame = 0;
+    const later = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(centre);
+    };
+    centre();
+    phone.addEventListener("change", later);
+    return () => {
+      cancelAnimationFrame(frame);
+      phone.removeEventListener("change", later);
+    };
   }, []);
   const mid = (photos.length - 1) / 2;
   return (
