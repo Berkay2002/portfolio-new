@@ -161,7 +161,8 @@ export function Hero() {
       <div className="relative mt-10 h-24 lg:absolute lg:inset-x-0 lg:bottom-[3%] lg:mt-0 lg:h-[130px]">
         <Wave className="absolute inset-0 size-full lg:hidden" live n={64} peaks={heroPeaks} />
         <Wave className="absolute inset-y-0 left-0 hidden h-full w-[75%] lg:block" n={180} peaks={heroPeaks} sweep />
-        <A className="top-1/2 left-5 lg:left-[75%]" />
+        <A className="top-1/2 left-5 lg:left-[75%] lg:[--dir:h]" />
+        <A className="top-[calc(50%+40px)] left-[calc(75%+40px)] hidden lg:block" />
       </div>
     </section>
   );
@@ -178,6 +179,9 @@ export function Work() {
   const { c } = useCopy();
   return (
     <section className="relative scroll-mt-16 pt-24 lg:grid lg:grid-cols-[43%_1fr] lg:pt-40" id="work">
+      {/* Desktop: the trace drops from the hero's signal, runs left above the caption and turns down into the pipeline. */}
+      <A className="top-[160px] left-[calc(75%+40px)] hidden lg:block" />
+      <A className="top-[200px] left-[75%] hidden [--dir:h] lg:block" />
       <div className="pr-6 pl-12 lg:pr-0 lg:pl-[9.3%]">
         <Index>{c.work.index}</Index>
         <h2 className="font-display mt-4 text-[40px] leading-none lg:text-[clamp(40px,3.9vw,56px)]">{c.work.title}</h2>
@@ -204,10 +208,13 @@ export function Work() {
           {c.work.all(projects.length)}
         </Link>
       </div>
-      <div className="mt-20 pr-6 pl-12 lg:mt-0 lg:pt-[110px] lg:pr-[6%] lg:pl-[5%]">
+      <div className="mt-20 pr-6 pl-12 lg:relative lg:mt-0 lg:pt-[110px] lg:pr-[6%] lg:pl-[5%]">
+        <A className="top-10 left-[5%] hidden [--dir:h] lg:block" />
+        <A className="top-20 left-[calc(5%-40px)] hidden lg:block" />
         <p className="max-w-[46ch] text-(--dim) text-sm leading-relaxed lg:ml-14 lg:text-base">{c.work.caption}</p>
         <ol className="relative mt-16 flex flex-col gap-4 lg:mt-24 lg:flex-row lg:justify-between lg:gap-0">
           <A className="-top-12 -left-7 lg:hidden" />
+          <A className="top-2 -left-10 hidden lg:block" />
           <A className="top-0 left-12 lg:top-12 lg:left-0 lg:[--dir:h]" />
           {c.work.stations.map(([name, what], i) => (
             <li className="flex items-center gap-4 lg:flex-col lg:gap-3" key={name}>
