@@ -50,8 +50,12 @@ export const matches = (word: string, term: string) => {
 // lets in only the projects built with it, longest run first, so "React Query" isn't every React project.
 export function search(docs: AskDoc[], question: string, limit = 5): AskHit[] {
   const qs = terms(question);
-  if (qs.length === 0) return [];
   const ws = words(question);
+  // "Which projects are from 2025?" asks for projects and "Which papers…?" for papers, so the other kinds stay out;
+  // "What projects has he made?" names nothing else, so it lists them all.
+  const asked = ws.some((w) => /^projekt(en)?$|^projects?$/.test(w)) ? "project" : ws.some((w) => /^papers?$|^rapport(er|en|erna)?$|^uppsats(en)?$|^thesis$/.test(w)) ? "paper" : null;
+  const kind = asked ? docs.filter((d) => d.kind === asked) : docs;
+  if (qs.length === 0) return asked ? kind.slice(0, limit).map((doc) => ({ doc, score: 0 })) : [];
   const uses = (d: AskDoc, run: string) => d.stack.some((s) => ` ${s} `.includes(` ${run} `));
   const runs: string[] = [];
   for (let i = 0; i < ws.length - 1; i++)
@@ -63,8 +67,6 @@ export function search(docs: AskDoc[], question: string, limit = 5): AskHit[] {
         break;
       }
     }
-  // "Which projects are from 2025?" asks for projects, so papers and pages stay out.
-  const kind = ws.some((w) => /^projekt(en)?$|^projects?$/.test(w)) ? docs.filter((d) => d.kind === "project") : docs;
   const built = runs.length ? kind.filter((d) => runs.every((r) => uses(d, r))) : [];
   const split = (built.length ? built : kind).map((d) => ({ doc: d, head: d.head.split(" "), body: d.body.split(" ") }));
   const has = (ws: string[], q: string) => ws.some((w) => matches(w, q));

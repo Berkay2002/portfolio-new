@@ -20,7 +20,8 @@ type Turn = { q: string } & ({ state: "wait" | "rate" | "failed" | "none" } | { 
 
 // Links each page the answer names: "SynGraph: Deep Research Agent" is named as "SynGraph".
 function Linked({ text, links, locale }: { text: string; links: Ref[]; locale: "en" | "sv" }) {
-  const names = new Map(links.map((l) => [l.title[locale].split(":")[0]!.trim().toLowerCase(), l.href]));
+  // Reversed, so a name two pages share ("SynGraph", the project and its paper) links the higher-ranked one.
+  const names = new Map(links.map((l) => [l.title[locale].split(":")[0]!.trim().toLowerCase(), l.href] as const).reverse());
   if (names.size === 0) return text;
   const re = new RegExp(`(${[...names.keys()].map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "gi");
   return text.split(re).map((part, i) =>

@@ -23,6 +23,8 @@ assert.ok(profile.includes("(2025;")); // every project's year, for list questio
 assert.deepEqual(ids("Which projects use Go?"), []); // "go" is a whole word, not "Google"
 assert.ok(ids("Which projects are from 2025?").length > 0); // the year a project started
 assert.ok(ids("Which projects are from 2025?").every((id) => askDocs.find((d) => d.id === id)!.kind === "project")); // "projects" asks for projects
+assert.ok(ids("Which papers are from 2025?").every((id) => id.startsWith("paper-"))); // and "papers" for papers
+assert.equal(ids("What projects has he made?").length, askDocs.filter((d) => d.kind === "project").length); // every project
 assert.ok(excerpt("statsforspotify").includes("github.com/Berkay2002/statsforspotify")); // the source link, always
 assert.ok(excerpt("wikillm").includes("npmjs.com/package/wikillm")); // a project link's address, not just its label
 assert.ok(excerpt("fasttalk").includes("github.com/Berkay2002/fasttalk-stt-microservice")); // a service's repository
