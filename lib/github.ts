@@ -1,5 +1,5 @@
 // Berkay's GitHub contributions per week since 2021, for the Experience wave (design/specs/experience-r1.md).
-// Read from the contribution calendar at build time and refreshed daily; private contributions count
+// Read from the contribution calendar at build time and refreshed hourly; private contributions count
 // because the profile shows them. Without GITHUB_TOKEN (any token works) it returns null and the section
 // keeps its drawn wave.
 
@@ -26,7 +26,7 @@ export async function weeklyCommits(): Promise<Commits | null> {
         method: "POST",
         headers: { Authorization: `bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ query, variables: { from: `${y}-01-01T00:00:00Z`, to: `${y}-12-31T23:59:59Z` } }),
-        next: { revalidate: 86_400 },
+        next: { revalidate: 3600 },
       });
       if (!res.ok) return null;
       const json = await res.json();

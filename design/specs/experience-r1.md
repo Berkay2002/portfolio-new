@@ -2,7 +2,7 @@
 
 Status: a-annotated approved and built (2026-10-06, `design/approved/experience-r1-a-annotated.png`).
 b and c were not picked and are deleted; git history keeps them. The data comes from `lib/github.ts`
-(GITHUB_TOKEN at build time, refreshed daily); without a token the section keeps the drawn wave.
+(GITHUB_TOKEN at build time, refreshed hourly); without a token the section keeps the drawn wave.
 The build counts all GitHub contributions (mostly commits), so the copy says contributions.
 
 Experience (`design/approved/landing-s4-experience.png`) runs a time axis from 2021 at the left to now at
