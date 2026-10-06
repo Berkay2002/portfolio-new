@@ -384,13 +384,13 @@ export const timelineEvents: TimelineEvent[] = [
     location: "Ericsson",
     locationSv: "Ericsson",
     description:
-      "AI Engineer internship in Ericsson R&D, working on applied AI systems in Linköping.",
+      "R&D internship at Ericsson in Linköping, working on applied AI systems.",
     descriptionSv:
-      "R&D-praktik som AI Engineer på Ericsson, med arbete på tillämpade AI-system i Linköping.",
+      "R&D-praktik på Ericsson i Linköping, med arbete på tillämpade AI-system.",
     detailedDescription:
-      "Full-time, on-site R&D internship at Ericsson in Linköping, continuing applied AI engineering work after the master's thesis project conducted with Ericsson.",
+      "Full-time, on-site R&D internship at Ericsson in Linköping, continuing applied AI work after the master's thesis project conducted with Ericsson.",
     detailedDescriptionSv:
-      "Heltidspraktik på plats inom R&D på Ericsson i Linköping, med fortsatt tillämpat AI-engineeringarbete efter examensarbetet som genomfördes tillsammans med Ericsson.",
+      "Heltidspraktik på plats inom R&D på Ericsson i Linköping, med fortsatt tillämpat AI-arbete efter examensarbetet som genomfördes tillsammans med Ericsson.",
     date: "Jun 2026 - Sep 2026",
     type: "work",
     iconLight: "/images/timeline/ericsson-light.svg",
