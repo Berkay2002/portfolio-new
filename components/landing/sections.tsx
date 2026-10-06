@@ -4,7 +4,7 @@ import Link from "next/link";
 import { type ReactNode, useState } from "react";
 
 import { useLanguage } from "@/components/layout/language-provider";
-import { landingCopy, photos, stack } from "@/lib/data/landing";
+import { landingCopy, photos, shipped, stack } from "@/lib/data/landing";
 import { photos as allPhotos } from "@/lib/data/photos";
 import { projects, socialLinks } from "@/lib/data/portfolio-data";
 import { whenAgenticWorkflowsPaper } from "@/lib/data/when-agentic-workflows-paper";
@@ -503,7 +503,7 @@ export function About() {
       </div>
       <div className="mt-16 pr-6 pl-12 lg:mt-20 lg:pr-0 lg:pl-[5%]">
         <p className="mb-4 text-(--dim) text-xs">{c.about.how}</p>
-        <Stack layers={c.about.layers} tools={stack} />
+        <Stack heading={c.about.shipped} layers={c.about.layers} shipped={shipped} tools={stack} />
       </div>
       <a className="mt-14 ml-12 inline-block border-(--lime) border-b pb-1 lg:ml-[5%]" href={CV}>
         {c.about.cv}

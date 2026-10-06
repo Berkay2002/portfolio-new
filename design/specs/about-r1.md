@@ -1,5 +1,8 @@
 # About r1: filling the right side of About
 
+Status: b-used-in approved and built (2026-10-06, `design/approved/about-used-in.png`). The others are
+deleted; git history keeps them.
+
 The landing's About section (`landing-r2.md`, with the stack drawing from `stack-r4.md` a-surfaces) puts
 the bio and the "how I build" stack in the left half of the page; on a wide screen the right half is
 empty graphite from the bio down. This round mocks three ways to use that space, desktop and phone on

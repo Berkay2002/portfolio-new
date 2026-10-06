@@ -35,6 +35,7 @@ type Copy = {
     bio: [string, string, string];
     how: string;
     layers: string[];
+    shipped: string;
     cv: string;
   };
   photos: { index: string; title: string; all: (n: number) => string };
@@ -48,6 +49,7 @@ type Copy = {
       sections: [string, string, string, string, string];
       services: string;
       screens: string;
+      next: string;
       stack: string;
       live: string;
       source: string;
@@ -114,6 +116,7 @@ export const landingCopy: Record<Locale, Copy> = {
       ],
       how: "how I build",
       layers: ["interface", "agents", "models", "data", "infra"],
+      shipped: "where it shipped",
       cv: "Download CV →",
     },
     photos: { index: "06 / OFF THE CLOCK", title: "Photography.", all: (n) => `All ${n} photos →` },
@@ -142,6 +145,7 @@ export const landingCopy: Record<Locale, Copy> = {
         sections: ["Overview", "Key features", "Challenges", "Solution", "Outcome"],
         services: "Services",
         screens: "Screens",
+        next: "Next →",
         stack: "stack",
         live: "Live site ↗",
         source: "Source ↗",
@@ -225,6 +229,7 @@ export const landingCopy: Record<Locale, Copy> = {
       ],
       how: "hur jag bygger",
       layers: ["gränssnitt", "agenter", "modeller", "data", "infra"],
+      shipped: "där det används",
       cv: "Ladda ner CV →",
     },
     photos: { index: "06 / PÅ FRITIDEN", title: "Fotografi.", all: (n) => `Alla ${n} foton →` },
@@ -253,6 +258,7 @@ export const landingCopy: Record<Locale, Copy> = {
         sections: ["Översikt", "Funktioner", "Utmaningar", "Lösning", "Resultat"],
         services: "Tjänster",
         screens: "Bilder",
+        next: "Nästa →",
         stack: "stack",
         live: "Live ↗",
         source: "Källkod ↗",
@@ -292,6 +298,15 @@ export const stack = [
   "vLLM · PyTorch",
   "PostgreSQL · Qdrant · Neo4j",
   "Docker · Kubernetes",
+];
+
+// The projects built on each layer, as [name, project id]: the ones whose stack uses that layer's tools.
+export const shipped: [string, string][][] = [
+  [["Stats for Spotify", "statsforspotify"], ["Oversee", "oversee"], ["Alertz", "alertz"], ["LiTHePlan", "litheplan"], ["Fractured Crown", "fractured-crown"]],
+  [["Municipality Chatbot", "municipality-chatbot"], ["SynGraph", "researcher"], ["FastTalk", "fasttalk"]],
+  [["FastTalk", "fasttalk"]],
+  [["Stats for Spotify", "statsforspotify"], ["Alertz", "alertz"], ["Municipality Chatbot", "municipality-chatbot"], ["Clairvoyant", "clairvoyant"]],
+  [["FastTalk", "fasttalk"], ["Municipality Chatbot", "municipality-chatbot"]],
 ];
 
 // The five prints dealt out in the photo section, the middle one in colour; the rest are on

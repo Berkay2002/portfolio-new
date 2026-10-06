@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Fragment, type ReactNode, useRef } from "react";
 
 import { cn } from "@/lib/utils";
@@ -139,8 +140,29 @@ function Plate({ i, pitch }: { i: number; pitch: number }) {
   );
 }
 
+type Props = { layers: string[]; tools: string[]; shipped: [string, string][][]; heading: string };
+
+// Names joined by " · ", wrapping only between whole names.
+function Joined({ items }: { items: ReactNode[] }) {
+  return items.map((item, k) => (
+    <Fragment key={k}>
+      <span className="whitespace-nowrap">
+        {item}
+        {k < items.length - 1 && " ·"}
+      </span>
+      {k < items.length - 1 && " "}
+    </Fragment>
+  ));
+}
+
+function Projects({ list }: { list: [string, string][] }) {
+  return <Joined items={list.map(([name, id]) => <Link className="hover:text-(--lime) hover:underline" href={`/projects/${id}`} key={id}>{name}</Link>)} />;
+}
+
 // The plates and their labels, spread `pitch` units apart. Phones spread them wider so the labels fit.
-function Drawing({ layers, tools, pitch, className }: { layers: string[]; tools: string[]; pitch: number; className: string }) {
+// On wide screens each leader line runs on past its label to the projects built on that layer
+// (design/approved/about-used-in.png); narrower, the projects sit under the tools.
+function Drawing({ layers, tools, shipped, heading, pitch, className }: Props & { pitch: number; className: string }) {
   const vh = Y0 + 4 * pitch + 80;
   const root = useRef<HTMLDivElement>(null);
   const svg = useRef<SVGSVGElement>(null);
@@ -173,20 +195,25 @@ function Drawing({ layers, tools, pitch, className }: { layers: string[]; tools:
       <ul className="relative flex-1">
         {layers.map((layer, i) => (
           <li
-            className="stack-label -translate-y-[9px] absolute left-0 pl-2 lg:-translate-y-[11px] lg:pl-4"
+            className="stack-label -translate-y-[9px] group absolute inset-x-0 flex items-start pl-2 lg:-translate-y-[11px] lg:pl-4"
             key={layer}
             style={{ top: `${((Y0 + i * pitch + W * EX[1] + D * EY[1]) / vh) * 100}%` }}
           >
-            <p className="text-[13px] lg:text-[15px]">{layer}</p>
-            <p className="mt-0.5 text-(--dim) text-[11px] leading-snug lg:mt-1 lg:text-[13px]">
-              {/* Wraps only between whole tool names. */}
-              {tools[i]!.split(" · ").map((t, k, all) => (
-                <Fragment key={t}>
-                  <span className="whitespace-nowrap">{k < all.length - 1 ? `${t} ·` : t}</span>
-                  {k < all.length - 1 && " "}
-                </Fragment>
-              ))}
-            </p>
+            <div className="xl:w-56 xl:shrink-0">
+              <p className="text-[13px] lg:text-[15px]">{layer}</p>
+              <p className="mt-0.5 text-(--dim) text-[11px] leading-snug lg:mt-1 lg:text-[13px]">
+                <Joined items={tools[i]!.split(" · ")} />
+              </p>
+              <p className="mt-1.5 text-(--fg)/70 text-[11px] leading-snug lg:text-[13px] xl:hidden">
+                <Projects list={shipped[i]!} />
+              </p>
+            </div>
+            <span className="mt-[11px] hidden h-px flex-1 bg-(--faint) transition-colors group-hover:bg-(--lime)/60 xl:block" />
+            <span className="mt-2 hidden size-[7px] shrink-0 rounded-full bg-(--lime) xl:block" />
+            <div className="relative ml-3 hidden w-[24rem] shrink-0 text-[13px] leading-[22px] xl:block">
+              {i === 0 && <p className="absolute bottom-full mb-5 text-(--dim) text-xs">{heading}</p>}
+              <Projects list={shipped[i]!} />
+            </div>
           </li>
         ))}
       </ul>
@@ -194,7 +221,7 @@ function Drawing({ layers, tools, pitch, className }: { layers: string[]; tools:
   );
 }
 
-export function Stack({ layers, tools }: { layers: string[]; tools: string[] }) {
+export function Stack(props: Props) {
   return (
     <>
       {/* Shared by both drawings, so a drawing hidden at this width does not take the patterns with it. */}
@@ -215,8 +242,8 @@ export function Stack({ layers, tools }: { layers: string[]; tools: string[] }) 
           </clipPath>
         </defs>
       </svg>
-      <Drawing className="flex lg:hidden" layers={layers} pitch={180} tools={tools} />
-      <Drawing className="hidden lg:flex" layers={layers} pitch={132} tools={tools} />
+      <Drawing {...props} className="flex lg:hidden" pitch={350} />
+      <Drawing {...props} className="hidden lg:flex" pitch={132} />
     </>
   );
 }
