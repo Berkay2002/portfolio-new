@@ -619,21 +619,25 @@
   }
 }
 
-/* The hero's signal breathes like live audio: each bar's height eases in and out, a little later than the
-   bar before it, so a slow swell travels along the line. `scale` composes with the sweep's `transform`. */
+/* Every signal breathes like live audio: each bar's height eases in and out, a little later than the bar
+   before it, so a slow swell travels along the line. `scale` composes with the swell's `transform`. */
 @keyframes breathe {
-  0%,
-  100% {
-    scale: 1 1;
-  }
   50% {
     scale: 1 0.6;
   }
 }
+@keyframes breathe-x {
+  50% {
+    scale: 0.6 1;
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
-  .wave.breathe rect {
+  .wave rect {
     animation: breathe 2.6s ease-in-out infinite;
     animation-delay: calc(var(--i) * -45ms);
+  }
+  .wave.vertical rect {
+    animation-name: breathe-x;
   }
 }
 

@@ -163,8 +163,8 @@ export function Hero() {
       </div>
       <div className="relative mt-10 h-24 lg:absolute lg:inset-x-0 lg:bottom-[3%] lg:mt-0 lg:h-[130px]">
         {/* Phone: the trace leaves the signal's left end and turns down into the 20 px lane. */}
-        <Wave className="breathe absolute inset-y-0 left-11 h-full w-[calc(100%-44px)] lg:hidden" live n={60} peaks={heroPeaks} />
-        <Wave className="breathe absolute inset-y-0 left-0 hidden h-full w-[75%] lg:block" n={180} peaks={heroPeaks} sweep />
+        <Wave className="absolute inset-y-0 left-11 h-full w-[calc(100%-44px)] lg:hidden" live n={60} peaks={heroPeaks} />
+        <Wave className="absolute inset-y-0 left-0 hidden h-full w-[75%] lg:block" n={180} peaks={heroPeaks} sweep />
         <A className="top-1/2 left-11 [--dir:h] lg:left-[75%]" />
         <A className="top-[calc(50%+40px)] left-5 lg:hidden" />
         <A className="top-[calc(50%+40px)] left-[calc(75%+40px)] hidden lg:block" />
