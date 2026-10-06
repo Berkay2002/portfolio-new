@@ -186,7 +186,6 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
     const el = root.current;
     if (!el) return;
     state.current.still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!state.current.still) el.dataset.anim = "";
     let frame = 0;
     const onScroll = () => {
       cancelAnimationFrame(frame);

@@ -459,11 +459,14 @@
   transform-origin: center;
   transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 5ms);
 }
-[data-anim] .wave:not(.on) rect {
-  transform: scaleY(0.12);
-}
-[data-anim] .wave.vertical:not(.on) rect {
-  transform: scaleX(0.12);
+/* A media query, not a class set by script, so the bars are already low in the first paint. */
+@media (prefers-reduced-motion: no-preference) {
+  .wave:not(.on) rect {
+    transform: scaleY(0.12);
+  }
+  .wave.vertical:not(.on) rect {
+    transform: scaleX(0.12);
+  }
 }
 /* The stack opens as it scrolls into view (--p from 0 to 1, set by components/landing/use-unfold.ts). */
 .stack-plate {
@@ -607,11 +610,31 @@
   transition-duration: 0.35s;
   transition-delay: 0s;
 }
-[data-anim] .wave.sweep rect:not(.on) {
-  transform: scaleY(0.12);
+@media (prefers-reduced-motion: no-preference) {
+  .wave.sweep rect:not(.on) {
+    transform: scaleY(0.12);
+  }
+  .wave.sweep.vertical rect:not(.on) {
+    transform: scaleX(0.12);
+  }
 }
-[data-anim] .wave.sweep.vertical rect:not(.on) {
-  transform: scaleX(0.12);
+
+/* The hero's signal breathes like live audio: each bar's height eases in and out, a little later than the
+   bar before it, so a slow swell travels along the line. `scale` composes with the sweep's `transform`. */
+@keyframes breathe {
+  0%,
+  100% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 1 0.6;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wave.breathe rect {
+    animation: breathe 2.6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -45ms);
+  }
 }
 
 /* Paper text on the graphite pages: lime links, faint row rules instead of cell borders. */
