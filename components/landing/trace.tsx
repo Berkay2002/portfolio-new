@@ -221,6 +221,10 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
             fill="none"
             key={l.id}
             stroke="var(--lime)"
+            // Hidden until the effect below measures it and draws it to the pen; without these the
+            // whole line shows for a moment on load. The effect's inline style overrides them.
+            strokeDasharray={1e6}
+            strokeDashoffset={1e6}
             strokeLinecap="round"
             strokeWidth={2}
           />
