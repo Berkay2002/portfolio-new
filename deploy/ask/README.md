@@ -67,7 +67,9 @@ curl -s http://localhost:20129/v1/chat/completions -H "Authorization: Bearer <th
 Cloudflare dashboard → Zero Trust → Networks → Tunnels.
 
 - **The Mac already runs cloudflared:** add a public hostname to that tunnel, `ask-api.berkay.se` →
-  `http://localhost:20129`.
+  `http://localhost:20129`. If the tunnel runs from `~/.cloudflared/config.yml` (it does not show up as
+  dashboard-managed), add the rule above the final `http_status:404` line instead, then
+  `cloudflared tunnel route dns <tunnel> ask-api.berkay.se` and restart the cloudflared service.
 - **Otherwise:** create a tunnel (connector: Docker), put its token in `.env` as `TUNNEL_TOKEN`, run
   `docker compose --profile tunnel up -d`, and add the public hostname `ask-api.berkay.se` →
   `http://ask-omniroute:20129`.
