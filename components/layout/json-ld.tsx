@@ -9,7 +9,7 @@ export function JsonLd() {
     familyName: "Orhan",
     alternateName: "Berkay",
     jobTitle: personalInfo.title,
-    description: `Berkay is a Machine Learning Engineer based in Sweden. ${personalInfo.bio}`,
+    description: personalInfo.bio,
     url: "https://berkay.se",
     sameAs: [
       socialLinks.github,
@@ -48,7 +48,7 @@ export function JsonLd() {
     url: "https://berkay.se",
     name: "Berkay Orhan",
     alternateName: "Berkay",
-    description: `Berkay is a Machine Learning Engineer based in Sweden. ${personalInfo.bio}`,
+    description: personalInfo.bio,
     inLanguage: ["en", "sv"],
     author: {
       "@type": "Person",

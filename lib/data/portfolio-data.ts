@@ -27,12 +27,8 @@ import { wikillm } from "./projects/wikillm";
 
 export const personalInfo: PersonalInfo = {
   name: "Berkay Orhan",
-  title: "Machine Learning Student",
-  bio: "Berkay is an engineering student passionate about machine learning and web development. Currently pursuing a master's in ML, web technologies, and cybersecurity. In free time: photography, gaming, and friends.",
-  bioEn:
-    "Berkay is an engineering student passionate about machine learning and web development. Currently pursuing a master's in ML, web technologies, and cybersecurity. In free time: photography, gaming, and friends.",
-  bioSv:
-    "Ingenjörsstudent med intresse för maskininlärning och webbutveckling. Läser för närvarande en master inom ML, webbteknologier och cybersäkerhet. På fritiden ägnar jag mig åt fotografi, gaming och att umgås med vänner.",
+  title: "Software Developer",
+  bio: "Berkay is a software developer at Ericsson in Linköping, building AI systems: agentic retrieval, voice pipelines and the web apps around them.",
 };
 
 export const projects: Project[] = [
