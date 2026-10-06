@@ -461,7 +461,7 @@ export function Experience() {
       <div className="relative mt-10 h-[640px] lg:hidden">
         <A className="top-0 left-5" />
         <A className="top-[40px] left-[88px]" />
-        <Wave className="-translate-x-1/2 absolute top-[40px] left-[88px] h-[560px] w-[110px]" floor={0.02} n={90} peaks={careerPeaks} sweep vertical />
+        <Wave className="-translate-x-1/2 absolute top-[40px] left-[88px] h-[560px] w-16" floor={0.02} n={90} peaks={careerPeaks} sweep vertical />
         {years.map((y) => (
           <span className="-translate-y-1/2 absolute left-6 text-(--dim) text-xs" key={y} style={{ top: `${Y(y)}%` }}>
             {y}
@@ -471,7 +471,8 @@ export function Experience() {
           const t = c.experience.moments[i]!;
           return (
             <div className="absolute right-6 left-[150px]" key={m.at} style={{ top: `calc(${Y(m.at)}% - 12px)` }}>
-              <span className="-left-[62px] absolute top-3 h-px w-[50px] bg-(--dim)/60" />
+              <span className="-left-[62px] -translate-x-1/2 -translate-y-1/2 absolute top-3 size-3 rounded-full border-2 border-(--lime) bg-(--bg)" />
+              <span className="-left-[54px] absolute top-3 h-px w-[42px] bg-(--dim)/60" />
               <p className={cn("font-display text-[19px] leading-tight", i === 3 && "text-(--lime)")}>{t.title}</p>
               <p className="mt-1 text-(--fg)/70 text-xs">{t.line}</p>
             </div>
@@ -521,12 +522,12 @@ export function About() {
           </a>
         </div>
         {photos.length > 0 && (
-          <figure className="mt-14 pl-12 lg:mt-0 lg:w-[190px] lg:pl-0">
-            <div className="flex gap-3 overflow-x-auto lg:flex-col lg:gap-4 lg:overflow-visible">
+          <figure className="mt-14 pr-6 pl-12 lg:mt-0 lg:w-[190px] lg:pr-0 lg:pl-0">
+            <div className="grid grid-cols-2 gap-3 lg:flex lg:flex-col lg:gap-4">
               {photos.map((p) => (
-                <Link className="shrink-0" href="/photography" key={p.id}>
+                <Link href="/photography" key={p.id}>
                   {/* eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized */}
-                  <img alt={p.alt} className="aspect-[4/3] h-40 w-auto object-cover grayscale transition-[filter] duration-500 hover:grayscale-0 lg:h-auto lg:w-full"
+                  <img alt={p.alt} className="aspect-[4/3] w-full object-cover grayscale transition-[filter] duration-500 hover:grayscale-0"
                     loading="lazy" src={photoUrl(p, true)} />
                 </Link>
               ))}
@@ -557,9 +558,9 @@ export function Contact() {
   ];
   return (
     <section className="relative scroll-mt-16 pt-32 text-center lg:pt-48" id="contact">
-      <div className="px-12">
+      <div className="px-6 lg:px-12">
         <Index>{c.contact.index}</Index>
-        <h2 className="font-display mt-5 text-[34px] leading-[1.02] lg:text-[clamp(56px,6.6vw,96px)]">
+        <h2 className="font-display mt-5 text-[32px] leading-[1.02] lg:text-[clamp(56px,6.6vw,96px)]">
           <span className="block">{c.contact.title[0]}</span>
           <span className="block">{c.contact.title[1]}</span>
         </h2>
@@ -587,7 +588,7 @@ export function Contact() {
           <span className="font-display text-2xl">Berkay Orhan</span>
           <span className="text-(--dim) text-sm">© 2026</span>
         </p>
-        <nav className="flex flex-col text-(--dim) text-sm lg:flex-row lg:gap-10">
+        <nav className="flex flex-wrap gap-x-6 text-(--dim) text-sm lg:gap-x-10">
           {footer.map(([href, label]) => (
             <a className={cn("flex h-11 items-center", link)} href={href} key={href}>
               {label}
