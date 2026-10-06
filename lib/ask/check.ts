@@ -14,6 +14,8 @@ assert.ok(ids("Which projects use LangGraph?").includes("researcher"));
 assert.ok(ids("What has he built with AI?").length > 0); // two-letter terms count
 assert.deepEqual(ids("has he the and"), []);
 assert.ok(ids("trådsäker").includes("voxel-project")); // a word only in a project's Swedish challenges
+assert.ok(ids("renderingspass").includes("voxel-project")); // a station on the project's trace
+assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched
 
 // Everything that leaves the server: the browser's index, and the profile and excerpts the model reads. None of
 // the benchmark's measured values (the non-integer numbers, like a pass rate of 71.2) may appear in it.

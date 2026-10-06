@@ -87,10 +87,11 @@ export async function POST(req: Request) {
   if (!budgetLeft() || !(await up())) return NextResponse.json({ error: "down" }, { status: 503, headers: noStore });
 
   // A follow-up like "what does it search?" names nothing, so it borrows the last question's words.
-  let hits = search(askDocs, question, 4);
-  if (hits.length < 2 && history.length) hits = search(askDocs, `${history.at(-1)!.q} ${question}`, 4);
+  let query = question;
+  let hits = search(askDocs, query, 4);
+  if (hits.length < 2 && history.length) hits = search(askDocs, (query = `${history.at(-1)!.q} ${question}`), 4);
   // No matches still goes to the model, so a greeting gets a greeting back.
-  const context = hits.map((h) => `[${h.doc.id}] ${h.doc.title.en}\n${excerpt(h.doc.id)}`).join("\n\n") || "(none)";
+  const context = hits.map((h) => `[${h.doc.id}] ${h.doc.title.en}\n${excerpt(h.doc.id, query)}`).join("\n\n") || "(none)";
 
   const messages = [
     {
@@ -118,8 +119,10 @@ export async function POST(req: Request) {
       body: JSON.stringify({ model, temperature: 0.2, max_tokens: 400, messages }),
     }).catch((e) => (console.error(`ask: ${model} failed`, e), null));
     if (res && !res.ok) console.error(`ask: ${model} answered ${res.status}`);
-    if (res && [502, 530].includes(res.status)) {
-      health = { up: false, at: Date.now() }; // Cloudflare: the Mac or the tunnel is off, so no model will answer
+    // Cloudflare's own 530, or its HTML 502, means the Mac or the tunnel is off, so no model will answer. A JSON
+    // 502 is a provider's bad gateway relayed by OmniRoute, so the next model gets its turn.
+    if (res && (res.status === 530 || (res.status === 502 && !res.headers.get("content-type")?.includes("json")))) {
+      health = { up: false, at: Date.now() };
       break;
     }
     if (!res?.ok) continue;
