@@ -21,7 +21,13 @@ cover runs wide under the lede and the screenshots or videos run as a sideways r
 Next". The Stats for Spotify and LiTHePlan screenshots had their browser frame cropped off.
 `/ask` (Ask the site, `components/landing/ask.tsx`) is built from the `pages-r1` parts without a round of
 its own: a page head, the question on a burst, the answer on a burst, and the matches as list rows with a tick
-(`design/screens/ask.*.png`).
+(`design/screens/ask.*.png`). Its question also sits in the hero, from `ask-r7.md`
+(`design/approved/landing-hero-ask.png`, `components/landing/hero-ask.tsx`): the hero is now only the
+headline, the lede and a rounded composer, with no overline and no buttons (the CV stays in About). The
+composer's bottom edge carries the trace, lime round the corner into a burst that swells while an answer
+is on its way; the answer shows under it with the pages it names linked. While the model is off, a
+question goes to `/ask?q=`. Departure from the board: the hero's wide waveform stays, since the page's
+trace starts from it.
 
 ## The system
 

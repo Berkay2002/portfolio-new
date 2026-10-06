@@ -23,10 +23,11 @@ function Marked({ text, qs }: { text: string; qs: string[] }) {
   return text.split(re).map((part, i) => (i % 2 ? <span className="text-(--lime)" key={i}>{part}</span> : part));
 }
 
-export function Ask({ docs }: { docs: AskDoc[] }) {
+// `initial` is ?q=, from the hero's composer while the model is off.
+export function Ask({ docs, initial = "" }: { docs: AskDoc[]; initial?: string }) {
   const { c, locale } = useCopy();
   const a = c.pages.ask;
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState(initial);
   const [up, setUp] = useState<boolean | null>(null);
   const [answer, setAnswer] = useState<Answer | null>(null);
   const hits = useMemo(() => search(docs, q), [docs, q]);

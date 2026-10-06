@@ -69,7 +69,7 @@ export async function POST(req: Request) {
   if (!(await up())) return NextResponse.json({ error: "down" }, { status: 503, headers: noStore });
 
   const hits = search(askDocs, question, 4);
-  if (hits.length === 0) return NextResponse.json({ answer: null, ids: [] }, { headers: noStore });
+  if (hits.length === 0) return NextResponse.json({ answer: null, links: [] }, { headers: noStore });
   const context = hits.map((h) => `[${h.doc.id}] ${h.doc.title.en}\n${excerpt(h.doc.id)}`).join("\n\n");
 
   const messages = [
@@ -98,7 +98,8 @@ export async function POST(req: Request) {
     if (!res?.ok) continue;
     const data = (await res.json().catch(() => null)) as { choices?: { message?: { content?: string } }[] } | null;
     const answer = data?.choices?.[0]?.message?.content?.replace(/\*\*?|`/g, "").trim().slice(0, 600); // the page shows plain text
-    if (answer) return NextResponse.json({ answer, ids: hits.map((h) => h.doc.id) }, { headers: noStore });
+    // The pages it drew on, so the hero can link the names in the answer.
+    if (answer) return NextResponse.json({ answer, links: hits.map((h) => ({ href: h.doc.href, title: h.doc.title })) }, { headers: noStore });
   }
   return NextResponse.json({ error: "model" }, { status: 502, headers: noStore });
 }
