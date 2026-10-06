@@ -129,28 +129,33 @@ export function TraceRoot({ children, className }: { children: ReactNode; classN
     const box = el.getBoundingClientRect();
     const all = [...samples.values()].flatMap((v) => v.s);
     state.current.samples = samples;
+    // The threshold of the line point nearest to (x, y), if one is within 80 px.
     const near = (x: number, y: number) => {
-      let best = { d: 80 * 80, thr: y };
+      let best: { d: number; thr?: number } = { d: 80 * 80 };
       for (const p of all) {
         const d = (p.x - x) ** 2 + (p.y - y) ** 2;
         if (d < best.d) best = { d, thr: p.thr };
       }
       return best.thr;
     };
+    const mid = (r: DOMRect) => [r.left - box.left + r.width / 2, r.top - box.top + r.height / 2] as const;
     state.current.waves = [...el.querySelectorAll("[data-wave]:not(.live):not(.sweep)")].map((w) => {
-      const r = w.getBoundingClientRect();
-      return { el: w, thr: near(r.left - box.left + r.width / 2, r.top - box.top + r.height / 2) };
+      const [x, y] = mid(w.getBoundingClientRect());
+      return { el: w, thr: near(x, y) ?? y };
     });
-    // A sweep wave fills bar by bar, left to right, from where the pen starts on the first screen
-    // to where the trace leaves its right end.
+    // A sweep wave fills bar by bar as the line passes each bar. A sweep wave the line only leaves
+    // (the hero's) fills left to right, from where the pen starts on the first screen to its right end.
     const start = window.innerHeight * PEN - (box.top + window.scrollY);
     state.current.bars = [...el.querySelectorAll("[data-wave].sweep")]
       .filter((w) => w.getClientRects().length > 0)
       .flatMap((w) => {
         const r = w.getBoundingClientRect();
-        const end = near(r.right - box.left, r.top - box.top + r.height / 2);
+        const end = near(r.right - box.left, mid(r)[1]) ?? mid(r)[1];
         const rects = [...w.querySelectorAll("rect")];
-        return rects.map((b, i) => ({ el: b, thr: Math.min(start, end) + (i / Math.max(1, rects.length - 1)) * Math.max(0, end - start) }));
+        return rects.map((b, i) => {
+          const linear = Math.min(start, end) + (i / Math.max(1, rects.length - 1)) * Math.max(0, end - start);
+          return { el: b, thr: near(...mid(b.getBoundingClientRect())) ?? linear };
+        });
       });
     draw();
   }, [lines, draw]);
@@ -227,7 +232,7 @@ export function Wave({
   floor?: number;
   vertical?: boolean;
   live?: boolean; // already swelled when the page opens
-  sweep?: boolean; // fills left to right as the page scrolls, ahead of the trace (the hero)
+  sweep?: boolean; // fills bar by bar as the line passes (or, if the line only leaves it, as the page starts to scroll)
   className?: string;
 }) {
   const bars = Array.from({ length: n }, (_, i) => {

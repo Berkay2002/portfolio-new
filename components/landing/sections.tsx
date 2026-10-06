@@ -364,7 +364,7 @@ export function Research() {
           ({c.research.with} Jonatan Ebenholm)
         </p>
       </div>
-      <Wire from="79%" to="98%" />
+      <Wire from="79%" to="2%" />
     </section>
   );
 }
@@ -380,13 +380,17 @@ const moments = [
   { at: 2026, above: false },
   { at: 2026.75, above: true },
 ];
-// Quiet until 2024, a gentle wave after, a burst at the new job (t along the axis, 2021 to 2027).
+// Grows with the years: small at the BSc, more through the MSc, most at Ericsson (t along the axis,
+// 2021 to 2027; the moments sit near 0, 0.52, 0.87 and 0.99).
 const careerPeaks: [number, number, number][] = [
-  [0.6, 0.14, 0.12],
-  [0.75, 0.08, 0.2],
-  [0.86, 0.04, 0.4],
-  [0.93, 0.03, 0.95],
-  [0.97, 0.02, 0.6],
+  [0.04, 0.06, 0.05],
+  [0.2, 0.08, 0.08],
+  [0.36, 0.08, 0.12],
+  [0.52, 0.06, 0.22],
+  [0.68, 0.08, 0.3],
+  [0.87, 0.04, 0.55],
+  [0.93, 0.04, 0.65],
+  [0.985, 0.025, 1],
 ];
 
 export function Experience() {
@@ -398,11 +402,11 @@ export function Experience() {
         <h2 className="font-display mt-4 text-[40px] leading-none lg:text-[clamp(48px,5vw,72px)]">{c.experience.title}</h2>
       </div>
 
-      {/* Desktop: the axis runs back from 2026 at the right to 2021 at the left. */}
+      {/* Desktop: the trace comes in on the left and runs the axis from 2021 to 2026, the wave growing as it goes. */}
       <div className="relative mt-10 hidden h-[560px] lg:block">
-        <A className="top-[calc(50%-40px)] left-[98%]" />
-        <A className="top-1/2 left-[calc(98%-40px)] [--dir:h]" />
-        <Wave className="-translate-y-1/2 absolute top-1/2 left-[4%] h-[170px] w-[94%]" floor={0.02} n={240} peaks={careerPeaks} />
+        <A className="top-[calc(50%-40px)] left-[2%]" />
+        <A className="top-1/2 left-[calc(2%+40px)] [--dir:h]" />
+        <Wave className="-translate-y-1/2 absolute top-1/2 left-[calc(2%+40px)] h-[170px] w-[calc(96%-80px)]" floor={0.02} n={240} peaks={careerPeaks} sweep />
         {years.map((y) => (
           <div key={y}>
             <span className="-translate-x-1/2 absolute top-[calc(50%-78px)] text-(--dim) text-sm" style={{ left: `${X(y)}%` }}>
@@ -437,15 +441,16 @@ export function Experience() {
             </div>
           );
         })}
-        <A className="top-1/2 left-[calc(2%+40px)] [--dir:h]" />
-        <A className="top-[calc(50%+40px)] left-[2%]" />
+        <A className="top-1/2 left-[calc(98%-40px)] [--dir:h]" />
+        <A className="top-[calc(50%+40px)] left-[98%]" />
       </div>
+      <Wire from="98%" to="2%" />
 
       {/* Phone: the axis runs down from 2021, 88 px in. */}
       <div className="relative mt-10 h-[640px] lg:hidden">
         <A className="top-0 left-5" />
         <A className="top-[40px] left-[88px]" />
-        <Wave className="-translate-x-1/2 absolute top-[40px] left-[88px] h-[560px] w-[110px]" floor={0.02} n={90} peaks={careerPeaks} vertical />
+        <Wave className="-translate-x-1/2 absolute top-[40px] left-[88px] h-[560px] w-[110px]" floor={0.02} n={90} peaks={careerPeaks} sweep vertical />
         {years.map((y) => (
           <span className="-translate-y-1/2 absolute left-6 text-(--dim) text-xs" key={y} style={{ top: `${Y(y)}%` }}>
             {y}
@@ -550,8 +555,8 @@ export function Contact() {
       <div className="relative mt-8 h-32 lg:mt-10 lg:h-[200px]">
         <A className="top-[calc(50%-40px)] left-5 lg:left-[2%]" />
         <A className="top-1/2 left-[60px] [--dir:h] lg:left-[calc(2%+40px)]" />
-        <Wave className="absolute inset-0 size-full lg:hidden" n={64} peaks={[[0.5, 0.12, 1]]} />
-        <Wave className="absolute inset-0 hidden size-full lg:block" n={240} peaks={[[0.5, 0.1, 1], [0.38, 0.05, 0.3], [0.62, 0.05, 0.3]]} />
+        <Wave className="absolute inset-y-0 left-[60px] h-full w-[calc(100%-60px)] lg:hidden" n={58} peaks={[[0.5, 0.12, 1]]} sweep />
+        <Wave className="absolute inset-y-0 left-[calc(2%+40px)] hidden h-full w-[calc(98%-40px)] lg:block" n={232} peaks={[[0.5, 0.1, 1], [0.38, 0.05, 0.3], [0.62, 0.05, 0.3]]} sweep />
         <A className="top-1/2 right-0 [--dir:h]" />
       </div>
       <a className="mt-8 inline-block border-(--lime) border-b-2 pb-1 text-lg lg:mt-10 lg:text-[28px]" href={`mailto:${EMAIL}`}>
