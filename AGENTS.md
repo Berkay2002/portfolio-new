@@ -81,7 +81,5 @@ Every user-facing string needs English and Swedish.
 - Imports use the `@/*` alias. ESLint flags unused imports.
 - File names are kebab-case; components are PascalCase, variables and functions camelCase.
 - External links use `target="_blank"` with `rel="noopener noreferrer"`.
-- Leftovers from the old site are still in the tree and no page uses them: most of `components/ui/` (everything
-  except `markdown-latex-renderer.tsx`), `components/layout/particle-toggle.tsx`, `lib/config/particle-config.ts`,
-  `lib/translations.ts` (only behind the provider's unused `t()`), and `skills`, `skillDetails` and
-  `timelineEvents` in `portfolio-data.ts`. Don't build on them.
+- Leftovers from the old site that no page uses: `lib/translations.ts` (only behind the provider's unused `t()`)
+  and `skills`, `skillDetails` and `timelineEvents` in `portfolio-data.ts`. Don't build on them.
