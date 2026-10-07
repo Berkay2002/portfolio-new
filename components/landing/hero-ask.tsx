@@ -63,7 +63,8 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     const typing = () => document.activeElement?.matches("input, textarea, [contenteditable]") ?? false;
     const width = () => Math.round(vv.width * vv.scale);
     // The height without a keyboard for each width the page has had, so turning the phone while typing keeps it.
-    // A width first seen while typing falls back to most of the screen's height that way up (toolbars aside).
+    // A width first seen while typing falls back to the screen's height that way up, less a fifth in portrait for
+    // Safari's toolbars; landscape keeps it whole, since its keyboard leaves too little room for a fifth to spare.
     const full = new Map([[width(), height()]]);
     const short = Math.min(screen.width, screen.height);
     // An on-screen keyboard comes up for a field tapped with a finger or pen, not one clicked with a mouse; after a
@@ -72,7 +73,7 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     const onPointer = (e: PointerEvent) => {
       touched = e.pointerType !== "mouse";
     };
-    const keyboard = () => touched && (full.get(width()) ?? (width() > short ? short : Math.max(screen.width, screen.height)) * 0.8) - height() > 150;
+    const keyboard = () => touched && (full.get(width()) ?? (width() > short ? short : Math.max(screen.width, screen.height) * 0.8)) - height() > 150;
     // Safari's own scroll and the keyboard's slide run for a while after the tap. The composer is placed as soon
     // as the keyboard is there, again on every frame Safari moves the page for the next 2.5 s, and once more
     // when it stops, so it never shows where Safari put it.
@@ -246,7 +247,7 @@ export function HeroAsk() {
       // With the keyboard up the column fits above it (88 px: the header's 64 and a margin; 128 px on wide screens,
       // where it starts 104 px down), so the latest turn stays in view.
       <div
-        className="relative z-10 flex h-[min(calc(100svh-224px),calc(var(--fit,9999px)-88px))] min-h-[min(400px,calc(var(--fit,9999px)-88px))] flex-col px-6 pt-6 lg:absolute lg:top-[104px] lg:bottom-[calc(3%+120px)] lg:left-[4%] lg:h-auto lg:max-h-[calc(var(--fit,9999px)-128px)] lg:w-[min(760px,52vw)] lg:px-0"
+        className="relative z-10 flex h-[min(calc(100svh-224px),calc(var(--fit,9999px)-88px))] min-h-[min(400px,calc(var(--fit,9999px)-88px))] flex-col px-6 pt-6 lg:absolute lg:top-[104px] lg:bottom-[calc(3%+120px)] lg:left-[4%] lg:h-auto lg:max-h-[calc(var(--fit,9999px)-128px)] lg:min-h-[min(400px,calc(var(--fit,9999px)-128px))] lg:w-[min(760px,52vw)] lg:px-0"
         data-chat
         style={fit ? ({ "--fit": `${fit}px` } as CSSProperties) : undefined}
       >
