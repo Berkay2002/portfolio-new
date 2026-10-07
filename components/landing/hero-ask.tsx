@@ -65,18 +65,25 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     let full = height();
     let width = vv.width * vv.scale;
     const keyboard = () => full - height() > 150;
-    // Safari's own scroll and the keyboard's slide run for a while after the tap, and Safari may scroll again
-    // once they end, so for a second and a half every pause in the events places the composer again.
+    // Safari's own scroll and the keyboard's slide run for a while after the tap. The composer is placed as soon
+    // as the keyboard is there, again on every frame Safari moves the page for the next 2.5 s, and once more
+    // when it stops, so it never shows where Safari put it.
     let until = 0;
     let timer = 0;
+    let frame = 0;
     const place = (why: string) => {
       const f = form.current;
       const up = keyboard() && !!f?.contains(document.activeElement);
       flushSync(() => setFit(up ? Math.round(height()) : null));
       if (!f || !up) return log?.(why, f, "no keyboard");
       if (vv.scale > 1.01) return log?.(why, f, "zoomed"); // zoomed in: the visitor is placing the view
-      const top = Math.max(document.querySelector("header")?.getBoundingClientRect().bottom ?? 0, vv.offsetTop) + 16;
-      const bottom = vv.offsetTop + vv.height - 24; // the burst on the composer's edge hangs below it
+      // Since iOS 26 the layout viewport shrinks with the keyboard and Safari slides the visual one down onto it,
+      // so its offset is on its way to 0: aim for where it ends up, not for a frame of the slide.
+      const offset = document.documentElement.clientHeight - vv.height < 40 ? 0 : vv.offsetTop;
+      const head = document.querySelector("header");
+      const headed = !head ? 0 : getComputedStyle(head).position === "fixed" ? head.offsetHeight : head.getBoundingClientRect().bottom;
+      const top = Math.max(headed, offset) + 16;
+      const bottom = offset + vv.height - 24; // the burst on the composer's edge hangs below it
       const r = f.getBoundingClientRect();
       const by = Math.round(Math.min(r.bottom - bottom, r.top - top)); // if it can't fit, its top wins
       if (Math.abs(by) > 1) window.scrollBy({ top: by, behavior: "instant" });
@@ -85,13 +92,15 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     const wait = (why: string) => {
       log?.(why, form.current);
       if (performance.now() > until) return;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => place("frame"));
       clearTimeout(timer);
-      timer = window.setTimeout(() => place("settled"), 120);
+      timer = window.setTimeout(() => place("settled"), 150);
     };
     const arm = (why: string) => {
-      until = performance.now() + 1500;
+      until = performance.now() + 2500;
       wait(why);
-      window.setTimeout(() => performance.now() >= until && place("last look"), 1600);
+      window.setTimeout(() => performance.now() >= until && place("last look"), 2600);
     };
     const onFocus = (e: FocusEvent) => form.current?.contains(e.target as Node) && arm("focus");
     const onResize = () => {
@@ -99,12 +108,14 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
       if (!typing() || w !== width) full = height(); // no keyboard can be up, or the phone turned
       width = w;
       if (!keyboard()) setFit(null); // closed: the conversation gets its height back at once
+      else place("keyboard"); // at once, before Safari's own scroll shows
       arm("vv resize");
     };
     const onVvScroll = () => wait("vv scroll");
     const onScroll = () => wait("scroll");
     const stop = () => {
       until = 0; // the visitor is scrolling themselves
+      cancelAnimationFrame(frame);
       clearTimeout(timer);
     };
     document.addEventListener("focusin", onFocus);
@@ -113,6 +124,7 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("touchmove", stop, { passive: true });
     return () => {
+      cancelAnimationFrame(frame);
       clearTimeout(timer);
       document.removeEventListener("focusin", onFocus);
       vv.removeEventListener("resize", onResize);
@@ -129,7 +141,7 @@ function debugLog() {
   if (!location.search.includes("kb")) return null;
   const box = document.createElement("pre");
   box.style.cssText =
-    "position:fixed;left:0;right:0;top:0;z-index:99;margin:0;padding:4px;font:9px/1.25 monospace;color:#c8f542;background:#000d;pointer-events:none;white-space:pre-wrap";
+    "position:fixed;left:0;right:0;top:0;z-index:99;margin:0;padding:4px;font:8px/1.2 monospace;color:#c8f542;background:#000d;pointer-events:none;white-space:pre-wrap";
   document.body.append(box);
   const lines: string[] = [];
   const t0 = performance.now();
@@ -140,7 +152,7 @@ function debugLog() {
     lines.push(
       `${Math.round(performance.now() - t0)} ${why} vv ${Math.round(vv.height)}/${Math.round(vv.offsetTop)}/${Math.round(vv.scale * 100)}%/${Math.round(vv.pageTop)} ch ${document.documentElement.clientHeight} ih ${innerHeight} y ${Math.round(scrollY)} f ${r ? `${Math.round(r.top)}-${Math.round(r.bottom)}` : "-"} hd ${h ? Math.round(h.bottom) : "-"} ${document.activeElement?.tagName ?? ""} ${note}`
     );
-    box.textContent = lines.slice(-14).join("\n");
+    box.textContent = lines.slice(-40).join("\n");
   };
 }
 
