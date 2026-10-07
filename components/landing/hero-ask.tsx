@@ -49,8 +49,8 @@ const askHref = (turns: Turn[], q: string) =>
   `/ask?q=${encodeURIComponent([...turns.flatMap((t) => (t.state === "done" ? [t.q] : [])).slice(-3), q].join(" "))}`;
 
 // iOS Safari scrolls a focused field into view as if the fixed header were not there: the composer ended up
-// behind the header with the Work section under it. Once the keyboard has settled, the composer is moved to sit
-// just above the keyboard instead, like a chat app's, below the header, so the headline stays in view. Since iOS 26
+// behind the header with the Work section under it. As soon as the keyboard is up, the composer is moved to sit
+// just above it instead, like a chat app's, below the header, so the headline stays in view. Since iOS 26
 // the keyboard shrinks the layout viewport as well as the visual one, so a keyboard is told by the visual viewport
 // getting more than 150 px shorter than it was while no field had focus. Without a keyboard nothing moves.
 // Returns the visible height while the keyboard is up, so the conversation can shrink to fit above it.
@@ -59,7 +59,6 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
   useEffect(() => {
     const vv = window.visualViewport;
     if (!vv) return;
-    const log = debugLog();
     const height = () => vv.height * vv.scale; // in the page's unzoomed px, so pinch zoom isn't a keyboard
     const typing = () => document.activeElement?.matches("input, textarea, [contenteditable]") ?? false;
     let full = height();
@@ -70,13 +69,13 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     // when it stops, so it never shows where Safari put it.
     let until = 0;
     let timer = 0;
+    let late = 0;
     let frame = 0;
-    const place = (why: string) => {
+    const place = () => {
       const f = form.current;
       const up = keyboard() && !!f?.contains(document.activeElement);
       flushSync(() => setFit(up ? Math.round(height()) : null));
-      if (!f || !up) return log?.(why, f, "no keyboard");
-      if (vv.scale > 1.01) return log?.(why, f, "zoomed"); // zoomed in: the visitor is placing the view
+      if (!f || !up || vv.scale > 1.01) return; // zoomed in, the visitor is placing the view themselves
       // Since iOS 26 the layout viewport shrinks with the keyboard and Safari slides the visual one down onto it,
       // so its offset is on its way to 0: aim for where it ends up, not for a frame of the slide.
       const offset = document.documentElement.clientHeight - vv.height < 40 ? 0 : vv.offsetTop;
@@ -87,73 +86,52 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
       const r = f.getBoundingClientRect();
       const by = Math.round(Math.min(r.bottom - bottom, r.top - top)); // if it can't fit, its top wins
       if (Math.abs(by) > 1) window.scrollBy({ top: by, behavior: "instant" });
-      log?.(why, f, `by ${by}`);
     };
-    const wait = (why: string) => {
-      log?.(why, form.current);
+    const wait = () => {
       if (performance.now() > until) return;
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => place("frame"));
+      frame = requestAnimationFrame(place);
       clearTimeout(timer);
-      timer = window.setTimeout(() => place("settled"), 150);
+      timer = window.setTimeout(place, 150);
     };
-    const arm = (why: string) => {
+    const arm = () => {
       until = performance.now() + 2500;
-      wait(why);
-      window.setTimeout(() => performance.now() >= until && place("last look"), 2600);
+      wait();
+      clearTimeout(late);
+      late = window.setTimeout(place, 2600);
     };
-    const onFocus = (e: FocusEvent) => form.current?.contains(e.target as Node) && arm("focus");
+    const onFocus = (e: FocusEvent) => form.current?.contains(e.target as Node) && arm();
     const onResize = () => {
       const w = vv.width * vv.scale;
       if (!typing() || w !== width) full = height(); // no keyboard can be up, or the phone turned
       width = w;
       if (!keyboard()) setFit(null); // closed: the conversation gets its height back at once
-      else place("keyboard"); // at once, before Safari's own scroll shows
-      arm("vv resize");
+      else place(); // at once, before Safari's own scroll shows
+      arm();
     };
-    const onVvScroll = () => wait("vv scroll");
-    const onScroll = () => wait("scroll");
     const stop = () => {
       until = 0; // the visitor is scrolling themselves
       cancelAnimationFrame(frame);
       clearTimeout(timer);
+      clearTimeout(late);
     };
     document.addEventListener("focusin", onFocus);
     vv.addEventListener("resize", onResize);
-    vv.addEventListener("scroll", onVvScroll);
-    window.addEventListener("scroll", onScroll, { passive: true });
+    vv.addEventListener("scroll", wait);
+    window.addEventListener("scroll", wait, { passive: true });
     window.addEventListener("touchmove", stop, { passive: true });
     return () => {
       cancelAnimationFrame(frame);
       clearTimeout(timer);
+      clearTimeout(late);
       document.removeEventListener("focusin", onFocus);
       vv.removeEventListener("resize", onResize);
-      vv.removeEventListener("scroll", onVvScroll);
-      window.removeEventListener("scroll", onScroll);
+      vv.removeEventListener("scroll", wait);
+      window.removeEventListener("scroll", wait);
       window.removeEventListener("touchmove", stop);
     };
   }, [form]);
   return fit;
-}
-
-// TEMPORARY, remove before merge: ?kb on the URL shows what Safari reports while the keyboard opens.
-function debugLog() {
-  if (!location.search.includes("kb")) return null;
-  const box = document.createElement("pre");
-  box.style.cssText =
-    "position:fixed;left:0;right:0;top:0;z-index:99;margin:0;padding:4px;font:8px/1.2 monospace;color:#c8f542;background:#000d;pointer-events:none;white-space:pre-wrap";
-  document.body.append(box);
-  const lines: string[] = [];
-  const t0 = performance.now();
-  return (why: string, f: HTMLFormElement | null, note = "") => {
-    const vv = window.visualViewport!;
-    const r = f?.getBoundingClientRect();
-    const h = document.querySelector("header")?.getBoundingClientRect();
-    lines.push(
-      `${Math.round(performance.now() - t0)} ${why} vv ${Math.round(vv.height)}/${Math.round(vv.offsetTop)}/${Math.round(vv.scale * 100)}%/${Math.round(vv.pageTop)} ch ${document.documentElement.clientHeight} ih ${innerHeight} y ${Math.round(scrollY)} f ${r ? `${Math.round(r.top)}-${Math.round(r.bottom)}` : "-"} hd ${h ? Math.round(h.bottom) : "-"} ${document.activeElement?.tagName ?? ""} ${note}`
-    );
-    box.textContent = lines.slice(-40).join("\n");
-  };
 }
 
 export function HeroAsk() {
