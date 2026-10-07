@@ -66,10 +66,13 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     // A width first seen while typing falls back to most of the screen's height that way up (toolbars aside).
     const full = new Map([[width(), height()]]);
     const short = Math.min(screen.width, screen.height);
-    // Only a touch screen has an on-screen keyboard; on a desktop a shorter window is just a shorter window.
-    // Any touch screen counts, so a convertible whose mouse or trackpad is the main pointer is covered too.
-    const touch = matchMedia("(any-pointer: coarse)");
-    const keyboard = () => touch.matches && (full.get(width()) ?? (width() > short ? short : Math.max(screen.width, screen.height)) * 0.8) - height() > 150;
+    // An on-screen keyboard comes up for a field tapped with a finger or pen, not one clicked with a mouse; after a
+    // click, a shorter window is just a shorter window. So a convertible counts by how the visitor last pointed.
+    let touched = matchMedia("(pointer: coarse)").matches;
+    const onPointer = (e: PointerEvent) => {
+      touched = e.pointerType !== "mouse";
+    };
+    const keyboard = () => touched && (full.get(width()) ?? (width() > short ? short : Math.max(screen.width, screen.height)) * 0.8) - height() > 150;
     // Safari's own scroll and the keyboard's slide run for a while after the tap. The composer is placed as soon
     // as the keyboard is there, again on every frame Safari moves the page for the next 2.5 s, and once more
     // when it stops, so it never shows where Safari put it.
@@ -121,6 +124,7 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
       clearTimeout(timer);
       clearTimeout(late);
     };
+    document.addEventListener("pointerdown", onPointer, { capture: true, passive: true });
     document.addEventListener("focusin", onFocus);
     document.addEventListener("focusout", onBlur);
     vv.addEventListener("resize", onResize);
@@ -131,6 +135,7 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
       cancelAnimationFrame(frame);
       clearTimeout(timer);
       clearTimeout(late);
+      document.removeEventListener("pointerdown", onPointer, { capture: true });
       document.removeEventListener("focusin", onFocus);
       document.removeEventListener("focusout", onBlur);
       vv.removeEventListener("resize", onResize);
