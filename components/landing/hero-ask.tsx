@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type FormEvent, type RefObject, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { socialLinks } from "@/lib/data/portfolio-data";
@@ -48,6 +48,68 @@ function shift(update: () => void) {
 const askHref = (turns: Turn[], q: string) =>
   `/ask?q=${encodeURIComponent([...turns.flatMap((t) => (t.state === "done" ? [t.q] : [])).slice(-3), q].join(" "))}`;
 
+// iOS Safari scrolls a focused field into view as if the fixed header were not there: the composer ended up
+// behind the header with the Work section under it. Once the keyboard has settled, the composer is moved to sit
+// just above the keyboard instead, below the header, so the headline stays in view. The visible part of the page
+// is the visual viewport; without a keyboard (desktop, or the keyboard closed) nothing moves. Returns the visible
+// height while the keyboard is up, so the conversation can shrink to fit above it.
+function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
+  const [fit, setFit] = useState<number | null>(null);
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const keyboard = () => document.documentElement.clientHeight - vv.height > 150 && vv.scale < 1.01;
+    let armed = false;
+    let timer = 0;
+    const place = () => {
+      if (!armed) return;
+      armed = false;
+      const f = form.current;
+      const up = keyboard() && !!f?.contains(document.activeElement);
+      flushSync(() => setFit(up ? Math.round(vv.height) : null));
+      if (!f || !up) return;
+      const top = Math.max(document.querySelector("header")?.getBoundingClientRect().bottom ?? 0, vv.offsetTop) + 16;
+      const bottom = vv.offsetTop + vv.height - 24; // the burst on the composer's edge hangs below it
+      const r = f.getBoundingClientRect();
+      const by = Math.round(Math.min(r.bottom - bottom, r.top - top)); // if it can't fit, its top wins
+      if (Math.abs(by) > 1) window.scrollBy({ top: by, behavior: "instant" });
+    };
+    // Safari's own scroll and the keyboard's slide fire a run of events; place once they stop.
+    const wait = () => {
+      clearTimeout(timer);
+      timer = window.setTimeout(place, 250);
+    };
+    const arm = () => {
+      armed = true;
+      wait();
+    };
+    const onFocus = (e: FocusEvent) => form.current?.contains(e.target as Node) && arm();
+    const onResize = () => {
+      if (!keyboard()) setFit(null); // closed: the conversation gets its height back at once
+      arm();
+    };
+    const onScroll = () => armed && wait();
+    const stop = () => {
+      armed = false; // the visitor is scrolling themselves
+      clearTimeout(timer);
+    };
+    document.addEventListener("focusin", onFocus);
+    vv.addEventListener("resize", onResize);
+    vv.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("touchmove", stop, { passive: true });
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("focusin", onFocus);
+      vv.removeEventListener("resize", onResize);
+      vv.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchmove", stop);
+    };
+  }, [form]);
+  return fit;
+}
+
 export function HeroAsk() {
   const { c, locale } = useCopy();
   const router = useRouter();
@@ -55,13 +117,16 @@ export function HeroAsk() {
   const [q, setQ] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const list = useRef<HTMLOListElement>(null);
+  const form = useRef<HTMLFormElement>(null);
   const conversation = useRef(0); // "New question" starts another, so a late answer to the old one is dropped
   const chat = turns.length > 0;
   const waiting = turns.at(-1)?.state === "wait";
 
+  const fit = useAboveKeyboard(form);
+
   useEffect(() => {
     list.current?.scrollTo({ top: list.current.scrollHeight });
-  }, [turns]);
+  }, [turns, fit]);
 
   async function submit(e?: FormEvent) {
     e?.preventDefault();
@@ -90,7 +155,7 @@ export function HeroAsk() {
   }
 
   const composer = (
-    <form className="relative [view-transition-name:hero-ask]" onSubmit={submit} role="search">
+    <form className="relative [view-transition-name:hero-ask]" onSubmit={submit} ref={form} role="search">
       <textarea
         aria-label={c.hero.ask}
         autoFocus={!chat} // it opens on a click, so focus belongs in it
@@ -141,9 +206,11 @@ export function HeroAsk() {
 
   if (chat)
     return (
+      // With the keyboard up the column fits above it (88 px: the header's 64 and a margin), so the latest turn stays in view.
       <div
-        className="relative z-10 flex h-[calc(100svh-224px)] min-h-[400px] flex-col px-6 pt-6 lg:absolute lg:top-[104px] lg:bottom-[calc(3%+120px)] lg:left-[4%] lg:h-auto lg:w-[min(760px,52vw)] lg:px-0"
+        className="relative z-10 flex h-[min(calc(100svh-224px),calc(var(--fit,9999px)-88px))] min-h-[min(400px,calc(var(--fit,9999px)-88px))] flex-col px-6 pt-6 lg:absolute lg:top-[104px] lg:bottom-[calc(3%+120px)] lg:left-[4%] lg:h-auto lg:w-[min(760px,52vw)] lg:px-0"
         data-chat
+        style={fit ? ({ "--fit": `${fit}px` } as CSSProperties) : undefined}
       >
         <button
           className="flex min-h-11 items-center self-start text-(--dim) text-sm underline underline-offset-4 hover:text-(--fg) disabled:opacity-40"
