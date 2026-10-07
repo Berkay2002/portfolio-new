@@ -50,16 +50,21 @@ const askHref = (turns: Turn[], q: string) =>
 
 // iOS Safari scrolls a focused field into view as if the fixed header were not there: the composer ended up
 // behind the header with the Work section under it. Once the keyboard has settled, the composer is moved to sit
-// just above the keyboard instead, below the header, so the headline stays in view. The visible part of the page
-// is the visual viewport; without a keyboard (desktop, or the keyboard closed) nothing moves. Returns the visible
-// height while the keyboard is up, so the conversation can shrink to fit above it.
+// just above the keyboard instead, like a chat app's, below the header, so the headline stays in view. Since iOS 26
+// the keyboard shrinks the layout viewport as well as the visual one, so a keyboard is told by the visual viewport
+// getting more than 150 px shorter than it was while no field had focus. Without a keyboard nothing moves.
+// Returns the visible height while the keyboard is up, so the conversation can shrink to fit above it.
 function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
   const [fit, setFit] = useState<number | null>(null);
   useEffect(() => {
     const vv = window.visualViewport;
     if (!vv) return;
     const log = debugLog();
-    const keyboard = () => document.documentElement.clientHeight - vv.height > 150 && vv.scale < 1.01;
+    const height = () => vv.height * vv.scale; // in the page's unzoomed px, so pinch zoom isn't a keyboard
+    const typing = () => document.activeElement?.matches("input, textarea, [contenteditable]") ?? false;
+    let full = height();
+    let width = vv.width * vv.scale;
+    const keyboard = () => full - height() > 150;
     // Safari's own scroll and the keyboard's slide run for a while after the tap, and Safari may scroll again
     // once they end, so for a second and a half every pause in the events places the composer again.
     let until = 0;
@@ -67,8 +72,9 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     const place = (why: string) => {
       const f = form.current;
       const up = keyboard() && !!f?.contains(document.activeElement);
-      flushSync(() => setFit(up ? Math.round(vv.height) : null));
+      flushSync(() => setFit(up ? Math.round(height()) : null));
       if (!f || !up) return log?.(why, f, "no keyboard");
+      if (vv.scale > 1.01) return log?.(why, f, "zoomed"); // zoomed in: the visitor is placing the view
       const top = Math.max(document.querySelector("header")?.getBoundingClientRect().bottom ?? 0, vv.offsetTop) + 16;
       const bottom = vv.offsetTop + vv.height - 24; // the burst on the composer's edge hangs below it
       const r = f.getBoundingClientRect();
@@ -89,6 +95,9 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     };
     const onFocus = (e: FocusEvent) => form.current?.contains(e.target as Node) && arm("focus");
     const onResize = () => {
+      const w = vv.width * vv.scale;
+      if (!typing() || w !== width) full = height(); // no keyboard can be up, or the phone turned
+      width = w;
       if (!keyboard()) setFit(null); // closed: the conversation gets its height back at once
       arm("vv resize");
     };
@@ -129,7 +138,7 @@ function debugLog() {
     const r = f?.getBoundingClientRect();
     const h = document.querySelector("header")?.getBoundingClientRect();
     lines.push(
-      `${Math.round(performance.now() - t0)} ${why} vv ${Math.round(vv.height)}/${Math.round(vv.offsetTop)}/${Math.round(vv.pageTop)} ch ${document.documentElement.clientHeight} ih ${innerHeight} y ${Math.round(scrollY)} f ${r ? `${Math.round(r.top)}-${Math.round(r.bottom)}` : "-"} hd ${h ? Math.round(h.bottom) : "-"} ${document.activeElement?.tagName ?? ""} ${note}`
+      `${Math.round(performance.now() - t0)} ${why} vv ${Math.round(vv.height)}/${Math.round(vv.offsetTop)}/${Math.round(vv.scale * 100)}%/${Math.round(vv.pageTop)} ch ${document.documentElement.clientHeight} ih ${innerHeight} y ${Math.round(scrollY)} f ${r ? `${Math.round(r.top)}-${Math.round(r.bottom)}` : "-"} hd ${h ? Math.round(h.bottom) : "-"} ${document.activeElement?.tagName ?? ""} ${note}`
     );
     box.textContent = lines.slice(-14).join("\n");
   };
@@ -231,9 +240,10 @@ export function HeroAsk() {
 
   if (chat)
     return (
-      // With the keyboard up the column fits above it (88 px: the header's 64 and a margin), so the latest turn stays in view.
+      // With the keyboard up the column fits above it (88 px: the header's 64 and a margin; 128 px on wide screens,
+      // where it starts 104 px down), so the latest turn stays in view.
       <div
-        className="relative z-10 flex h-[min(calc(100svh-224px),calc(var(--fit,9999px)-88px))] min-h-[min(400px,calc(var(--fit,9999px)-88px))] flex-col px-6 pt-6 lg:absolute lg:top-[104px] lg:bottom-[calc(3%+120px)] lg:left-[4%] lg:h-auto lg:w-[min(760px,52vw)] lg:px-0"
+        className="relative z-10 flex h-[min(calc(100svh-224px),calc(var(--fit,9999px)-88px))] min-h-[min(400px,calc(var(--fit,9999px)-88px))] flex-col px-6 pt-6 lg:absolute lg:top-[104px] lg:bottom-[calc(3%+120px)] lg:left-[4%] lg:h-auto lg:max-h-[calc(var(--fit,9999px)-128px)] lg:w-[min(760px,52vw)] lg:px-0"
         data-chat
         style={fit ? ({ "--fit": `${fit}px` } as CSSProperties) : undefined}
       >
@@ -276,7 +286,7 @@ export function HeroAsk() {
     );
 
   return (
-    <div className="-mt-10 relative z-10 px-6 lg:mt-0 lg:max-w-[66%] lg:px-0 lg:pt-[200px] lg:pl-[4%]">
+    <div className="-mt-10 relative z-10 px-6 lg:mt-0 lg:max-w-[66%] lg:px-0 lg:pt-[200px] lg:pl-[4%]" data-typing={fit ? "" : undefined}>
       <Index className="tracking-[0.12em]">{c.hero.overline}</Index>
       <h1 className="font-display mt-3 text-[44px] leading-[0.98] lg:mt-6 lg:text-[clamp(48px,4.3vw,64px)]">
         <span className="lg:block">{c.hero.headline[0]}</span> <span className="lg:block">{c.hero.headline[1]}</span>
