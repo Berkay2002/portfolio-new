@@ -67,7 +67,8 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     const full = new Map([[width(), height()]]);
     const short = Math.min(screen.width, screen.height);
     // Only a touch screen has an on-screen keyboard; on a desktop a shorter window is just a shorter window.
-    const touch = matchMedia("(pointer: coarse)");
+    // Any touch screen counts, so a convertible whose mouse or trackpad is the main pointer is covered too.
+    const touch = matchMedia("(any-pointer: coarse)");
     const keyboard = () => touch.matches && (full.get(width()) ?? (width() > short ? short : Math.max(screen.width, screen.height)) * 0.8) - height() > 150;
     // Safari's own scroll and the keyboard's slide run for a while after the tap. The composer is placed as soon
     // as the keyboard is there, again on every frame Safari moves the page for the next 2.5 s, and once more
