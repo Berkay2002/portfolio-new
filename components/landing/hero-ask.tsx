@@ -61,9 +61,12 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     if (!vv) return;
     const height = () => vv.height * vv.scale; // in the page's unzoomed px, so pinch zoom isn't a keyboard
     const typing = () => document.activeElement?.matches("input, textarea, [contenteditable]") ?? false;
-    let full = height();
-    let width = vv.width * vv.scale;
-    const keyboard = () => full - height() > 150;
+    const width = () => Math.round(vv.width * vv.scale);
+    // The height without a keyboard for each width the page has had, so turning the phone while typing keeps it.
+    // A width first seen while typing falls back to most of the screen's height that way up (toolbars aside).
+    const full = new Map([[width(), height()]]);
+    const short = Math.min(screen.width, screen.height);
+    const keyboard = () => (full.get(width()) ?? (width() > short ? short : Math.max(screen.width, screen.height)) * 0.8) - height() > 150;
     // Safari's own scroll and the keyboard's slide run for a while after the tap. The composer is placed as soon
     // as the keyboard is there, again on every frame Safari moves the page for the next 2.5 s, and once more
     // when it stops, so it never shows where Safari put it.
@@ -102,9 +105,7 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
     };
     const onFocus = (e: FocusEvent) => form.current?.contains(e.target as Node) && arm();
     const onResize = () => {
-      const w = vv.width * vv.scale;
-      if (!typing() || w !== width) full = height(); // no keyboard can be up, or the phone turned
-      width = w;
+      if (!typing()) full.set(width(), height()); // no keyboard can be up
       if (!keyboard()) setFit(null); // closed: the conversation gets its height back at once
       else place(); // at once, before Safari's own scroll shows
       arm();
