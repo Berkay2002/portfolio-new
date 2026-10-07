@@ -106,6 +106,8 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
       late = window.setTimeout(place, 2600);
     };
     const onFocus = (e: FocusEvent) => form.current?.contains(e.target as Node) && arm();
+    // Focus can leave the composer with no resize (a hardware keyboard, or the soft one staying up for another field).
+    const onBlur = () => requestAnimationFrame(() => !form.current?.contains(document.activeElement) && setFit(null));
     const onResize = () => {
       if (!typing()) full.set(width(), height()); // no keyboard can be up
       if (!keyboard()) setFit(null); // closed: the conversation gets its height back at once
@@ -119,6 +121,7 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
       clearTimeout(late);
     };
     document.addEventListener("focusin", onFocus);
+    document.addEventListener("focusout", onBlur);
     vv.addEventListener("resize", onResize);
     vv.addEventListener("scroll", wait);
     window.addEventListener("scroll", wait, { passive: true });
@@ -128,6 +131,7 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
       clearTimeout(timer);
       clearTimeout(late);
       document.removeEventListener("focusin", onFocus);
+      document.removeEventListener("focusout", onBlur);
       vv.removeEventListener("resize", onResize);
       vv.removeEventListener("scroll", wait);
       window.removeEventListener("scroll", wait);
