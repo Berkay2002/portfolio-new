@@ -58,56 +58,81 @@ function useAboveKeyboard(form: RefObject<HTMLFormElement | null>) {
   useEffect(() => {
     const vv = window.visualViewport;
     if (!vv) return;
+    const log = debugLog();
     const keyboard = () => document.documentElement.clientHeight - vv.height > 150 && vv.scale < 1.01;
-    let armed = false;
+    // Safari's own scroll and the keyboard's slide run for a while after the tap, and Safari may scroll again
+    // once they end, so for a second and a half every pause in the events places the composer again.
+    let until = 0;
     let timer = 0;
-    const place = () => {
-      if (!armed) return;
-      armed = false;
+    const place = (why: string) => {
       const f = form.current;
       const up = keyboard() && !!f?.contains(document.activeElement);
       flushSync(() => setFit(up ? Math.round(vv.height) : null));
-      if (!f || !up) return;
+      if (!f || !up) return log?.(why, f, "no keyboard");
       const top = Math.max(document.querySelector("header")?.getBoundingClientRect().bottom ?? 0, vv.offsetTop) + 16;
       const bottom = vv.offsetTop + vv.height - 24; // the burst on the composer's edge hangs below it
       const r = f.getBoundingClientRect();
       const by = Math.round(Math.min(r.bottom - bottom, r.top - top)); // if it can't fit, its top wins
       if (Math.abs(by) > 1) window.scrollBy({ top: by, behavior: "instant" });
+      log?.(why, f, `by ${by}`);
     };
-    // Safari's own scroll and the keyboard's slide fire a run of events; place once they stop.
-    const wait = () => {
+    const wait = (why: string) => {
+      log?.(why, form.current);
+      if (performance.now() > until) return;
       clearTimeout(timer);
-      timer = window.setTimeout(place, 250);
+      timer = window.setTimeout(() => place("settled"), 120);
     };
-    const arm = () => {
-      armed = true;
-      wait();
+    const arm = (why: string) => {
+      until = performance.now() + 1500;
+      wait(why);
+      window.setTimeout(() => performance.now() >= until && place("last look"), 1600);
     };
-    const onFocus = (e: FocusEvent) => form.current?.contains(e.target as Node) && arm();
+    const onFocus = (e: FocusEvent) => form.current?.contains(e.target as Node) && arm("focus");
     const onResize = () => {
       if (!keyboard()) setFit(null); // closed: the conversation gets its height back at once
-      arm();
+      arm("vv resize");
     };
-    const onScroll = () => armed && wait();
+    const onVvScroll = () => wait("vv scroll");
+    const onScroll = () => wait("scroll");
     const stop = () => {
-      armed = false; // the visitor is scrolling themselves
+      until = 0; // the visitor is scrolling themselves
       clearTimeout(timer);
     };
     document.addEventListener("focusin", onFocus);
     vv.addEventListener("resize", onResize);
-    vv.addEventListener("scroll", onScroll);
+    vv.addEventListener("scroll", onVvScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("touchmove", stop, { passive: true });
     return () => {
       clearTimeout(timer);
       document.removeEventListener("focusin", onFocus);
       vv.removeEventListener("resize", onResize);
-      vv.removeEventListener("scroll", onScroll);
+      vv.removeEventListener("scroll", onVvScroll);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("touchmove", stop);
     };
   }, [form]);
   return fit;
+}
+
+// TEMPORARY, remove before merge: ?kb on the URL shows what Safari reports while the keyboard opens.
+function debugLog() {
+  if (!location.search.includes("kb")) return null;
+  const box = document.createElement("pre");
+  box.style.cssText =
+    "position:fixed;left:0;right:0;top:0;z-index:99;margin:0;padding:4px;font:9px/1.25 monospace;color:#c8f542;background:#000d;pointer-events:none;white-space:pre-wrap";
+  document.body.append(box);
+  const lines: string[] = [];
+  const t0 = performance.now();
+  return (why: string, f: HTMLFormElement | null, note = "") => {
+    const vv = window.visualViewport!;
+    const r = f?.getBoundingClientRect();
+    const h = document.querySelector("header")?.getBoundingClientRect();
+    lines.push(
+      `${Math.round(performance.now() - t0)} ${why} vv ${Math.round(vv.height)}/${Math.round(vv.offsetTop)}/${Math.round(vv.pageTop)} ch ${document.documentElement.clientHeight} ih ${innerHeight} y ${Math.round(scrollY)} f ${r ? `${Math.round(r.top)}-${Math.round(r.bottom)}` : "-"} hd ${h ? Math.round(h.bottom) : "-"} ${document.activeElement?.tagName ?? ""} ${note}`
+    );
+    box.textContent = lines.slice(-14).join("\n");
+  };
 }
 
 export function HeroAsk() {
