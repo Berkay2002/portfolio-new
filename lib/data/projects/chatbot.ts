@@ -4,9 +4,9 @@ export const chatbot: Project = {
   id: "municipality-chatbot",
   title: "Municipality Chatbot: AI-Powered Citizen Services",
   description:
-    "Enterprise AI chatbot platform for Swedish municipalities with GraphRAG, multi-provider LLM support, and embeddable React widget. Self-hosted, GDPR-compliant solution with full data sovereignty.",
+    "Self-hosted AI chatbot platform for Swedish municipalities with GraphRAG, multi-provider LLM support, and an embeddable React widget. Conversations and the knowledge base stay on the municipality's own infrastructure.",
   descriptionSv:
-    "Företags-AI-chattbot för svenska kommuner med GraphRAG, stöd för flera LLM-leverantörer och inbäddningsbar React-widget. Självhostlösning som följer GDPR med fullständig datakontroll.",
+    "Självhostad AI-chattbot för svenska kommuner med GraphRAG, stöd för flera LLM-leverantörer och en inbäddningsbar React-widget. Samtal och kunskapsbas ligger kvar på kommunens egen infrastruktur.",
   technologies: [
     "Python 3.11+",
     "LangChain",
@@ -19,68 +19,71 @@ export const chatbot: Project = {
     "TypeScript",
     "Vite",
     "Tailwind CSS v4",
+    "Redis",
     "Docker",
+    "Nginx",
     "SSE (Server-Sent Events)",
     "Pydantic",
     "i18next",
   ],
-  link: "https://github.com/Berkay2002/chatbot",
-  githubLink: "https://github.com/Berkay2002/chatbot",
+  // Repo is private (404 for visitors); uncomment when public.
+  // githubLink: "https://github.com/Berkay2002/chatbot",
   image: undefined,
   imageAlt: "Municipality Chatbot AI Platform",
+  imageAltSv: "Kommunchattbotens AI-plattform",
   detailedDescription:
-    "A turnkey AI chatbot solution designed specifically for Swedish municipalities to help citizens find information about municipal services 24/7. Built with LangChain/LangGraph for orchestration, the platform features GraphRAG technology combining vector search (pgvector) with knowledge graphs (Neo4j) and keyword matching. Supports multiple LLM providers including Google Gemini, Azure OpenAI, AWS Bedrock, and local models. The embeddable React widget integrates with any website via script tag, JavaScript, or React component. Complete data sovereignty with self-hosted deployment means citizen conversations never leave municipal infrastructure. Includes powerful CLI tools for content ingestion from websites (sitemap), PDFs, and Jira, with automatic sync capabilities. Production-ready with Docker containerization, health endpoints, structured logging, and conversation persistence.",
+    "An AI chatbot designed for Swedish municipalities to help citizens find information about municipal services 24/7. Built with LangChain/LangGraph for orchestration, the platform features GraphRAG technology combining vector search (pgvector) with knowledge graphs (Neo4j) and keyword matching. Supports multiple LLM providers: Google Gemini, OpenAI, Azure OpenAI, Vertex AI, AWS Bedrock, and local models through any OpenAI-compatible endpoint. The embeddable React widget integrates with any website via script tag, JavaScript, or React component. Self-hosted deployment keeps the database, conversation history and knowledge base on municipal infrastructure, and with a local model the prompts stay there too. Includes CLI tools for content ingestion from websites (sitemap), single URLs, PDFs and local files, with OCR for scanned PDFs, knowledge-graph extraction and scheduled sync. Docker Compose profiles, a health endpoint, request logging and conversation persistence for deployment.",
   detailedDescriptionSv:
-    "En färdig AI-chattbot-lösning designad specifikt för svenska kommuner för att hjälpa medborgare hitta information om kommunala tjänster dygnet runt. Byggd med LangChain/LangGraph för orkestrering, plattformen har GraphRAG-teknik som kombinerar vektorsökning (pgvector) med kunskapsgrafer (Neo4j) och nyckelordsmatchning. Stöder flera LLM-leverantörer inklusive Google Gemini, Azure OpenAI, AWS Bedrock och lokala modeller. Den inbäddningsbara React-widgeten integreras med vilken webbplats som helst via script-tagg, JavaScript eller React-komponent. Fullständig datakontroll med självhostad distribution innebär att medborgarsamtal aldrig lämnar kommunens infrastruktur. Inkluderar kraftfulla CLI-verktyg för innehållsimport från webbplatser (sitemap), PDF-filer och Jira, med automatiska synkroniseringsfunktioner. Produktionsklar med Docker-containerisering, hälsoändpunkter, strukturerad loggning och samtalspersistens.",
+    "En AI-chattbot för svenska kommuner som hjälper medborgare att hitta information om kommunala tjänster dygnet runt. Plattformen orkestreras med LangChain/LangGraph och använder GraphRAG som kombinerar vektorsökning (pgvector) med kunskapsgrafer (Neo4j) och nyckelordsmatchning. Stöder flera LLM-leverantörer: Google Gemini, OpenAI, Azure OpenAI, Vertex AI, AWS Bedrock och lokala modeller via valfri OpenAI-kompatibel endpoint. Den inbäddningsbara React-widgeten integreras med vilken webbplats som helst via script-tagg, JavaScript eller React-komponent. Självhostad drift håller databasen, samtalshistoriken och kunskapsbasen på kommunens infrastruktur, och med en lokal modell stannar även frågorna där. Inkluderar CLI-verktyg för innehållsimport från webbplatser (sitemap), enskilda URL:er, PDF-filer och lokala filer, med OCR för skannade PDF:er, extrahering till kunskapsgraf och schemalagd synkronisering. För driftsättning finns Docker Compose-profiler, en hälsoändpunkt, förfrågningsloggning och sparade samtal.",
   features: [
-    "GraphRAG technology combining vector search (pgvector), knowledge graphs (Neo4j), and hybrid keyword matching for accurate retrieval",
-    "Multi-provider LLM support with Google Gemini, Azure OpenAI, AWS Bedrock, OpenAI, and local model options via LangChain's init_chat_model",
+    "GraphRAG technology combining vector search (pgvector), knowledge graphs (Neo4j), and BM25 keyword search, with a hybrid mode that weights vector and keyword results",
+    "Multi-provider LLM support with Google Gemini, OpenAI, Azure OpenAI, Vertex AI, AWS Bedrock, and local models via OpenAI-compatible endpoints, switched in config.yaml through LangChain's init_chat_model",
     "Embeddable React 19 widget with three integration methods: simple script tag, JavaScript initialization, or React component import",
-    "Self-hosted, GDPR-compliant architecture with complete data sovereignty—all processing happens within municipal infrastructure",
-    "Powerful CLI for content ingestion from sitemaps, individual URLs, PDFs, and Jira with checkpoint/resume support and automatic sync scheduling",
+    "Self-hosted architecture built for GDPR: database, conversation history and knowledge base stay on municipal infrastructure, and a local model keeps inference there too",
+    "CLI for content ingestion from sitemaps, individual URLs, PDFs, and local files with OCR for scanned PDFs, checkpoint/resume support, and a sync scheduler for nightly updates",
     "Real-time streaming responses via Server-Sent Events (SSE) with LangGraph checkpointing for conversation persistence in PostgreSQL",
     "Multi-language support (Swedish, English, Finnish, Arabic, Turkish, Somali, Spanish, Syriac) with i18next internationalization",
-    "Production-ready with Docker Compose, health check endpoints, structured logging, graceful shutdown, rate limiting, and API key authentication",
+    "Deployable with Docker Compose profiles and an Nginx reverse proxy, with health check endpoints, request logging, Redis-backed or in-memory rate limiting, API key authentication, and per-run model and tool call limits",
   ],
   featuresSv: [
-    "GraphRAG-teknik som kombinerar vektorsökning (pgvector), kunskapsgrafer (Neo4j) och hybrid nyckelordsmatchning för exakt hämtning",
-    "Stöd för flera LLM-leverantörer med Google Gemini, Azure OpenAI, AWS Bedrock, OpenAI och lokala modellalternativ via LangChain's init_chat_model",
-    "Inbäddningsbar React 19-widget med tre integrationsmetoder: enkel script-tagg, JavaScript-initialisering eller React-komponentimport",
-    "Självhostad, GDPR-följande arkitektur med fullständig datakontroll—all bearbetning sker inom kommunens infrastruktur",
-    "Kraftfull CLI för innehållsimport från sitemaps, enskilda URL:er, PDF-filer och Jira med checkpoint/återuppta-stöd och automatisk synkroniseringsschemaläggning",
+    "GraphRAG-teknik som kombinerar vektorsökning (pgvector), kunskapsgrafer (Neo4j) och BM25-nyckelordssökning, med ett hybridläge som viktar vektor- och nyckelordsträffar",
+    "Stöd för flera LLM-leverantörer med Google Gemini, OpenAI, Azure OpenAI, Vertex AI, AWS Bedrock och lokala modeller via OpenAI-kompatibla endpoints, valbara i config.yaml via LangChains init_chat_model",
+    "Inbäddningsbar React 19-widget med tre integrationssätt: en enkel script-tagg, JavaScript-initialisering eller React-komponentimport",
+    "Självhostad arkitektur byggd för GDPR: databas, samtalshistorik och kunskapsbas stannar på kommunens infrastruktur, och en lokal modell håller även inferensen där",
+    "CLI för innehållsimport från sitemaps, enskilda URL:er, PDF-filer och lokala filer med OCR för skannade PDF:er, checkpoint/återuppta-stöd och en synkroniseringsschemaläggare för nattliga uppdateringar",
     "Realtidsströmmade svar via Server-Sent Events (SSE) med LangGraph-checkpointing för samtalspersistens i PostgreSQL",
     "Stöd för flera språk (svenska, engelska, finska, arabiska, turkiska, somaliska, spanska, syriska) med i18next-internationalisering",
-    "Produktionsklar med Docker Compose, hälsokontrollsändpunkter, strukturerad loggning, graciös avstängning, hastighetsbegränsning och API-nyckelautentisering",
+    "Går att driftsätta med Docker Compose-profiler och en Nginx-reverse proxy, med hälsokontrollsändpunkter, förfrågningsloggning, hastighetsbegränsning (Redis eller i minnet), API-nyckelautentisering och gränser för modell- och verktygsanrop per körning",
   ],
   challenges: [
-    "Ensuring GDPR compliance and data sovereignty while supporting cloud LLM providers",
+    "Keeping data on municipal infrastructure while still supporting cloud LLM providers",
     "Building a flexible retrieval system that works for diverse municipal content (policies, forms, organizational info)",
-    "Creating a widget that integrates seamlessly across different CMS platforms (WordPress, Drupal, Episerver, Sitevision, custom)",
+    "Creating a widget that embeds on any website, whichever CMS it runs (WordPress, Drupal, Episerver, Sitevision, custom)",
     "Managing conversation state and streaming responses with LangGraph's async architecture",
     "Designing a CLI ingestion system that handles large websites with resumable checkpointing",
   ],
   challengesSv: [
-    "Säkerställa GDPR-efterlevnad och datakontroll samtidigt som moln-LLM-leverantörer stöds",
+    "Hålla data på kommunens infrastruktur samtidigt som moln-LLM-leverantörer stöds",
     "Bygga ett flexibelt hämtningssystem som fungerar för olika kommunalt innehåll (policyer, formulär, organisationsinformation)",
-    "Skapa en widget som integreras sömlöst över olika CMS-plattformar (WordPress, Drupal, Episerver, Sitevision, anpassade)",
-    "Hantera samtalsstatus och strömmande svar med LangGraph's asynkrona arkitektur",
+    "Skapa en widget som kan bäddas in på vilken webbplats som helst, oavsett CMS (WordPress, Drupal, Episerver, Sitevision, anpassade)",
+    "Hantera samtalsstatus och strömmande svar med LangGraphs asynkrona arkitektur",
     "Designa ett CLI-importsystem som hanterar stora webbplatser med återuppta-checkpoint",
   ],
   solution:
-    "Implemented a layered architecture with LangGraph agent orchestration, PostgreSQL+pgvector for vector search, and Neo4j for relationship mapping. LangChain's init_chat_model provides unified multi-provider support while keeping data local. The React widget compiles to both a standalone embed script and an npm package, supporting multiple integration patterns. SSE streaming with LangGraph checkpointing enables real-time responses while persisting conversation state. The CLI uses BeautifulSoup for web scraping, PyMuPDF for PDFs, and implements checkpoint/resume with progress tracking. All services run in Docker containers with configurable profiles for development and production.",
+    "Implemented a layered architecture with LangGraph agent orchestration, PostgreSQL+pgvector for vector search, and Neo4j for relationship mapping. LangChain's init_chat_model provides one interface across all providers. The React widget builds both as a standalone embed script and as an importable component library, supporting multiple integration patterns. SSE streaming with LangGraph checkpointing enables real-time responses while persisting conversation state. The CLI uses BeautifulSoup for web scraping, PyMuPDF for PDFs, and implements checkpoint/resume with progress tracking. Services run in Docker containers with Compose profiles for development and production.",
   solutionSv:
-    "Implementerade en lagerad arkitektur med LangGraph-agenttorkestrering, PostgreSQL+pgvector för vektorsökning och Neo4j för relationskartläggning. LangChain's init_chat_model ger enhetligt stöd för flera leverantörer samtidigt som data hålls lokalt. React-widgeten kompileras till både ett fristående inbäddningsskript och ett npm-paket, vilket stöder flera integrationsmönster. SSE-strömning med LangGraph-checkpointing möjliggör realtidssvar samtidigt som samtalsstatus sparas. CLI:n använder BeautifulSoup för webbskrapning, PyMuPDF för PDF-filer och implementerar checkpoint/återuppta med framstegsföljning. Alla tjänster körs i Docker-containrar med konfigurerbara profiler för utveckling och produktion.",
+    "Implementerade en lagerad arkitektur med LangGraph-agentorkestrering, PostgreSQL+pgvector för vektorsökning och Neo4j för relationskartläggning. LangChains init_chat_model ger ett gemensamt gränssnitt mot alla leverantörer. React-widgeten byggs både som ett fristående inbäddningsskript och som ett importerbart komponentbibliotek, vilket stöder flera integrationsmönster. SSE-strömning med LangGraph-checkpointing möjliggör realtidssvar samtidigt som samtalsstatus sparas. CLI:n använder BeautifulSoup för webbskrapning, PyMuPDF för PDF-filer och implementerar checkpoint/återuppta med framstegsföljning. Tjänsterna körs i Docker-containrar med Compose-profiler för utveckling och produktion.",
   outcome:
-    "Delivers a production-ready, self-hosted chatbot platform that reduces customer service workload by 20-40% while improving citizen satisfaction with 24/7 availability and instant responses. Municipalities maintain full data sovereignty with GDPR-native compliance, choosing their preferred LLM provider (Google Gemini EU, Azure OpenAI Sweden, AWS Bedrock EU, or local models). The universal widget integrates with any CMS in minutes via script tag, serving multilingual citizens across Swedish municipalities. Supports content ingestion from entire websites via sitemap sync, with automated nightly updates to keep the knowledge base current.",
+    "A self-hosted chatbot platform a municipality can run on its own servers: the agent, API, ingestion CLI and embeddable widget come together with Docker Compose profiles. The municipality picks its LLM provider (Vertex AI and Bedrock default to EU regions, or a local model keeps inference in-house), and the widget embeds on any site with a script tag. Sitemap sync keeps the knowledge base current, nightly by default.",
   outcomeSv:
-    "Levererar en produktionsklar, självhostad chattbot-plattform som minskar kundservicearbetsbelastningen med 20-40% samtidigt som medborgarnas tillfredsställelse förbättras med tillgänglighet dygnet runt och omedelbara svar. Kommuner behåller fullständig datakontroll med GDPR-följande efterlevnad, och väljer sin föredragna LLM-leverantör (Google Gemini EU, Azure OpenAI Sverige, AWS Bedrock EU eller lokala modeller). Den universella widgeten integreras med vilket CMS som helst på några minuter via script-tagg, och betjänar flerspråkiga medborgare över svenska kommuner. Stöder innehållsimport från hela webbplatser via sitemap-synk, med automatiserade nattliga uppdateringar för att hålla kunskapsbasen aktuell.",
+    "En självhostad chattbot-plattform som en kommun kan köra på sina egna servrar: agenten, API:et, import-CLI:n och den inbäddningsbara widgeten hör ihop med Docker Compose-profiler. Kommunen väljer LLM-leverantör (Vertex AI och Bedrock använder EU-regioner som standard, och en lokal modell håller inferensen i egen regi), och widgeten bäddas in på vilken webbplats som helst med en script-tagg. Sitemap-synkning håller kunskapsbasen aktuell, som standard varje natt.",
   microservices: [
     {
       name: "FastAPI Backend",
       description:
-        "High-performance API server with SSE streaming, thread management, run endpoints, security middleware (rate limiting, API key auth), and health checks. Orchestrates LangGraph agent execution.",
+        "API server with SSE streaming, thread management, run endpoints, security middleware (rate limiting, API key auth), and a health check. Orchestrates LangGraph agent execution.",
       descriptionSv:
-        "Högpresterande API-server med SSE-strömning, trådhantering, körningsändpunkter, säkerhetsmiddleware (hastighetsbegränsning, API-nyckelautentisering) och hälsokontroller. Orkestrerar LangGraph-agentkörning.",
+        "API-server med SSE-strömning, trådhantering, körningsändpunkter, säkerhetsmiddleware (hastighetsbegränsning, API-nyckelautentisering) och hälsokontroll. Orkestrerar LangGraph-agentkörning.",
       technologies: ["FastAPI", "Uvicorn", "SSE-Starlette", "Pydantic", "Redis"],
       link: undefined,
     },
@@ -105,10 +108,10 @@ export const chatbot: Project = {
     {
       name: "Ingestion CLI",
       description:
-        "Command-line tools for content ingestion from sitemaps, URLs, PDFs, and Jira. Features checkpoint/resume for large imports, automatic sync scheduling, and stats reporting.",
+        "Command-line tools for content ingestion from sitemaps, URLs, PDFs, and local files. Features OCR for scanned PDFs, knowledge-graph extraction, checkpoint/resume for large imports, sync analysis, and stats reporting.",
       descriptionSv:
-        "Kommandoradsverktyg för innehållsimport från sitemaps, URL:er, PDF-filer och Jira. Funktioner inkluderar checkpoint/återuppta för stora importer, automatisk synkroniseringsschemaläggning och statistikrapportering.",
-      technologies: ["Python", "BeautifulSoup", "PyMuPDF", "HTTPX", "Click", "Rich"],
+        "Kommandoradsverktyg för innehållsimport från sitemaps, URL:er, PDF-filer och lokala filer. Funktioner inkluderar OCR för skannade PDF:er, extrahering till kunskapsgraf, checkpoint/återuppta för stora importer, synkroniseringsanalys och statistikrapportering.",
+      technologies: ["Python", "BeautifulSoup", "PyMuPDF", "HTTPX", "Click", "Rich", "Neo4j"],
       link: undefined,
     },
   ],
