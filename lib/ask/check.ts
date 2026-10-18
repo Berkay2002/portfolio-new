@@ -16,7 +16,7 @@ assert.deepEqual(ids("has he the and"), []);
 assert.ok(ids("trådsäker").includes("voxel-project")); // a word only in a project's Swedish challenges
 assert.ok(ids("renderingspass").includes("voxel-project")); // a station on the project's trace
 assert.ok(ids("KPIs").includes("oversee")); // a word only in a cover's caption
-assert.ok(ids("reload-plugins").includes("wikillm")); // an install command under a project link
+assert.ok(ids("reload-plugins").includes("agent-tooling")); // an install command under a project link
 assert.deepEqual(ids("Which projects use Java?"), []); // "java" is not "javascript"
 assert.ok(ids("berkayorhan@hotmail.se").includes("contact")); // the address itself finds the contact page
 assert.ok(profile.includes("(2025;")); // every project's year, for list questions
@@ -26,7 +26,7 @@ assert.ok(ids("Which projects are from 2025?").every((id) => askDocs.find((d) =>
 assert.ok(ids("Which papers are from 2025?").every((id) => id.startsWith("paper-"))); // and "papers" for papers
 assert.equal(ids("What projects has he made?").length, askDocs.filter((d) => d.kind === "project").length); // every project
 assert.ok(excerpt("statsforspotify").includes("github.com/Berkay2002/statsforspotify")); // the source link, always
-assert.ok(excerpt("wikillm").includes("npmjs.com/package/wikillm")); // a project link's address, not just its label
+assert.ok(excerpt("agent-tooling").includes("npmjs.com/package/wikillm")); // a project link's address, not just its label
 assert.ok(excerpt("fasttalk").includes("github.com/Berkay2002/fasttalk-stt-microservice")); // a service's repository
 assert.ok(askDocs.filter((d) => d.kind === "paper").every((d) => excerpt(d.id).includes("PDF: "))); // where to download it
 // Its own PDF path finds it (a project that links the same PDF may rank first).
@@ -38,7 +38,7 @@ assert.equal(ids("https://github.com/Berkay2002/statsforspotify")[0], "statsfors
 assert.ok(ids("Graph Theory metadata").includes("litheplan")); // a screenshot's alt text
 assert.ok(ids("download add-on").includes("solar-system")); // the main link's own label
 assert.ok(!ids("Vilka projekt använder LangGraph?").includes("statsforspotify")); // "använder" is a stop word
-assert.ok(!ids("Which projects use Bun?").includes("wikillm")); // "Bun" is not "bundle"
+assert.ok(!ids("Which projects use Bun?").includes("agent-tooling")); // "Bun" is not "bundle"
 assert.ok(profile.includes("Next.js")); // every project's stack, for list questions
 assert.ok(ids("Where is he working?").includes("experience")); // an inflected question finds the base word
 assert.ok(ids("What did he study?").includes("experience")); // "study" finds "studied"
@@ -54,7 +54,7 @@ assert.equal(ids("Vad handlar hans exjobb om?")[0], "paper-when-agentic-workflow
 assert.equal(ids("Var pluggade han?")[0], "experience");
 assert.ok(ids("What papers has he written?").includes("paper-when-agentic-workflows-help"));
 assert.deepEqual(ids("Hej!"), []); // a greeting finds no page // the address, not just the word
-assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("340k")); // the model reads what matched
+assert.ok(excerpt("voxel-project", "How many lines is VoxelCraft?").includes("10k")); // the model reads what matched
 
 // Everything that leaves the server: the browser's index, and the profile and excerpts the model reads. None of
 // the benchmark's measured values (the non-integer numbers, like a pass rate of 71.2) may appear in it.

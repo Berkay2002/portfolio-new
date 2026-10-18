@@ -161,7 +161,7 @@ export function Hero() {
 const featured = [
   ["fasttalk", "FastTalk"],
   ["researcher", "SynGraph"],
-  ["wikillm", "wikillm"],
+  ["agent-tooling", "Agent tooling"],
   ["litheplan", "LiTHePlan"],
 ];
 
