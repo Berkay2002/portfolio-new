@@ -25,6 +25,7 @@ export const fracturedCrown: Project = {
   video: "/videos/fractured-crown-intro.mp4",
   image: "/images/projects/fractured-crown/lobby.avif",
   imageAlt: "Fractured Crown lobby screen",
+  imageAltSv: "Lobbyskärmen i Fractured Crown",
   detailedDescription:
     "A social deduction game based on Secret Hitler, set in a dark medieval fantasy world where Loyalists, Traitors, and a hidden Usurper fight through elections, legislation, and executions. The client is completely untrusted — 13 Supabase Edge Functions handle role assignment, deck shuffling, vote tallying, and win conditions. State syncs to players through Supabase Realtime (Postgres CDC on 6 tables, Broadcast for cursors and emoji reactions, Presence for lobby tracking), backed by a polling fallback for reliability. Works as a standalone web app or embedded inside Discord as an Activity.",
   detailedDescriptionSv:
