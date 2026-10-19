@@ -136,12 +136,13 @@ const heroPeaks: [number, number, number][] = [
 
 export function Hero() {
   // In a conversation (HeroAsk sets data-chat) the portrait steps back: dimmed on desktop, gone on phones.
+  // While a phone's keyboard is up (data-typing) it fades out, so no slice of it shows above the headline.
   // On phones the portrait shows his head and shoulders and takes the height the screen has left, so both
   // buttons and the ask line fit on the first screen above Safari's toolbars (the signal under them is 136 px;
   // 8 px of that stays on screen as a margin).
   return (
     <section className="group/hero relative pt-16 max-lg:flex max-lg:min-h-[calc(100svh+128px)] max-lg:flex-col has-[[data-chat]]:max-lg:min-h-0 lg:min-h-[max(780px,100svh)] lg:pt-0" id="top">
-      <div className="relative transition-opacity max-lg:min-h-[160px] max-lg:flex-1 max-lg:overflow-hidden group-has-[[data-chat]]/hero:max-lg:hidden lg:absolute lg:top-[72px] lg:right-[2%] xl:right-[6%] lg:h-[calc(92%-72px)] lg:group-has-[[data-chat]]/hero:opacity-40">
+      <div className="relative motion-safe:transition-opacity max-lg:min-h-[160px] max-lg:flex-1 max-lg:overflow-hidden group-has-[[data-chat]]/hero:max-lg:hidden group-has-[[data-typing]]/hero:max-lg:opacity-0 lg:absolute lg:top-[72px] lg:right-[2%] xl:right-[6%] lg:h-[calc(92%-72px)] lg:group-has-[[data-chat]]/hero:opacity-40">
         {/* eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized */}
         <img alt="Berkay Orhan" fetchPriority="high" className="portrait-fade -translate-x-1/2 absolute max-lg:mix-blend-lighten top-[-11.5%] left-1/2 h-[131%] w-auto max-w-none lg:static lg:h-full lg:translate-x-0 lg:object-cover lg:object-[50%_45%]" src="/images/hero-portrait.jpg" />
       </div>
