@@ -31,7 +31,8 @@ export type Project = {
   frontendLink?: string; // Optional link to dedicated frontend UI
   institution?: string;
   image?: string; // Path to screenshot/image
-  imageAlt?: string; // Alternative text for the image
+  imageAlt?: string; // Alternative text for the image, also shown as the cover caption
+  imageAltSv?: string; // Swedish cover caption
   video?: string; // Path to hero video (takes precedence over image)
   detailedDescription?: string; // Longer description for project detail page
   detailedDescriptionSv?: string; // Swedish longer description for project detail page

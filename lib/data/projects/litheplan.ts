@@ -21,13 +21,14 @@ export const litheplan: Project = {
     "Sentry",
     "Playwright",
   ],
-  link: "https://www.litheplan.tech",
+  link: "https://litheplan.vercel.app",
   image: "/images/projects/litheplan/catalog-grid.png",
   imageAlt: "LiTHePlan course catalog grid view with course cards",
+  imageAltSv: "LiTHePlans kurskatalog i rutnätsvy med kurskort",
   detailedDescription:
     "An unofficial course planning tool for civil engineering master's students at LiU. Course info for terms 7-9 is normally scattered across multiple university portals — LiTHePlan pulls 339 courses into one place with filtering, scheduling conflict detection, and degree requirement validation. Users can build study plans as guests (localStorage) or sign in for cloud sync and shareable profile URLs.",
   detailedDescriptionSv:
-    "Ett inofficiellt kursplaneringsverktyg för civilingenjörsmasterstudenterna vid LiU. Kursinformation för termin 7-9 är normalt utspridd över flera universitetsportaler — LiTHePlan samlar 339 kurser på ett ställe med filtrering, schemakonfliktdetektering och examenskravvalidering. Användare kan bygga studieplaner som gäster (localStorage) eller logga in för molnsynk och delbara profil-URL:er.",
+    "Ett inofficiellt kursplaneringsverktyg för civilingenjörsstudenter på masternivå vid LiU. Kursinformation för termin 7-9 är normalt utspridd över flera universitetsportaler — LiTHePlan samlar 339 kurser på ett ställe med filtrering, upptäckt av schemakrockar och kontroll mot examenskraven. Användare kan bygga studieplaner som gäster (localStorage) eller logga in för molnsynk och delbara profil-URL:er.",
   features: [
     "Multi-faceted filtering: term, block, pace, campus, program, subject area, and examination type — with filter state persisted to localStorage and deep-linkable via URL params",
     "Dual conflict detection: scheduling overlaps (block collisions within a period, with special handling for 50%-pace courses) and mutual exclusion parsing from bilingual free-text course notes",
@@ -38,8 +39,8 @@ export const litheplan: Project = {
   ],
   featuresSv: [
     "Mångsidig filtrering: termin, block, studietakt, campus, program, huvudområde och examinationstyp — med filterläge sparat i localStorage och djuplänkbart via URL-parametrar",
-    "Dubbel konfliktdetektering: schemaöverlappningar (blockkollisioner inom en period, med specialhantering för 50%-taktkurser) och ömsesidig exkludering tolkad från tvåspråkiga fritextkursnoteringar",
-    "Profilbyggare med dra-och-släpp (hello-pangea/dnd) för att organisera kurser över termin 7-9, plus realtidsvalidering mot 90hp totalt och 60hp avancerad nivå",
+    "Dubbel konfliktdetektering: schemaöverlappningar (blockkollisioner inom en period, med specialhantering för 50%-taktkurser) och ömsesidig exkludering tolkad från tvåspråkiga kursanteckningar i fritext",
+    "Profilbyggare med dra-och-släpp (hello-pangea/dnd) för att organisera kurser över termin 7-9, plus realtidsvalidering mot 90hp totalt och 60hp på avancerad nivå",
     "Hybridlagring: gäster får full funktionalitet via localStorage, inloggade användare får Supabase-molnsynk med realtidsprenumerationer och automatisk fallback",
     "Relaterade kursrekommendationer via en PL/pgSQL-poängfunktion (viktad efter programöverlapp, huvudområde, nivå och campus)",
     "Cmd+K-kommandopalett för snabb kurssökning och navigering i appen",
@@ -51,17 +52,17 @@ export const litheplan: Project = {
   ],
   challengesSv: [
     "Svensk universitetsschemaläggning är förvånansvärt komplex: kurser spänner över flera terminer, perioder och block i olika studietakt (50%/100%), och kombinationerna skapar ett knepigt villkorsutrymme för konfliktdetektering",
-    "Kursbegränsningsdata finns i ostrukturerade tvåspråkiga fritextnoteringar — att pålitligt tolka ömsesidiga uteslutningar från svenska och engelska meningar krävde noggrant regex-arbete",
+    "Kursbegränsningar står i ostrukturerade tvåspråkiga anteckningar i fritext — att pålitligt tolka ömsesidiga uteslutningar från svenska och engelska meningar krävde noggrant regex-arbete",
     "Att få profilsystemet att kännas sömlöst oavsett om man är gäst eller inloggad, med localStorage och Supabase-synk som håller sig konsistenta utan att UI:t bryr sig om vilken backend som är aktiv",
   ],
   solution:
     "Built with Next.js 16 and React 19 on Supabase (Postgres + Auth + Realtime). The API layer uses Zod v4 for strict input validation and Upstash Redis for per-IP rate limiting. Conflict detection runs two separate systems: one checks block-level scheduling overlaps with special 50%-pace logic, another parses the notes field with regex for mutual-exclusion phrases in Swedish and English. Profile state goes through a useReducer-based context that abstracts over localStorage and Supabase, so components never know where the data lives. Course recommendations use a PL/pgSQL function with weighted scoring (program overlap, subject area, level, campus) to avoid sorting in the application layer. RLS policies lock down personal data while still allowing shared profile viewing.",
   solutionSv:
-    "Byggd med Next.js 16 och React 19 på Supabase (Postgres + Auth + Realtime). API-lagret använder Zod v4 för strikt indatavalidering och Upstash Redis för IP-baserad hastighetsbegränsning. Konfliktdetektering kör två separata system: ett kontrollerar blocknivå-schemaöverlappningar med speciell 50%-taktlogik, ett annat tolkar noteringsfältet med regex för ömsesidiga uteslutningsfraser på svenska och engelska. Profilstate går genom en useReducer-baserad kontext som abstraherar över localStorage och Supabase, så komponenter aldrig vet var datan finns. Kursrekommendationer använder en PL/pgSQL-funktion med viktad poängsättning (programöverlapp, huvudområde, nivå, campus) för att undvika sortering i applikationslagret. RLS-policyer låser ner personlig data men tillåter fortfarande delad profilvisning.",
+    "Byggd med Next.js 16 och React 19 på Supabase (Postgres + Auth + Realtime). API-lagret använder Zod v4 för strikt indatavalidering och Upstash Redis för IP-baserad hastighetsbegränsning. Konfliktdetektering kör två separata system: ett kontrollerar blocknivå-schemaöverlappningar med speciell 50%-taktlogik, ett annat tolkar noteringsfältet med regex för ömsesidiga uteslutningsfraser på svenska och engelska. Profilens tillstånd går genom en useReducer-baserad kontext som abstraherar över localStorage och Supabase, så komponenter aldrig vet var datan finns. Kursrekommendationer använder en PL/pgSQL-funktion med viktad poängsättning (programöverlapp, huvudområde, nivå, campus) för att undvika sortering i applikationslagret. RLS-policyer skyddar personlig data men låter fortfarande delade profiler visas.",
   outcome:
-    "Live at litheplan.tech. Students can browse all 339 master's courses for civil engineering, build 90hp study plans with real-time conflict checking and requirement validation, and share their profiles with advisors via URL. The hybrid storage model means zero sign-up friction — guests get the full experience, and signing in just adds cloud persistence and sharing.",
+    "Live at litheplan.vercel.app. Students can browse all 339 master's courses for civil engineering, build 90hp study plans with real-time conflict checking and requirement validation, and share their profiles with advisors via URL. The hybrid storage model means zero sign-up friction — guests get the full experience, and signing in just adds cloud persistence and sharing.",
   outcomeSv:
-    "Live på litheplan.tech. Studenter kan bläddra bland alla 339 masterkurser för civilingenjörer, bygga 90hp-studieplaner med realtidskonfliktavkänning och kravvalidering, och dela sina profiler med studievägledare via URL. Hybridlagringsmodellen innebär noll registreringsfriktioner — gäster får hela upplevelsen, och inloggning lägger bara till molnpersistens och delning.",
+    "Live på litheplan.vercel.app. Studenter kan bläddra bland alla 339 masterkurser för civilingenjörer, bygga 90hp-studieplaner med konfliktkontroll och kravvalidering i realtid, och dela sina profiler med studievägledare via URL. Tack vare hybridlagringen behöver ingen registrera sig — gäster får hela upplevelsen, och inloggning lägger bara till molnpersistens och delning.",
   githubLink: "https://github.com/Berkay2002/LiTHePlan",
   gallery: [
     {
@@ -74,7 +75,7 @@ export const litheplan: Project = {
       image: "/images/projects/litheplan/profile-editor.png",
       alt: "Profile editor with credit tracking and term slots",
       caption: "Build study plans across terms 7-9 with real-time credit and requirement validation",
-      captionSv: "Bygg studieplaner över termin 7-9 med realtids kredit- och kravvalidering",
+      captionSv: "Bygg studieplaner över termin 7-9 med poäng- och kravvalidering i realtid",
     },
     {
       image: "/images/projects/litheplan/course-detail.png",

@@ -5,6 +5,16 @@ import type {
   Project,
   SocialLinks,
 } from "@/types";
+import { agentTooling } from "./projects/agent-tooling";
+import { finly } from "./projects/finly";
+import { formulaRacing } from "./projects/formula-racing";
+import { genomlyst } from "./projects/genomlyst";
+import { ignitionLab } from "./projects/ignition-lab";
+import { inkwell } from "./projects/inkwell";
+import { rustPantry } from "./projects/rust-pantry";
+import { spotifast } from "./projects/spotifast";
+import { stackkit } from "./projects/stackkit";
+import { vokko } from "./projects/vokko";
 import { alertz } from "./projects/alertz";
 import { retrofy } from "./projects/ai-image-editor";
 import { albyradet } from "./projects/albyradet";
@@ -23,7 +33,6 @@ import { snapgredient } from "./projects/snapgredient";
 import { solarSystem } from "./projects/solar-system";
 import { statsforspotify } from "./projects/statsforspotify";
 import { voxelProject } from "./projects/voxel-project";
-import { wikillm } from "./projects/wikillm";
 
 export const personalInfo: PersonalInfo = {
   name: "Berkay Orhan",
@@ -32,7 +41,16 @@ export const personalInfo: PersonalInfo = {
 };
 
 export const projects: Project[] = [
-  wikillm,
+  agentTooling,
+  vokko,
+  inkwell,
+  spotifast,
+  genomlyst,
+  formulaRacing,
+  ignitionLab,
+  stackkit,
+  finly,
+  rustPantry,
   fracturedCrown,
   voxelProject,
   statsforspotify,
@@ -56,7 +74,16 @@ export const projects: Project[] = [
 // The year each project started (its repository's creation date) and its groups on /projects.
 export type ProjectTag = "ai" | "web" | "graphics" | "mobile";
 export const projectMeta: Record<string, { year: number; tags: ProjectTag[] }> = {
-  wikillm: { year: 2026, tags: ["ai"] },
+  "agent-tooling": { year: 2026, tags: ["ai"] },
+  vokko: { year: 2026, tags: ["web"] },
+  inkwell: { year: 2026, tags: ["graphics"] },
+  spotifast: { year: 2026, tags: ["ai"] },
+  genomlyst: { year: 2026, tags: ["web", "ai"] },
+  "formula-racing": { year: 2026, tags: ["graphics"] },
+  "ignition-lab": { year: 2026, tags: ["web", "graphics"] },
+  stackkit: { year: 2026, tags: ["web"] },
+  finly: { year: 2026, tags: ["web"] },
+  "rust-pantry": { year: 2026, tags: ["ai"] },
   "fractured-crown": { year: 2026, tags: ["web"] },
   "voxel-project": { year: 2026, tags: ["graphics"] },
   statsforspotify: { year: 2026, tags: ["web"] },
@@ -74,7 +101,7 @@ export const projectMeta: Record<string, { year: number; tags: ProjectTag[] }> =
   kliv: { year: 2025, tags: ["web"] },
   litheplan: { year: 2025, tags: ["web"] },
   medieteknik: { year: 2022, tags: ["web"] },
-  "solar-system": { year: 2025, tags: ["graphics"] },
+  "solar-system": { year: 2024, tags: ["graphics"] },
 };
 
 export const socialLinks: SocialLinks = {

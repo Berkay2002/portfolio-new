@@ -21,6 +21,7 @@ export const primitiveUi: Project = {
   ],
   link: "https://tddc73.vercel.app",
   imageAlt: "Primitive UI components and documentation site",
+  imageAltSv: "Primitive UI:s komponenter och dokumentationssajt",
   detailedDescription:
     "Nine UI and layout components (cards, toggles, sliders, progress indicators, buttons, inputs, VStack/HStack/ZStack) implemented using only CustomPaint, GestureDetector, custom RenderBox subclasses, and AnimationController. Every component draws directly to the Canvas — no Column, Row, Stack, or Card widgets anywhere. The library is paired with a Nextra 4 docs site that embeds live Flutter demos via AppEmbed iframes alongside editable DartPad snippets, plus auto-generated API tables for each component's properties.",
   detailedDescriptionSv:

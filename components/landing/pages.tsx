@@ -188,9 +188,9 @@ export function ProjectDetail({ project: x, year, paper, flow }: { project: Proj
             </video>
           ) : (
             // eslint-disable-next-line @next/next/no-img-element -- images are served unoptimized
-            <img alt={x.imageAlt || x.title} className="w-full max-w-[1400px]" src={x.image} />
+            <img alt={t(x.imageAlt, x.imageAltSv) || x.title} className="w-full max-w-[1400px]" src={x.image} />
           )}
-          {x.imageAlt && <figcaption className="mt-3 pr-6 text-(--dim) text-xs">{x.imageAlt}</figcaption>}
+          {x.imageAlt && <figcaption className="mt-3 pr-6 text-(--dim) text-xs">{t(x.imageAlt, x.imageAltSv)}</figcaption>}
         </figure>
       )}
       {parts.map(([title, body], i) => (

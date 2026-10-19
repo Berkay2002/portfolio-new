@@ -35,7 +35,7 @@ function pageText(p: (typeof projects)[number], l: "en" | "sv") {
     p.link && t(p.linkLabel, p.linkLabelSv), // what the page calls its main link, like "Download Add-on (.zip)"
     ...(p.projectInfo ?? []).map((f) => `${t(f.label, f.labelSv)}: ${t(f.value, f.valueSv)}.`),
     ...(p.projectLinks ?? []).flatMap((k) => [`${t(k.label, k.labelSv)}${k.href ? `: ${k.href}` : ""}.`, ...(k.items ?? []).map((i) => `${t(i.label, i.labelSv)}${i.command ? `: ${i.command}` : ""}.`)]),
-    p.imageAlt,
+    t(p.imageAlt, p.imageAltSv),
     ...(p.gallery ?? []).flatMap((g) => [t(g.caption, g.captionSv), g.alt]),
     sv ? p.detailedDescriptionSv : p.detailedDescription,
     ...label("Feature", "Funktion", sv ? p.featuresSv : p.features),

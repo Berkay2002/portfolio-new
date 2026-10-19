@@ -8,7 +8,7 @@ export type Station = { glyph: Glyph; name: string; nameSv?: string; what: strin
 const s = (glyph: Glyph, name: string, what: string, whatSv: string, nameSv?: string): Station => ({ glyph, name, nameSv, what, whatSv });
 
 export const flows: Record<string, Station[]> = {
-  wikillm: [
+  "agent-tooling": [
     s("in", "raw sources", "notes, PDFs, links", "anteckningar, PDF:er, länkar", "råkällor"),
     s("wave", "ingest", "Claude Code or Codex", "Claude Code eller Codex"),
     s("graph", "compiled wiki", "one concept per page", "ett begrepp per sida", "kompilerad wiki"),
