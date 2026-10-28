@@ -21,7 +21,7 @@ dependency). Screenshots worth keeping go in `design/screens/<name>.<width>[.ful
 
 Next.js 16 App Router, React 19, TypeScript (strict), Tailwind CSS v4, deployed on Vercel at berkay.se. No database:
 all content is hardcoded in `lib/data/`. The one API route is `app/api/ask/route.ts`, which adds a model's answer to
-`/ask` and the hero's conversation when the gateway on Berkay's Mac mini is up (`deploy/ask/README.md`); the site never calls a paid model API.
+`/ask` and the hero's conversation from Claude Haiku 5.5 through the Anthropic API (`ANTHROPIC_API_KEY` on Vercel; without it the site is search only).
 
 ## Design
 
@@ -87,3 +87,13 @@ Every user-facing string needs English and Swedish.
 - Imports use the `@/*` alias. ESLint flags unused imports.
 - File names are kebab-case; components are PascalCase, variables and functions camelCase.
 - External links use `target="_blank"` with `rel="noopener noreferrer"`.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

@@ -10,8 +10,8 @@ import { useCopy } from "./sections";
 import { Wave } from "./trace";
 
 // "Ask the site" (/ask): the search runs here over the index the page passes in, as you type. Asking
-// also requests a short answer from /api/ask, which only works while the model on the Mac mini is up;
-// otherwise the page is search only.
+// also requests a short answer from /api/ask, which works while ANTHROPIC_API_KEY is set
+// and the day's budget lasts; otherwise the page is search only.
 
 type Answer = { q: string; state: "wait" | "done" | "rate" | "failed"; text?: string | null };
 
